@@ -1,0 +1,1979 @@
+{
+  "metadata": {
+    "title": "Hindu Festival Calendar",
+    "coverage": "November 2025 – February 2028",
+    "generated": "2026-02-07",
+    "note": "Dates are based on the Hindu lunar calendar (Panchang) and may vary by 1-2 days depending on regional moon sighting and local Panchang followed. Always verify with a local Panchang for exact tithi timings.",
+    "total_festivals": 180
+  },
+  "festivals": [
+    {
+      "name": "Karva Chauth",
+      "date": "2025-11-02",
+      "category": "major",
+      "deity_association": "Lord Shiva, Goddess Parvati",
+      "description": "Married Hindu women observe a day-long waterless fast (nirjala vrat) for the longevity and well-being of their husbands. The fast is broken after sighting the moon at night.",
+      "recommended_shlokas": [
+        "Om Namah Shivaya",
+        "Karva Chauth Vrat Katha (traditional narrative recitation)",
+        "Gauri Shankar Mantra: Om Gauri Shankaraya Namah"
+      ],
+      "fasting_guidelines": "Nirjala (waterless) fast from sunrise to moonrise. Sargi (pre-dawn meal) is consumed before sunrise. Fast is broken after sighting the moon through a sieve and offering water to the moon.",
+      "regional_variations": "Predominantly observed in North India (Punjab, Haryana, Rajasthan, UP, Delhi). In Punjab, elaborate mehndi and puja rituals. In Rajasthan, special Gaur Mata puja. Not traditionally observed in South India."
+    },
+    {
+      "name": "Ahoi Ashtami",
+      "date": "2025-11-05",
+      "category": "regional",
+      "deity_association": "Ahoi Mata (form of Goddess Parvati)",
+      "description": "Mothers observe a fast for the well-being and long life of their sons. The Ahoi Mata Vrat Katha is recited and stars are worshipped in the evening.",
+      "recommended_shlokas": [
+        "Ahoi Mata Vrat Katha recitation",
+        "Om Parvati Pataye Namah"
+      ],
+      "fasting_guidelines": "Full day fast from sunrise to starrise. Fast is broken after sighting stars in the evening.",
+      "regional_variations": "Mainly observed in North India (UP, Rajasthan, Haryana, Gujarat). In some regions, the fast is kept for daughters as well."
+    },
+    {
+      "name": "Dhanteras (Dhanatrayodashi)",
+      "date": "2025-11-08",
+      "category": "major",
+      "deity_association": "Lord Dhanvantari, Goddess Lakshmi, Lord Kubera",
+      "description": "First day of the five-day Diwali festival. Marks the worship of Lord Dhanvantari (god of Ayurveda) and Goddess Lakshmi. Considered highly auspicious for purchasing gold, silver, and utensils.",
+      "recommended_shlokas": [
+        "Om Shreem Hreem Shreem Kamale Kamalalaye Praseed Praseed Om Shreem Hreem Shreem Mahalakshmaye Namah",
+        "Dhanvantari Mantra: Om Namo Bhagavate Vasudevaya Dhanvantaraye Amrita Kalasha Hastaya Sarvamaya Vinashaya Trailokya Nathaya Shri Maha Vishnave Namah",
+        "Kubera Mantra: Om Yakshaya Kuberaya Vaishravanaya Dhana Dhanyadi Padayeh"
+      ],
+      "fasting_guidelines": "No strict fasting. Some observe a partial fast and eat after Lakshmi Puja in the evening.",
+      "regional_variations": "In Gujarat, it coincides with Vaagh Baras (worship of goddess Vagheshwari). In Maharashtra, dry coriander is pounded symbolically. South India celebrates it as Dhanvantari Jayanti focused on health."
+    },
+    {
+      "name": "Narak Chaturdashi (Chhoti Diwali)",
+      "date": "2025-11-09",
+      "category": "major",
+      "deity_association": "Lord Krishna, Goddess Kali",
+      "description": "Celebrates Lord Krishna's victory over the demon Narakasura. People wake before dawn for an oil bath (abhyanga snana) and light diyas to dispel darkness and evil.",
+      "recommended_shlokas": [
+        "Om Namo Narayanaya",
+        "Yama Deepa Mantra for lighting diyas at dusk",
+        "Krishna Gayatri: Om Damodaraya Vidmahe Vasudevaya Dhimahi Tanno Krishna Prachodayat"
+      ],
+      "fasting_guidelines": "No mandatory fasting. Some observe a light fast until evening puja.",
+      "regional_variations": "In Maharashtra and Karnataka, early morning abhyanga snana is essential. In South India, celebrated as Naraka Chaturdashi with firecrackers at dawn. In Bengal, associated with Kali Puja preparations."
+    },
+    {
+      "name": "Diwali (Deepavali)",
+      "date": "2025-11-10",
+      "category": "major",
+      "deity_association": "Goddess Lakshmi, Lord Ganesha, Lord Rama",
+      "description": "The Festival of Lights — India's biggest festival. Celebrates the return of Lord Rama to Ayodhya after 14 years of exile. Lakshmi Puja is performed for wealth and prosperity. Homes are illuminated with diyas and decorated with rangoli.",
+      "recommended_shlokas": [
+        "Lakshmi Gayatri: Om Mahadevyai Cha Vidmahe Vishnu Patnyai Cha Dhimahi Tanno Lakshmi Prachodayat",
+        "Om Shreem Mahalakshmiyei Namah",
+        "Ganesha Mantra: Om Gam Ganapataye Namah",
+        "Shri Suktam (Vedic hymn for Lakshmi)"
+      ],
+      "fasting_guidelines": "No mandatory fasting. Many observe a sattvic diet during the day and feast after Lakshmi Puja in the evening. Some Jain communities fast as it marks Mahavira's nirvana.",
+      "regional_variations": "In Bengal, Kali Puja is the primary celebration. In Gujarat, it marks the start of the new financial year. In South India, celebrated a day earlier as Naraka Chaturdashi. In Jainism, it marks Lord Mahavira's attainment of Moksha. In Sikhism, it celebrates Guru Hargobind's release from Gwalior fort."
+    },
+    {
+      "name": "Govardhan Puja (Annakut)",
+      "date": "2025-11-11",
+      "category": "major",
+      "deity_association": "Lord Krishna",
+      "description": "Celebrates Lord Krishna lifting Govardhan Hill to protect the people of Vrindavan from Indra's wrath. A mountain of food (Annakut) is offered to Lord Krishna.",
+      "recommended_shlokas": [
+        "Om Namo Bhagavate Vasudevaya",
+        "Govardhan Dharan Stotra",
+        "Krishna Aarti: Om Jai Jagdish Hare"
+      ],
+      "fasting_guidelines": "No fasting. This is a day of feasting with 56 or 108 varieties of food (chhappan bhog) offered to Lord Krishna.",
+      "regional_variations": "In Mathura-Vrindavan, massive celebrations with Annakut at temples. In Gujarat, celebrated as Bestu Varas (Gujarati New Year). In Maharashtra, Bali Pratipada/Padwa is celebrated honoring King Bali."
+    },
+    {
+      "name": "Bhai Dooj (Yama Dwitiya)",
+      "date": "2025-11-12",
+      "category": "major",
+      "deity_association": "Yama (God of Death), Yamuna (his sister)",
+      "description": "Sisters pray for their brothers' long life and well-being, applying tilak on their foreheads. Celebrates the bond between brothers and sisters, similar to Raksha Bandhan.",
+      "recommended_shlokas": [
+        "Yama Dwitiya prayers",
+        "Om Yamaya Namah",
+        "Chitragupta Mantra (worshipped alongside)"
+      ],
+      "fasting_guidelines": "No fasting required. Sisters prepare special meals for brothers.",
+      "regional_variations": "Called Bhai Phonta in Bengal, Bhai Tika in Nepal, Bhai Bij in Gujarat and Maharashtra. In Bengal, sisters fast until they apply the tilak."
+    },
+    {
+      "name": "Chhath Puja",
+      "date": "2025-11-13",
+      "category": "major",
+      "deity_association": "Surya (Sun God), Chhathi Maiya (Usha/Shashthi Devi)",
+      "description": "Ancient Vedic festival dedicated to the Sun God and Chhathi Maiya. Devotees observe rigorous fasting and stand in water bodies offering arghya (prayers) to the setting and rising sun over four days.",
+      "recommended_shlokas": [
+        "Surya Gayatri: Om Bhaskaraya Vidmahe Mahadyutikaraya Dhimahi Tanno Adityah Prachodayat",
+        "Aditya Hridayam Stotra",
+        "Om Suryaya Namah (108 times)"
+      ],
+      "fasting_guidelines": "Four-day rigorous fasting: Day 1 (Nahay Khay) - eat after holy bath; Day 2 (Kharna) - 36-hour nirjala fast broken with kheer; Day 3 (Sandhya Arghya) - evening offerings to setting sun, nirjala fast continues; Day 4 (Usha Arghya) - morning offerings to rising sun, fast broken.",
+      "regional_variations": "Primarily celebrated in Bihar, Jharkhand, UP, and by diaspora communities worldwide. In Bihar, it's the biggest festival. Also observed in parts of Nepal, Madhya Pradesh, and Chhattisgarh."
+    },
+    {
+      "name": "Tulsi Vivah",
+      "date": "2025-11-17",
+      "category": "regional",
+      "deity_association": "Lord Vishnu (as Shaligram), Tulsi (Goddess Lakshmi)",
+      "description": "Ceremonial marriage of the Tulsi plant (holy basil) to Lord Vishnu (in the form of Shaligram). Marks the end of the Chaturmas period and the beginning of the Hindu wedding season.",
+      "recommended_shlokas": [
+        "Tulsi Vivah Mantras",
+        "Om Namo Bhagavate Vasudevaya",
+        "Tulsi Stotra: Yanmule Sarva Tirthani Yannagre Sarva Devatah"
+      ],
+      "fasting_guidelines": "Some devotees fast until the Tulsi Vivah ceremony is performed in the evening.",
+      "regional_variations": "Widely celebrated in Maharashtra, Madhya Pradesh, Chhattisgarh, and parts of UP. In Maharashtra, it is a community celebration with elaborate rituals."
+    },
+    {
+      "name": "Dev Uthani Ekadashi (Prabodhini Ekadashi)",
+      "date": "2025-11-15",
+      "category": "major",
+      "deity_association": "Lord Vishnu",
+      "description": "Marks the awakening of Lord Vishnu from his four-month cosmic sleep (Yoga Nidra) during Chaturmas. Considered extremely auspicious for weddings and new ventures.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Om Namo Bhagavate Vasudevaya",
+        "Ekadashi Vrat Katha"
+      ],
+      "fasting_guidelines": "Strict Ekadashi fasting — no grains or beans. Fruits, milk, and specific items allowed. Many observe nirjala (waterless) fast. Fast broken on Dwadashi after sunrise.",
+      "regional_variations": "In Maharashtra, precedes Tulsi Vivah. In Rajasthan, elaborate temple ceremonies. Across India, marks the opening of the wedding season."
+    },
+    {
+      "name": "Kartik Purnima",
+      "date": "2025-11-23",
+      "category": "major",
+      "deity_association": "Lord Vishnu, Lord Shiva, Lord Kartikeya",
+      "description": "Full moon of the holy month of Kartik. Devotees take a sacred bath (Kartik Snana) in holy rivers. Also known as Tripuri Purnima (Shiva's victory over Tripurasura) and Dev Diwali in Varanasi.",
+      "recommended_shlokas": [
+        "Om Namah Shivaya",
+        "Kartikeya Mantra: Om Saravanabhavaya Namah",
+        "Vishnu Stuti"
+      ],
+      "fasting_guidelines": "Purnima fast observed by many. Sattvic food after evening prayers. Some fast completely until moonrise.",
+      "regional_variations": "In Varanasi, celebrated as Dev Diwali with thousands of diyas on the ghats. In Odisha, Boita Bandana (floating miniature boats) commemorates ancient maritime trade. Sikhs celebrate Guru Nanak Jayanti on this day. In Rajasthan, Pushkar Mela reaches its climax."
+    },
+    {
+      "name": "Guru Nanak Jayanti",
+      "date": "2025-11-23",
+      "category": "major",
+      "deity_association": "Guru Nanak Dev Ji (First Sikh Guru)",
+      "description": "Celebrates the birth of Guru Nanak Dev Ji, the founder of Sikhism. Observed as a national holiday in India with Prabhat Pheris (morning processions), Nagar Kirtans, and langar (community meals).",
+      "recommended_shlokas": [
+        "Japji Sahib",
+        "Mul Mantar: Ik Onkar Satnam Karta Purakh",
+        "Sukhmani Sahib"
+      ],
+      "fasting_guidelines": "No fasting. Emphasis on community meals (langar) serving all without distinction.",
+      "regional_variations": "Major celebrations at Gurdwaras across India, especially in Punjab. Nankana Sahib in Pakistan (birthplace) also hosts massive celebrations. Observed by many Hindus as well, especially in North India."
+    },
+    {
+      "name": "Vivah Panchami",
+      "date": "2025-11-28",
+      "category": "regional",
+      "deity_association": "Lord Rama, Goddess Sita",
+      "description": "Celebrates the divine wedding of Lord Rama and Goddess Sita at Janakpur. Temple enactments of the wedding ceremony are performed.",
+      "recommended_shlokas": [
+        "Rama Raksha Stotra",
+        "Sita Ram Mantra: Om Shri Sitaramaya Namah",
+        "Ramcharitmanas Vivah Prasang (Wedding episode)"
+      ],
+      "fasting_guidelines": "Optional fasting. Some devotees fast and feast after the symbolic wedding ceremony.",
+      "regional_variations": "Major celebrations in Janakpur (Nepal/Bihar border), Ayodhya, and Rameshwaram. In Mithila (Bihar), elaborate marriage processions are taken out."
+    },
+    {
+      "name": "Gita Jayanti",
+      "date": "2025-12-11",
+      "category": "major",
+      "deity_association": "Lord Krishna, Lord Vishnu",
+      "description": "Celebrates the day Lord Krishna delivered the Bhagavad Gita to Arjuna on the battlefield of Kurukshetra. Marks the Mokshada Ekadashi. Mass recitations of the Gita are organized.",
+      "recommended_shlokas": [
+        "Bhagavad Gita Chapter 1-18 (full recitation)",
+        "Gita Dhyanam: Om Parthaya Pratibodhitam...",
+        "Gita Mahatmya from Padma Purana",
+        "Om Namo Bhagavate Vasudevaya"
+      ],
+      "fasting_guidelines": "Ekadashi fast observed — no grains or beans. This is Mokshada Ekadashi, one of the most sacred Ekadashis.",
+      "regional_variations": "Major celebrations in Kurukshetra (Haryana), ISKCON temples worldwide. In Maharashtra, Dnyaneshwari (Marathi commentary) is recited. Many ashrams and temples organize 3-day or 7-day Gita recitation events."
+    },
+    {
+      "name": "Dhanu Sankranti",
+      "date": "2025-12-15",
+      "category": "regional",
+      "deity_association": "Surya (Sun God)",
+      "description": "Sun transitions into Sagittarius (Dhanu Rashi). Marks the beginning of the auspicious month of Dhanu/Margashirsha in some calendars. Special significance in Odisha.",
+      "recommended_shlokas": [
+        "Aditya Hridayam",
+        "Om Suryaya Namah",
+        "Surya Ashtakam"
+      ],
+      "fasting_guidelines": "Some observe a fast on Sankranti day with sattvic food.",
+      "regional_variations": "In Odisha, marks the beginning of Dhanu month with special rituals. In Kerala, Dhanu month is associated with Sabarimala pilgrimage season."
+    },
+    {
+      "name": "Dattatreya Jayanti",
+      "date": "2025-12-14",
+      "category": "regional",
+      "deity_association": "Lord Dattatreya (combined form of Brahma, Vishnu, Shiva)",
+      "description": "Birth anniversary of Lord Dattatreya, considered an incarnation of the divine trinity. Celebrated on the full moon of Margashirsha month.",
+      "recommended_shlokas": [
+        "Dattatreya Stotram",
+        "Om Draam Dattatreyaya Namah",
+        "Avadhuta Gita",
+        "Guru Charitra recitation"
+      ],
+      "fasting_guidelines": "Full day fast or partial fast until evening puja.",
+      "regional_variations": "Major celebrations in Maharashtra, Karnataka, and Andhra Pradesh. Girnar (Gujarat) and Ganagapur (Karnataka) are major pilgrimage centers. In Maharashtra, Narasimha Saraswati temples celebrate elaborately."
+    },
+    {
+      "name": "Vaikuntha Ekadashi",
+      "date": "2025-12-26",
+      "category": "major",
+      "deity_association": "Lord Vishnu",
+      "description": "Considered the most sacred of all Ekadashis. It is believed that the gates of Vaikuntha (Vishnu's heavenly abode) are opened on this day. Major celebrations in all Vishnu temples.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Om Namo Narayanaya",
+        "Tiruppavai (Tamil hymns by Andal)",
+        "Ekadashi Mahatmya"
+      ],
+      "fasting_guidelines": "Strict Ekadashi fast — no grains, beans, or onion/garlic. Many observe nirjala fast. Devotees stay awake the entire night (jagaran) singing bhajans.",
+      "regional_variations": "In Tamil Nadu, known as Mukkoti Ekadashi — Srirangam temple has the famous Vaikuntha Dwara opening ceremony. In Karnataka, Udupi Krishna temple celebrations. In Andhra Pradesh, Tirumala Tirupati has massive gatherings. In North India, observed as Putrada Ekadashi by some."
+    },
+    {
+      "name": "Lohri",
+      "date": "2026-01-13",
+      "category": "major",
+      "deity_association": "Agni (Fire God), Surya (Sun God)",
+      "description": "Punjabi winter harvest festival celebrated with bonfires, singing, dancing (Bhangra/Giddha), and feasting. Marks the end of winter and the longest night. Special significance for newlyweds and new parents.",
+      "recommended_shlokas": [
+        "Traditional Lohri folk songs: Sunder Mundriye",
+        "Agni Mantra: Om Agnaye Namah",
+        "Surya Mantra"
+      ],
+      "fasting_guidelines": "No fasting. Festival of feasting — til (sesame), gur (jaggery), peanuts, popcorn, and rewri are traditional foods.",
+      "regional_variations": "Primarily Punjab, Haryana, Delhi, and Himachal Pradesh. In Sindhi community, celebrated as Lal Loi. In rural Punjab, children go door-to-door collecting Lohri offerings."
+    },
+    {
+      "name": "Makar Sankranti / Pongal / Uttarayan",
+      "date": "2026-01-14",
+      "category": "major",
+      "deity_association": "Surya (Sun God)",
+      "description": "One of the few Hindu festivals based on the solar calendar. Celebrates the sun's transition into Capricorn (Makar Rashi), marking longer days. Harvest festival celebrated across India with different names.",
+      "recommended_shlokas": [
+        "Aditya Hridayam Stotra",
+        "Surya Gayatri: Om Adityaya Vidmahe Divakaraya Dhimahi Tanno Suryah Prachodayat",
+        "Om Suryaya Namah (12 times for 12 months)"
+      ],
+      "fasting_guidelines": "No strict fasting. Traditional foods include til-gur (sesame-jaggery) laddoos. In Tamil Nadu, Pongal dish (sweet rice) is prepared. Khichdi is traditional in North India.",
+      "regional_variations": "Tamil Nadu: Pongal (4-day festival). Gujarat: Uttarayan (kite festival). Assam: Magh Bihu. Punjab: Maghi. Maharashtra: Til-gur exchange. Andhra Pradesh: Sankranti (3-day celebration). Karnataka: Ellu Birodhu (sesame exchange). Kerala: not widely celebrated."
+    },
+    {
+      "name": "Pongal - Thai Pongal (Day 2)",
+      "date": "2026-01-15",
+      "category": "major",
+      "deity_association": "Surya (Sun God), Indra",
+      "description": "Main day of the four-day Pongal harvest festival in Tamil Nadu. Freshly harvested rice is cooked with milk and jaggery in a new pot until it overflows, symbolizing abundance.",
+      "recommended_shlokas": [
+        "Surya Namaskar Mantras",
+        "Surya Ashtakam",
+        "Thai Pongal prayers to Surya"
+      ],
+      "fasting_guidelines": "No fasting. Day of feasting and thanksgiving to the Sun God for a bountiful harvest.",
+      "regional_variations": "Day 1: Bhogi (discarding old items). Day 2: Thai Pongal (main day). Day 3: Mattu Pongal (honoring cattle). Day 4: Kaanum Pongal (family outings). Celebrated mainly in Tamil Nadu, parts of Karnataka, and Andhra Pradesh."
+    },
+    {
+      "name": "Mattu Pongal (Day 3)",
+      "date": "2026-01-16",
+      "category": "regional",
+      "deity_association": "Nandi (Shiva's bull), cattle deities",
+      "description": "Third day of Pongal dedicated to honoring cattle (especially cows and bulls) for their role in agriculture. Cattle are bathed, decorated with garlands, painted horns, and fed Pongal.",
+      "recommended_shlokas": [
+        "Go Mata prayers",
+        "Nandi Stotra",
+        "Om Namah Shivaya"
+      ],
+      "fasting_guidelines": "No fasting. Festive meals and thanksgiving.",
+      "regional_variations": "Jallikattu (bull-taming sport) is held in parts of Tamil Nadu. In Karnataka, similar celebrations as Kichchu Haisodu."
+    },
+    {
+      "name": "Saraswati Puja (Vasant Panchami)",
+      "date": "2026-01-25",
+      "category": "major",
+      "deity_association": "Goddess Saraswati",
+      "description": "Festival honoring Goddess Saraswati, deity of knowledge, music, and arts. Marks the beginning of spring (Vasant). Students worship books, instruments, and tools of learning. Yellow is the auspicious color.",
+      "recommended_shlokas": [
+        "Saraswati Vandana: Ya Kundendu Tushara Hara Dhavala...",
+        "Saraswati Gayatri: Om Saraswatyai Cha Vidmahe Brahmaputryai Cha Dhimahi Tanno Saraswati Prachodayat",
+        "Om Aim Saraswatyai Namah",
+        "Saraswati Stotra"
+      ],
+      "fasting_guidelines": "Some devotees observe a fast or eat only sattvic food. In Bengal, children are initiated into learning (Hathe Khori) on this day.",
+      "regional_variations": "In Bengal, elaborate Saraswati Puja pandals are set up. In Bihar and UP, mustard flowers are offered. In Punjab, kite flying continues. In South India, observed during Navaratri as Saraswati Puja. In Rajasthan, Jasol Mata is also worshipped."
+    },
+    {
+      "name": "Shattila Ekadashi",
+      "date": "2026-01-20",
+      "category": "regional",
+      "deity_association": "Lord Vishnu",
+      "description": "Ekadashi fast where sesame (til) plays a central role — used in bathing, food, and charity. Observed in the Krishna Paksha of Magha month.",
+      "recommended_shlokas": [
+        "Om Namo Bhagavate Vasudevaya",
+        "Vishnu Sahasranama",
+        "Ekadashi Vrat Katha"
+      ],
+      "fasting_guidelines": "Strict Ekadashi fast. Sesame seeds must be incorporated in six ways: bathing, rubbing on body, offering in havan, in water for tarpan, eating, and donating.",
+      "regional_variations": "Observed across North India with special emphasis in UP and Bihar."
+    },
+    {
+      "name": "Republic Day (National Holiday)",
+      "date": "2026-01-26",
+      "category": "major",
+      "deity_association": "Bharat Mata (Mother India)",
+      "description": "India's Republic Day — while a national/secular holiday, many temples hold special prayers for the nation's prosperity and well-being.",
+      "recommended_shlokas": [
+        "Vande Mataram",
+        "Prithvi Sukta from Atharva Veda",
+        "Om Bhur Bhuva Swaha (Gayatri Mantra for national well-being)"
+      ],
+      "fasting_guidelines": "No religious fasting associated.",
+      "regional_variations": "National celebration with the iconic parade in New Delhi. Temples across India hold special havans and prayers."
+    },
+    {
+      "name": "Maha Shivaratri",
+      "date": "2026-02-15",
+      "category": "major",
+      "deity_association": "Lord Shiva",
+      "description": "The Great Night of Shiva — one of the most significant Hindu festivals. Celebrates the cosmic dance of creation and destruction by Lord Shiva. Devotees observe night-long vigil (jagaran), fast, and worship Shiva Linga with bilva leaves, milk, and water.",
+      "recommended_shlokas": [
+        "Maha Mrityunjaya Mantra: Om Tryambakam Yajamahe Sugandhim Pushti Vardhanam...",
+        "Om Namah Shivaya (chanted 108 or 1008 times)",
+        "Shiva Tandava Stotram by Ravana",
+        "Rudram Chamakam (Vedic hymn)",
+        "Lingashtakam",
+        "Shiva Chalisa"
+      ],
+      "fasting_guidelines": "Strict fast observed — nirjala (waterless) by devout practitioners. Others consume fruits, milk, and vrat-specific foods. Four prahar (quarter-night) pujas are performed throughout the night. Fast is broken the next morning.",
+      "regional_variations": "In Varanasi, massive processions and Shiva temple celebrations. In Kashmir, celebrated as Herath. In Nepal, national holiday with celebrations at Pashupatinath. In Tamil Nadu, special abhishekam at Shiva temples. In Andhra Pradesh, Srisailam and Kalahasti have grand celebrations."
+    },
+    {
+      "name": "Holika Dahan",
+      "date": "2026-03-02",
+      "category": "major",
+      "deity_association": "Lord Vishnu (as Narasimha), Prahlad, Holika",
+      "description": "Eve of Holi. Large bonfires are lit symbolizing the triumph of good over evil — the burning of demoness Holika who tried to kill devotee Prahlad. People perform parikrama (circumambulation) of the bonfire.",
+      "recommended_shlokas": [
+        "Om Namo Bhagavate Vasudevaya",
+        "Narasimha Mantra: Om Namo Narasimhaya",
+        "Prahlad Stotra",
+        "Holika Dahan prayers"
+      ],
+      "fasting_guidelines": "Some women observe a fast on this day (especially in North India) and break it after the Holika bonfire.",
+      "regional_variations": "In Rajasthan, Dhulandi follows the next day. In Phalen (UP), special Lathmar Holi precedes this. In Gujarat, elaborate community bonfires. In parts of South India, known as Kama Dahanam (burning of Kamadeva)."
+    },
+    {
+      "name": "Holi (Dhulandi / Rangwali Holi)",
+      "date": "2026-03-03",
+      "category": "major",
+      "deity_association": "Lord Krishna, Radha",
+      "description": "The Festival of Colors — one of India's most joyous festivals. People play with colored powders (gulal) and water, celebrating the divine love of Radha-Krishna and the victory of good over evil. Symbolizes the arrival of spring.",
+      "recommended_shlokas": [
+        "Radha Krishna Holi songs (traditional)",
+        "Hare Krishna Maha Mantra: Hare Krishna Hare Krishna Krishna Krishna Hare Hare...",
+        "Radha Kripa Kataksha Stotra"
+      ],
+      "fasting_guidelines": "No fasting. Day of feasting with traditional foods like gujiya, thandai, malpua, puran poli, and dahi bhalla. Bhang (cannabis preparation) is traditionally consumed in parts of North India.",
+      "regional_variations": "Braj/Mathura: Lathmar Holi (women beat men with sticks). Barsana: week-long celebrations. Bengal: Dol Jatra/Basanta Utsav with sandalwood and flowers. Maharashtra: Rang Panchami. Manipur: Yaoshang (5-day festival). Gujarat: community Holi with folk music. South India: relatively subdued celebrations."
+    },
+    {
+      "name": "Chaitra Navratri Day 1 (Ghatasthapana)",
+      "date": "2026-03-20",
+      "category": "major",
+      "deity_association": "Goddess Durga, Shailputri (Day 1 form)",
+      "description": "Beginning of the nine-night festival dedicated to the nine forms of Goddess Durga. Ghatasthapana (Kalash Sthapana) — the sacred pot is installed. Also marks the Hindu New Year (Vikram Samvat) in many regions.",
+      "recommended_shlokas": [
+        "Durga Saptashati / Devi Mahatmyam",
+        "Nav Durga Stuti",
+        "Day 1: Om Devi Shailputryai Namah",
+        "Durga Chalisa"
+      ],
+      "fasting_guidelines": "Nine-day fast begins. Many observe strict vegetarian sattvic diet (no onion, garlic, grains for strict observers). Some eat one meal a day. Nirjala fast on specific days by devout practitioners.",
+      "regional_variations": "In North India, Rama Navami falls on the 9th day. In Gujarat, Garba and Dandiya are not as prominent as in Sharad Navratri. In Maharashtra, Gudi Padwa coincides. In Andhra/Karnataka, Ugadi. In Kashmir, Navreh. In Sindhi community, Cheti Chand."
+    },
+    {
+      "name": "Ugadi / Gudi Padwa / Hindu New Year",
+      "date": "2026-03-20",
+      "category": "major",
+      "deity_association": "Lord Brahma, Lord Vishnu",
+      "description": "Hindu New Year celebrated in different names across India. Gudi Padwa in Maharashtra (hoisting of Gudi flag), Ugadi in Karnataka/Andhra/Telangana (eating Ugadi Pachadi with six tastes). Marks the beginning of Chaitra month.",
+      "recommended_shlokas": [
+        "Brahma Gayatri: Om Chatur Mukhaya Vidmahe...",
+        "Om Namo Bhagavate Vasudevaya",
+        "Panchanga Shravanam (listening to the new year's almanac)"
+      ],
+      "fasting_guidelines": "No strict fasting. Festive meals with neem and jaggery (representing life's bittersweet nature). Ugadi Pachadi in Andhra/Karnataka has six tastes representing six emotions.",
+      "regional_variations": "Maharashtra: Gudi Padwa with Shrikhand-Puri feast. Karnataka: Ugadi with Bevu-Bella. Andhra/Telangana: Ugadi Pachadi. Sindhi: Cheti Chand. Kashmiri: Navreh. Manipuri: Sajibu Cheiraoba. Bali (Indonesia): Nyepi."
+    },
+    {
+      "name": "Rama Navami",
+      "date": "2026-03-28",
+      "category": "major",
+      "deity_association": "Lord Rama, Goddess Sita",
+      "description": "Celebrates the birth of Lord Rama, the seventh avatar of Lord Vishnu. Falls on the 9th day of Chaitra Navratri. Temples enact the birth ceremony at noon (believed to be the exact time of birth). Ramcharitmanas and Ramayana recitations are organized.",
+      "recommended_shlokas": [
+        "Rama Raksha Stotra",
+        "Sri Rama Stuti",
+        "Om Shri Ramaya Namah",
+        "Ramcharitmanas (Sundarkand)",
+        "Ram Gayatri: Om Dasharathaye Vidmahe Sitavallabhaya Dhimahi Tanno Ramachandra Prachodayat"
+      ],
+      "fasting_guidelines": "Navami fast — many fast completely or eat only fruits and milk. Some observe the complete Chaitra Navratri fast culminating on this day. Fast is broken after noon puja (birth time celebration).",
+      "regional_variations": "Ayodhya has the grandest celebrations. In South India, Sita Rama Kalyanam (divine wedding ceremony) is performed. In Telangana, processions with Rama idols. In Bihar, elaboraterath yatras. In Bhadrachalam (Telangana), massive Kalyanam event."
+    },
+    {
+      "name": "Hanuman Jayanti",
+      "date": "2026-04-02",
+      "category": "major",
+      "deity_association": "Lord Hanuman",
+      "description": "Birth anniversary of Lord Hanuman, the devoted servant of Lord Rama and symbol of strength, courage, and selfless devotion. Temples are decorated and Sunderkand is recited.",
+      "recommended_shlokas": [
+        "Hanuman Chalisa (most popular — 40 verses by Tulsidas)",
+        "Bajrang Baan",
+        "Hanuman Ashtak",
+        "Om Hanumate Namah",
+        "Sankat Mochan Hanuman Ashtak"
+      ],
+      "fasting_guidelines": "Some devotees fast on this day. Offerings of sindoor (vermillion), jasmine oil, and sesame laddoos are made to Hanuman.",
+      "regional_variations": "In North India, celebrated in Chaitra Purnima. In South India (Karnataka, Tamil Nadu, Kerala), celebrated in the month of Margashirsha (December). In Maharashtra, Hanuman Jayanti is celebrated with great fervor with processions."
+    },
+    {
+      "name": "Chaitra Purnima",
+      "date": "2026-04-03",
+      "category": "regional",
+      "deity_association": "Lord Vishnu, Chitragupta",
+      "description": "Full moon of Chaitra month. Marks the beginning of the Satya Yuga according to some traditions. Sacred bathing in rivers is considered highly meritorious.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Satyanarayan Katha",
+        "Purnima Vrat prayers"
+      ],
+      "fasting_guidelines": "Purnima fast observed by many — sattvic food after moonrise.",
+      "regional_variations": "In Odisha, associated with Chandan Yatra at Jagannath temple. In Bihar, Chitragupta Puja."
+    },
+    {
+      "name": "Akshaya Tritiya",
+      "date": "2026-04-19",
+      "category": "major",
+      "deity_association": "Lord Vishnu, Goddess Lakshmi, Lord Parashurama",
+      "description": "One of the most auspicious days in the Hindu calendar. Any new venture, investment, or purchase made on this day is believed to bring lasting prosperity. Also marks the birth of Lord Parashurama (6th avatar of Vishnu) and the beginning of Treta Yuga.",
+      "recommended_shlokas": [
+        "Om Shreem Mahalakshmiyei Namah",
+        "Vishnu Gayatri",
+        "Parashurama Mantra",
+        "Kubera Mantra for wealth"
+      ],
+      "fasting_guidelines": "Tritiya fast observed by some. Charitable donations (daan) are especially meritorious on this day.",
+      "regional_variations": "In Jainism, marks the end of Mahavira's year-long fast — celebrated as Akha Teej. In Rajasthan, unborn children's marriages are fixed (Akha Teej). In Bengal, start of new business year for some. Across India, gold purchases peak on this day."
+    },
+    {
+      "name": "Sita Navami",
+      "date": "2026-04-27",
+      "category": "regional",
+      "deity_association": "Goddess Sita (Janaki)",
+      "description": "Celebrates the birth/emergence of Goddess Sita from the earth during King Janaka's ploughing of the field. Also known as Janaki Navami.",
+      "recommended_shlokas": [
+        "Sita Ashtottara Shatanamavali",
+        "Om Sitayai Namah",
+        "Sita Stuti from Ramayana",
+        "Sita Ram Mantra"
+      ],
+      "fasting_guidelines": "Navami fast observed by some devotees, especially women. Sattvic food after puja.",
+      "regional_variations": "Major celebrations in Janakpur (Nepal), Sitamarhi (Bihar), and Ayodhya. In Mithila, elaborate celebrations with women's folk songs."
+    },
+    {
+      "name": "Buddha Purnima (Vesak)",
+      "date": "2026-05-03",
+      "category": "major",
+      "deity_association": "Lord Buddha (considered 9th avatar of Vishnu in Hindu tradition)",
+      "description": "Celebrates the birth, enlightenment, and death (Parinirvana) of Gautama Buddha. National holiday in India. Devotees visit Buddhist temples and monasteries.",
+      "recommended_shlokas": [
+        "Buddham Sharanam Gacchami, Dhammam Sharanam Gacchami, Sangham Sharanam Gacchami",
+        "Om Mani Padme Hum",
+        "In Hindu context: Om Namo Bhagavate Buddhaya"
+      ],
+      "fasting_guidelines": "Many Buddhists observe a strict vegetarian fast. Some Hindus also observe a Purnima fast on this day.",
+      "regional_variations": "Major celebrations in Bodh Gaya, Sarnath, and Kushinagar. In Sikkim, Ladakh, and Arunachal Pradesh, elaborate monastery celebrations. In Sri Lanka, celebrated as Vesak Poya. International Day of Vesak recognized by UN."
+    },
+    {
+      "name": "Narasimha Jayanti",
+      "date": "2026-05-07",
+      "category": "regional",
+      "deity_association": "Lord Narasimha (half-man, half-lion avatar of Vishnu)",
+      "description": "Celebrates the appearance of Lord Narasimha who emerged from a pillar to save devotee Prahlad and slay the demon king Hiranyakashipu. Observed on Chaturdashi of Vaishakha Shukla Paksha.",
+      "recommended_shlokas": [
+        "Narasimha Kavacham",
+        "Sri Narasimha Mantra: Om Namo Narasimhaya",
+        "Narasimha Ashtakam",
+        "Ugram Viram Mahavishnum... (Narasimha Dhyana Shloka)"
+      ],
+      "fasting_guidelines": "Chaturdashi fast — strict fast until evening. Some observe a night vigil (jagaran).",
+      "regional_variations": "Major celebrations at Ahobilam (Andhra Pradesh — believed to be where Narasimha appeared), Simhachalam temple. In ISKCON temples worldwide, elaborate celebrations."
+    },
+    {
+      "name": "Gangaur",
+      "date": "2026-04-04",
+      "category": "regional",
+      "deity_association": "Goddess Gauri (Parvati), Lord Shiva (as Isar)",
+      "description": "18-day festival celebrating the divine love of Shiva and Parvati. Unmarried girls pray for a good husband, and married women pray for their husbands' well-being. Goddess Gauri idols are taken in procession.",
+      "recommended_shlokas": [
+        "Gauri Mantra: Om Gauryai Namah",
+        "Gauri Shankar Stotra",
+        "Gangaur folk songs (traditional Rajasthani)"
+      ],
+      "fasting_guidelines": "Women observe a fast during the festival period. The main fast is on the final day (Gangaur).",
+      "regional_variations": "Primarily Rajasthan and Madhya Pradesh. In Jaipur, royal procession with Gangaur idols. In Udaipur, boat procession on Lake Pichola. In MP, celebrated as Gauri Tritiya."
+    },
+    {
+      "name": "Rath Yatra",
+      "date": "2026-06-22",
+      "category": "major",
+      "deity_association": "Lord Jagannath, Balabhadra, Subhadra",
+      "description": "Grand chariot festival where the deities of Jagannath Temple, Puri are taken out in massive wooden chariots pulled by thousands of devotees. One of the oldest and largest religious festivals in the world.",
+      "recommended_shlokas": [
+        "Jagannath Ashtakam",
+        "Om Jagannathaya Namah",
+        "Jagannath Swami Nayanapathagami Bhava Tume",
+        "Dasavatara Stotra by Jayadeva"
+      ],
+      "fasting_guidelines": "Some devotees fast on this day. The main observance is pulling the chariots and having darshan of the deities.",
+      "regional_variations": "The main Rath Yatra is in Puri, Odisha. ISKCON organizes Rath Yatra in cities worldwide. In Ahmedabad, the second largest Rath Yatra in India. Smaller versions in Kolkata, Chennai, and other cities."
+    },
+    {
+      "name": "Guru Purnima",
+      "date": "2026-07-01",
+      "category": "major",
+      "deity_association": "Ved Vyasa (Sage who compiled Vedas), all Gurus",
+      "description": "Day dedicated to honoring spiritual and academic teachers (Gurus). Celebrates the birth of Ved Vyasa, who compiled the four Vedas, Mahabharata, and the Puranas. Students express gratitude to their gurus.",
+      "recommended_shlokas": [
+        "Guru Stotram: Gurur Brahma Gurur Vishnu Gurur Devo Maheshwara...",
+        "Guru Paduka Stotram",
+        "Om Gurave Namah",
+        "Guru Gita",
+        "Vyasa Puja Mantras"
+      ],
+      "fasting_guidelines": "Some devotees observe a Purnima fast. The emphasis is more on worship of the Guru through seva (service) and dakshina (offerings).",
+      "regional_variations": "In Buddhism, marks Buddha's first sermon (Dhammacakkappavattana Sutta) at Sarnath. In Jainism, honors Mahavira as the first Guru. Ashrams across India hold special Guru Puja. In South India, elaborate pada puja to Gurus."
+    },
+    {
+      "name": "Nag Panchami",
+      "date": "2026-07-23",
+      "category": "major",
+      "deity_association": "Nag Devta (Serpent Gods — Ananta, Vasuki, Shesha, Takshak)",
+      "description": "Festival dedicated to the worship of serpents (Nagas). Snake images are drawn on walls and worshipped with milk, flowers, and turmeric. Celebrates the role of Nagas in Hindu mythology.",
+      "recommended_shlokas": [
+        "Nag Gayatri: Om Nagakulaya Vidmahe Vishadharaya Dhimahi Tanno Naga Prachodayat",
+        "Sarpa Suktam",
+        "Nag Stotra",
+        "Om Namo Bhagavate Vasudevaya (Vishnu reclining on Shesha)"
+      ],
+      "fasting_guidelines": "Many observe a fast. Ploughing fields is avoided on this day. Milk offerings to snake images or anthills.",
+      "regional_variations": "In Maharashtra, live cobras are worshipped in some regions. In Kerala, Nag Panchami falls in the month of Karkidakam with Ayurveda significance. In South India, celebrated in different months. In Bengal, Manasa Puja (serpent goddess) is observed."
+    },
+    {
+      "name": "Hariyali Teej",
+      "date": "2026-07-25",
+      "category": "regional",
+      "deity_association": "Goddess Parvati, Lord Shiva",
+      "description": "Celebrates the reunion of Goddess Parvati with Lord Shiva. Women dress in green, swing on decorated jhulas (swings), and apply mehndi. Celebrates married life and the monsoon season.",
+      "recommended_shlokas": [
+        "Parvati Mantra: Om Parvati Pataye Namah",
+        "Shiva Parvati Stuti",
+        "Teej Vrat Katha"
+      ],
+      "fasting_guidelines": "Married women observe a fast for their husband's well-being. Unmarried girls fast for a good husband.",
+      "regional_variations": "Major in Rajasthan (Jaipur's Teej procession), UP, MP, Bihar. In Rajasthan, Teej Mata idol is taken in royal procession. Called Haritalika Teej in some regions (different date)."
+    },
+    {
+      "name": "Raksha Bandhan",
+      "date": "2026-08-09",
+      "category": "major",
+      "deity_association": "Lord Vishnu, Lord Indra (historical association)",
+      "description": "Festival celebrating the bond between brothers and sisters. Sisters tie a sacred thread (rakhi) on their brothers' wrists, praying for their protection and well-being. Brothers pledge to protect their sisters.",
+      "recommended_shlokas": [
+        "Yena Baddho Bali Raja... (Raksha Bandhan Mantra)",
+        "Om Bhraatre Namah",
+        "Raksha Sutra prayers"
+      ],
+      "fasting_guidelines": "Some sisters fast until they tie the rakhi. No major fasting tradition.",
+      "regional_variations": "In Maharashtra, also celebrated as Narali Purnima (coconut offering to the sea). In Rajasthan, Lumba Rakhi is tied to sister-in-law. In South India, known as Avani Avittam for Brahmins (Upanayana/thread changing ceremony). In West Bengal, Jhulan Purnima (swing festival of Radha-Krishna)."
+    },
+    {
+      "name": "Kajari Teej",
+      "date": "2026-08-12",
+      "category": "regional",
+      "deity_association": "Goddess Parvati",
+      "description": "Third day after Purnima in Bhadrapada Krishna Paksha. Married women fast for their husbands' long life. Named after Kajari folk songs sung during the monsoon.",
+      "recommended_shlokas": [
+        "Parvati Stuti",
+        "Teej Vrat Katha",
+        "Om Gauryai Namah"
+      ],
+      "fasting_guidelines": "Married women observe nirjala (waterless) fast. Fast is broken after sighting the moon.",
+      "regional_variations": "Primarily in Madhya Pradesh (Bhopal), UP (Varanasi, Mirzapur), and parts of Rajasthan. Kajari folk song competitions are held."
+    },
+    {
+      "name": "Krishna Janmashtami",
+      "date": "2026-08-22",
+      "category": "major",
+      "deity_association": "Lord Krishna",
+      "description": "Celebrates the birth of Lord Krishna, the eighth avatar of Vishnu, at midnight in a prison in Mathura. Temples enact the birth scene. Devotees fast, sing bhajans, and celebrate at midnight with great joy.",
+      "recommended_shlokas": [
+        "Hare Krishna Maha Mantra",
+        "Krishna Gayatri: Om Damodaraya Vidmahe Vasudevaya Dhimahi Tanno Krishna Prachodayat",
+        "Devaki Nandan Gopala... (Krishna bhajan)",
+        "Bhagavad Gita Chapter 4 (Krishna's birth explanation)",
+        "Krishna Ashtakam",
+        "Madhurashtakam by Vallabhacharya"
+      ],
+      "fasting_guidelines": "Strict fast observed until midnight (Krishna's birth time). Some observe nirjala fast. After midnight celebration and aarti, fast is broken with Panchamrit (mixture of milk, curd, ghee, honey, sugar) and fruits. Full meal next morning.",
+      "regional_variations": "Mathura-Vrindavan: week-long celebrations. Maharashtra: Dahi Handi (human pyramids to break hanging pots of curd). ISKCON temples: elaborate midnight celebrations. South India: Gokulashtami with kolam and uriyadi. In Manipur: Meitei celebrate with Ras Leela performances. In Dwarka (Gujarat): massive temple celebrations."
+    },
+    {
+      "name": "Dahi Handi (Gopalkala)",
+      "date": "2026-08-23",
+      "category": "regional",
+      "deity_association": "Lord Krishna (as mischievous Gopal)",
+      "description": "Day after Janmashtami. Celebrates young Krishna's playful butter-stealing exploits. Human pyramids are formed to reach and break clay pots (handi) filled with curd and butter hung at a height.",
+      "recommended_shlokas": [
+        "Govinda Ala Re (traditional Marathi song)",
+        "Hare Krishna Maha Mantra",
+        "Gopal Mantra: Om Kleem Krishnaya Govindaya Gopijanavallabhaya Swaha"
+      ],
+      "fasting_guidelines": "No fasting. Day of celebration with festive foods.",
+      "regional_variations": "Primarily Maharashtra — Mumbai's Dahi Handi events are famous with massive human pyramids and prizes. Also celebrated in Gujarat, Goa, and parts of Karnataka."
+    },
+    {
+      "name": "Hartalika Teej",
+      "date": "2026-08-28",
+      "category": "major",
+      "deity_association": "Goddess Parvati, Lord Shiva",
+      "description": "Married and unmarried women worship Goddess Parvati for marital bliss. Celebrates Parvati's reunion with Shiva after intense penance. Sand/clay idols of Shiva-Parvati are made and worshipped.",
+      "recommended_shlokas": [
+        "Hartalika Teej Vrat Katha",
+        "Shiva Parvati Stuti",
+        "Om Namah Shivaya",
+        "Parvati Mantra"
+      ],
+      "fasting_guidelines": "One of the most difficult fasts — nirjala (waterless) fast for the entire day and night. Fast is broken the next morning after puja. Considered highly meritorious.",
+      "regional_variations": "Major in Rajasthan, Bihar, Jharkhand, MP, UP, and Chhattisgarh. In Nepal, a national holiday. In Bihar, elaborate celebrations with women's gatherings."
+    },
+    {
+      "name": "Ganesh Chaturthi",
+      "date": "2026-08-29",
+      "category": "major",
+      "deity_association": "Lord Ganesha",
+      "description": "Ten-day festival celebrating the birth of Lord Ganesha, the elephant-headed god of wisdom and new beginnings. Clay Ganesha idols are installed in homes and public pandals, worshipped for up to 10 days, and then immersed in water (Visarjan).",
+      "recommended_shlokas": [
+        "Om Gam Ganapataye Namah",
+        "Ganesh Atharvashirsha",
+        "Ganesh Chalisa",
+        "Ganapati Stotram",
+        "Sankatahara Chaturthi Vrat Katha",
+        "Vakratunda Mahakaya Suryakoti Samaprabha..."
+      ],
+      "fasting_guidelines": "Some observe fast on Chaturthi day — especially no sighting of the moon (considered inauspicious). Modak (sweet dumpling) is the primary offering to Ganesha. Sattvic food during the festival period.",
+      "regional_variations": "Maharashtra: Grandest celebrations — Lalbaugcha Raja and other famous pandals in Mumbai. Pune's Dagdusheth Halwai Ganpati. Karnataka: Elaborate celebrations especially in coastal regions. Andhra Pradesh: Khairatabad Ganesh. Goa: Chovoth celebrations. Tamil Nadu: Pillaiyar worship. In North India, observed as Ganesh Chaturthi but less elaborate than Maharashtra."
+    },
+    {
+      "name": "Onam",
+      "date": "2026-09-03",
+      "category": "major",
+      "deity_association": "King Mahabali (Vamana avatar of Vishnu)",
+      "description": "Kerala's biggest festival — ten-day harvest festival celebrating the mythical homecoming of King Mahabali. Features elaborate Pookalam (flower carpets), Onasadya (feast with 26+ dishes), Vallam Kali (snake boat races), and Pulikali (tiger dance).",
+      "recommended_shlokas": [
+        "Vamana Stuti",
+        "Onam prayers and folk songs (Maveli Naadu Vaneedum Kaalam...)",
+        "Om Namo Bhagavate Vasudevaya"
+      ],
+      "fasting_guidelines": "No fasting. Elaborate feasting — the Onasadya (Onam Sadya) served on banana leaf with 26+ dishes is the highlight.",
+      "regional_variations": "Celebrated across Kerala regardless of religion. Thiruvonam (main day) is a state holiday. In Thrissur, Athachamayam procession. In Alappuzha, Nehru Trophy Boat Race. Expatriate Keralites celebrate worldwide."
+    },
+    {
+      "name": "Anant Chaturdashi (Ganesh Visarjan)",
+      "date": "2026-09-07",
+      "category": "major",
+      "deity_association": "Lord Ganesha, Lord Vishnu (Anant form)",
+      "description": "Last day of Ganesh Chaturthi. Ganesh idols are immersed in water bodies with grand processions. Also, Anant Chaturdashi Vrat dedicated to Lord Vishnu in his Anant (infinite) form is observed.",
+      "recommended_shlokas": [
+        "Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya (Marathi chant)",
+        "Anant Vrat Katha",
+        "Vishnu Sahasranama",
+        "Om Gam Ganapataye Namah"
+      ],
+      "fasting_guidelines": "Anant Chaturdashi Vrat — fast with a sacred thread (Anant Sutra) tied on the wrist. Fast observed until evening puja.",
+      "regional_variations": "Mumbai's Ganesh Visarjan procession is world-famous — runs for over 18 hours. Pune, Hyderabad, and other cities also have massive processions. Anant Vrat is more prominent in North India."
+    },
+    {
+      "name": "Sharad Navratri Day 1 (Ghatasthapana)",
+      "date": "2026-09-18",
+      "category": "major",
+      "deity_association": "Goddess Durga, Shailputri (Day 1)",
+      "description": "Beginning of the most widely celebrated Navratri. Nine nights dedicated to the nine forms of Goddess Durga. Ghatasthapana marks the installation of the sacred Kalash. The most important Navratri of the year.",
+      "recommended_shlokas": [
+        "Durga Saptashati (700 verses of Devi Mahatmyam)",
+        "Day 1: Om Devi Shailputryai Namah",
+        "Argala Stotra",
+        "Kilak Stotra",
+        "Durga Chalisa",
+        "Mahishasura Mardini Stotram"
+      ],
+      "fasting_guidelines": "Nine-day fast — most devotees observe strict vegetarian diet without onion, garlic, and certain grains. Common vrat foods: kuttu ka atta (buckwheat), singhare ka atta (water chestnut flour), sabudana, fruits, milk. Some fast only on Day 1, Day 8 (Ashtami), and Day 9 (Navami). Nirjala fast by some on specific days.",
+      "regional_variations": "Gujarat: Nine nights of Garba and Dandiya Raas — the world's longest dance festival. Bengal: Durga Puja (Days 6-10) with elaborate pandals and artistic idols. North India: Ramlila performances. South India: Golu/Bommai Kolu (arrangement of dolls on steps). In Himachal Pradesh, Kullu Dussehra begins on Vijaya Dashami."
+    },
+    {
+      "name": "Navratri Day 2 - Brahmacharini",
+      "date": "2026-09-19",
+      "category": "major",
+      "deity_association": "Goddess Brahmacharini (penance form of Parvati)",
+      "description": "Second day dedicated to Goddess Brahmacharini, who represents devotion and penance. She is worshipped for endurance and strength.",
+      "recommended_shlokas": [
+        "Om Devi Brahmacharinyai Namah",
+        "Brahmacharini Stotra",
+        "Durga Saptashati Chapter 2"
+      ],
+      "fasting_guidelines": "Navratri fast continues. Orange is the auspicious color for Day 2.",
+      "regional_variations": "Same regional patterns as Navratri Day 1."
+    },
+    {
+      "name": "Navratri Day 3 - Chandraghanta",
+      "date": "2026-09-20",
+      "category": "major",
+      "deity_association": "Goddess Chandraghanta",
+      "description": "Third day dedicated to Goddess Chandraghanta, who wears a half-moon on her forehead shaped like a bell. She represents bravery and grace.",
+      "recommended_shlokas": [
+        "Om Devi Chandraghantayai Namah",
+        "Chandraghanta Stotra",
+        "Durga Saptashati Chapter 3"
+      ],
+      "fasting_guidelines": "Navratri fast continues.",
+      "regional_variations": "Same regional patterns as Navratri."
+    },
+    {
+      "name": "Navratri Day 4 - Kushmanda",
+      "date": "2026-09-21",
+      "category": "major",
+      "deity_association": "Goddess Kushmanda",
+      "description": "Fourth day dedicated to Goddess Kushmanda, believed to have created the universe with her divine smile. She represents cosmic energy.",
+      "recommended_shlokas": [
+        "Om Devi Kushmandayai Namah",
+        "Kushmanda Stotra",
+        "Durga Saptashati Chapter 4"
+      ],
+      "fasting_guidelines": "Navratri fast continues.",
+      "regional_variations": "Same regional patterns as Navratri."
+    },
+    {
+      "name": "Navratri Day 5 - Skandamata",
+      "date": "2026-09-22",
+      "category": "major",
+      "deity_association": "Goddess Skandamata (Mother of Kartikeya)",
+      "description": "Fifth day dedicated to Goddess Skandamata, the mother of Lord Kartikeya (Skanda). She represents motherly love and compassion.",
+      "recommended_shlokas": [
+        "Om Devi Skandamatayai Namah",
+        "Skandamata Stotra",
+        "Durga Saptashati Chapter 5"
+      ],
+      "fasting_guidelines": "Navratri fast continues.",
+      "regional_variations": "Same regional patterns as Navratri."
+    },
+    {
+      "name": "Navratri Day 6 - Katyayani (Durga Puja Shashthi)",
+      "date": "2026-09-23",
+      "category": "major",
+      "deity_association": "Goddess Katyayani (warrior form)",
+      "description": "Sixth day dedicated to Goddess Katyayani, born to sage Katyayana to destroy Mahishasura. In Bengal, this marks the beginning of Durga Puja — Bodhon (awakening of the Goddess).",
+      "recommended_shlokas": [
+        "Om Devi Katyayanyai Namah",
+        "Katyayani Stotra",
+        "Durga Saptashati Chapter 6",
+        "Ya Devi Sarva Bhuteshu..."
+      ],
+      "fasting_guidelines": "Navratri fast continues. In Bengal, Durga Puja festivities begin.",
+      "regional_variations": "Bengal: Maha Shashthi — Durga Puja begins with Bodhon ceremony. Face of Durga idol unveiled (Mukhunnochon). In Gujarat, Garba reaches peak energy."
+    },
+    {
+      "name": "Navratri Day 7 - Kalaratri (Durga Puja Saptami)",
+      "date": "2026-09-24",
+      "category": "major",
+      "deity_association": "Goddess Kalaratri (fierce form of Durga)",
+      "description": "Seventh day dedicated to Goddess Kalaratri, the most ferocious form of Durga who destroys ignorance and darkness. In Bengal, Maha Saptami with Nabapatrika (nine plants) ceremony.",
+      "recommended_shlokas": [
+        "Om Devi Kalaratryai Namah",
+        "Kalaratri Stotra",
+        "Durga Saptashati Chapter 7",
+        "Kali Mantra: Om Kreem Kalikaye Namah"
+      ],
+      "fasting_guidelines": "Navratri fast continues. In Bengal, elaborate Saptami rituals and feasting begins.",
+      "regional_variations": "Bengal: Maha Saptami — Nabapatrika Snana (bathing of nine plants at river). Prana Pratishtha in pandals. Major pushpanjali (flower offerings). In North India, Ramlila performances reach crucial episodes."
+    },
+    {
+      "name": "Durga Ashtami / Maha Ashtami",
+      "date": "2026-09-25",
+      "category": "major",
+      "deity_association": "Goddess Mahagauri, Goddess Durga",
+      "description": "Eighth day — one of the most auspicious days of Navratri. Ashtami Puja with Havan and Kanya Pujan (worship of nine young girls as forms of the Goddess). In Bengal, Kumari Puja and Sandhi Puja at the junction of Ashtami and Navami.",
+      "recommended_shlokas": [
+        "Om Devi Mahagauryai Namah",
+        "Durga Saptashati Chapter 8-10",
+        "Mahishasura Mardini Stotram",
+        "Ya Devi Sarva Bhuteshu Shakti Rupena Samsthita..."
+      ],
+      "fasting_guidelines": "Many break their fast on Ashtami after Havan and Kanya Pujan. Nine girls (representing Nav Durga) are fed a special meal (halwa-puri-chana). Some continue fasting through Navami.",
+      "regional_variations": "Bengal: Maha Ashtami — Kumari Puja (worship of a young girl as Devi). Sandhi Puja at the junction of Ashtami-Navami is the most powerful ritual. In Gujarat, Garba nights. In North India, Kanya Pujan is the primary ritual."
+    },
+    {
+      "name": "Maha Navami",
+      "date": "2026-09-26",
+      "category": "major",
+      "deity_association": "Goddess Siddhidatri, Goddess Durga",
+      "description": "Ninth and final day of Navratri. Goddess Siddhidatri who grants all siddhis (supernatural powers) is worshipped. In Bengal, Maha Navami — the final day of worship before Vijaya Dashami. Ayudha Puja (worship of tools and instruments) in South India.",
+      "recommended_shlokas": [
+        "Om Devi Siddhidatryai Namah",
+        "Siddhidatri Stotra",
+        "Durga Saptashati Complete Path (recitation)",
+        "Navarna Mantra: Om Aim Hreem Kleem Chamundayai Vichche"
+      ],
+      "fasting_guidelines": "Last day of Navratri fast. Many perform Havan and Kanya Pujan if not done on Ashtami.",
+      "regional_variations": "Bengal: Maha Navami — major rituals and bhog (feast offering to Durga). South India: Ayudha Puja / Saraswati Puja — tools, vehicles, books, instruments are worshipped. In Tamil Nadu, Saraswati Puja. In Kerala, Ayudha Puja."
+    },
+    {
+      "name": "Dussehra (Vijaya Dashami)",
+      "date": "2026-09-27",
+      "category": "major",
+      "deity_association": "Lord Rama, Goddess Durga",
+      "description": "Celebrates the victory of Lord Rama over the ten-headed demon king Ravana and Goddess Durga's victory over Mahishasura. Huge effigies of Ravana, Kumbhkaran, and Meghnath are burned. Marks the triumph of good over evil.",
+      "recommended_shlokas": [
+        "Rama Raksha Stotra",
+        "Om Shri Ramaya Namah",
+        "Aparajita Stuti",
+        "Shami Puja Mantra (worship of Shami tree)",
+        "Durga Stuti"
+      ],
+      "fasting_guidelines": "No specific fasting. Day of celebration and feasting. Shami leaves and gold (Apta tree leaves) are exchanged as symbols of prosperity.",
+      "regional_variations": "Delhi/North India: Ramlila and Ravana Dahan. Mysuru: Famous royal Dussehra with illuminated palace and Jamboo Savari procession. Bengal: Vijaya Dashami — Durga immersion with Sindoor Khela. Kullu: 7-day International Kullu Dussehra. Bastar: 75-day tribal Dussehra. Maharashtra: Silang tradition of crossing borders. Tamil Nadu: Shami tree worship."
+    },
+    {
+      "name": "Sharad Purnima (Kojagiri Purnima)",
+      "date": "2026-10-02",
+      "category": "regional",
+      "deity_association": "Goddess Lakshmi, Lord Krishna",
+      "description": "The full moon of Ashwin month, considered the brightest of the year. Goddess Lakshmi is worshipped. Milk (kheer) is kept under the moonlight as it is believed to be blessed with healing properties. Celebrates Krishna's Maha Rasa Leela with the Gopis.",
+      "recommended_shlokas": [
+        "Lakshmi Stuti",
+        "Om Shreem Mahalakshmiyei Namah",
+        "Krishna Rasa Leela descriptions from Bhagavatam",
+        "Kojagiri Lakshmi Puja mantras"
+      ],
+      "fasting_guidelines": "Some observe Purnima fast. Kheer (rice pudding) is prepared and kept under moonlight overnight, consumed the next day.",
+      "regional_variations": "In Gujarat, Sharad Purnima marks the culmination of Navratri-Garba celebrations. In Bengal, Lakshmi Puja. In Odisha, Kumar Purnima — young girls worship the moon for a good husband. In UP, Kojagiri Purnima."
+    },
+    {
+      "name": "Karva Chauth",
+      "date": "2026-10-22",
+      "category": "major",
+      "deity_association": "Lord Shiva, Goddess Parvati",
+      "description": "Married women observe a strict waterless fast from sunrise to moonrise for their husbands' longevity and well-being.",
+      "recommended_shlokas": [
+        "Karva Chauth Vrat Katha",
+        "Om Namah Shivaya",
+        "Gauri Shankar Mantra"
+      ],
+      "fasting_guidelines": "Nirjala (waterless) fast from sunrise to moonrise. Pre-dawn meal (Sargi) consumed before sunrise. Fast broken after sighting moon through a sieve.",
+      "regional_variations": "Predominantly North India — Punjab, Haryana, Rajasthan, UP, Delhi. Not traditionally observed in South India."
+    },
+    {
+      "name": "Dhanteras",
+      "date": "2026-10-28",
+      "category": "major",
+      "deity_association": "Lord Dhanvantari, Goddess Lakshmi, Lord Kubera",
+      "description": "First day of Diwali festivities. Auspicious day for purchasing gold, silver, and utensils. Worship of Lord Dhanvantari (god of Ayurveda).",
+      "recommended_shlokas": [
+        "Dhanvantari Mantra",
+        "Lakshmi Mantra: Om Shreem Mahalakshmiyei Namah",
+        "Kubera Mantra"
+      ],
+      "fasting_guidelines": "No strict fasting. Some observe a partial fast until evening Lakshmi Puja.",
+      "regional_variations": "Pan-India celebration. In Gujarat, Vaagh Baras precedes it. National Ayurveda Day celebrated on Dhanteras."
+    },
+    {
+      "name": "Narak Chaturdashi (Chhoti Diwali)",
+      "date": "2026-10-29",
+      "category": "major",
+      "deity_association": "Lord Krishna, Goddess Kali",
+      "description": "Celebrates Krishna's victory over demon Narakasura. Early morning oil bath (abhyanga snana) and lighting of diyas.",
+      "recommended_shlokas": [
+        "Om Namo Narayanaya",
+        "Krishna Gayatri",
+        "Yama Deepa Mantra"
+      ],
+      "fasting_guidelines": "No mandatory fasting. Light fast until evening puja by some.",
+      "regional_variations": "Maharashtra/Karnataka: Abhyanga snana at dawn. South India: Celebrated as the main Diwali day. Bengal: Kali Puja preparations."
+    },
+    {
+      "name": "Diwali",
+      "date": "2026-10-30",
+      "category": "major",
+      "deity_association": "Goddess Lakshmi, Lord Ganesha, Lord Rama",
+      "description": "The Festival of Lights. Celebrates Lord Rama's return to Ayodhya. Lakshmi Puja for wealth and prosperity. Homes illuminated with diyas and decorated with rangoli.",
+      "recommended_shlokas": [
+        "Shri Suktam",
+        "Lakshmi Gayatri",
+        "Om Shreem Mahalakshmiyei Namah",
+        "Ganesha Mantra: Om Gam Ganapataye Namah"
+      ],
+      "fasting_guidelines": "No mandatory fasting. Sattvic diet during the day, feasting after Lakshmi Puja.",
+      "regional_variations": "Bengal: Kali Puja. Gujarat: New Year. South India: main celebration on Naraka Chaturdashi. Jain: Mahavira Nirvana. Sikh: Bandi Chhor Divas."
+    },
+    {
+      "name": "Govardhan Puja / Annakut",
+      "date": "2026-10-31",
+      "category": "major",
+      "deity_association": "Lord Krishna",
+      "description": "Celebrates Krishna lifting Govardhan Hill. Mountain of food (Annakut) offered to Krishna.",
+      "recommended_shlokas": [
+        "Om Namo Bhagavate Vasudevaya",
+        "Govardhan Dharan Stotra"
+      ],
+      "fasting_guidelines": "No fasting. Day of feasting with Chhappan Bhog (56 food items) offered to Krishna.",
+      "regional_variations": "Mathura-Vrindavan: massive Annakut. Gujarat: Bestu Varas (New Year). Maharashtra: Bali Pratipada/Padwa."
+    },
+    {
+      "name": "Bhai Dooj",
+      "date": "2026-11-01",
+      "category": "major",
+      "deity_association": "Yama, Yamuna",
+      "description": "Sisters pray for brothers' well-being. Similar to Raksha Bandhan — celebrates sibling bond.",
+      "recommended_shlokas": [
+        "Yama Dwitiya prayers",
+        "Om Yamaya Namah"
+      ],
+      "fasting_guidelines": "No fasting required. Sisters prepare special meals for brothers.",
+      "regional_variations": "Called Bhai Phonta in Bengal, Bhai Tika in Nepal, Bhai Bij in Gujarat."
+    },
+    {
+      "name": "Chhath Puja",
+      "date": "2026-11-03",
+      "category": "major",
+      "deity_association": "Surya (Sun God), Chhathi Maiya",
+      "description": "Ancient Vedic festival dedicated to the Sun God. Devotees stand in water offering arghya to setting and rising sun.",
+      "recommended_shlokas": [
+        "Surya Gayatri",
+        "Aditya Hridayam",
+        "Om Suryaya Namah"
+      ],
+      "fasting_guidelines": "Four-day rigorous fasting including 36-hour nirjala fast. One of the most difficult fasts in Hindu tradition.",
+      "regional_variations": "Primarily Bihar, Jharkhand, UP. Bihar's biggest festival."
+    },
+    {
+      "name": "Dev Uthani Ekadashi",
+      "date": "2026-11-05",
+      "category": "major",
+      "deity_association": "Lord Vishnu",
+      "description": "Lord Vishnu awakens from cosmic sleep. Wedding season begins.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Om Namo Bhagavate Vasudevaya"
+      ],
+      "fasting_guidelines": "Strict Ekadashi fast — no grains or beans.",
+      "regional_variations": "Pan-India. Precedes Tulsi Vivah in Maharashtra."
+    },
+    {
+      "name": "Kartik Purnima / Dev Diwali",
+      "date": "2026-11-12",
+      "category": "major",
+      "deity_association": "Lord Vishnu, Lord Shiva, Lord Kartikeya",
+      "description": "Full moon of Kartik month. Dev Diwali in Varanasi. Sacred bathing and lamp offerings.",
+      "recommended_shlokas": [
+        "Om Namah Shivaya",
+        "Kartikeya Mantra: Om Saravanabhavaya Namah"
+      ],
+      "fasting_guidelines": "Purnima fast. Sattvic food after moonrise.",
+      "regional_variations": "Varanasi: Dev Diwali on ghats. Odisha: Boita Bandana. Pushkar Mela climax."
+    },
+    {
+      "name": "Vaikuntha Ekadashi",
+      "date": "2026-12-16",
+      "category": "major",
+      "deity_association": "Lord Vishnu",
+      "description": "Most sacred Ekadashi. Gates of Vaikuntha believed to open.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Tiruppavai by Andal",
+        "Om Namo Narayanaya"
+      ],
+      "fasting_guidelines": "Strict Ekadashi fast with night-long jagaran (vigil).",
+      "regional_variations": "Tamil Nadu: Mukkoti Ekadashi at Srirangam. Tirupati: massive gatherings. South India celebrations most elaborate."
+    },
+    {
+      "name": "Gita Jayanti",
+      "date": "2026-12-01",
+      "category": "major",
+      "deity_association": "Lord Krishna",
+      "description": "Anniversary of Krishna delivering Bhagavad Gita to Arjuna on the battlefield of Kurukshetra.",
+      "recommended_shlokas": [
+        "Bhagavad Gita (complete)",
+        "Gita Dhyanam",
+        "Om Namo Bhagavate Vasudevaya"
+      ],
+      "fasting_guidelines": "Mokshada Ekadashi fast — no grains.",
+      "regional_variations": "Major celebrations in Kurukshetra. ISKCON temples worldwide organize recitations."
+    },
+    {
+      "name": "Lohri",
+      "date": "2027-01-13",
+      "category": "major",
+      "deity_association": "Agni (Fire God), Surya",
+      "description": "Punjabi winter harvest bonfire festival. End of winter celebration.",
+      "recommended_shlokas": [
+        "Traditional Lohri folk songs",
+        "Agni Mantra: Om Agnaye Namah"
+      ],
+      "fasting_guidelines": "No fasting. Festival of feasting — til, gur, peanuts.",
+      "regional_variations": "Punjab, Haryana, Delhi, Himachal Pradesh."
+    },
+    {
+      "name": "Makar Sankranti / Pongal",
+      "date": "2027-01-14",
+      "category": "major",
+      "deity_association": "Surya (Sun God)",
+      "description": "Sun's transition into Capricorn. Harvest festival celebrated across India.",
+      "recommended_shlokas": [
+        "Aditya Hridayam",
+        "Surya Gayatri",
+        "Om Suryaya Namah"
+      ],
+      "fasting_guidelines": "No strict fasting. Traditional til-gur foods.",
+      "regional_variations": "Tamil Nadu: Pongal. Gujarat: Uttarayan. Assam: Magh Bihu. Punjab: Maghi."
+    },
+    {
+      "name": "Vasant Panchami (Saraswati Puja)",
+      "date": "2027-02-12",
+      "category": "major",
+      "deity_association": "Goddess Saraswati",
+      "description": "Festival of Goddess Saraswati marking the onset of spring. Worship of knowledge and arts.",
+      "recommended_shlokas": [
+        "Saraswati Vandana: Ya Kundendu Tushara Hara Dhavala...",
+        "Om Aim Saraswatyai Namah",
+        "Saraswati Gayatri"
+      ],
+      "fasting_guidelines": "Some observe a fast or sattvic diet. Yellow foods are auspicious.",
+      "regional_variations": "Bengal: elaborate pandals. Bihar/UP: mustard flower offerings. Children initiated into learning."
+    },
+    {
+      "name": "Maha Shivaratri",
+      "date": "2027-03-06",
+      "category": "major",
+      "deity_association": "Lord Shiva",
+      "description": "The Great Night of Shiva. Night-long vigil, fasting, and worship of Shiva Linga.",
+      "recommended_shlokas": [
+        "Maha Mrityunjaya Mantra",
+        "Om Namah Shivaya",
+        "Shiva Tandava Stotram",
+        "Rudram Chamakam",
+        "Lingashtakam"
+      ],
+      "fasting_guidelines": "Strict nirjala fast by devout. Four prahar pujas throughout the night. Fast broken next morning.",
+      "regional_variations": "Varanasi: massive celebrations. Kashmir: Herath. Nepal: Pashupatinath. Tamil Nadu: temple abhishekam."
+    },
+    {
+      "name": "Holika Dahan",
+      "date": "2027-03-21",
+      "category": "major",
+      "deity_association": "Lord Vishnu, Prahlad, Holika",
+      "description": "Eve of Holi. Bonfires symbolizing triumph of good over evil.",
+      "recommended_shlokas": [
+        "Om Namo Bhagavate Vasudevaya",
+        "Narasimha Mantra",
+        "Prahlad Stotra"
+      ],
+      "fasting_guidelines": "Some women fast until after the Holika bonfire.",
+      "regional_variations": "Rajasthan: Dhulandi next day. Braj: Lathmar Holi precedes. South India: Kama Dahanam."
+    },
+    {
+      "name": "Holi",
+      "date": "2027-03-22",
+      "category": "major",
+      "deity_association": "Lord Krishna, Radha",
+      "description": "Festival of Colors celebrating Radha-Krishna's divine love and the victory of good over evil.",
+      "recommended_shlokas": [
+        "Hare Krishna Maha Mantra",
+        "Radha Kripa Kataksha Stotra"
+      ],
+      "fasting_guidelines": "No fasting. Day of feasting — gujiya, thandai, malpua.",
+      "regional_variations": "Braj: Lathmar Holi. Bengal: Dol Jatra. Manipur: Yaoshang. Gujarat: community celebrations."
+    },
+    {
+      "name": "Ugadi / Gudi Padwa / Hindu New Year",
+      "date": "2027-04-08",
+      "category": "major",
+      "deity_association": "Lord Brahma, Lord Vishnu",
+      "description": "Hindu New Year — Gudi Padwa in Maharashtra, Ugadi in South India.",
+      "recommended_shlokas": [
+        "Panchanga Shravanam",
+        "Om Namo Bhagavate Vasudevaya"
+      ],
+      "fasting_guidelines": "No strict fasting. Festive meals with neem and jaggery.",
+      "regional_variations": "Maharashtra: Gudi Padwa. Karnataka/Andhra: Ugadi. Sindhi: Cheti Chand. Kashmir: Navreh."
+    },
+    {
+      "name": "Chaitra Navratri",
+      "date": "2027-04-08",
+      "category": "major",
+      "deity_association": "Goddess Durga (Nine forms)",
+      "description": "Nine-day spring Navratri dedicated to the nine forms of Goddess Durga.",
+      "recommended_shlokas": [
+        "Durga Saptashati",
+        "Nav Durga Stuti (all nine mantras)",
+        "Durga Chalisa"
+      ],
+      "fasting_guidelines": "Nine-day fast — strict vegetarian sattvic diet. No onion, garlic, certain grains.",
+      "regional_variations": "North India: primary celebration. Less prominent in South India. Culminates in Rama Navami."
+    },
+    {
+      "name": "Rama Navami",
+      "date": "2027-04-16",
+      "category": "major",
+      "deity_association": "Lord Rama",
+      "description": "Birth of Lord Rama, seventh avatar of Vishnu. Ninth day of Chaitra Navratri.",
+      "recommended_shlokas": [
+        "Rama Raksha Stotra",
+        "Om Shri Ramaya Namah",
+        "Ramcharitmanas (Sundarkand)"
+      ],
+      "fasting_guidelines": "Navami fast. Fruits and milk until noon puja.",
+      "regional_variations": "Ayodhya: grandest celebrations. South India: Sita Rama Kalyanam. Bhadrachalam: massive Kalyanam."
+    },
+    {
+      "name": "Hanuman Jayanti",
+      "date": "2027-04-22",
+      "category": "major",
+      "deity_association": "Lord Hanuman",
+      "description": "Birth anniversary of Lord Hanuman. Sunderkand recitation and temple celebrations.",
+      "recommended_shlokas": [
+        "Hanuman Chalisa",
+        "Bajrang Baan",
+        "Om Hanumate Namah"
+      ],
+      "fasting_guidelines": "Some devotees fast. Sindoor and jasmine oil offerings.",
+      "regional_variations": "North India: Chaitra Purnima. South India: celebrated in Margashirsha. Maharashtra: elaborate processions."
+    },
+    {
+      "name": "Akshaya Tritiya",
+      "date": "2027-05-09",
+      "category": "major",
+      "deity_association": "Lord Vishnu, Goddess Lakshmi, Lord Parashurama",
+      "description": "One of the most auspicious days. New ventures bring lasting prosperity. Gold purchases peak.",
+      "recommended_shlokas": [
+        "Om Shreem Mahalakshmiyei Namah",
+        "Parashurama Mantra",
+        "Kubera Mantra"
+      ],
+      "fasting_guidelines": "Tritiya fast by some. Charitable donations especially meritorious.",
+      "regional_variations": "Jainism: Akha Teej. Rajasthan: unborn children's marriages fixed. Gold buying pan-India."
+    },
+    {
+      "name": "Buddha Purnima",
+      "date": "2027-05-22",
+      "category": "major",
+      "deity_association": "Lord Buddha",
+      "description": "Birth, enlightenment, and Parinirvana of Gautama Buddha.",
+      "recommended_shlokas": [
+        "Buddham Sharanam Gacchami",
+        "Om Mani Padme Hum"
+      ],
+      "fasting_guidelines": "Vegetarian fast by Buddhists. Purnima fast by Hindus.",
+      "regional_variations": "Bodh Gaya, Sarnath, Kushinagar: major celebrations. International Vesak."
+    },
+    {
+      "name": "Rath Yatra",
+      "date": "2027-07-11",
+      "category": "major",
+      "deity_association": "Lord Jagannath, Balabhadra, Subhadra",
+      "description": "Grand chariot festival at Puri. Deities taken in massive wooden chariots.",
+      "recommended_shlokas": [
+        "Jagannath Ashtakam",
+        "Om Jagannathaya Namah"
+      ],
+      "fasting_guidelines": "Some fast. Main observance is chariot pulling and darshan.",
+      "regional_variations": "Main: Puri, Odisha. Second largest: Ahmedabad. ISKCON: worldwide."
+    },
+    {
+      "name": "Guru Purnima",
+      "date": "2027-07-21",
+      "category": "major",
+      "deity_association": "Ved Vyasa, all Gurus",
+      "description": "Day of honoring spiritual and academic teachers. Birth of Ved Vyasa.",
+      "recommended_shlokas": [
+        "Gurur Brahma Gurur Vishnu...",
+        "Guru Gita",
+        "Guru Paduka Stotram"
+      ],
+      "fasting_guidelines": "Some observe Purnima fast. Emphasis on Guru seva.",
+      "regional_variations": "Buddhism: Buddha's first sermon. Jainism: honors Mahavira. Ashrams hold Guru Puja."
+    },
+    {
+      "name": "Nag Panchami",
+      "date": "2027-08-12",
+      "category": "major",
+      "deity_association": "Nag Devta (Serpent Gods)",
+      "description": "Worship of serpents (Nagas). Milk and flower offerings to snake images.",
+      "recommended_shlokas": [
+        "Nag Gayatri",
+        "Sarpa Suktam",
+        "Nag Stotra"
+      ],
+      "fasting_guidelines": "Many observe a fast. Ploughing avoided.",
+      "regional_variations": "Maharashtra: live cobra worship in some regions. Kerala: Ayurveda significance. Bengal: Manasa Puja."
+    },
+    {
+      "name": "Raksha Bandhan",
+      "date": "2027-08-29",
+      "category": "major",
+      "deity_association": "Lord Vishnu, Lord Indra",
+      "description": "Sisters tie rakhi on brothers' wrists for protection and well-being.",
+      "recommended_shlokas": [
+        "Yena Baddho Bali Raja... (Raksha Bandhan Mantra)",
+        "Raksha Sutra prayers"
+      ],
+      "fasting_guidelines": "Some sisters fast until tying rakhi.",
+      "regional_variations": "Maharashtra: Narali Purnima. South India: Avani Avittam. Bengal: Jhulan Purnima."
+    },
+    {
+      "name": "Krishna Janmashtami",
+      "date": "2027-09-10",
+      "category": "major",
+      "deity_association": "Lord Krishna",
+      "description": "Birth of Lord Krishna at midnight. Temples enact birth scene. Midnight celebration.",
+      "recommended_shlokas": [
+        "Hare Krishna Maha Mantra",
+        "Krishna Gayatri",
+        "Krishna Ashtakam",
+        "Madhurashtakam"
+      ],
+      "fasting_guidelines": "Strict fast until midnight. Broken with Panchamrit after midnight aarti.",
+      "regional_variations": "Mathura-Vrindavan: week-long. Maharashtra: Dahi Handi. ISKCON: midnight celebrations. South India: Gokulashtami."
+    },
+    {
+      "name": "Ganesh Chaturthi",
+      "date": "2027-09-18",
+      "category": "major",
+      "deity_association": "Lord Ganesha",
+      "description": "Ten-day festival of Lord Ganesha. Clay idols installed, worshipped, and immersed.",
+      "recommended_shlokas": [
+        "Om Gam Ganapataye Namah",
+        "Ganesh Atharvashirsha",
+        "Ganesh Chalisa"
+      ],
+      "fasting_guidelines": "No sighting of moon on Chaturthi. Modak offerings. Sattvic diet.",
+      "regional_variations": "Maharashtra: grandest celebrations. Karnataka: coastal region celebrations. Andhra: Khairatabad Ganesh."
+    },
+    {
+      "name": "Onam",
+      "date": "2027-09-14",
+      "category": "major",
+      "deity_association": "King Mahabali (Vamana avatar of Vishnu)",
+      "description": "Kerala's biggest harvest festival. Pookalam, Onasadya, boat races.",
+      "recommended_shlokas": [
+        "Vamana Stuti",
+        "Onam folk prayers"
+      ],
+      "fasting_guidelines": "No fasting. Elaborate Onasadya feast.",
+      "regional_variations": "Celebrated across Kerala regardless of religion. Thrissur: Athachamayam. Alappuzha: boat race."
+    },
+    {
+      "name": "Sharad Navratri",
+      "date": "2027-10-07",
+      "category": "major",
+      "deity_association": "Goddess Durga (Nine forms)",
+      "description": "Nine-night autumn festival — the most widely celebrated Navratri. Worship of Nav Durga.",
+      "recommended_shlokas": [
+        "Durga Saptashati",
+        "Nav Durga Mantras (all nine)",
+        "Mahishasura Mardini Stotram",
+        "Navarna Mantra"
+      ],
+      "fasting_guidelines": "Nine-day fast with sattvic diet. No onion, garlic, certain grains. Buckwheat, water chestnut flour, sabudana allowed.",
+      "regional_variations": "Gujarat: Garba/Dandiya nine nights. Bengal: Durga Puja (Days 6-10). North India: Ramlila. South India: Golu/Bommai Kolu."
+    },
+    {
+      "name": "Durga Puja (Shashthi to Dashami)",
+      "date": "2027-10-12",
+      "category": "major",
+      "deity_association": "Goddess Durga",
+      "description": "Bengal's grandest festival — five days of elaborate Durga worship with artistic pandals, cultural programs, and community celebrations. UNESCO Intangible Cultural Heritage.",
+      "recommended_shlokas": [
+        "Durga Saptashati",
+        "Ya Devi Sarva Bhuteshu...",
+        "Mahishasura Mardini Stotram",
+        "Chandipatha"
+      ],
+      "fasting_guidelines": "No strict fasting in Bengal — emphasis on community feasting (bhog). Vegetarian food during puja days in many households.",
+      "regional_variations": "Bengal: most elaborate — thousands of pandals. Kolkata is the epicenter. Also celebrated in Tripura, Assam, Odisha. Bengali communities worldwide organize Durga Puja."
+    },
+    {
+      "name": "Dussehra (Vijaya Dashami)",
+      "date": "2027-10-16",
+      "category": "major",
+      "deity_association": "Lord Rama, Goddess Durga",
+      "description": "Victory of Rama over Ravana. Burning of Ravana effigies. Durga Visarjan.",
+      "recommended_shlokas": [
+        "Rama Raksha Stotra",
+        "Aparajita Stuti",
+        "Shami Puja Mantra"
+      ],
+      "fasting_guidelines": "No specific fasting. Day of celebration.",
+      "regional_variations": "North India: Ravana Dahan. Mysuru: royal Dussehra. Bengal: Sindoor Khela and Durga immersion. Kullu: 7-day Dussehra."
+    },
+    {
+      "name": "Karva Chauth",
+      "date": "2027-11-10",
+      "category": "major",
+      "deity_association": "Lord Shiva, Goddess Parvati",
+      "description": "Married women's nirjala fast for husband's longevity.",
+      "recommended_shlokas": [
+        "Karva Chauth Vrat Katha",
+        "Gauri Shankar Mantra"
+      ],
+      "fasting_guidelines": "Nirjala fast sunrise to moonrise.",
+      "regional_variations": "North India: Punjab, Haryana, Rajasthan, UP, Delhi."
+    },
+    {
+      "name": "Dhanteras",
+      "date": "2027-11-16",
+      "category": "major",
+      "deity_association": "Lord Dhanvantari, Goddess Lakshmi",
+      "description": "First day of Diwali festivities. Auspicious purchases of gold and utensils.",
+      "recommended_shlokas": [
+        "Dhanvantari Mantra",
+        "Lakshmi Mantra"
+      ],
+      "fasting_guidelines": "No strict fasting.",
+      "regional_variations": "Pan-India. National Ayurveda Day."
+    },
+    {
+      "name": "Diwali",
+      "date": "2027-11-18",
+      "category": "major",
+      "deity_association": "Goddess Lakshmi, Lord Ganesha, Lord Rama",
+      "description": "Festival of Lights. India's biggest festival.",
+      "recommended_shlokas": [
+        "Shri Suktam",
+        "Lakshmi Gayatri",
+        "Om Gam Ganapataye Namah"
+      ],
+      "fasting_guidelines": "No mandatory fasting. Feasting after Lakshmi Puja.",
+      "regional_variations": "Bengal: Kali Puja. Gujarat: New Year. South India: Naraka Chaturdashi. Jain: Mahavira Nirvana. Sikh: Bandi Chhor Divas."
+    },
+    {
+      "name": "Govardhan Puja",
+      "date": "2027-11-19",
+      "category": "major",
+      "deity_association": "Lord Krishna",
+      "description": "Krishna lifting Govardhan Hill. Annakut food offering.",
+      "recommended_shlokas": [
+        "Om Namo Bhagavate Vasudevaya"
+      ],
+      "fasting_guidelines": "No fasting. Feasting with Chhappan Bhog.",
+      "regional_variations": "Mathura: Annakut. Gujarat: Bestu Varas. Maharashtra: Bali Pratipada."
+    },
+    {
+      "name": "Bhai Dooj",
+      "date": "2027-11-20",
+      "category": "major",
+      "deity_association": "Yama, Yamuna",
+      "description": "Sisters pray for brothers' well-being.",
+      "recommended_shlokas": [
+        "Yama Dwitiya prayers"
+      ],
+      "fasting_guidelines": "No fasting required.",
+      "regional_variations": "Bengal: Bhai Phonta. Nepal: Bhai Tika. Gujarat: Bhai Bij."
+    },
+    {
+      "name": "Chhath Puja",
+      "date": "2027-11-22",
+      "category": "major",
+      "deity_association": "Surya, Chhathi Maiya",
+      "description": "Ancient Vedic Sun worship festival. Four-day rigorous observance.",
+      "recommended_shlokas": [
+        "Surya Gayatri",
+        "Aditya Hridayam"
+      ],
+      "fasting_guidelines": "Four-day rigorous fasting including 36-hour nirjala fast.",
+      "regional_variations": "Bihar, Jharkhand, UP."
+    },
+    {
+      "name": "Vaikuntha Ekadashi",
+      "date": "2027-12-05",
+      "category": "major",
+      "deity_association": "Lord Vishnu",
+      "description": "Most sacred Ekadashi. Vaikuntha Dwara opens.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Tiruppavai"
+      ],
+      "fasting_guidelines": "Strict Ekadashi fast. Night vigil.",
+      "regional_variations": "Tamil Nadu: Srirangam celebrations. Tirupati: massive gatherings."
+    },
+    {
+      "name": "Lohri",
+      "date": "2028-01-13",
+      "category": "major",
+      "deity_association": "Agni, Surya",
+      "description": "Punjabi winter harvest bonfire festival.",
+      "recommended_shlokas": [
+        "Traditional Lohri songs",
+        "Om Agnaye Namah"
+      ],
+      "fasting_guidelines": "No fasting. Feasting with til, gur, peanuts.",
+      "regional_variations": "Punjab, Haryana, Delhi, Himachal Pradesh."
+    },
+    {
+      "name": "Makar Sankranti / Pongal",
+      "date": "2028-01-14",
+      "category": "major",
+      "deity_association": "Surya (Sun God)",
+      "description": "Sun enters Capricorn. Harvest festival celebrated across India.",
+      "recommended_shlokas": [
+        "Aditya Hridayam",
+        "Surya Gayatri"
+      ],
+      "fasting_guidelines": "No strict fasting. Til-gur traditional foods.",
+      "regional_variations": "Tamil Nadu: Pongal. Gujarat: Uttarayan. Assam: Magh Bihu. Punjab: Maghi."
+    },
+    {
+      "name": "Vasant Panchami (Saraswati Puja)",
+      "date": "2028-02-02",
+      "category": "major",
+      "deity_association": "Goddess Saraswati",
+      "description": "Festival of Goddess Saraswati. Onset of spring. Worship of knowledge.",
+      "recommended_shlokas": [
+        "Saraswati Vandana",
+        "Om Aim Saraswatyai Namah"
+      ],
+      "fasting_guidelines": "Some observe fast or sattvic diet.",
+      "regional_variations": "Bengal: elaborate pandals. Bihar/UP: mustard flowers. Children's learning initiation."
+    },
+    {
+      "name": "Maha Shivaratri",
+      "date": "2028-02-24",
+      "category": "major",
+      "deity_association": "Lord Shiva",
+      "description": "The Great Night of Shiva. Night-long worship and vigil.",
+      "recommended_shlokas": [
+        "Maha Mrityunjaya Mantra",
+        "Om Namah Shivaya",
+        "Rudram Chamakam",
+        "Shiva Tandava Stotram"
+      ],
+      "fasting_guidelines": "Strict nirjala fast. Four prahar pujas. Fast broken next morning.",
+      "regional_variations": "Varanasi: massive celebrations. Kashmir: Herath. Nepal: Pashupatinath."
+    },
+    {
+      "name": "Thai Poosam",
+      "date": "2026-01-25",
+      "category": "regional",
+      "deity_association": "Lord Murugan (Kartikeya)",
+      "description": "Major Tamil festival celebrating Lord Murugan. Devotees carry kavadi (decorated arches) as offerings, some with body piercings. Full moon in the Tamil month of Thai coinciding with star Poosam.",
+      "recommended_shlokas": [
+        "Skanda Sashti Kavacham",
+        "Om Saravanabhavaya Namah",
+        "Thiruppugazh by Arunagirinathar",
+        "Murugan Gayatri"
+      ],
+      "fasting_guidelines": "Devotees fast for days before carrying kavadi. Some observe 48-day fast leading up to the festival. Vegetarian diet mandatory.",
+      "regional_variations": "Major in Tamil Nadu, especially at Palani, Thiruchendur, and Swamimalai temples. In Malaysia, Batu Caves celebration is world-famous. Also celebrated in Singapore, Mauritius, and Sri Lanka."
+    },
+    {
+      "name": "Magh Purnima",
+      "date": "2026-02-01",
+      "category": "regional",
+      "deity_association": "Lord Vishnu, Ganga",
+      "description": "Full moon of Magh month. Sacred bathing in rivers and sangams is considered highly meritorious. Part of the Magh Mela in Prayagraj.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Ganga Stotra",
+        "Purnima Vrat prayers"
+      ],
+      "fasting_guidelines": "Purnima fast observed. Sattvic food after moonrise or complete fast.",
+      "regional_variations": "Prayagraj: Magh Mela on the Sangam. In Bihar: special bathing at Rajgir. In Maharashtra: Magh Snana."
+    },
+    {
+      "name": "Puthandu (Tamil New Year)",
+      "date": "2026-04-14",
+      "category": "regional",
+      "deity_association": "Lord Brahma",
+      "description": "Tamil New Year celebrated on the first day of the Tamil month Chithirai. Houses are decorated with kolam, and a special tray with turmeric, fruits, flowers, mirror, and gold is the first sight on waking.",
+      "recommended_shlokas": [
+        "Panchanga Shravanam",
+        "Om Namo Bhagavate Vasudevaya",
+        "Brahma Stotra"
+      ],
+      "fasting_guidelines": "No fasting. Special festive meals with maanga pachadi (a dish with six tastes representing life's varied experiences).",
+      "regional_variations": "Specific to Tamil Nadu and Tamil diaspora. In Kerala, Vishu is celebrated the same day. In Bengal, Pohela Boishakh. In Assam, Bohag Bihu."
+    },
+    {
+      "name": "Vishu",
+      "date": "2026-04-14",
+      "category": "regional",
+      "deity_association": "Lord Krishna (Vishukkani)",
+      "description": "Kerala New Year. The first sight on waking (Vishukkani) must be an auspicious arrangement of rice, fruits, flowers, gold, mirror, and Krishna idol. Vishu Kaineetam (money gifts to younger family members) is traditional.",
+      "recommended_shlokas": [
+        "Krishna Stuti",
+        "Om Namo Bhagavate Vasudevaya",
+        "Vishnu Sahasranama"
+      ],
+      "fasting_guidelines": "No fasting. Festive meals — Vishu Sadya with traditional Kerala dishes.",
+      "regional_variations": "Specific to Kerala. Similar to Puthandu in Tamil Nadu and Ugadi in Karnataka."
+    },
+    {
+      "name": "Bohag Bihu (Rongali Bihu)",
+      "date": "2026-04-14",
+      "category": "regional",
+      "deity_association": "Nature worship, agricultural deities",
+      "description": "Assamese New Year and spring harvest festival. Seven-day celebration with Bihu dance, Husori (community singing), and traditional games. Marks the Assamese agricultural new year.",
+      "recommended_shlokas": [
+        "Traditional Bihu folk songs and prayers",
+        "Assamese harvest hymns"
+      ],
+      "fasting_guidelines": "No fasting. Grand feasting with traditional Assamese cuisine — pitha, laru, jolpan.",
+      "regional_variations": "Specific to Assam. Three types of Bihu: Bohag (spring), Kati (autumn — lighting of lamps), Magh (harvest feast in January)."
+    },
+    {
+      "name": "Vat Savitri Vrat (Vat Purnima)",
+      "date": "2026-05-18",
+      "category": "regional",
+      "deity_association": "Savitri (ideal wife), Lord Yama, Lord Brahma",
+      "description": "Married women fast and tie threads around a Banyan (Vat) tree for their husbands' long life, emulating Savitri who brought her husband Satyavan back from death by outsmarting Yama.",
+      "recommended_shlokas": [
+        "Savitri Vrat Katha",
+        "Vat Vriksha Mantra",
+        "Om Savitryai Namah"
+      ],
+      "fasting_guidelines": "Married women observe a full day fast. Some keep nirjala fast. Seven rounds of thread around Banyan tree.",
+      "regional_variations": "In Gujarat and Maharashtra, observed on Jyeshtha Purnima. In North India, observed on Jyeshtha Amavasya. In Bihar, known as Savitri Amavasya."
+    },
+    {
+      "name": "Nirjala Ekadashi (Bhimseni Ekadashi)",
+      "date": "2026-06-01",
+      "category": "major",
+      "deity_association": "Lord Vishnu, Bhima (Pandava)",
+      "description": "The most austere of all Ekadashis. Complete waterless fast for the entire day and night. Named after Bhima who observed this single Ekadashi to compensate for missing all others. Said to give the merit of all 24 Ekadashis in a year.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Om Namo Bhagavate Vasudevaya",
+        "Nirjala Ekadashi Vrat Katha",
+        "Ekadashi Mahatmya"
+      ],
+      "fasting_guidelines": "Strict nirjala (no water, no food) fast for 24+ hours. This is the toughest Ekadashi fast. Fast broken on Dwadashi after sunrise with water and then light food.",
+      "regional_variations": "Observed across India. Particularly strict observance in North India, UP, Bihar, and Rajasthan. ISKCON devotees observe it with great devotion."
+    },
+    {
+      "name": "Jagannath Snana Yatra",
+      "date": "2026-06-08",
+      "category": "regional",
+      "deity_association": "Lord Jagannath",
+      "description": "Ceremonial bathing of Lord Jagannath, Balabhadra, and Subhadra at the Jagannath Temple, Puri. Deities are bathed with 108 pots of water. After the bath, deities 'fall sick' and are kept in isolation for 15 days (Anasar period).",
+      "recommended_shlokas": [
+        "Jagannath Ashtakam",
+        "Om Jagannathaya Namah",
+        "Jagannath Swami Nayanapathagami Bhava Tume"
+      ],
+      "fasting_guidelines": "Some devotees fast on this day.",
+      "regional_variations": "Primarily Puri, Odisha. Observed in all Jagannath temples across India."
+    },
+    {
+      "name": "Devshayani Ekadashi (Ashadi Ekadashi)",
+      "date": "2026-07-04",
+      "category": "major",
+      "deity_association": "Lord Vishnu",
+      "description": "Lord Vishnu goes into cosmic sleep (Yoga Nidra) for four months (Chaturmas). Beginning of the sacred Chaturmas period when no auspicious events like weddings are performed.",
+      "recommended_shlokas": [
+        "Vishnu Sahasranama",
+        "Om Namo Narayanaya",
+        "Devshayani Ekadashi Vrat Katha"
+      ],
+      "fasting_guidelines": "Strict Ekadashi fast — no grains. Many observe special austerities for the entire Chaturmas period beginning this day.",
+      "regional_variations": "In Maharashtra, Ashadi Ekadashi marks the massive Pandharpur Wari pilgrimage — lakhs walk to Pandharpur to worship Vithoba. In North India, marks beginning of Chaturmas."
+    },
+    {
+      "name": "Teej (Hariyali Teej)",
+      "date": "2027-08-14",
+      "category": "regional",
+      "deity_association": "Goddess Parvati, Lord Shiva",
+      "description": "Monsoon festival celebrating Parvati-Shiva reunion. Women dress in green, swing on jhulas.",
+      "recommended_shlokas": [
+        "Parvati Mantra",
+        "Shiva Parvati Stuti",
+        "Teej Vrat Katha"
+      ],
+      "fasting_guidelines": "Women fast for husband's well-being.",
+      "regional_variations": "Major in Rajasthan (Jaipur procession), UP, MP, Bihar."
+    },
+    {
+      "name": "Hartalika Teej",
+      "date": "2027-09-16",
+      "category": "major",
+      "deity_association": "Goddess Parvati, Lord Shiva",
+      "description": "Nirjala fast by women for marital bliss. Sand/clay Shiva-Parvati idols worshipped.",
+      "recommended_shlokas": [
+        "Hartalika Teej Vrat Katha",
+        "Om Namah Shivaya"
+      ],
+      "fasting_guidelines": "Nirjala (waterless) fast for entire day and night. One of the toughest fasts.",
+      "regional_variations": "Rajasthan, Bihar, Jharkhand, MP, UP. Nepal: national holiday."
+    },
+    {
+      "name": "Anant Chaturdashi / Ganesh Visarjan",
+      "date": "2027-09-27",
+      "category": "major",
+      "deity_association": "Lord Ganesha, Lord Vishnu (Anant form)",
+      "description": "Last day of Ganesh Chaturthi. Grand immersion processions.",
+      "recommended_shlokas": [
+        "Ganpati Bappa Morya...",
+        "Anant Vrat Katha"
+      ],
+      "fasting_guidelines": "Anant Chaturdashi Vrat with sacred thread.",
+      "regional_variations": "Mumbai: world-famous procession. Pune, Hyderabad: massive events."
+    },
+    {
+      "name": "Sharad Purnima",
+      "date": "2027-10-21",
+      "category": "regional",
+      "deity_association": "Goddess Lakshmi, Lord Krishna",
+      "description": "Brightest full moon. Lakshmi worship. Kheer under moonlight.",
+      "recommended_shlokas": [
+        "Lakshmi Stuti",
+        "Om Shreem Mahalakshmiyei Namah"
+      ],
+      "fasting_guidelines": "Purnima fast. Kheer under moonlight.",
+      "regional_variations": "Gujarat: culmination of Garba. Bengal: Lakshmi Puja. Odisha: Kumar Purnima."
+    },
+    {
+      "name": "Mahalaya",
+      "date": "2026-09-09",
+      "category": "major",
+      "deity_association": "Goddess Durga, ancestors (Pitrs)",
+      "description": "Marks the end of Pitru Paksha (fortnight of ancestors) and the beginning of Devi Paksha. In Bengal, it heralds the coming of Durga Puja. The iconic Mahishasura Mardini radio program is aired at dawn.",
+      "recommended_shlokas": [
+        "Chandipath (Durga Saptashati)",
+        "Mahishasura Mardini Stotram",
+        "Tarpan mantras for ancestors",
+        "Ya Devi Sarva Bhuteshu..."
+      ],
+      "fasting_guidelines": "Pitru Tarpan (ancestral offerings) performed. Some fast during tarpan rituals.",
+      "regional_variations": "Bengal: iconic Mahalaya dawn with Chandipath recitation on radio. Marks start of countdown to Durga Puja. Across India, end of Pitru Paksha with final tarpan."
+    },
+    {
+      "name": "Pitru Paksha (Shradh Period)",
+      "date": "2026-08-26",
+      "category": "major",
+      "deity_association": "Ancestors (Pitrs), Lord Yama",
+      "description": "16-day period dedicated to performing rituals (Shradh/Tarpan) for deceased ancestors. Considered inauspicious for new ventures. Food and water offered to ancestors through Brahmins.",
+      "recommended_shlokas": [
+        "Pitru Stotra",
+        "Tarpan Mantras",
+        "Om Pitrubhyo Namah",
+        "Garuda Purana selections"
+      ],
+      "fasting_guidelines": "Specific Shradh rituals on the tithi (date) matching the ancestor's death. Sattvic food. Non-vegetarian food and alcohol avoided. Many observe a partial fast on the specific Shradh day.",
+      "regional_variations": "Gaya (Bihar) is the most sacred place for Pitru Shradh. Varanasi and Prayagraj also major centers. In South India, Mahalaya Amavasya is the most important day. In some regions, only Sarva Pitru Amavasya (last day) is observed."
+    },
+    {
+      "name": "Pola / Bail Pola",
+      "date": "2026-08-17",
+      "category": "regional",
+      "deity_association": "Nandi (Shiva's bull), agricultural deities",
+      "description": "Festival honoring bulls and oxen for their contribution to agriculture. Bullocks are decorated, fed special food, and given rest from work. Processions of decorated bulls through villages.",
+      "recommended_shlokas": [
+        "Go Suktam",
+        "Nandi Mantra",
+        "Om Namah Shivaya (for Nandi)"
+      ],
+      "fasting_guidelines": "No specific fasting. Festive meals prepared.",
+      "regional_variations": "Primarily Maharashtra and Chhattisgarh. In Maharashtra, two types: Bail Pola and Tanha Pola. In Vidarbha, Pola is celebrated with great enthusiasm."
+    },
+    {
+      "name": "Janmashtami Jhulanotsav",
+      "date": "2026-08-15",
+      "category": "regional",
+      "deity_association": "Lord Krishna (as baby)",
+      "description": "Swing festival for baby Krishna leading up to Janmashtami. Small Krishna idols are placed in decorated swings (jhulas) in temples and homes.",
+      "recommended_shlokas": [
+        "Gopala Mantra",
+        "Krishna Bhajans",
+        "Damodara Stotra"
+      ],
+      "fasting_guidelines": "Optional fasting during the lead-up period.",
+      "regional_variations": "Celebrated in temples across India, especially ISKCON, Vrindavan, and Mathura."
+    },
+    {
+      "name": "Vishwakarma Puja",
+      "date": "2026-09-17",
+      "category": "regional",
+      "deity_association": "Lord Vishwakarma (Divine Architect)",
+      "description": "Worship of Lord Vishwakarma, the divine architect and craftsman of the gods. Workers, artisans, and industrialists worship their tools, machines, and workplaces.",
+      "recommended_shlokas": [
+        "Om Vishwakarmane Namah",
+        "Vishwakarma Stuti",
+        "Vishwakarma Gayatri"
+      ],
+      "fasting_guidelines": "No specific fasting. Workplace pujas with sweets distribution.",
+      "regional_variations": "Major in Bengal, Bihar, Jharkhand, Odisha, and industrial areas of India. In many factories and workshops, the day is a holiday. In some regions, celebrated on Makar Sankranti instead."
+    },
+    {
+      "name": "Skanda Sashti",
+      "date": "2026-10-14",
+      "category": "regional",
+      "deity_association": "Lord Murugan (Skanda/Kartikeya)",
+      "description": "Six-day festival celebrating Lord Murugan's victory over the demon Soorapadman. Culminates on the sixth day (Sashti) with Soorasamharam (symbolic destruction of evil).",
+      "recommended_shlokas": [
+        "Skanda Sashti Kavacham",
+        "Thiruppugazh",
+        "Om Saravanabhavaya Namah",
+        "Subramanya Bhujangam by Adi Shankaracharya"
+      ],
+      "fasting_guidelines": "Six-day fast by devout followers. Many fast on the Sashti day alone. Vegetarian diet mandatory during the period.",
+      "regional_variations": "Major in Tamil Nadu, especially at Thiruchendur, Palani, and Swamimalai. In Kerala, celebrated at Subramanya temples. In Karnataka, Kukke Subramanya celebrations."
+    },
+    {
+      "name": "Arudra Darshan (Thiruvathira)",
+      "date": "2026-12-28",
+      "category": "regional",
+      "deity_association": "Lord Shiva (as Nataraja — Cosmic Dancer)",
+      "description": "Celebrates Shiva's cosmic dance (Ananda Tandava). The star Arudra (Betelgeuse in Orion) is at its brightest. Major festival in Shiva temples with special abhishekam to Nataraja.",
+      "recommended_shlokas": [
+        "Shiva Tandava Stotram",
+        "Nataraja Stotram",
+        "Om Namah Shivaya",
+        "Rudram Chamakam"
+      ],
+      "fasting_guidelines": "In Kerala, women observe Thiruvathira fast (eating only a special gruel). In Tamil Nadu, special night puja.",
+      "regional_variations": "Tamil Nadu: Grand celebrations at Chidambaram Nataraja Temple (main festival). Kerala: Thiruvathira — women's festival with swinging, bathing, and folk dances. Also important in Shiva temples across South India."
+    },
+    {
+      "name": "Maghi (Magh Mela)",
+      "date": "2026-01-14",
+      "category": "regional",
+      "deity_association": "Surya, Ganga",
+      "description": "Sacred bathing festival in the month of Magh at river confluences. Part of the annual Magh Mela at Prayagraj. Also Sikh festival commemorating the 40 Muktas (liberated ones).",
+      "recommended_shlokas": [
+        "Ganga Stotra",
+        "Surya Mantras",
+        "Triveni Sangam prayers"
+      ],
+      "fasting_guidelines": "Many observe a fast on this day. Sacred bath at dawn considered highly meritorious.",
+      "regional_variations": "Prayagraj: Magh Mela. Punjab: Sikh Maghi at Muktsar Sahib. Bihar: special bathing at Rajgir hot springs."
+    },
+    {
+      "name": "Masi Magam",
+      "date": "2026-03-07",
+      "category": "regional",
+      "deity_association": "Lord Shiva, various deities",
+      "description": "Tamil festival on the full moon of Masi month when the Magam star prevails. Temple deities are taken to the seashore or river banks for a ceremonial bath. Considered highly auspicious for sacred bathing.",
+      "recommended_shlokas": [
+        "Shiva Stuti",
+        "Temple-specific deity mantras",
+        "Purnima prayers"
+      ],
+      "fasting_guidelines": "Purnima fast. Sacred bathing at dawn considered meritorious.",
+      "regional_variations": "Major celebrations in Pondicherry and Kumbakonam. Mahamaham (once in 12 years mega event) at Kumbakonam Mahamaham tank."
+    },
+    {
+      "name": "Panguni Uthiram",
+      "date": "2026-03-30",
+      "category": "regional",
+      "deity_association": "Lord Murugan and Deivanai, Lord Shiva and Parvati, Lord Vishnu and Lakshmi",
+      "description": "Tamil festival celebrating divine marriages — particularly of Lord Murugan with Deivanai. Full moon in the Tamil month of Panguni. Mass weddings are held at temples.",
+      "recommended_shlokas": [
+        "Murugan Thirupugazh",
+        "Om Saravanabhavaya Namah",
+        "Kalyanotsava (divine wedding) mantras"
+      ],
+      "fasting_guidelines": "Some devotees fast on this day. Pilgrimage to Murugan temples.",
+      "regional_variations": "Major celebrations at all six abodes of Murugan in Tamil Nadu. In Srirangam, Panguni Uthiram marks Ranganathar-Ranganayaki wedding. In Madurai, Chithirai Thiruvizha (extended celebration)."
+    },
+    {
+      "name": "Chithirai Thiruvizha (Madurai Meenakshi Thirukalyanam)",
+      "date": "2026-04-24",
+      "category": "regional",
+      "deity_association": "Goddess Meenakshi, Lord Sundareswarar (Shiva)",
+      "description": "Grand 12-day festival at the Madurai Meenakshi Temple celebrating the divine wedding of Goddess Meenakshi with Lord Sundareswarar. One of the oldest and grandest temple festivals in India.",
+      "recommended_shlokas": [
+        "Meenakshi Pancharatnam by Adi Shankaracharya",
+        "Meenakshi Stotram",
+        "Om Namah Shivaya"
+      ],
+      "fasting_guidelines": "No specific fasting. Temple feasting and offerings.",
+      "regional_variations": "Specific to Madurai, Tamil Nadu. Attracts millions of pilgrims. Ther Thiruvizha (chariot procession) is the highlight."
+    },
+    {
+      "name": "Thrissur Pooram",
+      "date": "2026-05-05",
+      "category": "regional",
+      "deity_association": "Goddess Durga (Vadakkunnathan Temple deities)",
+      "description": "Kerala's grandest temple festival at Vadakkunnathan Temple, Thrissur. Famous for the spectacular display of caparisoned elephants, Kudamattam (umbrella ceremony), and massive fireworks. Called the 'Festival of Festivals'.",
+      "recommended_shlokas": [
+        "Devi Mahatmyam",
+        "Temple-specific deity mantras",
+        "Ganapati invocations"
+      ],
+      "fasting_guidelines": "No specific fasting. Day of celebration and feasting.",
+      "regional_variations": "Specific to Thrissur, Kerala. Two groups of temples (Paramekkavu and Thiruvambadi) compete in umbrella displays and fireworks. Considered the largest cultural gathering in Kerala."
+    },
+    {
+      "name": "Bonalu",
+      "date": "2026-07-12",
+      "category": "regional",
+      "deity_association": "Goddess Mahankali, Yellamma",
+      "description": "Telangana's popular folk festival dedicated to Goddess Mahankali. Women carry decorated pots (Bonam) of food on their heads to the temple as offerings. Features Potharaju (Mahankali's brother) processions.",
+      "recommended_shlokas": [
+        "Mahankali Stuti",
+        "Yellamma Devi prayers",
+        "Kali Mantra: Om Kreem Kalikayai Namah"
+      ],
+      "fasting_guidelines": "Some women fast before carrying Bonam to the temple.",
+      "regional_variations": "Primarily Hyderabad and Telangana. Major celebrations at Golconda Fort, Ujjaini Mahankali Temple, and Secunderabad. Also observed in parts of Andhra Pradesh and Karnataka."
+    },
+    {
+      "name": "Bathukamma",
+      "date": "2026-09-18",
+      "category": "regional",
+      "deity_association": "Goddess Gauri (Parvati), Maha Lakshmi",
+      "description": "Telangana's floral festival. Women create colorful flower stacks (Bathukamma) with seasonal flowers, dance around them for nine days, and immerse them in water on the last day. Coincides with Navratri.",
+      "recommended_shlokas": [
+        "Bathukamma folk songs (Telangana)",
+        "Gauri Stuti",
+        "Lakshmi Stuti"
+      ],
+      "fasting_guidelines": "Some women observe fast during the nine days. Light vegetarian diet.",
+      "regional_variations": "Specific to Telangana. State festival of Telangana. Nine-day celebration ending on Durgashtami. Celebrated with great fervor in Warangal, Hyderabad, and all of Telangana."
+    },
+    {
+      "name": "Nuakhai",
+      "date": "2026-08-30",
+      "category": "regional",
+      "deity_association": "Goddess Samaleswari, agricultural deities",
+      "description": "Western Odisha's agrarian festival celebrating the first eating of new rice. 'Nua' means new and 'khai' means food. Families gather to eat the first produce of their harvest together.",
+      "recommended_shlokas": [
+        "Samaleswari Stuti",
+        "Anna Devata prayers",
+        "Om Annapurnayai Namah"
+      ],
+      "fasting_guidelines": "Fast until the new rice is ceremonially eaten after worship.",
+      "regional_variations": "Primarily Western Odisha (Sambalpur, Bolangir, Bargarh). Second most important festival in Odisha after Rath Yatra. Similar to Navanna in Bengal."
+    },
+    {
+      "name": "Navanna (New Rice Festival)",
+      "date": "2026-11-15",
+      "category": "regional",
+      "deity_association": "Goddess Lakshmi, Annapurna",
+      "description": "Bengali harvest festival celebrating the first eating of new rice (Nabanna). Aman paddy (winter rice) is harvested and the first rice is cooked as offerings to deities.",
+      "recommended_shlokas": [
+        "Annapurna Stotra",
+        "Lakshmi Stuti",
+        "Om Annapurnayai Namah"
+      ],
+      "fasting_guidelines": "Fast until the new rice offering and puja.",
+      "regional_variations": "Primarily Bengal. Also observed in parts of Assam and Tripura. Similar to Nuakhai in Odisha."
+    },
+    {
+      "name": "Jagaddhatri Puja",
+      "date": "2026-11-03",
+      "category": "regional",
+      "deity_association": "Goddess Jagaddhatri (form of Durga/Shakti)",
+      "description": "Four-day festival in Bengal celebrating Goddess Jagaddhatri, 'Protector of the World.' Elaborate pandals with decorated idols, similar to Durga Puja but on a smaller scale.",
+      "recommended_shlokas": [
+        "Jagaddhatri Stotra",
+        "Ya Devi Sarva Bhuteshu...",
+        "Devi Mahatmyam"
+      ],
+      "fasting_guidelines": "Some observe a fast during the puja days.",
+      "regional_variations": "Major in Chandannagar and Krishnanagar (Bengal). Also celebrated in parts of Odisha. Chandannagar's Jagaddhatri Puja is famous for its lighting decorations."
+    },
+    {
+      "name": "Manabasa Gurubara (Lakshmi Puja Thursdays)",
+      "date": "2026-12-03",
+      "category": "regional",
+      "deity_association": "Goddess Lakshmi",
+      "description": "Every Thursday in the Odia month of Margashira, Goddess Lakshmi is worshipped in Odisha. Floors are decorated with jhoti (rangoli), and the Lakshmi Purana is read.",
+      "recommended_shlokas": [
+        "Lakshmi Purana (Odia)",
+        "Om Shreem Mahalakshmiyei Namah",
+        "Lakshmi Stuti"
+      ],
+      "fasting_guidelines": "Women observe a fast on these Thursdays until the evening Lakshmi Puja.",
+      "regional_variations": "Specific to Odisha. Four Thursdays in Margashira month are observed. The Lakshmi Purana read on this occasion is unique to Odia tradition."
+    },
+    {
+      "name": "Kati Bihu (Kongali Bihu)",
+      "date": "2026-10-18",
+      "category": "regional",
+      "deity_association": "Tulsi plant, agricultural deities",
+      "description": "Autumn Bihu of Assam. Lamps (saki) are lit in the paddy fields and near the Tulsi plant to guide souls and protect crops. A sombre festival reflecting the anxious wait for the harvest.",
+      "recommended_shlokas": [
+        "Tulsi Stotra",
+        "Traditional Assamese prayers",
+        "Om Vishnavai Namah (for Tulsi)"
+      ],
+      "fasting_guidelines": "Some observe a fast. Simple meals reflecting the lean season before harvest.",
+      "regional_variations": "Specific to Assam. Less festive than Bohag Bihu or Magh Bihu. Focus on protecting crops and community togetherness."
+    },
+    {
+      "name": "Magh Bihu (Bhogali Bihu)",
+      "date": "2027-01-14",
+      "category": "regional",
+      "deity_association": "Agni (Fire God), harvest deities",
+      "description": "Assamese harvest festival coinciding with Makar Sankranti. Community feasting and bonfire (Meji). Traditional Assamese delicacies like pitha and laru are prepared.",
+      "recommended_shlokas": [
+        "Agni Suktam",
+        "Traditional harvest hymns"
+      ],
+      "fasting_guidelines": "No fasting. Grand community feasting.",
+      "regional_variations": "Specific to Assam. Meji (bonfire of thatched huts) burned at dawn. Buffalo fights and other traditional sports."
+    },
+    {
+      "name": "Teej (Hariyali Teej)",
+      "date": "2027-08-14",
+      "category": "regional",
+      "deity_association": "Goddess Parvati, Lord Shiva",
+      "description": "Women's monsoon festival celebrating Parvati-Shiva union.",
+      "recommended_shlokas": [
+        "Parvati Stuti",
+        "Teej Vrat Katha"
+      ],
+      "fasting_guidelines": "Women fast for husband's well-being.",
+      "regional_variations": "Rajasthan, UP, MP, Bihar."
+    },
+    {
+      "name": "Sharad Purnima",
+      "date": "2025-11-23",
+      "category": "regional",
+      "deity_association": "Goddess Lakshmi, Lord Krishna",
+      "description": "Brightest full moon. Krishna's Rasa Leela celebration. Kheer under moonlight.",
+      "recommended_shlokas": [
+        "Lakshmi Stuti",
+        "Krishna Rasa Leela mantras"
+      ],
+      "fasting_guidelines": "Purnima fast. Moon-bathed kheer consumed next day.",
+      "regional_variations": "Gujarat: post-Navratri celebration. Bengal: Lakshmi Puja. Odisha: Kumar Purnima."
+    }
+  ]
+}

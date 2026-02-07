@@ -1,0 +1,16 @@
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import App from '../../App';
+
+describe('App', () => {
+  it('should render without crashing', () => {
+    const { root } = render(<App />);
+    expect(root).toBeTruthy();
+  });
+
+  it('should render text content', () => {
+    const { getByText } = render(<App />);
+    // The default Expo template shows "Open up App.tsx to start working on your app!"
+    expect(getByText(/Open up App.tsx/i)).toBeTruthy();
+  });
+});
