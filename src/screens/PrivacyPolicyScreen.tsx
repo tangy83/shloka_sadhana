@@ -17,7 +17,7 @@ export const PrivacyPolicyScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>Privacy Policy</Text>
-        <Text style={styles.lastUpdated}>Last Updated: February 7, 2026</Text>
+        <Text style={styles.lastUpdated}>Last Updated: February 9, 2026</Text>
       </View>
 
       {/* Introduction */}
@@ -78,11 +78,24 @@ export const PrivacyPolicyScreen: React.FC = () => {
         </Text>
       </View>
 
+      {/* Analytics */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Analytics</Text>
+        <Text style={styles.paragraph}>
+          We use Firebase Analytics to understand how users interact with our app and improve the user experience. Firebase Analytics collects anonymous usage data including:{'\n\n'}
+          • App interactions (e.g., buttons clicked, screens viewed){'\n'}
+          • Practice session metrics (e.g., duration, completion){'\n'}
+          • Device information (e.g., device model, operating system){'\n'}
+          • Crash reports and performance data{'\n\n'}
+          This data is anonymized and cannot be used to identify you personally. Firebase Analytics is GDPR and CCPA compliant. You can learn more about Google&apos;s privacy practices at: policies.google.com/privacy
+        </Text>
+      </View>
+
       {/* Third-Party Services */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Third-Party Services</Text>
         <Text style={styles.paragraph}>
-          Our app does not currently integrate with any third-party analytics or advertising services. We respect your privacy and do not share your data with third parties.
+          Our app uses Firebase Analytics (a Google service) for anonymous usage analytics. We do not use advertising services or sell your data to third parties. We do not share your personal practice data (sankalp, offerings, notes) with any third party.
         </Text>
       </View>
 

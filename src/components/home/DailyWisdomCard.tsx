@@ -9,15 +9,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getDailyWisdomQuote } from '@/data/wisdom';
 import { getTodayISO } from '@/utils/dateUtils';
 import { WisdomQuote } from '@/data/wisdom';
+import type { RootStackParamList } from '@/types/navigation';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 /**
  * DailyWisdomCard component - compact preview of daily wisdom
  */
 export const DailyWisdomCard: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const [quote, setQuote] = useState<WisdomQuote | null>(null);
 
   useEffect(() => {
@@ -60,7 +64,6 @@ export const DailyWisdomCard: React.FC = () => {
 
   const handlePress = () => {
     // Navigate to wisdom detail screen
-    // @ts-expect-error - Navigation types not fully defined
     navigation.navigate('WisdomDetail', { quoteId: quote.id });
   };
 

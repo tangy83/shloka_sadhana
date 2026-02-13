@@ -1,0 +1,132 @@
+# TDD Specification: {{ feature_name }}
+
+**Generated:** {{ timestamp }}
+**Priority:** {{ priority }}
+**Effort:** {{ effort }}
+
+---
+
+## Phase 1: RED - Write Failing Tests
+
+### Test Files to Create:
+{% for test_file in test_files -%}
+- `{{ test_file }}`
+{% endfor %}
+
+### Test Cases to Implement:
+
+#### Rendering Tests
+{% for test in red_phase.rendering_tests -%}
+- [ ] {{ test }}
+{% endfor %}
+
+#### User Interaction Tests
+{% for test in red_phase.interaction_tests -%}
+- [ ] {{ test }}
+{% endfor %}
+
+#### State Management Tests
+{% for test in red_phase.state_tests -%}
+- [ ] {{ test }}
+{% endfor %}
+
+#### Accessibility Tests
+{% for test in red_phase.accessibility_tests -%}
+- [ ] {{ test }}
+{% endfor %}
+
+#### Edge Cases & Error Handling
+{% for test in red_phase.edge_case_tests -%}
+- [ ] {{ test }}
+{% endfor %}
+
+### Run Tests and Verify Failure:
+```bash
+npm test {{ primary_test_file }}
+```
+
+### Example Test Stub:
+
+```typescript
+{{ test_stub }}
+```
+
+---
+
+## Phase 2: GREEN - Implement Minimal Solution
+
+### Files to Create/Modify:
+{% for file in implementation_files -%}
+- `{{ file }}`
+{% endfor %}
+
+### Implementation Checklist:
+{% for step in green_phase.implementation_steps -%}
+- [ ] {{ step }}
+{% endfor %}
+
+### Run Tests Continuously:
+```bash
+npm run test:watch
+```
+
+### Achieve 100% Test Passage:
+- All tests must pass
+- No skipped tests
+- No pending tests
+
+### Verify Coverage:
+```bash
+npm run test:coverage
+```
+Target: 75%+ overall coverage
+
+---
+
+## Phase 3: REFACTOR - Improve Quality
+
+### Refactoring Tasks:
+{% for task in refactor_phase.tasks -%}
+- [ ] {{ task }}
+{% endfor %}
+
+### Verify No Regression:
+```bash
+npm test
+```
+
+---
+
+## Quality Checks
+
+- [ ] 0 TypeScript errors: `npm run type-check`
+- [ ] 0 ESLint errors: `npm run lint`
+- [ ] All acceptance criteria met
+- [ ] Tested on iOS simulator
+- [ ] Tested on Android emulator
+- [ ] Accessibility verified (VoiceOver/TalkBack if applicable)
+- [ ] All issues logged in ISSUES_LOG.md
+
+---
+
+## Acceptance Criteria
+
+{% for criterion in acceptance_criteria -%}
+- [ ] {{ criterion }}
+{% endfor %}
+
+---
+
+## Mocks Required
+
+{% for mock in mocks_needed -%}
+- {{ mock }}
+{% endfor %}
+
+---
+
+## Implementation Notes
+
+{% for note in implementation_notes -%}
+- {{ note }}
+{% endfor %}

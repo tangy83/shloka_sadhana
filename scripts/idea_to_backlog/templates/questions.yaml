@@ -1,0 +1,179 @@
+# Question templates for all 17 personas
+# Each persona has questions organized by category (scoping, technical, etc.)
+
+"01-ui-ux-designer":
+  user_experience:
+    - "Where would this feature fit in the app navigation? (Home/Library/Settings/New screen?)"
+    - "What's the primary user interaction: tap/swipe/long-press/multi-step?"
+    - "How does this fit the app's spiritual design aesthetic (warm, calm, sacred)?"
+
+  visual_design:
+    - "What UI components are needed: cards/modals/sheets/new screen?"
+    - "Are there any empty states or error states to design?"
+    - "Should this have light mode and dark mode variants?"
+
+"02-accessibility-specialist":
+  inclusive_design:
+    - "How will screen reader users (VoiceOver/TalkBack) interact with this feature?"
+    - "Are there any visual-only elements that need text alternatives?"
+    - "What are the accessibility labels needed (accessibilityLabel/accessibilityHint)?"
+
+  standards:
+    - "Does this feature support dynamic type sizing (iOS) and font scaling (Android)?"
+    - "What are the minimum touch target sizes? (Should be 44x44 points minimum)"
+
+"03-frontend-engineer":
+  technical:
+    - "What React Native components are needed?"
+    - "Is this a new screen, a new component, or an enhancement to existing?"
+    - "Does this require new state management (Context/AsyncStorage/useState)?"
+    - "Are there any third-party libraries needed? Which ones?"
+
+  data:
+    - "What data needs to be stored? Ephemeral (component state) or persistent (AsyncStorage)?"
+    - "If persistent, what's the AsyncStorage key structure and data format?"
+    - "Are there any data migrations needed from existing storage?"
+
+  implementation:
+    - "What are the main files that need modification or creation?"
+    - "What are the potential edge cases or error scenarios to handle?"
+
+"04-product-manager":
+  scoping:
+    - "What specific user problem does this idea solve?"
+    - "Which user segment benefits most from this feature? (beginners/daily practitioners/streak chasers/content explorers)"
+    - "How does this align with our app's core value proposition (spiritual practice & habit formation)?"
+    - "What is the minimum viable version of this idea?"
+
+  prioritization:
+    - "Is this a P0 (critical), P1 (high), P2 (medium), or P3 (low) priority? Why?"
+    - "What's the estimated user impact: High/Medium/Low?"
+    - "Are there any dependencies on other features or systems?"
+
+  metrics:
+    - "How would we measure success for this feature? What metrics matter?"
+
+"05-gamification-designer":
+  engagement:
+    - "Does this feature have any rewards, milestones, or achievements?"
+    - "How does this tie into the existing streak/progress/mala count system?"
+    - "What's the 'celebration moment' or positive feedback?"
+    - "Does this use any motivation triggers? (progress, loss aversion, social proof, achievement)"
+
+  behavior:
+    - "How does this encourage sustained engagement vs. one-time use?"
+
+"06-content-strategist":
+  content_needs:
+    - "What content is required: text/images/audio/video/data?"
+    - "How much content: single item or collection? How many items?"
+    - "Who will create this content? Sourcing strategy?"
+
+  discovery:
+    - "How will users discover this content? (Home screen/Library/Search/Notifications)"
+    - "Does this require content personalization or recommendations?"
+
+"07-community-manager":
+  social:
+    - "Does this feature have any social/sharing/community aspects?"
+    - "How would users share their progress or connect with others?"
+    - "Are there any privacy concerns with sharing spiritual practice data?"
+
+  engagement:
+    - "Does this encourage positive, supportive interactions vs. competition?"
+
+"08-onboarding-specialist":
+  first_time_experience:
+    - "Will first-time users understand this feature without explanation?"
+    - "Should there be a tooltip, tutorial, or first-time explanation?"
+    - "What's the 'aha moment' when they first use this?"
+    - "Does this add friction to the core user journey or streamline it?"
+
+  progressive_disclosure:
+    - "Should this be shown immediately or discovered progressively?"
+
+"09-growth-marketer":
+  virality:
+    - "Does this feature have any viral or sharing potential?"
+    - "Can users invite friends or share achievements?"
+    - "How does this contribute to organic growth or word-of-mouth?"
+
+  acquisition:
+    - "Does this make the app more discoverable or increase App Store conversion?"
+    - "Are there any referral or incentive mechanisms?"
+
+"10-data-analyst":
+  analytics:
+    - "What events should we track for analytics?"
+    - "What user behaviors or patterns do we want to analyze?"
+    - "How will this data inform future product decisions?"
+
+  insights:
+    - "What insights could this feature surface to users? (personal statistics, patterns, etc.)"
+
+"11-mobile-performance-engineer":
+  performance:
+    - "What's the potential performance impact? (app startup time, memory usage, battery drain)"
+    - "Does this increase bundle size? If so, by how much?"
+    - "Are there any heavy operations that need optimization? (rendering, calculations, network)"
+
+  optimization:
+    - "Should any resources be lazy-loaded or cached?"
+    - "Are there any background processes or timers involved?"
+
+"12-audio-video-specialist":
+  media:
+    - "Does this involve audio playback, video, or media management?"
+    - "What are the audio quality requirements? (bitrate, format)"
+    - "Should this support background audio playback or lock screen controls?"
+
+  offline:
+    - "How should media be handled offline? (download, cache, streaming)"
+
+"13-localization-expert":
+  languages:
+    - "Does this feature need multi-language support?"
+    - "Are there regional variations to consider? (North vs South India, different scripts)"
+    - "Does this use any language-specific formatting? (dates, numbers, currency)"
+
+  cultural:
+    - "Are there any cultural sensitivities or regional customs to account for?"
+
+"14-notification-strategist":
+  timing:
+    - "Does this feature involve notifications or reminders?"
+    - "What's the optimal timing for these notifications?"
+    - "Should notifications respect quiet hours or user preferences?"
+
+  content:
+    - "What should the notification copy say? (actionable, respectful, not annoying)"
+    - "How do we avoid notification fatigue?"
+
+"15-backend-sync-engineer":
+  cloud:
+    - "Does this require cloud storage or backend sync?"
+    - "What data needs to be synced across devices?"
+    - "How do we handle sync conflicts or offline changes?"
+
+  architecture:
+    - "What's the data model for backend storage?"
+
+"16-hindu-calendar-expert":
+  cultural_accuracy:
+    - "Are there cultural or religious sensitivities to consider?"
+    - "Does this need to be accurate to specific Hindu traditions? (Vedic/regional variations)"
+    - "Should this account for regional calendar differences?"
+
+  festivals:
+    - "Does this tie into festivals, Ekadashi, or auspicious timings?"
+    - "How should we handle Paanchang or Muhurat calculations?"
+
+"17-behavioral-psychologist":
+  habit_formation:
+    - "What habit or behavior does this encourage?"
+    - "What psychological triggers does this use? (progress, social proof, loss aversion, autonomy)"
+    - "How does this reduce friction or increase motivation?"
+
+  psychology:
+    - "Is there a risk of overwhelming the user or creating anxiety?"
+    - "Does this support intrinsic motivation (personal growth) vs extrinsic (rewards)?"

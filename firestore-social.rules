@@ -1,0 +1,108 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================
+    // Helper Functions
+    // ============================================
+
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if user owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Check if user is one of the users in an array
+    function isParticipant(users) {
+      return isAuthenticated() && request.auth.uid in users;
+    }
+
+    // ============================================
+    // Public Profiles
+    // ============================================
+    // Anyone can read (for search functionality)
+    // Only the profile owner can write
+
+    match /publicProfiles/{userId} {
+      // Anyone can read public profiles
+      allow read: if true;
+
+      // Only the profile owner can create/update their profile
+      allow create, update: if isOwner(userId);
+
+      // Only the profile owner can delete their profile
+      allow delete: if isOwner(userId);
+    }
+
+    // ============================================
+    // Friend Requests
+    // ============================================
+    // Sender and recipient can read
+    // Only sender can create
+    // Only recipient can update (accept/decline)
+    // Only sender can delete (cancel)
+
+    match /friendRequests/{requestId} {
+      // Both sender and recipient can read
+      allow read: if isAuthenticated() && (
+        request.auth.uid == resource.data.fromUserId ||
+        request.auth.uid == resource.data.toUserId
+      );
+
+      // Only authenticated users can create requests
+      // Additional validation: fromUserId must match authenticated user
+      allow create: if isAuthenticated() &&
+                      request.resource.data.fromUserId == request.auth.uid &&
+                      request.resource.data.status == 'pending';
+
+      // Only recipient can update (accept/decline)
+      allow update: if isAuthenticated() &&
+                      request.auth.uid == resource.data.toUserId &&
+                      resource.data.status == 'pending' &&
+                      request.resource.data.status in ['accepted', 'rejected'];
+
+      // Only sender can delete (cancel)
+      allow delete: if isAuthenticated() &&
+                      request.auth.uid == resource.data.fromUserId;
+    }
+
+    // ============================================
+    // Friendships
+    // ============================================
+    // Both users can read
+    // Both users can write (remove friend)
+
+    match /friendships/{friendshipId} {
+      // Both users in the friendship can read
+      allow read: if isAuthenticated() &&
+                    request.auth.uid in resource.data.users;
+
+      // Both users can create friendship (when accepting request)
+      allow create: if isAuthenticated() &&
+                      request.auth.uid in request.resource.data.users &&
+                      request.resource.data.users.size() == 2 &&
+                      request.resource.data.status == 'active';
+
+      // Both users can update friendship (future: block user)
+      allow update: if isAuthenticated() &&
+                      request.auth.uid in resource.data.users;
+
+      // Both users can delete friendship (unfriend)
+      allow delete: if isAuthenticated() &&
+                      request.auth.uid in resource.data.users;
+    }
+
+    // ============================================
+    // User Private Data (from MVP)
+    // ============================================
+    // Users can only access their own data
+
+    match /users/{userId}/{document=**} {
+      allow read, write: if isOwner(userId);
+    }
+  }
+}

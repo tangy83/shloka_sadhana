@@ -22,9 +22,21 @@ import { WisdomDetailScreen } from '@/screens/WisdomDetailScreen';
 import { AboutScreen } from '@/screens/AboutScreen';
 import { PrivacyPolicyScreen } from '@/screens/PrivacyPolicyScreen';
 import { TermsOfServiceScreen } from '@/screens/TermsOfServiceScreen';
+import { OnboardingScreen } from '@/screens/onboarding';
+import { LoginScreen } from '@/screens/auth/LoginScreen';
+import { SignUpScreen } from '@/screens/auth/SignUpScreen';
+import { FriendsScreen } from '@/screens/FriendsScreen';
+import { UserSearchScreen } from '@/screens/UserSearchScreen';
+import { UserProfileScreen } from '@/screens/UserProfileScreen';
+import { GroupsScreen } from '@/screens/GroupsScreen';
+import { GroupDetailScreen } from '@/screens/GroupDetailScreen';
+import { CreateGroupScreen } from '@/screens/CreateGroupScreen';
+import { ChallengeDetailScreen } from '@/screens/ChallengeDetailScreen';
+import { ReferralScreen } from '@/screens/ReferralScreen';
+import type { TabParamList, RootStackParamList } from '@/types/navigation';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator<TabParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 /**
  * Bottom Tab Navigator
@@ -81,6 +93,16 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
+        name="Friends"
+        component={FriendsScreen}
+        options={{
+          tabBarLabel: 'Friends',
+          tabBarIcon: () => (
+            <Text style={{ fontSize: 24 }}>👥</Text>
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Satsang"
         component={SatsangScreen}
         options={{
@@ -104,16 +126,28 @@ const TabNavigator = () => {
   );
 };
 
+interface AppNavigatorProps {
+  initialRouteName?: keyof RootStackParamList;
+}
+
 /**
  * Main App Navigator with Stack
  */
-export const AppNavigator = () => {
+export const AppNavigator: React.FC<AppNavigatorProps> = ({ initialRouteName = 'MainTabs' }) => {
   return (
     <Stack.Navigator
+      initialRouteName={initialRouteName}
       screenOptions={{
         headerShown: false,
       }}
     >
+      {/* Onboarding flow */}
+      <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+
+      {/* Auth screens - P0 #51 */}
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+
       {/* Main tabs */}
       <Stack.Screen name="MainTabs" component={TabNavigator} />
 
@@ -226,6 +260,80 @@ export const AppNavigator = () => {
       <Stack.Screen
         name="TermsOfService"
         component={TermsOfServiceScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1E1E',
+          },
+          headerTintColor: '#FF9800',
+          headerTitle: '',
+          headerBackTitle: 'Settings',
+        }}
+      />
+
+      {/* Social screens - Phase 2A Week 16 */}
+      <Stack.Screen
+        name="UserSearch"
+        component={UserSearchScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      {/* Group screens - Phase 2A Week 17 */}
+      <Stack.Screen
+        name="GroupDetail"
+        component={GroupDetailScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1E1E',
+          },
+          headerTintColor: '#FF9800',
+          headerTitle: '',
+          headerBackTitle: 'Groups',
+        }}
+      />
+      <Stack.Screen
+        name="CreateGroup"
+        component={CreateGroupScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1E1E',
+          },
+          headerTintColor: '#FF9800',
+          headerTitle: '',
+          headerBackTitle: 'Back',
+        }}
+      />
+
+      {/* Challenge screens - Phase 2A Week 18 */}
+      <Stack.Screen
+        name="ChallengeDetail"
+        component={ChallengeDetailScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1E1E',
+          },
+          headerTintColor: '#FF9800',
+          headerTitle: '',
+          headerBackTitle: 'Group',
+        }}
+      />
+
+      {/* Referral screen - Phase 2A Week 18 */}
+      <Stack.Screen
+        name="Referral"
+        component={ReferralScreen}
         options={{
           headerShown: true,
           headerStyle: {

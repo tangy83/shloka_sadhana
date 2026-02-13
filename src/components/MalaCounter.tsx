@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Animated, AccessibilityInfo } from 'react-native';
 import { triggerMedium, triggerHeavy, triggerLight } from '@/utils/haptics';
 
 export interface MalaCounterProps {
@@ -15,6 +15,45 @@ export interface MalaCounterProps {
 }
 
 const BEADS_PER_MALA = 108;
+
+/**
+ * Counter button with focus indicator
+ */
+interface CounterButtonProps {
+  onPress: () => void;
+  label: string;
+  hint: string;
+  style: any;
+  children: React.ReactNode;
+}
+
+const CounterButton: React.FC<CounterButtonProps> = ({
+  onPress,
+  label,
+  hint,
+  style,
+  children,
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <Pressable
+      onPress={onPress}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      style={({ pressed }) => [
+        style,
+        pressed && styles.pressed,
+        isFocused && styles.focused,
+      ]}
+      accessibilityLabel={label}
+      accessibilityHint={hint}
+      accessibilityRole="button"
+    >
+      {children}
+    </Pressable>
+  );
+};
 
 /**
  * Mala counter component with increment/decrement/reset controls
@@ -86,6 +125,11 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
     if (newMalaCount > previousMalaCount) {
       triggerCelebration();
       triggerHeavy();
+      // Announce mala completion to screen readers
+      const malaText = newMalaCount === 1 ? 'first mala' : `mala number ${newMalaCount}`;
+      AccessibilityInfo.announceForAccessibility(
+        `Congratulations! You've completed your ${malaText} of 108 beads!`
+      );
     } else {
       // Medium haptic for regular increments
       triggerMedium();
@@ -187,39 +231,36 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
       {/* Control Buttons */}
       <View style={styles.controls}>
         {/* Decrement Button */}
-        <TouchableOpacity
+        <CounterButton
           style={[styles.button, styles.decrementButton]}
           onPress={decrement}
-          accessibilityLabel="Decrement count"
-          accessibilityHint="Removes one bead from your count"
-          accessibilityRole="button"
+          label="Decrement count"
+          hint="Removes one bead from your count"
         >
           <Text style={styles.buttonText}>−</Text>
-        </TouchableOpacity>
+        </CounterButton>
 
         {/* Increment Button */}
-        <TouchableOpacity
+        <CounterButton
           style={[styles.button, styles.incrementButton]}
           onPress={increment}
-          accessibilityLabel="Increment count"
-          accessibilityHint="Adds one bead to your count. You'll feel a vibration when you complete a mala of 108 beads"
-          accessibilityRole="button"
+          label="Increment count"
+          hint="Adds one bead to your count. You'll feel a vibration when you complete a mala of 108 beads"
         >
           <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
+        </CounterButton>
       </View>
 
       {/* Reset Button (only show when count > 0) */}
       {count > 0 && (
-        <TouchableOpacity
+        <CounterButton
           style={[styles.button, styles.resetButton]}
           onPress={reset}
-          accessibilityLabel="Reset count to zero"
-          accessibilityHint="Sets your bead count back to zero"
-          accessibilityRole="button"
+          label="Reset count to zero"
+          hint="Sets your bead count back to zero"
         >
           <Text style={styles.resetButtonText}>Reset</Text>
-        </TouchableOpacity>
+        </CounterButton>
       )}
     </View>
   );
@@ -291,5 +332,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
+  },
+  pressed: {
+    opacity: 0.7,
+    transform: [{ scale: 0.95 }],
+  },
+  focused: {
+    borderWidth: 3,
+    borderColor: '#FF9800', // Primary orange color
+    shadowColor: '#FF9800',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.6,
+    shadowRadius: 6,
+    elevation: 6,
   },
 });

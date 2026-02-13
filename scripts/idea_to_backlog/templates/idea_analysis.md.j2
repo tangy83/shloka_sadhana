@@ -1,0 +1,66 @@
+# Idea Analysis: {{ feature_name }}
+
+**Generated:** {{ timestamp }}
+**Original Idea:** {{ original_idea }}
+**Priority:** {{ priority }}
+**Effort:** {{ effort }}
+**Epic:** {{ epic }}
+
+---
+
+## Multi-Pass Refinement Summary
+
+{% for pass_num, pass_data in passes.items() %}
+### Pass {{ pass_num }}: {{ pass_data.name }}
+
+{% for persona_name, qa_pairs in pass_data.personas.items() %}
+**{{ persona_name }}:**
+{% for q, a in qa_pairs %}
+- Q: {{ q }}
+- A: {{ a }}
+{% endfor %}
+
+{% endfor %}
+{% endfor %}
+
+---
+
+## Synthesis & Recommendations
+
+### Feature Scope
+{{ synthesis.scope }}
+
+### User Value
+{{ synthesis.value }}
+
+### Technical Approach
+{{ synthesis.technical }}
+
+### Risks & Mitigations
+{% for risk in synthesis.risks -%}
+- {{ risk }}
+{% endfor %}
+
+### Success Metrics
+{% for metric in synthesis.metrics -%}
+- {{ metric }}
+{% endfor %}
+
+---
+
+## Generated Artifacts
+
+- **Backlog Entry**: `docs/BACKLOG.md` (appended)
+- **TDD Spec**: `docs/tdd_specs/{{ feature_slug }}_tdd_spec.md`
+- **Test Stub**: `{{ test_file_path }}` (template)
+
+---
+
+## Next Steps
+
+1. Review and approve backlog entry
+2. Follow TDD specification for implementation
+3. Begin RED phase: Write failing tests
+4. Implement GREEN phase: Make tests pass
+5. REFACTOR phase: Polish code quality
+6. Log any issues in ISSUES_LOG.md

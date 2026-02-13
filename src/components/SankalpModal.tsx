@@ -5,13 +5,13 @@
  * Modal for setting practice intention (Sankalp) before starting
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Modal,
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -29,6 +29,44 @@ export interface SankalpModalProps {
 }
 
 /**
+ * Modal button with focus indicator
+ */
+interface ModalButtonProps {
+  onPress: () => void;
+  label: string;
+  style: any;
+  textStyle: any;
+  children: string;
+}
+
+const ModalButton: React.FC<ModalButtonProps> = ({
+  onPress,
+  label,
+  style,
+  textStyle,
+  children,
+}): React.ReactElement => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <Pressable
+      onPress={onPress}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      style={({ pressed }) => [
+        style,
+        pressed && styles.pressed,
+        isFocused && styles.focused,
+      ]}
+      accessibilityLabel={label}
+      accessibilityRole="button"
+    >
+      <Text style={textStyle}>{children}</Text>
+    </Pressable>
+  );
+};
+
+/**
  * Modal for setting practice intention (Sankalp)
  * Allows user to enter their intention or skip
  */
@@ -42,10 +80,26 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
   const [showHelp, setShowHelp] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
 
+  // Ref for focus management
+  const inputRef = useRef<TextInput>(null);
+
   // Update text when initialValue changes
   useEffect(() => {
     setText(initialValue);
   }, [initialValue]);
+
+  // Focus management: Focus input when modal opens
+  useEffect(() => {
+    if (!visible || !inputRef.current) {
+      return;
+    }
+
+    // Small delay to ensure modal is fully rendered
+    const timer = setTimeout(() => {
+      inputRef.current?.focus();
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [visible]);
 
   // Check if first-time user and show help automatically
   useEffect(() => {
@@ -110,6 +164,8 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
       animationType="fade"
       transparent={true}
       onRequestClose={handleSkip}
+      accessible={true}
+      accessibilityViewIsModal={true}
     >
       <KeyboardAvoidingView
         style={styles.overlay}
@@ -117,7 +173,12 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
       >
         <View style={styles.modalContainer}>
           <ScrollView style={styles.modalScrollView} showsVerticalScrollIndicator={false}>
-            <View style={styles.modalContent}>
+            <View
+              style={styles.modalContent}
+              accessible={true}
+              accessibilityRole="alert"
+              accessibilityLabel="Set Your Sankalp dialog"
+            >
               {/* Title */}
               <Text style={styles.title}>Set Your Sankalp</Text>
 
@@ -127,14 +188,14 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
               </Text>
 
               {/* Help Button */}
-              <TouchableOpacity
+              <Pressable
                 style={styles.helpButton}
                 onPress={handleToggleHelp}
                 accessibilityLabel="Learn what a sankalp is"
                 accessibilityRole="button"
               >
                 <Text style={styles.helpButtonText}>What&apos;s a sankalp?</Text>
-              </TouchableOpacity>
+              </Pressable>
 
               {/* Help Text (Expandable) */}
               {showHelp && (
@@ -145,6 +206,7 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
 
               {/* Text Input */}
               <TextInput
+                ref={inputRef}
                 style={styles.input}
                 value={text}
                 onChangeText={setText}
@@ -158,14 +220,14 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
               />
 
               {/* Examples Button */}
-              <TouchableOpacity
+              <Pressable
                 style={styles.examplesButton}
                 onPress={handleToggleExamples}
                 accessibilityLabel="View example sankalpas"
                 accessibilityRole="button"
               >
                 <Text style={styles.examplesButtonText}>Need inspiration?</Text>
-              </TouchableOpacity>
+              </Pressable>
 
               {/* Examples (Expandable) */}
               {showExamples && (
@@ -174,7 +236,7 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
                     <View key={key} style={styles.categoryContainer}>
                       <Text style={styles.categoryName}>{category.name}</Text>
                       {category.examples.map((example, index) => (
-                        <TouchableOpacity
+                        <Pressable
                           key={index}
                           style={styles.exampleItem}
                           onPress={() => handleSelectExample(example)}
@@ -182,7 +244,7 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
                           accessibilityRole="button"
                         >
                           <Text style={styles.exampleText}>{example}</Text>
-                        </TouchableOpacity>
+                        </Pressable>
                       ))}
                     </View>
                   ))}
@@ -192,24 +254,24 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
               {/* Buttons */}
               <View style={styles.buttonContainer}>
               {/* Skip Button */}
-              <TouchableOpacity
+              <ModalButton
                 style={[styles.button, styles.skipButton]}
+                textStyle={styles.skipButtonText}
                 onPress={handleSkip}
-                accessibilityLabel="Skip setting intention"
-                accessibilityRole="button"
+                label="Skip setting intention"
               >
-                <Text style={styles.skipButtonText}>Skip</Text>
-              </TouchableOpacity>
+                Skip
+              </ModalButton>
 
               {/* Confirm Button */}
-              <TouchableOpacity
+              <ModalButton
                 style={[styles.button, styles.confirmButton]}
+                textStyle={styles.confirmButtonText}
                 onPress={handleConfirm}
-                accessibilityLabel="Start practice with intention"
-                accessibilityRole="button"
+                label="Start practice with intention"
               >
-                <Text style={styles.confirmButtonText}>Start Practice</Text>
-              </TouchableOpacity>
+                Start Practice
+              </ModalButton>
             </View>
           </View>
           </ScrollView>
@@ -358,5 +420,17 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 8,
     textAlign: 'center',
+  },
+  pressed: {
+    opacity: 0.7,
+  },
+  focused: {
+    borderWidth: 2,
+    borderColor: '#FF9800',
+    shadowColor: '#FF9800',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 4,
   },
 });

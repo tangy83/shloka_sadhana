@@ -1,41 +1,84 @@
 /**
  * RecommendedShlokaCard Component
- * Shloka Sadhana - V3 Feature #6
+ * Shloka Sadhana - V3 Feature #6 (Enhanced Phase 2A Week 15)
  *
- * Displays intelligently recommended shloka based on day/user history
+ * Displays ML-powered recommended shloka based on 5-factor algorithm
+ * - Time of Day (30%)
+ * - Practice History (25%)
+ * - Difficulty Match (20%)
+ * - Deity Preference (15%)
+ * - Contextual (Ekadashi/Festival) (10%)
  */
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getDailyRecommendation, ShlokaRecommendation } from '@/utils/shlokaRecommendation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { mlRecommendationService, ShlokaScore } from '@/services/mlRecommendationService';
+import { useUserStore } from '@/stores/useUserStore';
 import { getTodayISO } from '@/utils/dateUtils';
+import { analyticsService } from '@/services/analytics';
+import { AnalyticsEvents } from '@/constants/AnalyticsEvents';
+import type { RootStackParamList } from '@/types/navigation';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 /**
- * RecommendedShlokaCard component - displays daily shloka recommendation
+ * RecommendedShlokaCard component - displays ML-powered recommendation
  */
 export const RecommendedShlokaCard: React.FC = () => {
-  const navigation = useNavigation();
-  const [recommendation, setRecommendation] = useState<ShlokaRecommendation | null>(null);
+  const navigation = useNavigation<NavigationProp>();
+  const [recommendation, setRecommendation] = useState<ShlokaScore | null>(null);
+
+  // Get user context from store
+  const {
+    preferences,
+    recentlyPracticedShlokas,
+    totalPractices,
+  } = useUserStore();
 
   useEffect(() => {
     try {
+      const currentHour = new Date().getHours();
       const today = getTodayISO();
-      const rec = getDailyRecommendation(today);
+
+      // Build recommendation context
+      const context = {
+        experienceLevel: preferences.experienceLevel,
+        preferredDeity: preferences.preferredDeity,
+        dailyTime: preferences.dailyTime,
+        recentlyPracticed: recentlyPracticedShlokas.map((s) => s.id),
+        totalPractices,
+        currentHour,
+        currentDay: today,
+        isEkadashi: false, // TODO: Calculate from calendar utils
+        isFestival: false, // TODO: Calculate from calendar utils
+      };
+
+      // Get ML recommendation
+      const rec = mlRecommendationService.getRecommendation(context);
       setRecommendation(rec);
     } catch (error) {
       console.error('[RecommendedShlokaCard] Failed to load recommendation:', error);
       // Graceful degradation - component won't render
     }
-  }, []);
+  }, [preferences, recentlyPracticedShlokas, totalPractices]);
 
   if (!recommendation) {
     return null;
   }
 
   const handlePress = () => {
+    // Track recommendation acceptance
+    analyticsService.trackEvent(AnalyticsEvents.SHLOKA_SELECTED, {
+      shloka_id: recommendation.shloka.id,
+      shloka_name: recommendation.shloka.name,
+      source: 'ml_recommendation',
+      recommendation_score: recommendation.totalScore.toFixed(2),
+      recommendation_reason: recommendation.reason,
+    });
+
     // Navigate to shloka detail screen
-    // @ts-expect-error - Navigation types not fully defined
     navigation.navigate('ShlokaDetail', { shlokaId: recommendation.shloka.id });
   };
 

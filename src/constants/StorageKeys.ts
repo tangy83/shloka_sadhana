@@ -23,6 +23,9 @@ export const STORAGE_KEYS = {
   SANKALP_EXPLANATION_SEEN: '@shloka_sadhana:sankalp_explanation_seen',
   STREAK_RECOVERY_LAST_SHOWN: '@shloka_sadhana:streak_recovery_last_shown',
 
+  // Phase 2A Week 18: Referral program
+  PENDING_REFERRAL_CODE: '@shloka_sadhana:pending_referral_code',
+
   // Wisdom teachings unlock status
   WISDOM_UNLOCKED: '@shloka_sadhana:wisdom_unlocked',
 

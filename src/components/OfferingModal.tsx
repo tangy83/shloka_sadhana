@@ -5,13 +5,13 @@
  * Modal for dedicating practice results (Offering) after completion
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Modal,
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -25,6 +25,44 @@ export interface OfferingModalProps {
   onConfirm: (offering: string, notes: string) => void;
   onSkip: () => void;
 }
+
+/**
+ * Modal button with focus indicator
+ */
+interface ModalButtonProps {
+  onPress: () => void;
+  label: string;
+  style: any;
+  textStyle: any;
+  children: string;
+}
+
+const ModalButton: React.FC<ModalButtonProps> = ({
+  onPress,
+  label,
+  style,
+  textStyle,
+  children,
+}): React.ReactElement => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <Pressable
+      onPress={onPress}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      style={({ pressed }) => [
+        style,
+        pressed && styles.pressed,
+        isFocused && styles.focused,
+      ]}
+      accessibilityLabel={label}
+      accessibilityRole="button"
+    >
+      <Text style={textStyle}>{children}</Text>
+    </Pressable>
+  );
+};
 
 /**
  * Modal for dedicating practice results (Offering)
@@ -41,6 +79,9 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
   const [text, setText] = useState(initialValue);
   const [notes, setNotes] = useState(initialNotesValue);
 
+  // Ref for focus management
+  const offeringInputRef = useRef<TextInput>(null);
+
   // Update text when initialValue changes
   useEffect(() => {
     setText(initialValue);
@@ -50,6 +91,19 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
   useEffect(() => {
     setNotes(initialNotesValue);
   }, [initialNotesValue]);
+
+  // Focus management: Focus offering input when modal opens
+  useEffect(() => {
+    if (!visible || !offeringInputRef.current) {
+      return;
+    }
+
+    // Small delay to ensure modal is fully rendered
+    const timer = setTimeout(() => {
+      offeringInputRef.current?.focus();
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [visible]);
 
   /**
    * Handle confirm button press
@@ -71,13 +125,20 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
       animationType="fade"
       transparent={true}
       onRequestClose={handleSkip}
+      accessible={true}
+      accessibilityViewIsModal={true}
     >
       <KeyboardAvoidingView
         style={styles.overlay}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
+          <View
+            style={styles.modalContent}
+            accessible={true}
+            accessibilityRole="alert"
+            accessibilityLabel="Dedicate Your Practice dialog"
+          >
             {/* Title */}
             <Text style={styles.title}>Dedicate Your Practice</Text>
 
@@ -95,6 +156,7 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
 
             {/* Offering Text Input */}
             <TextInput
+              ref={offeringInputRef}
               style={styles.input}
               value={text}
               onChangeText={setText}
@@ -124,24 +186,24 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
             {/* Buttons */}
             <View style={styles.buttonContainer}>
               {/* Skip Button */}
-              <TouchableOpacity
+              <ModalButton
                 style={[styles.button, styles.skipButton]}
+                textStyle={styles.skipButtonText}
                 onPress={handleSkip}
-                accessibilityLabel="Skip dedication"
-                accessibilityRole="button"
+                label="Skip dedication"
               >
-                <Text style={styles.skipButtonText}>Skip</Text>
-              </TouchableOpacity>
+                Skip
+              </ModalButton>
 
               {/* Confirm Button */}
-              <TouchableOpacity
+              <ModalButton
                 style={[styles.button, styles.confirmButton]}
+                textStyle={styles.confirmButtonText}
                 onPress={handleConfirm}
-                accessibilityLabel="Complete practice with offering"
-                accessibilityRole="button"
+                label="Complete practice with offering"
               >
-                <Text style={styles.confirmButtonText}>Complete</Text>
-              </TouchableOpacity>
+                Complete
+              </ModalButton>
             </View>
           </View>
         </View>
@@ -229,5 +291,17 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 8,
     textAlign: 'center',
+  },
+  pressed: {
+    opacity: 0.7,
+  },
+  focused: {
+    borderWidth: 2,
+    borderColor: '#FF9800',
+    shadowColor: '#FF9800',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 4,
   },
 });

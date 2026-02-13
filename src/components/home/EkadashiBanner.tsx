@@ -10,9 +10,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { checkIfEkadashi, getEkadashiByDate, getNextEkadashi } from '@/utils/ekadashiCalendar';
 import { getTodayISO } from '@/utils/dateUtils';
 import { Ekadashi } from '@/utils/ekadashiCalendar';
+import type { RootStackParamList } from '@/types/navigation';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 /**
  * Calculate days between two ISO dates
@@ -37,7 +41,7 @@ function formatDate(dateStr: string): string {
  * EkadashiBanner component - conditional banner for Ekadashi
  */
 export const EkadashiBanner: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const [ekadashiData, setEkadashiData] = useState<{
     ekadashi: Ekadashi;
     isToday: boolean;
@@ -88,7 +92,6 @@ export const EkadashiBanner: React.FC = () => {
 
   const handlePress = () => {
     // Navigate to Ekadashi detail screen
-    // @ts-expect-error - Navigation types not fully defined
     navigation.navigate('EkadashiDetail', { date: ekadashi.date });
   };
 

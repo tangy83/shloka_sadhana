@@ -3,6 +3,7 @@
  * Shloka Sadhana - Settings Configuration
  *
  * Settings screen for app configuration and preferences
+ * Now uses Zustand stores for state management
  */
 
 import React, { useState, useEffect } from 'react';
@@ -16,66 +17,64 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import DateTimePicker from '@react-native-community/datetimepicker';
 // import Slider from '@react-native-community/slider'; // Hidden for now
-import { getItem, setItem, clearAll } from '@/utils/storage';
+import { clearAll } from '@/utils/storage';
 import {
   requestNotificationPermissions,
   scheduleDailyReminder,
   cancelAllNotifications,
 } from '@/utils/notifications';
+import { useSettingsStore } from '@/stores/useSettingsStore';
 // import { useFontSize } from '@/hooks/useFontSize'; // Hidden for now
 import Constants from 'expo-constants';
+import { analyticsService } from '@/services/analytics';
+import { AnalyticsEvents, AnalyticsProperties } from '@/constants/AnalyticsEvents';
+import { useAuth } from '@/contexts/AuthContext';
+import type { RootStackParamList } from '@/types/navigation';
 
-interface NotificationSettings {
-  enabled: boolean;
-  hour: number;
-  minute: number;
-}
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 /**
  * Settings screen - app configuration
  */
 export const SettingsScreen: React.FC = () => {
-  const navigation = useNavigation();
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [notificationTime, setNotificationTime] = useState({ hour: 7, minute: 0 });
-  // const { fontSize, setFontSize } = useFontSize(); // Hidden for now
+  const navigation = useNavigation<NavigationProp>();
+  const { user, signOut } = useAuth();
+
+  // Settings store - replaces useState for persisted settings
+  const {
+    notificationsEnabled,
+    notificationTime: notificationTimeStr,
+    setNotificationsEnabled,
+    setNotificationTime,
+    loadSettings: loadSettingsFromStore,
+  } = useSettingsStore();
+
+  // Parse notification time from HH:MM string
+  const notificationTime = React.useMemo(() => {
+    const [hour, minute] = notificationTimeStr.split(':').map(Number);
+    return { hour: hour || 7, minute: minute || 0 };
+  }, [notificationTimeStr]);
+
+  // Local UI state
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [tempTime, setTempTime] = useState({ hour: 7, minute: 0 });
 
+  // Track screen view when Settings screen is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      analyticsService.trackScreen('Settings');
+    }, [])
+  );
+
   // Load settings on mount
   useEffect(() => {
-    loadSettings();
-  }, []);
+    loadSettingsFromStore();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /**
-   * Load notification settings from storage
-   */
-  const loadSettings = async () => {
-    try {
-      const settings = await getItem<NotificationSettings>('notification_settings');
-      if (settings) {
-        setNotificationsEnabled(settings.enabled);
-        setNotificationTime({ hour: settings.hour, minute: settings.minute });
-      }
-    } catch (error) {
-      console.error('[Settings] Error loading settings:', error);
-    }
-  };
-
-  /**
-   * Save notification settings to storage
-   */
-  const saveSettings = async (enabled: boolean, hour: number, minute: number) => {
-    try {
-      const settings: NotificationSettings = { enabled, hour, minute };
-      await setItem('notification_settings', settings);
-    } catch (error) {
-      console.error('[Settings] Error saving settings:', error);
-    }
-  };
 
   /**
    * Toggle notifications on/off
@@ -94,13 +93,19 @@ export const SettingsScreen: React.FC = () => {
 
       // Schedule notification
       await scheduleDailyReminder(notificationTime.hour, notificationTime.minute);
-      setNotificationsEnabled(true);
-      await saveSettings(true, notificationTime.hour, notificationTime.minute);
+      await setNotificationsEnabled(true);
+
+      // Track notification enabled
+      analyticsService.trackEvent(AnalyticsEvents.NOTIFICATION_ENABLED, {
+        [AnalyticsProperties.NOTIFICATION_TIME]: `${notificationTime.hour}:${String(notificationTime.minute).padStart(2, '0')}`,
+      });
     } else {
       // Cancel all notifications
       await cancelAllNotifications();
-      setNotificationsEnabled(false);
-      await saveSettings(false, notificationTime.hour, notificationTime.minute);
+      await setNotificationsEnabled(false);
+
+      // Track notification disabled
+      analyticsService.trackEvent(AnalyticsEvents.NOTIFICATION_DISABLED);
     }
   };
 
@@ -121,9 +126,12 @@ export const SettingsScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
+              // Track data cleared before clearing (so event is captured)
+              analyticsService.trackEvent(AnalyticsEvents.DATA_CLEARED);
+
               await clearAll();
-              setNotificationsEnabled(false);
-              setNotificationTime({ hour: 7, minute: 0 });
+              await setNotificationsEnabled(false);
+              await setNotificationTime('07:00');
               Alert.alert('Success', 'All data has been cleared.');
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error) {
@@ -136,11 +144,45 @@ export const SettingsScreen: React.FC = () => {
   };
 
   /**
-   * Navigate to screen
+   * Navigate to screen (type-safe)
    */
-  const navigateToScreen = (screenName: string) => {
-    // @ts-expect-error - Navigation types not fully defined
+  const navigateToScreen = (screenName: 'About' | 'PrivacyPolicy' | 'TermsOfService') => {
     navigation.navigate(screenName);
+  };
+
+  /**
+   * Handle sign out - P0 #51
+   */
+  const handleSignOut = async () => {
+    Alert.alert(
+      'Sign Out',
+      'Are you sure you want to sign out?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Sign Out',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await signOut();
+              Alert.alert('Signed Out', 'You have been successfully signed out.');
+            } catch (error: any) {
+              Alert.alert('Error', 'Failed to sign out. Please try again.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  /**
+   * Navigate to Login screen - P0 #51
+   */
+  const handleSignIn = () => {
+    navigation.navigate('Login');
   };
 
   /**
@@ -168,13 +210,19 @@ export const SettingsScreen: React.FC = () => {
    * Save selected time and close modal
    */
   const handleSaveTime = async () => {
-    setNotificationTime(tempTime);
-    await saveSettings(notificationsEnabled, tempTime.hour, tempTime.minute);
+    // Format time as HH:MM
+    const timeStr = `${String(tempTime.hour).padStart(2, '0')}:${String(tempTime.minute).padStart(2, '0')}`;
+    await setNotificationTime(timeStr);
 
     // If notifications are enabled, reschedule with new time
     if (notificationsEnabled) {
       await scheduleDailyReminder(tempTime.hour, tempTime.minute);
     }
+
+    // Track notification time changed
+    analyticsService.trackEvent(AnalyticsEvents.NOTIFICATION_TIME_CHANGED, {
+      [AnalyticsProperties.NOTIFICATION_TIME]: timeStr,
+    });
 
     setShowTimePicker(false);
   };
@@ -284,6 +332,26 @@ export const SettingsScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
 
+        {/* Community Section - Phase 2A Week 18 */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Community</Text>
+
+          <TouchableOpacity
+            style={styles.settingRow}
+            onPress={() => navigation.navigate('Referral')}
+            accessibilityRole="button"
+            accessibilityLabel="Invite Friends"
+          >
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingLabel}>🎁 Invite Friends</Text>
+              <Text style={styles.settingDescription}>
+                Share your practice journey and earn rewards
+              </Text>
+            </View>
+            <Text style={styles.arrow}>›</Text>
+          </TouchableOpacity>
+        </View>
+
         {/* App Info Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
@@ -338,6 +406,66 @@ export const SettingsScreen: React.FC = () => {
             </View>
             <Text style={styles.arrow}>›</Text>
           </TouchableOpacity>
+        </View>
+
+        {/* Account Section - P0 #51 */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Account</Text>
+
+          {user ? (
+            <>
+              {/* Signed in - show user info and sign out */}
+              <View style={styles.settingRow}>
+                <View style={styles.settingInfo}>
+                  <Text style={styles.settingLabel}>Signed in as</Text>
+                  <Text style={styles.settingDescription}>
+                    {user.email || user.displayName || 'User'}
+                  </Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                style={[styles.settingRow, styles.dangerRow]}
+                onPress={handleSignOut}
+                accessibilityRole="button"
+                accessibilityLabel="Sign out of account"
+              >
+                <View style={styles.settingInfo}>
+                  <Text style={[styles.settingLabel, styles.dangerText]}>Sign Out</Text>
+                  <Text style={styles.settingDescription}>
+                    Sign out of your account
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              {/* Not signed in - show sign in button */}
+              <View style={styles.settingRow}>
+                <View style={styles.settingInfo}>
+                  <Text style={styles.settingLabel}>Not signed in</Text>
+                  <Text style={styles.settingDescription}>
+                    Sign in to back up your data and sync across devices
+                  </Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                style={[styles.settingRow, styles.primaryRow]}
+                onPress={handleSignIn}
+                accessibilityRole="button"
+                accessibilityLabel="Sign in to account"
+              >
+                <View style={styles.settingInfo}>
+                  <Text style={[styles.settingLabel, styles.primaryText]}>Sign In</Text>
+                  <Text style={styles.settingDescription}>
+                    Back up your progress and sync
+                  </Text>
+                </View>
+                <Text style={[styles.arrow, styles.primaryText]}>›</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
 
         {/* Data Management Section */}
@@ -434,6 +562,13 @@ const styles = StyleSheet.create({
   },
   dangerText: {
     color: '#F44336',
+  },
+  primaryRow: {
+    borderColor: '#FF9800',
+    borderWidth: 1,
+  },
+  primaryText: {
+    color: '#FF9800',
   },
   header: {
     borderBottomColor: '#2A2A2A',

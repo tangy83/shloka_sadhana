@@ -1,0 +1,51 @@
+### {{ feature_name }} (V3 - {{ priority }})
+
+**Status:** Generated from idea_to_backlog.py on {{ date }}
+**Epic:** {{ epic }}
+**Priority:** {{ priority }}
+**Estimated Effort:** {{ effort }}
+
+#### What's Already Done:
+- ✅ Idea refined through {{ num_personas }} persona perspectives
+- ✅ TDD specification generated
+
+#### What Needs to Be Done:
+{% for step in implementation_steps -%}
+{{ loop.index }}. {{ step }}
+{% endfor %}
+
+#### Acceptance Criteria:
+{% for criterion in acceptance_criteria -%}
+- [ ] {{ criterion }}
+{% endfor %}
+
+#### Technical Considerations:
+{% for note in technical_notes -%}
+- {{ note }}
+{% endfor %}
+
+#### Persona Insights:
+{% for persona_name, insights in persona_insights.items() %}
+**{{ persona_name }}**: {{ insights }}
+{% endfor %}
+
+#### Files to Modify/Create:
+{% for file in files_to_modify -%}
+- `{{ file.path }}` - {{ file.purpose }}
+{% endfor %}
+
+#### Dependencies:
+{% if dependencies -%}
+{% for dep in dependencies -%}
+- {{ dep }}
+{% endfor %}
+{% else -%}
+- None identified
+{% endif %}
+
+#### Test Coverage Requirements:
+- Component tests: 80%+ (rendering, interactions, states)
+- Logic tests: 95%+ (state management, data persistence)
+- Minimum overall: 75%
+
+---

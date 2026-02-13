@@ -5,13 +5,53 @@
  * Displays timer and control buttons for practice sessions
  */
 
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTimer } from '@/hooks/useTimer';
 
 export interface TimerProps {
   onComplete?: (elapsedSeconds: number) => void;
 }
+
+/**
+ * Timer button with focus indicator
+ */
+interface TimerButtonProps {
+  onPress: () => void;
+  label: string;
+  style: any;
+  disabled?: boolean;
+  children: React.ReactNode;
+}
+
+const TimerButton: React.FC<TimerButtonProps> = ({
+  onPress,
+  label,
+  style,
+  disabled = false,
+  children,
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <Pressable
+      onPress={onPress}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      disabled={disabled}
+      style={({ pressed }) => [
+        style,
+        pressed && !disabled && styles.pressed,
+        isFocused && !disabled && styles.focused,
+      ]}
+      accessibilityLabel={label}
+      accessibilityRole="button"
+      accessibilityState={{ disabled }}
+    >
+      {children}
+    </Pressable>
+  );
+};
 
 /**
  * Timer component with start, pause, resume, reset, and complete controls
@@ -52,50 +92,46 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
     switch (status) {
       case 'idle':
         return (
-          <TouchableOpacity
+          <TimerButton
             style={[styles.button, styles.primaryButton]}
             onPress={start}
-            accessibilityLabel="Start timer"
-            accessibilityRole="button"
+            label="Start timer"
           >
             <Text style={styles.buttonText}>Start</Text>
-          </TouchableOpacity>
+          </TimerButton>
         );
 
       case 'running':
         return (
-          <TouchableOpacity
+          <TimerButton
             style={[styles.button, styles.secondaryButton]}
             onPress={pause}
-            accessibilityLabel="Pause timer"
-            accessibilityRole="button"
+            label="Pause timer"
           >
             <Text style={styles.buttonText}>Pause</Text>
-          </TouchableOpacity>
+          </TimerButton>
         );
 
       case 'paused':
         return (
-          <TouchableOpacity
+          <TimerButton
             style={[styles.button, styles.primaryButton]}
             onPress={resume}
-            accessibilityLabel="Resume timer"
-            accessibilityRole="button"
+            label="Resume timer"
           >
             <Text style={styles.buttonText}>Resume</Text>
-          </TouchableOpacity>
+          </TimerButton>
         );
 
       case 'completed':
         return (
-          <TouchableOpacity
+          <TimerButton
             style={[styles.button, styles.primaryButton]}
             onPress={reset}
-            accessibilityLabel="Start new session"
-            accessibilityRole="button"
+            label="Start new session"
           >
             <Text style={styles.buttonText}>New Session</Text>
-          </TouchableOpacity>
+          </TimerButton>
         );
 
       default:
@@ -113,25 +149,22 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
 
     return (
       <View style={styles.secondaryActions}>
-        <TouchableOpacity
+        <TimerButton
           style={[styles.button, styles.tertiaryButton]}
           onPress={reset}
-          accessibilityLabel="Reset timer"
-          accessibilityRole="button"
+          label="Reset timer"
         >
           <Text style={styles.buttonText}>Reset</Text>
-        </TouchableOpacity>
+        </TimerButton>
 
-        <TouchableOpacity
+        <TimerButton
           style={[
             styles.button,
             canComplete ? styles.completeButton : styles.disabledButton,
           ]}
           onPress={complete}
           disabled={!canComplete}
-          accessibilityLabel="Complete practice session"
-          accessibilityRole="button"
-          accessibilityState={{ disabled: !canComplete }}
+          label="Complete practice session"
         >
           <Text
             style={[
@@ -141,7 +174,7 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
           >
             Complete
           </Text>
-        </TouchableOpacity>
+        </TimerButton>
       </View>
     );
   };
@@ -227,5 +260,18 @@ const styles = StyleSheet.create({
     fontVariant: ['tabular-nums'],
     fontWeight: '700',
     marginBottom: 32,
+  },
+  pressed: {
+    opacity: 0.7,
+    transform: [{ scale: 0.95 }],
+  },
+  focused: {
+    borderWidth: 3,
+    borderColor: '#FF9800', // Primary orange color
+    shadowColor: '#FF9800',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.6,
+    shadowRadius: 6,
+    elevation: 6,
   },
 });

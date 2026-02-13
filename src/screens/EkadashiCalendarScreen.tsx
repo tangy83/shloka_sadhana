@@ -8,8 +8,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getUpcomingEkadashis, getAllEkadashis, Ekadashi } from '@/utils/ekadashiCalendar';
 import { getTodayISO } from '@/utils/dateUtils';
+import type { RootStackParamList } from '@/types/navigation';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 type TabType = 'upcoming' | 'all';
 
@@ -54,7 +58,7 @@ function getRelativeDate(isoDate: string, today: string): string {
  * EkadashiCalendarScreen - Browse Ekadashi dates
  */
 export const EkadashiCalendarScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const [activeTab, setActiveTab] = useState<TabType>('upcoming');
   const today = getTodayISO();
 
@@ -68,7 +72,6 @@ export const EkadashiCalendarScreen: React.FC = () => {
    * Navigate to Ekadashi detail screen
    */
   const handleEkadashiPress = (ekadashi: Ekadashi) => {
-    // @ts-expect-error - Navigation types not fully defined
     navigation.navigate('EkadashiDetail', { date: ekadashi.date });
   };
 
