@@ -311,8 +311,8 @@ class MLRecommendationService {
 
     // Ekadashi boost for Vishnu-related shlokas
     if (context.isEkadashi) {
-      const vishnu Deities = ['Vishnu', 'Krishna', 'Rama', 'Hanuman', 'Lakshmi'];
-      if (vishnu Deities.includes(shloka.deity)) {
+      const vishnuDeities = ['Vishnu', 'Krishna', 'Rama', 'Hanuman', 'Lakshmi'];
+      if (vishnuDeities.includes(shloka.deity)) {
         score += 0.4;
       }
     }

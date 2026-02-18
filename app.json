@@ -48,7 +48,7 @@
       "bundler": "metro"
     },
     "plugins": [
-      "sentry-expo",
+      "@sentry/react-native",
       [
         "expo-notifications",
         {

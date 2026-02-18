@@ -1,0 +1,52 @@
+appId: com.tanujsaluja.shlokasadhna
+---
+# Smoke Test: App launches and all main tabs are accessible
+# Run with: maestro test e2e/01-smoke-test.yaml
+
+- launchApp:
+    clearState: true
+
+# Wait for app to load and home tab to appear
+- assertVisible:
+    text: "Shloka Sadhana"
+    timeout: 10000
+
+# Verify Home tab is active by default
+- assertVisible:
+    text: "Home"
+
+# Navigate to Practice tab
+- tapOn:
+    text: "Practice"
+- assertVisible:
+    text: "Start Practice"
+
+# Navigate to Library tab
+- tapOn:
+    text: "Library"
+- assertVisible:
+    text: "Shloka Library"
+
+# Navigate to Friends tab
+- tapOn:
+    text: "Friends"
+- assertVisible:
+    text: "Friends"
+
+# Navigate to Satsang tab
+- tapOn:
+    text: "Satsang"
+- assertVisible:
+    text: "Satsang"
+
+# Navigate to Settings tab
+- tapOn:
+    text: "Settings"
+- assertVisible:
+    text: "Settings"
+
+# Return to Home
+- tapOn:
+    text: "Home"
+- assertVisible:
+    text: "Shloka Sadhana"

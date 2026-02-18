@@ -6,7 +6,7 @@
  * Only enabled in production builds
  */
 
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '@sentry/react-native';
 import Constants from 'expo-constants';
 
 // Type aliases for Sentry types
@@ -71,7 +71,7 @@ export const logError = (
     return;
   }
 
-  Sentry.Native.captureException(error, {
+  Sentry.captureException(error, {
     level: context?.level || 'error',
     tags: context?.tags,
     extra: context?.extra,
@@ -91,7 +91,7 @@ export const logMessage = (
     return;
   }
 
-  Sentry.Native.captureMessage(message, {
+  Sentry.captureMessage(message, {
     level,
     extra,
   });
@@ -107,7 +107,7 @@ export const setUserContext = (userId: string, email?: string): void => {
     return;
   }
 
-  Sentry.Native.setUser({
+  Sentry.setUser({
     id: userId,
     email,
   });
@@ -121,7 +121,7 @@ export const clearUserContext = (): void => {
     return;
   }
 
-  Sentry.Native.setUser(null);
+  Sentry.setUser(null);
 };
 
 /**
@@ -139,7 +139,7 @@ export const addBreadcrumb = (
     return;
   }
 
-  Sentry.Native.addBreadcrumb({
+  Sentry.addBreadcrumb({
     message,
     category,
     level,
@@ -155,7 +155,7 @@ export const setTag = (key: string, value: string): void => {
     return;
   }
 
-  Sentry.Native.setTag(key, value);
+  Sentry.setTag(key, value);
 };
 
 /**
@@ -166,7 +166,7 @@ export const setContext = (key: string, context: Record<string, unknown>): void 
     return;
   }
 
-  Sentry.Native.setContext(key, context);
+  Sentry.setContext(key, context);
 };
 
 // Export Sentry instance for advanced usage

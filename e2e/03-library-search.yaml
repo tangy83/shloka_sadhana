@@ -1,0 +1,49 @@
+appId: com.tanujsaluja.shlokasadhna
+---
+# Library Search: Browse and search for shlokas
+# Run with: maestro test e2e/03-library-search.yaml
+
+- launchApp:
+    clearState: false
+
+# Navigate to Library tab
+- tapOn:
+    text: "Library"
+
+# Verify library screen loads
+- assertVisible:
+    text: "Shloka Library"
+
+# Search for Gayatri
+- tapOn:
+    id: "library-search-input"
+- inputText: "Gayatri"
+
+# Verify Gayatri Mantra appears in results
+- assertVisible:
+    text: "Gayatri Mantra"
+
+# Clear search
+- clearInputById: "library-search-input"
+
+# Browse by scrolling
+- scroll
+
+# Search for Hanuman
+- inputText: "Hanuman"
+- assertVisible:
+    text: "Hanuman"
+
+# Tap on a result to open detail screen
+- tapOn:
+    text: "Hanuman Chalisa"
+
+# Verify detail screen opens
+- assertVisible:
+    text: "Hanuman"
+
+# Go back to library
+- tapOn:
+    id: "back-button"
+- assertVisible:
+    text: "Shloka Library"

@@ -149,7 +149,7 @@ class FeedService {
           boosts.push({
             condition: 'quest_incomplete',
             score: 30,
-            reason: 'You haven't completed your quest today',
+            reason: "You haven't completed your quest today",
           });
         }
 

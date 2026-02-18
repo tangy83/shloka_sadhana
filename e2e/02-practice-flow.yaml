@@ -1,0 +1,54 @@
+appId: com.tanujsaluja.shlokasadhna
+---
+# Practice Flow: Start practice, interact with timer and mala counter
+# Run with: maestro test e2e/02-practice-flow.yaml
+
+- launchApp:
+    clearState: false
+
+# Navigate to Practice tab
+- tapOn:
+    text: "Practice"
+
+# Start a practice session
+- tapOn:
+    text: "Start Practice"
+
+# Verify timer is visible and running
+- assertVisible:
+    text: "00:00"
+
+# Wait a moment for timer to start ticking
+- waitForAnimationToEnd
+
+# Tap the mala counter button 3 times
+- tapOn:
+    id: "mala-increment-button"
+- tapOn:
+    id: "mala-increment-button"
+- tapOn:
+    id: "mala-increment-button"
+
+# Verify mala count is 3
+- assertVisible:
+    text: "3"
+
+# Decrement once
+- tapOn:
+    id: "mala-decrement-button"
+- assertVisible:
+    text: "2"
+
+# Pause the timer
+- tapOn:
+    text: "Pause"
+- assertVisible:
+    text: "Resume"
+
+# Resume the timer
+- tapOn:
+    text: "Resume"
+
+# Verify session is still active (timer visible)
+- assertVisible:
+    id: "practice-timer"

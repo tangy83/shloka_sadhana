@@ -1,0 +1,47 @@
+appId: com.tanujsaluja.shlokasadhna
+---
+# Settings Navigation: Verify settings screens open and back navigation works
+# Run with: maestro test e2e/04-settings-navigation.yaml
+
+- launchApp:
+    clearState: false
+
+# Navigate to Settings tab
+- tapOn:
+    text: "Settings"
+- assertVisible:
+    text: "Settings"
+
+# Open About screen
+- tapOn:
+    text: "About"
+- assertVisible:
+    text: "About Shloka Sadhana"
+- tapOn:
+    id: "back-button"
+- assertVisible:
+    text: "Settings"
+
+# Open Privacy Policy screen
+- tapOn:
+    text: "Privacy Policy"
+- assertVisible:
+    text: "Privacy Policy"
+- tapOn:
+    id: "back-button"
+- assertVisible:
+    text: "Settings"
+
+# Open Terms of Service screen
+- tapOn:
+    text: "Terms of Service"
+- assertVisible:
+    text: "Terms of Service"
+- tapOn:
+    id: "back-button"
+- assertVisible:
+    text: "Settings"
+
+# Test notification toggle (if visible)
+- assertVisible:
+    text: "Notifications"
