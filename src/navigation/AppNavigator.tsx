@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from '@/screens/HomeScreen';
@@ -30,6 +31,12 @@ const Stack = createNativeStackNavigator();
  * Bottom Tab Navigator
  */
 const TabNavigator = () => {
+  const insets = useSafeAreaInsets();
+  // Reserve 60pt for icons/labels + full bottom safe area inset so the
+  // bar background reaches the screen edge and icons sit comfortably
+  // above the home indicator with ~8pt breathing room.
+  const tabBarHeight = 60 + insets.bottom;
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -38,8 +45,8 @@ const TabNavigator = () => {
           backgroundColor: '#1E1E1E',
           borderTopColor: '#2A2A2A',
           borderTopWidth: 1,
-          height: 60,
-          paddingBottom: 8,
+          height: tabBarHeight,
+          paddingBottom: insets.bottom + 8,
           paddingTop: 8,
         },
         tabBarActiveTintColor: '#FF9800',
