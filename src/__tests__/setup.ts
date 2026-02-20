@@ -56,15 +56,6 @@ jest.mock('expo-av', () => ({
   },
 }));
 
-// Mock Sentry (for production error tracking)
-jest.mock('sentry-expo', () => ({
-  init: jest.fn(),
-  Native: {
-    captureException: jest.fn(),
-    captureMessage: jest.fn(),
-  },
-}));
-
 // Mock React Navigation
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({
