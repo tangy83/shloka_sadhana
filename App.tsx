@@ -9,6 +9,7 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppNavigator } from '@/navigation/AppNavigator';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import { useAppUpdates } from '@/hooks/useAppUpdates';
 
 export default function App() {
@@ -23,12 +24,14 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <View style={styles.container}>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
-        <StatusBar style="light" />
-      </View>
+      <ThemeProvider>
+        <View style={styles.container}>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+          <StatusBar style="light" />
+        </View>
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }

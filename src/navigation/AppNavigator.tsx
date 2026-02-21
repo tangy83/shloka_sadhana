@@ -43,15 +43,15 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#1E1E1E',
-          borderTopColor: '#2A2A2A',
+          backgroundColor: '#1A0A2E',  // Deep Indigo
+          borderTopColor: '#3D2560',
           borderTopWidth: 1,
           height: tabBarHeight,
           paddingBottom: insets.bottom + 8,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: '#FF9800',
-        tabBarInactiveTintColor: '#B0B0B0', // Improved contrast for accessibility (4.5:1)
+        tabBarActiveTintColor: '#FF6B35',   // Saffron
+        tabBarInactiveTintColor: '#C9A96E', // Warm amber-gold
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600',

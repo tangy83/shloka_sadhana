@@ -28,6 +28,8 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
   const [count, setCount] = useState(initialCount);
   const [showCelebration, setShowCelebration] = useState(false);
   const [celebrationAnim] = useState(new Animated.Value(0));
+  // Gentle meditative pulse on every tap
+  const [pulseAnim] = useState(new Animated.Value(1));
 
   /**
    * Calculate number of completed malas
@@ -72,6 +74,24 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
   };
 
   /**
+   * Soft pulse animation on every tap — meditative, not jarring
+   */
+  const triggerPulse = () => {
+    Animated.sequence([
+      Animated.timing(pulseAnim, {
+        toValue: 1.06,
+        duration: 80,
+        useNativeDriver: true,
+      }),
+      Animated.timing(pulseAnim, {
+        toValue: 1,
+        duration: 120,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  /**
    * Increment count by 1
    */
   const increment = () => {
@@ -81,13 +101,13 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
 
     setCount(newCount);
     onChange?.(newCount);
+    triggerPulse();
 
     // Trigger celebration and heavy haptic if completed a new mala
     if (newMalaCount > previousMalaCount) {
       triggerCelebration();
       triggerHeavy();
     } else {
-      // Medium haptic for regular increments
       triggerMedium();
     }
   };
@@ -175,14 +195,14 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
         {getMalaText(count)}
       </Text>
 
-      {/* Bead Count Display */}
-      <Text
-        style={styles.countDisplay}
+      {/* Bead Count Display — gently pulses on each tap */}
+      <Animated.Text
+        style={[styles.countDisplay, { transform: [{ scale: pulseAnim }] }]}
         accessibilityLabel={getCountAccessibilityLabel()}
         accessibilityRole="text"
       >
         {count}
-      </Text>
+      </Animated.Text>
 
       {/* Control Buttons */}
       <View style={styles.controls}>
@@ -263,32 +283,32 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   countDisplay: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',           // Warm Cream
     fontSize: 96,
     fontVariant: ['tabular-nums'],
     fontWeight: '700',
     marginBottom: 32,
   },
   decrementButton: {
-    backgroundColor: '#F44336',
+    backgroundColor: '#7B3F00', // Dark amber — gentler than red
   },
   incrementButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FF6B35', // Saffron — sacred fire energy
   },
   malaCount: {
-    color: '#FF9800',
+    color: '#FFD700',           // Temple Gold
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '600',
     marginBottom: 8,
   },
   resetButton: {
-    backgroundColor: '#757575',
+    backgroundColor: '#3D2560', // Indigo — recessive, non-intrusive
     borderRadius: 24,
     height: 48,
     width: 120,
   },
   resetButtonText: {
-    color: '#FFFFFF',
+    color: '#C9A96E',           // Warm amber
     fontSize: 18,
     fontWeight: '600',
   },
