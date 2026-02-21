@@ -16,8 +16,8 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import { PracticeSession } from '@/types';
-import { getSessions } from '@/utils/storage';
+import { CompletedPractice } from '@/types/practice';
+import { loadPracticeHistory } from '@/utils/practiceStorage';
 
 interface SessionHistoryScreenProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,9 +25,9 @@ interface SessionHistoryScreenProps {
 }
 
 export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
-  const [sessions, setSessions] = useState<PracticeSession[]>([]);
+  const [sessions, setSessions] = useState<CompletedPractice[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSession, setSelectedSession] = useState<PracticeSession | null>(null);
+  const [selectedSession, setSelectedSession] = useState<CompletedPractice | null>(null);
 
   useEffect(() => {
     loadSessions();
@@ -35,13 +35,14 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
 
   const loadSessions = async () => {
     try {
-      const loadedSessions = await getSessions();
-      // Sort by timestamp descending (most recent first)
-      const sortedSessions = loadedSessions.sort((a, b) => b.timestamp - a.timestamp);
+      const loadedSessions = await loadPracticeHistory();
+      // Sort by date descending (most recent first)
+      const sortedSessions = loadedSessions.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
       setSessions(sortedSessions);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      // Handle error silently, show empty state
       setSessions([]);
     } finally {
       setLoading(false);
@@ -58,8 +59,8 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
     return `${hours}h ${remainingMinutes}m`;
   };
 
-  const formatDate = (timestamp: number): string => {
-    const date = new Date(timestamp);
+  const formatDate = (dateStr: string): string => {
+    const date = new Date(dateStr);
     const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
     return date.toLocaleDateString('en-US', options);
   };
@@ -70,19 +71,18 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
     return { totalSessions, totalMinutes };
   };
 
-  const renderSession = ({ item }: { item: PracticeSession }) => (
+  const renderSession = ({ item }: { item: CompletedPractice }) => (
     <TouchableOpacity
       testID="session-item"
-      data-session-id={item.id}
       style={styles.sessionItem}
       onPress={() => setSelectedSession(item)}
     >
       <View style={styles.sessionHeader}>
-        <Text style={styles.sessionDate}>{formatDate(item.timestamp)}</Text>
+        <Text style={styles.sessionDate}>{formatDate(item.date)}</Text>
         <Text style={styles.sessionDuration}>{formatDuration(item.duration)}</Text>
       </View>
       <View style={styles.sessionDetails}>
-        <Text style={styles.sessionMala}>{item.count} mala{item.count !== 1 ? 's' : ''}</Text>
+        <Text style={styles.sessionMala}>{item.malaCount} mala{item.malaCount !== 1 ? 's' : ''}</Text>
         {item.sankalp && <Text style={styles.sessionSankalp}>🙏 {item.sankalp}</Text>}
       </View>
     </TouchableOpacity>
@@ -106,7 +106,7 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
 
               <View style={styles.modalSection}>
                 <Text style={styles.modalLabel}>Date</Text>
-                <Text style={styles.modalValue}>{formatDate(selectedSession.timestamp)}</Text>
+                <Text style={styles.modalValue}>{formatDate(selectedSession.date)}</Text>
               </View>
 
               <View style={styles.modalSection}>
@@ -116,13 +116,13 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
 
               <View style={styles.modalSection}>
                 <Text style={styles.modalLabel}>Mala Count</Text>
-                <Text style={styles.modalValue}>{selectedSession.count}</Text>
+                <Text style={styles.modalValue}>{selectedSession.malaCount}</Text>
               </View>
 
-              {selectedSession.shlokaId && (
+              {selectedSession.shlokaName && (
                 <View style={styles.modalSection}>
                   <Text style={styles.modalLabel}>Shloka</Text>
-                  <Text style={styles.modalValue}>{selectedSession.shlokaId}</Text>
+                  <Text style={styles.modalValue}>{selectedSession.shlokaName}</Text>
                 </View>
               )}
 
@@ -140,10 +140,10 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
                 </View>
               )}
 
-              {selectedSession.reflection && (
+              {selectedSession.notes && (
                 <View style={styles.modalSection}>
-                  <Text style={styles.modalLabel}>Reflection</Text>
-                  <Text style={styles.modalValue}>{selectedSession.reflection}</Text>
+                  <Text style={styles.modalLabel}>Notes</Text>
+                  <Text style={styles.modalValue}>{selectedSession.notes}</Text>
                 </View>
               )}
             </ScrollView>

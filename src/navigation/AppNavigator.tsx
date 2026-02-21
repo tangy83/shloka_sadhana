@@ -23,6 +23,7 @@ import { WisdomDetailScreen } from '@/screens/WisdomDetailScreen';
 import { AboutScreen } from '@/screens/AboutScreen';
 import { PrivacyPolicyScreen } from '@/screens/PrivacyPolicyScreen';
 import { TermsOfServiceScreen } from '@/screens/TermsOfServiceScreen';
+import { SessionHistoryScreen } from '@/screens/SessionHistoryScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -241,6 +242,21 @@ export const AppNavigator = () => {
           headerTintColor: '#FF9800',
           headerTitle: '',
           headerBackTitle: 'Settings',
+        }}
+      />
+
+      {/* Session History */}
+      <Stack.Screen
+        name="SessionHistory"
+        component={SessionHistoryScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1E1E',
+          },
+          headerTintColor: '#FF9800',
+          headerTitle: 'Practice History',
+          headerBackTitle: 'Home',
         }}
       />
     </Stack.Navigator>

@@ -230,6 +230,20 @@ export const HomeScreen: React.FC = () => {
           </View>
         </View>
 
+        {/* View History Link */}
+        <View style={styles.section}>
+          <TouchableOpacity
+            style={styles.historyButton}
+            onPress={() => navigation.navigate('SessionHistory' as never)}
+            accessibilityRole="button"
+            accessibilityLabel="View practice history"
+          >
+            <Text style={styles.historyButtonEmoji}>📜</Text>
+            <Text style={styles.historyButtonText}>View Practice History</Text>
+            <Text style={styles.historyButtonArrow}>›</Text>
+          </TouchableOpacity>
+        </View>
+
         {/* Weekly & Monthly Stats */}
         {!statsLoading && (weeklyStats || monthlyStats) && (
           <View style={styles.section}>
@@ -326,6 +340,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E1E1E',
     borderRadius: 16,
     padding: 20,
+  },
+  historyButton: {
+    alignItems: 'center',
+    backgroundColor: '#1E1E1E',
+    borderRadius: 12,
+    flexDirection: 'row',
+    padding: 16,
+  },
+  historyButtonArrow: {
+    color: '#FF9800',
+    fontSize: 24,
+    fontWeight: '300',
+    marginLeft: 'auto',
+  },
+  historyButtonEmoji: {
+    fontSize: 20,
+    marginRight: 12,
+  },
+  historyButtonText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '500',
   },
   ekadashiButtonArrow: {
     color: '#FF9800',

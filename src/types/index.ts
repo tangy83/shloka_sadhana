@@ -182,6 +182,7 @@ export type RootStackParamList = {
   Wisdom: undefined;
   Settings: undefined;
   FestivalsList: undefined; // V3 Feature #3
+  SessionHistory: undefined;
 };
 
 /**
