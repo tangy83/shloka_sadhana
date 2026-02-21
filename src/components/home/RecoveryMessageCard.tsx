@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   dismissText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 20,
     fontWeight: '600',
   },
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   message: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '400',
     lineHeight: 22,

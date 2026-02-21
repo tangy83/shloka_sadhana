@@ -149,7 +149,7 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
                 value={text}
                 onChangeText={setText}
                 placeholder="Enter your intention..."
-                placeholderTextColor="#9E9E9E"
+                placeholderTextColor="#C9A96E"
                 multiline={true}
                 numberOfLines={4}
                 textAlignVertical="top"
@@ -235,16 +235,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   categoryName: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 8,
   },
   confirmButton: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
   },
   confirmButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   exampleText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 20,
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   examplesButtonText: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '500',
     textDecorationLine: 'underline',
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   helpButtonText: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '500',
     textDecorationLine: 'underline',
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   },
   helpTextContainer: {
     backgroundColor: '#2C2C2C',
-    borderLeftColor: '#FF9800',
+    borderLeftColor: '#FF6B35',
     borderLeftWidth: 3,
     borderRadius: 8,
     marginBottom: 16,
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     borderColor: '#424242',
     borderRadius: 12,
     borderWidth: 1,
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     marginBottom: 20,
     minHeight: 120,
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     width: '85%',
   },
   modalContent: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     elevation: 8,
     padding: 24,
@@ -348,12 +348,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#424242',
   },
   skipButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 8,

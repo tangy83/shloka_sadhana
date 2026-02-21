@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import { getShlokaById } from '@/data/shlokas';
@@ -172,7 +173,7 @@ export const ShlokaDetailScreen: React.FC = () => {
               accessibilityRole="button"
               accessibilityLabel={`Toggle favorite for ${shloka.name}`}
             >
-              <Text style={styles.favoriteIcon}>{isFavorited ? '❤️' : '🤍'}</Text>
+              <Ionicons name={isFavorited ? 'heart' : 'heart-outline'} size={24} color={isFavorited ? '#E91E8C' : '#C9A96E'} />
             </TouchableOpacity>
           </View>
         </View>
@@ -193,7 +194,10 @@ export const ShlokaDetailScreen: React.FC = () => {
         <View style={styles.infoSection}>
           <View style={styles.infoItem}>
             <Text style={styles.infoLabel}>Duration</Text>
-            <Text style={styles.infoValue}>⏱️ {shloka.duration}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <MaterialCommunityIcons name="timer-outline" size={16} color="#C9A96E" />
+              <Text style={styles.infoValue}>{shloka.duration}</Text>
+            </View>
           </View>
           <View style={styles.infoItem}>
             <Text style={styles.infoLabel}>Best Time</Text>
@@ -210,7 +214,7 @@ export const ShlokaDetailScreen: React.FC = () => {
             accessibilityRole="button"
             accessibilityLabel={`${isPlaying ? 'Pause' : 'Play'} ${shloka.name} pronunciation`}
           >
-            <Text style={styles.audioIcon}>{isPlaying ? '⏸️' : '🔊'}</Text>
+            <Ionicons name={isPlaying ? 'pause-circle' : 'play-circle-outline'} size={24} color="#FFF8E7" />
             <Text style={styles.audioButtonText}>
               {isPlaying ? 'Pause Pronunciation' : 'Listen to Pronunciation'}
             </Text>
@@ -226,7 +230,7 @@ export const ShlokaDetailScreen: React.FC = () => {
             accessibilityRole="button"
             accessibilityLabel={`Watch ${shloka.name} on YouTube`}
           >
-            <Text style={styles.youtubeIcon}>▶️</Text>
+            <Ionicons name="logo-youtube" size={22} color="#FFF8E7" />
             <Text style={styles.youtubeButtonText}>Watch on YouTube</Text>
           </TouchableOpacity>
         )}
@@ -239,7 +243,7 @@ export const ShlokaDetailScreen: React.FC = () => {
           accessibilityRole="button"
           accessibilityLabel={`Start practice session with ${shloka.name}`}
         >
-          <Text style={styles.startPracticeIcon}>🙏</Text>
+          <MaterialCommunityIcons name="meditation" size={22} color="#FFF8E7" />
           <Text style={styles.startPracticeButtonText}>Start Practice</Text>
         </TouchableOpacity>
 
@@ -282,7 +286,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   audioButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -295,11 +299,11 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   deity: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 16,
     fontWeight: '500',
   },
@@ -315,13 +319,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   errorSubtext: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',
   },
   errorText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 12,
@@ -348,13 +352,13 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   infoItem: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 12,
     flex: 1,
     padding: 16,
   },
   infoLabel: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
     marginBottom: 4,
     textTransform: 'uppercase',
@@ -365,7 +369,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   infoValue: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 14,
     fontWeight: '500',
   },
@@ -378,14 +382,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   meaningLabel: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 4,
     textTransform: 'uppercase',
   },
   sanskrit: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 24,
     fontWeight: '500',
     lineHeight: 36,
@@ -399,27 +403,27 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionNumber: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 12,
     textTransform: 'uppercase',
   },
   sectionTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 12,
   },
   shlokaSection: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
   },
   startPracticeButton: {
     alignItems: 'center',
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
     elevation: 4,
     flexDirection: 'row',
@@ -427,13 +431,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 24,
     padding: 18,
-    shadowColor: '#FF9800',
+    shadowColor: '#FF6B35',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
   },
   startPracticeButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     fontWeight: '700',
   },
@@ -441,13 +445,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,
   },
   transliteration: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
     fontStyle: 'italic',
     lineHeight: 24,
@@ -464,7 +468,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   youtubeButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },

@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { getAllWisdomQuotes } from '@/data/wisdom';
 
@@ -17,19 +18,18 @@ type WisdomDetailRouteParams = {
   };
 };
 
-/**
- * Get category emoji
- */
-const getCategoryEmoji = (category: string): string => {
-  const emojiMap: Record<string, string> = {
-    dharma: '⚖️',
-    karma: '🔄',
-    devotion: '🙏',
-    meditation: '🧘',
-    wisdom: '💡',
-    compassion: '❤️',
-  };
-  return emojiMap[category] || '📖';
+const CategoryIcon: React.FC<{ category: string }> = ({ category }) => {
+  const size = 64;
+  const color = '#FF6B35';
+  switch (category) {
+    case 'dharma':    return <MaterialCommunityIcons name="scale-balance" size={size} color={color} />;
+    case 'karma':     return <MaterialCommunityIcons name="autorenew" size={size} color={color} />;
+    case 'devotion':  return <MaterialCommunityIcons name="hands-pray" size={size} color={color} />;
+    case 'meditation':return <MaterialCommunityIcons name="meditation" size={size} color={color} />;
+    case 'wisdom':    return <Ionicons name="bulb-outline" size={size} color={color} />;
+    case 'compassion':return <Ionicons name="heart-outline" size={size} color={color} />;
+    default:          return <MaterialCommunityIcons name="book-open-outline" size={size} color={color} />;
+  }
 };
 
 /**
@@ -73,7 +73,7 @@ export const WisdomDetailScreen: React.FC = () => {
     <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.icon}>{getCategoryEmoji(quote.category)}</Text>
+        <CategoryIcon category={quote.category} />
         <View style={styles.categoryBadge}>
           <Text style={styles.categoryBadgeText}>{getCategoryDisplay(quote.category)}</Text>
         </View>
@@ -150,8 +150,8 @@ export const WisdomDetailScreen: React.FC = () => {
 const styles = StyleSheet.create({
   applicationBox: {
     alignItems: 'flex-start',
-    backgroundColor: '#2A2A2A',
-    borderLeftColor: '#FF9800',
+    backgroundColor: '#3D2560',
+    borderLeftColor: '#FF6B35',
     borderLeftWidth: 4,
     borderRadius: 12,
     flexDirection: 'row',
@@ -162,13 +162,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   applicationText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     flex: 1,
     fontSize: 15,
     lineHeight: 22,
   },
   attributionDivider: {
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#3D2560',
     height: 1,
     marginBottom: 16,
     width: '100%',
@@ -179,26 +179,26 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   author: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 6,
   },
   categoryBadge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
     marginTop: 8,
     paddingHorizontal: 16,
     paddingVertical: 6,
   },
   categoryBadgeText: {
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   errorContainer: {
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   errorText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
     textAlign: 'center',
   },
@@ -222,20 +222,20 @@ const styles = StyleSheet.create({
     fontSize: 64,
   },
   meaningHighlight: {
-    backgroundColor: '#1E1E1E',
-    borderLeftColor: '#FF9800',
+    backgroundColor: '#2D1B4E',
+    borderLeftColor: '#FF6B35',
     borderLeftWidth: 4,
     borderRadius: 12,
     padding: 16,
   },
   meaningText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '500',
     lineHeight: 24,
   },
   quoteText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 17,
     fontStyle: 'italic',
     lineHeight: 28,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     marginHorizontal: 20,
@@ -263,14 +263,14 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   sectionTitle: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '700',
     marginBottom: 12,
     textTransform: 'uppercase',
   },
   source: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     marginBottom: 4,
   },
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   tag: {
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#3D2560',
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 8,

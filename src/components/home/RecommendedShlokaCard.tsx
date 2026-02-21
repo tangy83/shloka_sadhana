@@ -106,19 +106,19 @@ export const RecommendedShlokaCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   badge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   badgeText: {
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
   benefits: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     flex: 1,
     fontSize: 13,
   },
@@ -128,23 +128,23 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   benefitsLabel: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 13,
     fontWeight: '600',
   },
   category: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
     fontStyle: 'italic',
   },
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     padding: 20,
   },
   cta: {
     alignItems: 'center',
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
     flexDirection: 'row',
     gap: 8,
@@ -153,17 +153,17 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   ctaArrow: {
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 24,
     fontWeight: '300',
   },
   ctaText: {
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 16,
     fontWeight: '700',
   },
   deity: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 12,
@@ -195,11 +195,11 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   metaText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
   },
   name: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 4,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   reasonContainer: {
     alignItems: 'flex-start',
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#3D2560',
     borderRadius: 12,
     flexDirection: 'row',
     gap: 8,

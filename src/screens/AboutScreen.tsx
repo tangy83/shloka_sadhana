@@ -19,7 +19,7 @@ export const AboutScreen: React.FC = () => {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* App Icon/Logo */}
       <View style={styles.header}>
-        <Text style={styles.logo}>🕉️</Text>
+        <Text style={styles.logo}>ॐ</Text>
         <Text style={styles.appName}>Shloka Sadhana</Text>
         <Text style={styles.version}>Version {appVersion}</Text>
       </View>
@@ -85,13 +85,13 @@ export const AboutScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   appName: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 8,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   content: {
@@ -109,14 +109,16 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: '#3D2560',
     borderBottomWidth: 1,
     marginBottom: 24,
     paddingBottom: 24,
     paddingTop: 40,
   },
   logo: {
-    fontSize: 64,
+    color: '#FFD700',
+    fontSize: 72,
+    fontWeight: '700',
     marginBottom: 16,
   },
   paragraph: {
@@ -125,20 +127,20 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   section: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     marginHorizontal: 20,
     padding: 20,
   },
   sectionTitle: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
   },
   version: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
   },
 });

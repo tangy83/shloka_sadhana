@@ -126,17 +126,17 @@ export const SatsangScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   eventCard: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
   },
   eventDate: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
   },
   eventDescription: {
@@ -149,11 +149,11 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   eventTime: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
   },
   eventTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 8,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   eventTypeText: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 12,
     fontWeight: '600',
     textTransform: 'uppercase',
@@ -185,20 +185,20 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 16,
   },
   statsCard: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 24,
     padding: 24,
   },
   statsCount: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 48,
     fontWeight: '700',
     marginBottom: 8,
@@ -208,17 +208,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   statsTitle: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     marginBottom: 12,
     textTransform: 'uppercase',
   },
   subtitle: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

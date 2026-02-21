@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getAllShlokas } from '@/data/shlokas';
@@ -45,8 +46,11 @@ export const LibraryScreen: React.FC = () => {
           {item.description}
         </Text>
         <View style={styles.meta}>
-          <Text style={styles.duration}>⏱️ {item.duration}</Text>
-          <Text style={styles.bestTime}>🌅 {item.bestTime}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              <MaterialCommunityIcons name="timer-outline" size={13} color="#C9A96E" />
+              <Text style={styles.duration}>{item.duration}</Text>
+            </View>
+            <Text style={styles.bestTime}>🌅 {item.bestTime}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -84,11 +88,11 @@ export const LibraryScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   bestTime: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
   },
   card: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     overflow: 'hidden',
@@ -97,11 +101,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   deity: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 12,
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   duration: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
   },
   emptyContainer: {
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   emptyText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
   },
   header: {
@@ -139,17 +143,17 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   name: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 8,
   },
   subtitle: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

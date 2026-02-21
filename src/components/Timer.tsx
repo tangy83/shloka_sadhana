@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     fontWeight: '600',
   },
@@ -203,13 +203,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#424242',
   },
   disabledButtonText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
   },
   primaryAction: {
     marginBottom: 16,
   },
   primaryButton: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
   },
   secondaryActions: {
     flexDirection: 'row',
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#757575',
   },
   timerDisplay: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 72,
     fontVariant: ['tabular-nums'],
     fontWeight: '700',

@@ -116,7 +116,7 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderColor: '#2E2E2E',
     borderRadius: 16,
     borderWidth: 1,
@@ -125,11 +125,11 @@ const styles = StyleSheet.create({
   },
   containerEkadashi: {
     backgroundColor: '#2A2416',
-    borderColor: '#FF9800',
+    borderColor: '#FF6B35',
     borderWidth: 2,
   },
   deityName: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 15,
     fontWeight: '600',
     marginBottom: 4,
@@ -140,26 +140,26 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   ekadashiNameContainer: {
-    borderTopColor: '#FF9800',
+    borderTopColor: '#FF6B35',
     borderTopWidth: 1,
     marginTop: 12,
     paddingTop: 12,
   },
   ekadashiNameLabel: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 4,
     textTransform: 'uppercase',
   },
   ekadasiBadge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   ekadasiBadgeText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 12,
     fontWeight: '600',
   },
@@ -170,12 +170,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     fontWeight: '500',
   },
   recommendationBenefits: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
     lineHeight: 20,
   },
@@ -202,16 +202,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
   },
   value: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 14,
     fontWeight: '600',
   },
   valueEkadashi: {
-    color: '#FF9800',
+    color: '#FF6B35',
   },
 });

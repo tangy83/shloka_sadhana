@@ -221,12 +221,12 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   closeButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
     padding: 16,
   },
@@ -237,12 +237,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   emptyStateSubtext: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     textAlign: 'center',
   },
   emptyStateText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 8,
@@ -251,14 +251,14 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   modalContent: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: '80%',
     padding: 24,
   },
   modalLabel: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
     marginBottom: 4,
     textTransform: 'uppercase',
@@ -272,18 +272,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   modalTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 24,
   },
   modalValue: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     lineHeight: 24,
   },
   sessionDate: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -301,17 +301,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   sessionItem: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 12,
     marginBottom: 12,
     padding: 16,
   },
   sessionMala: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
   },
   sessionSankalp: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 14,
     fontStyle: 'italic',
   },
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statLabel: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
     marginTop: 4,
   },
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   statsContainer: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 16,

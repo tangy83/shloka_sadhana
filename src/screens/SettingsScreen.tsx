@@ -228,7 +228,7 @@ export const SettingsScreen: React.FC = () => {
                 step={0.1}
                 value={fontSize}
                 onValueChange={setFontSize}
-                minimumTrackTintColor="#FF9800"
+                minimumTrackTintColor="#FF6B35"
                 maximumTrackTintColor="#3e3e3e"
                 thumbTintColor="#FFA726"
                 accessibilityLabel="Font size slider"
@@ -259,7 +259,7 @@ export const SettingsScreen: React.FC = () => {
               testID="notification-toggle"
               value={notificationsEnabled}
               onValueChange={handleToggleNotifications}
-              trackColor={{ false: '#3e3e3e', true: '#FF9800' }}
+              trackColor={{ false: '#3e3e3e', true: '#FF6B35' }}
               thumbColor={notificationsEnabled ? '#FFA726' : '#f4f3f4'}
               accessibilityLabel="Toggle daily reminders"
               accessibilityRole="switch"
@@ -380,7 +380,7 @@ export const SettingsScreen: React.FC = () => {
                 is24Hour={false}
                 display="spinner"
                 onChange={handleTimeChange}
-                textColor="#FFFFFF"
+                textColor="#FFF8E7"
                 style={styles.timePicker}
               />
             </View>
@@ -413,19 +413,19 @@ export const SettingsScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   arrow: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 24,
   },
   cancelButton: {
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#3D2560',
   },
   cancelButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   dangerRow: {
@@ -436,13 +436,13 @@ const styles = StyleSheet.create({
     color: '#F44336',
   },
   header: {
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: '#3D2560',
     borderBottomWidth: 1,
     padding: 20,
     paddingTop: 60,
   },
   headerTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 32,
     fontWeight: '700',
   },
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   modalContent: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     maxWidth: 400,
     padding: 24,
@@ -471,23 +471,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 20,
     textAlign: 'center',
   },
   // previewText: { // Hidden with font size slider
-  //   color: '#FFFFFF',
+  //   color: '#FFF8E7',
   //   fontWeight: '500',
   //   marginTop: 12,
   //   textAlign: 'center',
   // },
   saveButton: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
   },
   saveButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -501,7 +501,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   sectionTitle: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     fontWeight: '600',
     letterSpacing: 0.5,
@@ -509,7 +509,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   settingDescription: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
   },
   settingInfo: {
@@ -517,14 +517,14 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   settingLabel: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '500',
     marginBottom: 4,
   },
   settingRow: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
   //   width: '100%',
   // },
   // sliderLabel: { // Hidden with font size slider
-  //   color: '#9E9E9E',
+  //   color: '#C9A96E',
   //   fontSize: 14,
   //   fontWeight: '600',
   // },

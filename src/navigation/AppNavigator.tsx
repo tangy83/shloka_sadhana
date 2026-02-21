@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from '@/screens/HomeScreen';
@@ -63,8 +63,12 @@ const TabNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>🏠</Text>
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? 'home-variant' : 'home-variant-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -73,8 +77,12 @@ const TabNavigator = () => {
         component={PracticeScreen}
         options={{
           tabBarLabel: 'Practice',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>🙏</Text>
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="meditation"
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -83,8 +91,12 @@ const TabNavigator = () => {
         component={LibraryScreen}
         options={{
           tabBarLabel: 'Library',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>📚</Text>
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? 'book-open-variant' : 'book-open-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -93,8 +105,12 @@ const TabNavigator = () => {
         component={SatsangScreen}
         options={{
           tabBarLabel: 'Satsang',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>🎵</Text>
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? 'bell' : 'bell-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -103,8 +119,12 @@ const TabNavigator = () => {
         component={SettingsScreen}
         options={{
           tabBarLabel: 'Settings',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>⚙️</Text>
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? 'cog' : 'cog-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -132,9 +152,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: '',
           headerBackTitle: 'Library',
         }}
@@ -147,9 +167,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -162,9 +182,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -177,9 +197,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -192,9 +212,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -207,9 +227,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -222,9 +242,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -237,9 +257,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -252,9 +272,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: '#2D1B4E',
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: '#FF6B35',
           headerTitle: 'Practice History',
           headerBackTitle: 'Home',
         }}

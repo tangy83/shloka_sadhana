@@ -88,7 +88,7 @@ export const EkadashiCalendarScreen: React.FC = () => {
       >
         <View style={styles.cardContent}>
           {/* Ekadashi Icon */}
-          <Text style={styles.icon}>🕉️</Text>
+          <Text style={styles.icon}>ॐ</Text>
 
           <View style={styles.cardTextContainer}>
             {/* Ekadashi Name */}
@@ -181,7 +181,7 @@ export const EkadashiCalendarScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     overflow: 'hidden',
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   dateContainer: {
@@ -205,18 +205,18 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dateText: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '500',
   },
   ekadashiName: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,
   },
   ekadashiNameHindi: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     marginBottom: 8,
   },
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   emptyText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
   },
   header: {
@@ -235,7 +235,9 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   icon: {
-    fontSize: 32,
+    color: '#FFD700',
+    fontSize: 36,
+    fontWeight: '700',
     marginRight: 16,
   },
   listContent: {
@@ -249,28 +251,28 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   relativeDateText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
   },
   significance: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     lineHeight: 20,
   },
   subtitle: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
   },
   tab: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 12,
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
   tabActive: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
   },
   tabContainer: {
     flexDirection: 'row',
@@ -279,15 +281,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   tabText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 15,
     fontWeight: '600',
   },
   tabTextActive: {
-    color: '#121212',
+    color: '#1A0A2E',
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

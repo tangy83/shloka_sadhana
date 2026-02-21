@@ -153,7 +153,7 @@ export const TermsOfServiceScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   content: {
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   header: {
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: '#3D2560',
     borderBottomWidth: 1,
     marginBottom: 24,
     paddingBottom: 24,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   lastUpdated: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
   },
   paragraph: {
@@ -187,20 +187,20 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   section: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     marginHorizontal: 20,
     padding: 20,
   },
   sectionTitle: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 8,

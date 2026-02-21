@@ -65,9 +65,9 @@ export const VerseOfTheDayCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   badge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 11,
     fontWeight: '700',
     overflow: 'hidden',
@@ -76,17 +76,17 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   category: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
     fontStyle: 'italic',
   },
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     padding: 20,
   },
   deity: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 13,
     fontWeight: '500',
   },
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   hindi: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     fontStyle: 'italic',
     lineHeight: 22,
@@ -118,20 +118,20 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   sanskrit: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     fontWeight: '500',
     lineHeight: 28,
     marginBottom: 8,
   },
   source: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     flex: 1,
     fontSize: 13,
     fontStyle: 'italic',
   },
   transliteration: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontStyle: 'italic',
     lineHeight: 22,

@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useStreak } from '@/hooks/useStreak';
 import { useStats } from '@/hooks/useStats';
@@ -91,7 +92,7 @@ export const HomeScreen: React.FC = () => {
               accessibilityLabel="Resume Practice"
             >
               <View style={styles.resumeButtonContent}>
-                <Text style={styles.resumeButtonEmoji}>▶️</Text>
+                <Ionicons name="play-circle" size={36} color="#1A0A2E" style={styles.resumeButtonIcon} />
                 <View style={styles.resumeButtonTextContainer}>
                   <Text style={styles.resumeButtonTitle}>Resume Practice</Text>
                   <Text style={styles.resumeButtonSubtitle}>
@@ -114,7 +115,7 @@ export const HomeScreen: React.FC = () => {
               accessibilityLabel="Start Practice"
               onPress={() => navigation.navigate('Practice' as never)}
             >
-              <Text style={styles.actionEmoji}>🙏</Text>
+              <MaterialCommunityIcons name="meditation" size={36} color="#FF6B35" style={styles.actionIcon} />
               <Text style={styles.actionText}>Start Practice</Text>
             </TouchableOpacity>
 
@@ -125,7 +126,7 @@ export const HomeScreen: React.FC = () => {
               accessibilityLabel="Browse Library"
               onPress={() => navigation.navigate('Library' as never)}
             >
-              <Text style={styles.actionEmoji}>📚</Text>
+              <MaterialCommunityIcons name="book-open-variant" size={36} color="#FF6B35" style={styles.actionIcon} />
               <Text style={styles.actionText}>Browse Library</Text>
             </TouchableOpacity>
           </View>
@@ -155,7 +156,7 @@ export const HomeScreen: React.FC = () => {
             accessibilityLabel="View Ekadashi Calendar"
           >
             <View style={styles.ekadashiButtonContent}>
-              <Text style={styles.ekadashiButtonEmoji}>🕉️</Text>
+              <Text style={styles.ekadashiButtonEmoji}>ॐ</Text>
               <View style={styles.ekadashiButtonTextContainer}>
                 <Text style={styles.ekadashiButtonTitle}>Ekadashi Calendar</Text>
                 <Text style={styles.ekadashiButtonSubtitle}>
@@ -176,7 +177,7 @@ export const HomeScreen: React.FC = () => {
             accessibilityLabel="View Hindu Festivals"
           >
             <View style={styles.festivalsButtonContent}>
-              <Text style={styles.festivalsButtonEmoji}>🪔</Text>
+              <MaterialCommunityIcons name="candle" size={32} color="#FF6B35" style={styles.festivalsButtonIcon} />
               <View style={styles.festivalsButtonTextContainer}>
                 <Text style={styles.festivalsButtonTitle}>Upcoming Festivals</Text>
                 <Text style={styles.festivalsButtonSubtitle}>
@@ -211,19 +212,19 @@ export const HomeScreen: React.FC = () => {
           <Text style={styles.sectionTitle}>Your Journey</Text>
           <View style={styles.statsGrid}>
             <View style={styles.statCard}>
-              <Text style={styles.statEmoji}>🔥</Text>
+              <MaterialCommunityIcons name="fire" size={24} color="#FF6B35" style={styles.statIcon} />
               <Text style={styles.statValue}>{userStats.currentStreak}</Text>
               <Text style={styles.statLabel}>Day Streak</Text>
             </View>
 
             <View style={styles.statCard}>
-              <Text style={styles.statEmoji}>🎯</Text>
+              <MaterialCommunityIcons name="calendar-check-outline" size={24} color="#FF6B35" style={styles.statIcon} />
               <Text style={styles.statValue}>{userStats.totalPractices}</Text>
               <Text style={styles.statLabel}>Total Practices</Text>
             </View>
 
             <View style={styles.statCard}>
-              <Text style={styles.statEmoji}>⏱️</Text>
+              <MaterialCommunityIcons name="timer-outline" size={24} color="#FF6B35" style={styles.statIcon} />
               <Text style={styles.statValue}>{userStats.minutesPracticed}</Text>
               <Text style={styles.statLabel}>Minutes</Text>
             </View>
@@ -238,7 +239,7 @@ export const HomeScreen: React.FC = () => {
             accessibilityRole="button"
             accessibilityLabel="View practice history"
           >
-            <Text style={styles.historyButtonEmoji}>📜</Text>
+            <MaterialCommunityIcons name="history" size={20} color="#C9A96E" style={styles.historyButtonIcon} />
             <Text style={styles.historyButtonText}>View Practice History</Text>
             <Text style={styles.historyButtonArrow}>›</Text>
           </TouchableOpacity>
@@ -287,7 +288,7 @@ export const HomeScreen: React.FC = () => {
             {/* Longest Streak */}
             {longestStreak > 0 && (
               <View style={styles.streakHighlightCard}>
-                <Text style={styles.streakHighlightEmoji}>⭐</Text>
+                <Ionicons name="star" size={32} color="#FFD700" style={styles.streakHighlightIcon} />
                 <View style={styles.streakHighlightText}>
                   <Text style={styles.streakHighlightLabel}>Longest Streak</Text>
                   <Text style={styles.streakHighlightValue}>{longestStreak} days</Text>
@@ -309,62 +310,60 @@ export const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   actionButton: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     flex: 1,
     justifyContent: 'center',
     minHeight: 100,
     padding: 20,
   },
-  actionEmoji: {
-    fontSize: 32,
+  actionIcon: {
     marginBottom: 8,
   },
   actionText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 13,
     fontWeight: '500',
     textAlign: 'center',
   },
   appTitle: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 4,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   ekadashiButton: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     padding: 20,
   },
   historyButton: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 12,
     flexDirection: 'row',
     padding: 16,
   },
   historyButtonArrow: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 24,
     fontWeight: '300',
     marginLeft: 'auto',
   },
-  historyButtonEmoji: {
-    fontSize: 20,
+  historyButtonIcon: {
     marginRight: 12,
   },
   historyButtonText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 15,
     fontWeight: '500',
   },
   ekadashiButtonArrow: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 32,
     fontWeight: '300',
   },
@@ -377,25 +376,25 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   ekadashiButtonSubtitle: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
   },
   ekadashiButtonTextContainer: {
     flex: 1,
   },
   ekadashiButtonTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 4,
   },
   festivalsButton: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     padding: 20,
   },
   festivalsButtonArrow: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 32,
     fontWeight: '300',
   },
@@ -403,19 +402,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-  festivalsButtonEmoji: {
-    fontSize: 32,
+  festivalsButtonIcon: {
     marginRight: 16,
   },
   festivalsButtonSubtitle: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
   },
   festivalsButtonTextContainer: {
     flex: 1,
   },
   festivalsButtonTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 4,
@@ -425,13 +423,13 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   periodStatCard: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     flex: 1,
     padding: 16,
   },
   periodStatLabel: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
   },
   periodStatRow: {
@@ -441,13 +439,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   periodStatTitle: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 12,
   },
   periodStatValue: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -461,7 +459,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   resumeButton: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 16,
     padding: 20,
   },
@@ -469,12 +467,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-  resumeButtonEmoji: {
-    fontSize: 32,
+  resumeButtonIcon: {
     marginRight: 16,
   },
   resumeButtonSubtitle: {
-    color: '#1E1E1E',
+    color: '#2D1B4E',
     fontSize: 14,
     fontWeight: '500',
   },
@@ -482,7 +479,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   resumeButtonTitle: {
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 18,
     fontWeight: '700',
     marginBottom: 4,
@@ -495,29 +492,28 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 16,
   },
   statCard: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     flex: 1,
     padding: 16,
   },
-  statEmoji: {
-    fontSize: 24,
+  statIcon: {
     marginBottom: 8,
   },
   statLabel: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 11,
     textAlign: 'center',
   },
   statValue: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 4,
@@ -528,17 +524,16 @@ const styles = StyleSheet.create({
   },
   streakHighlightCard: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     flexDirection: 'row',
     padding: 16,
   },
-  streakHighlightEmoji: {
-    fontSize: 32,
+  streakHighlightIcon: {
     marginRight: 16,
   },
   streakHighlightLabel: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
     marginBottom: 4,
   },
@@ -546,12 +541,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   streakHighlightValue: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 20,
     fontWeight: '700',
   },
   welcomeText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
   },
 });

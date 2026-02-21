@@ -101,7 +101,7 @@ export const EkadashiBanner: React.FC = () => {
       testID="ekadashi-banner"
     >
       <View style={styles.content}>
-        <Text style={styles.icon}>🕉️</Text>
+        <Text style={styles.icon}>ॐ</Text>
         <View style={styles.textContainer}>
           {/* Badge: Today or In X days */}
           <View style={styles.badge}>
@@ -138,20 +138,20 @@ export const EkadashiBanner: React.FC = () => {
 const styles = StyleSheet.create({
   badge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
     marginBottom: 8,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   badgeText: {
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     padding: 20,
   },
@@ -160,24 +160,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   cta: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '600',
     marginTop: 8,
   },
   date: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 8,
   },
   deity: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
     marginTop: 4,
   },
   icon: {
-    fontSize: 32,
+    color: '#FFD700',
+    fontSize: 36,
+    fontWeight: '700',
     marginRight: 16,
   },
   significance: {
@@ -190,13 +192,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,
   },
   titleHindi: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     marginBottom: 4,
   },

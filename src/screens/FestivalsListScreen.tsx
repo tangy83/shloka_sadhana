@@ -175,7 +175,7 @@ export const FestivalsListScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     overflow: 'hidden',
@@ -185,20 +185,20 @@ const styles = StyleSheet.create({
   },
   categoryBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 8,
     marginBottom: 12,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
   categoryBadgeText: {
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 0.5,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   dateContainer: {
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dateText: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '500',
   },
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   description: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     lineHeight: 20,
   },
@@ -230,11 +230,11 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   emptyText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
   },
   festivalName: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 8,
@@ -248,23 +248,23 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   relativeDateText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 13,
   },
   subtitle: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
   },
   tab: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 12,
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
   tabActive: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
   },
   tabContainer: {
     flexDirection: 'row',
@@ -273,15 +273,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   tabText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 15,
     fontWeight: '600',
   },
   tabTextActive: {
-    color: '#121212',
+    color: '#1A0A2E',
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

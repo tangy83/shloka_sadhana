@@ -8,6 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { getDailyWisdomQuote } from '@/data/wisdom';
 import { getTodayISO } from '@/utils/dateUtils';
@@ -34,16 +35,18 @@ export const DailyWisdomCard: React.FC = () => {
     return null;
   }
 
-  const getCategoryEmoji = (category: string): string => {
-    const emojiMap: Record<string, string> = {
-      dharma: '⚖️',
-      karma: '🔄',
-      devotion: '🙏',
-      meditation: '🧘',
-      wisdom: '💡',
-      compassion: '❤️',
-    };
-    return emojiMap[category] || '📖';
+  const renderCategoryIcon = (category: string) => {
+    const size = 14;
+    const color = '#FF6B35';
+    switch (category) {
+      case 'dharma':    return <MaterialCommunityIcons name="scale-balance" size={size} color={color} />;
+      case 'karma':     return <MaterialCommunityIcons name="autorenew" size={size} color={color} />;
+      case 'devotion':  return <MaterialCommunityIcons name="hands-pray" size={size} color={color} />;
+      case 'meditation':return <MaterialCommunityIcons name="meditation" size={size} color={color} />;
+      case 'wisdom':    return <Ionicons name="bulb-outline" size={size} color={color} />;
+      case 'compassion':return <Ionicons name="heart-outline" size={size} color={color} />;
+      default:          return <MaterialCommunityIcons name="book-open-outline" size={size} color={color} />;
+    }
   };
 
   const getCategoryDisplay = (category: string): string => {
@@ -78,7 +81,7 @@ export const DailyWisdomCard: React.FC = () => {
           <Text style={styles.badgeText}>Daily Wisdom</Text>
         </View>
         <View style={styles.categoryTag}>
-          <Text style={styles.categoryEmoji}>{getCategoryEmoji(quote.category)}</Text>
+          {renderCategoryIcon(quote.category)}
           <Text style={styles.categoryText}>{getCategoryDisplay(quote.category)}</Text>
         </View>
       </View>
@@ -105,25 +108,25 @@ export const DailyWisdomCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   attribution: {
-    borderTopColor: '#2A2A2A',
+    borderTopColor: '#3D2560',
     borderTopWidth: 1,
     marginTop: 12,
     paddingTop: 12,
   },
   author: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 4,
   },
   badge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   badgeText: {
-    color: '#121212',
+    color: '#1A0A2E',
     fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -137,13 +140,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   categoryText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 11,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     padding: 20,
   },
@@ -155,12 +158,12 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   ctaArrow: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 20,
     fontWeight: '300',
   },
   ctaText: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '600',
   },
@@ -172,14 +175,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   quoteText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 15,
     fontStyle: 'italic',
     lineHeight: 22,
     marginBottom: 12,
   },
   source: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
   },
 });

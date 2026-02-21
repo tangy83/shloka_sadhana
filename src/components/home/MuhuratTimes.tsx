@@ -146,7 +146,7 @@ export const MuhuratTimes: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     padding: 20,
   },
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   muhuratDescription: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 12,
     fontStyle: 'italic',
   },
@@ -175,19 +175,19 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   muhuratTime: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 4,
   },
   muhuratTitle: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 15,
     fontWeight: '600',
     marginBottom: 4,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 16,

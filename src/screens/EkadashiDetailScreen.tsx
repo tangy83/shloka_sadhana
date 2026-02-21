@@ -54,7 +54,7 @@ export const EkadashiDetailScreen: React.FC = () => {
     <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.icon}>🕉️</Text>
+        <Text style={styles.icon}>ॐ</Text>
         <Text style={styles.title}>{ekadashi.name}</Text>
         <Text style={styles.titleHindi}>{ekadashi.name_hindi}</Text>
       </View>
@@ -118,7 +118,7 @@ export const EkadashiDetailScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   errorContainer: {
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   errorText: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 16,
     textAlign: 'center',
   },
@@ -139,11 +139,13 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   icon: {
-    fontSize: 48,
+    color: '#FFD700',
+    fontSize: 56,
+    fontWeight: '700',
     marginBottom: 16,
   },
   infoLabel: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 14,
     fontWeight: '500',
     width: 80,
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   infoValue: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     flex: 1,
     fontSize: 14,
   },
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 16,
     marginBottom: 16,
     marginHorizontal: 20,
@@ -173,20 +175,20 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   sectionTitle: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 8,
     textAlign: 'center',
   },
   titleHindi: {
-    color: '#9E9E9E',
+    color: '#C9A96E',
     fontSize: 18,
     textAlign: 'center',
   },
@@ -197,7 +199,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   vrataKathaContainer: {
-    borderLeftColor: '#FF9800',
+    borderLeftColor: '#FF6B35',
     borderLeftWidth: 3,
     paddingLeft: 16,
   },

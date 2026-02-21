@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { Timer } from '@/components/Timer';
 import { MalaCounter } from '@/components/MalaCounter';
@@ -227,7 +228,7 @@ export const PracticeScreen: React.FC = () => {
   if (streak.isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FF9800" />
+        <ActivityIndicator size="large" color="#FF6B35" />
         <Text style={styles.loadingText}>Loading...</Text>
       </View>
     );
@@ -245,9 +246,10 @@ export const PracticeScreen: React.FC = () => {
 
           {/* Streak Display */}
           <View style={styles.streakContainer}>
-            <Text style={styles.streakText}>
-              🔥 {streak.currentStreak} day streak
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <MaterialCommunityIcons name="fire" size={20} color="#FF6B35" />
+              <Text style={styles.streakText}>{streak.currentStreak} day streak</Text>
+            </View>
             {streak.isStreakAtRisk && !streak.isPracticedToday && (
               <Text style={styles.warningText}>
                 Practice today to keep your streak!
@@ -289,7 +291,7 @@ export const PracticeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
   },
   counterSection: {
@@ -300,12 +302,12 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     alignItems: 'center',
-    backgroundColor: '#121212',
+    backgroundColor: '#1A0A2E',
     flex: 1,
     justifyContent: 'center',
   },
   loadingText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 18,
     marginTop: 16,
   },
@@ -316,12 +318,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   streakContainer: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#2D1B4E',
     borderRadius: 12,
     padding: 16,
   },
   streakText: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 4,
@@ -330,13 +332,13 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   title: {
-    color: '#FFFFFF',
+    color: '#FFF8E7',
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 16,
   },
   warningText: {
-    color: '#FF9800',
+    color: '#FF6B35',
     fontSize: 14,
     marginTop: 8,
   },

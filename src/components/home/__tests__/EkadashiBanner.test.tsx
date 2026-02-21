@@ -268,7 +268,7 @@ describe('EkadashiBanner', () => {
       const { getByTestId } = render(<EkadashiBanner />);
 
       const banner = getByTestId('ekadashi-banner');
-      // Should use #1E1E1E background like other cards
+      // Should use #2D1B4E background like other cards
       expect(banner).toBeTruthy();
     });
 
