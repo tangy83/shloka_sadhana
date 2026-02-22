@@ -5,7 +5,7 @@
  * Stack + bottom tab navigation connecting all main screens
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -27,6 +27,9 @@ import { AboutScreen } from '@/screens/AboutScreen';
 import { PrivacyPolicyScreen } from '@/screens/PrivacyPolicyScreen';
 import { TermsOfServiceScreen } from '@/screens/TermsOfServiceScreen';
 import { SessionHistoryScreen } from '@/screens/SessionHistoryScreen';
+import { OnboardingScreen } from '@/screens/OnboardingScreen';
+import { getItem } from '@/utils/storage';
+import { STORAGE_KEYS } from '@/constants/StorageKeys';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -137,8 +140,29 @@ const TabNavigator = () => {
 
 /**
  * Main App Navigator with Stack
+ *
+ * On first launch (ONBOARDING_COMPLETE not set) the Onboarding screen is
+ * registered as the initial route.  After the user completes onboarding the
+ * flag is written to AsyncStorage and navigation.replace('MainTabs') is called.
+ * On subsequent launches the MainTabs screen is shown immediately.
  */
 export const AppNavigator = () => {
+  // null = still loading; false = first launch; true = already onboarded
+  const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      const flag = await getItem<boolean>(STORAGE_KEYS.ONBOARDING_COMPLETE);
+      setIsOnboarded(flag === true);
+    };
+    checkOnboarding();
+  }, []);
+
+  // Render nothing while we check AsyncStorage — avoids a flash of the wrong screen
+  if (isOnboarded === null) {
+    return null;
+  }
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -146,6 +170,11 @@ export const AppNavigator = () => {
         animation: 'fade',
       }}
     >
+      {/* Conditional root: show onboarding on first launch only */}
+      {!isOnboarded && (
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+      )}
+
       {/* Main tabs */}
       <Stack.Screen name="MainTabs" component={TabNavigator} />
 
