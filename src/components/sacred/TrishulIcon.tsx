@@ -58,3 +58,4 @@ export const TrishulIcon = memo(({ size = 32, color = '#D4AF37' }: TrishulIconPr
     </Svg>
   );
 });
+TrishulIcon.displayName = 'TrishulIcon';

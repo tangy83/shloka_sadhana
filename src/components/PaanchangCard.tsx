@@ -116,6 +116,7 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
 };
 
 const styles = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-color-literals
   container: {
     backgroundColor: Colors.surface,
     borderColor: '#2E2E2E',
@@ -124,17 +125,19 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     padding: 16,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   containerEkadashi: {
     backgroundColor: '#2A2416',
     borderColor: Colors.primary,
     borderWidth: 2,
   },
   deityName: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 15,
     fontWeight: '600',
     marginBottom: 4,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   ekadashiName: {
     color: '#FFB84D',
     fontSize: 16,
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   ekadasiBadgeText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 12,
     fontWeight: '600',
   },
@@ -180,6 +183,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 20,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   recommendationContainer: {
     borderTopColor: '#2E2E2E',
     borderTopWidth: 1,
@@ -190,7 +194,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   recommendationTitle: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
@@ -203,12 +207,12 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
   },
   value: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 14,
     fontWeight: '600',
   },

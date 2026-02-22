@@ -32,6 +32,18 @@ jest.mock('../../components/SankalpModal');
 jest.mock('../../components/OfferingModal');
 jest.mock('../../utils/practiceStorage');
 
+// Mock useAchievements — added post-fork to PracticeScreen (calls checkAndUnlock on completion)
+jest.mock('../../hooks/useAchievements', () => ({
+  useAchievements: () => ({
+    unlockedIds: [],
+    xp: 0,
+    recentlyUnlocked: null,
+    isLoading: false,
+    checkAndUnlock: jest.fn().mockResolvedValue(undefined),
+    dismissRecentlyUnlocked: jest.fn(),
+  }),
+}));
+
 const mockUseTimer = useTimer as jest.MockedFunction<typeof useTimer>;
 const mockUseStreak = useStreak as jest.MockedFunction<typeof useStreak>;
 const MockTimer = Timer as jest.MockedFunction<typeof Timer>;
@@ -81,6 +93,16 @@ describe('PracticeScreen', () => {
     mockSaveActivePractice.mockResolvedValue();
     mockClearActivePractice.mockResolvedValue();
     mockSavePracticeToHistory.mockResolvedValue();
+    // getPracticeStats — used by PracticeScreen to pass stats to achievements.checkAndUnlock
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { getPracticeStats } = require('../../utils/practiceStorage');
+    (getPracticeStats as jest.Mock).mockResolvedValue({
+      totalPractices: 25,
+      totalMalas: 100,
+      totalMinutes: 500,
+      favoriteShlokaId: null,
+      lastPracticeDate: null,
+    });
 
     // Mock component implementations
     MockTimer.mockImplementation(() => {

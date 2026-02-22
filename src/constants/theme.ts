@@ -7,6 +7,8 @@
  *   Light — Warm Cream (#FFF8E7) base, same saffron/gold primaries
  */
 
+import { Colors } from './Colors';
+
 export type ThemeMode = 'dark' | 'light' | 'system';
 
 export interface Theme {
@@ -27,19 +29,19 @@ export interface Theme {
 }
 
 export const darkTheme: Theme = {
-  background: '#1E0E05',       // Deepest sanctum — temple at midnight
+  background: Colors.background,       // Deepest sanctum — temple at midnight
   surface: '#2A1408',          // Warm brown — card surfaces, altar wood
-  surfaceSecondary: '#3A1D0D', // Raised warm brown — modals, dividers
-  surfaceElevated: '#3A1D0D',  // Elevated surface (same as secondary)
-  text: '#FFF3E0',             // Warm parchment cream — ancient manuscript
-  textSecondary: '#FFB74D',    // Soft amber — secondary labels, icons
-  textMeaning: 'rgba(255, 243, 224, 0.9)', // Slightly muted for English meanings
-  primary: '#E55B00',          // Deep Saffron — sacred fire, primary action
-  primaryLight: '#FFD700',     // Temple Gold — highlights, ॐ symbol, mala count
-  border: 'rgba(255, 140, 0, 0.15)', // Soft gold boundary — breathable, warm
+  surfaceSecondary: Colors.surfaceElevated, // Raised warm brown — modals, dividers
+  surfaceElevated: Colors.surfaceElevated,  // Elevated surface (same as secondary)
+  text: Colors.text,             // Warm parchment cream — ancient manuscript
+  textSecondary: Colors.textSecondary,    // Soft amber — secondary labels, icons
+  textMeaning: Colors.textMeaning, // Slightly muted for English meanings
+  primary: Colors.primary,          // Deep Saffron — sacred fire, primary action
+  primaryLight: Colors.templeGold,     // Temple Gold — highlights, ॐ symbol, mala count
+  border: Colors.border, // Soft gold boundary — breathable, warm
   headerBackground: '#2A1408',  // Warm brown — stack nav headers
-  success: '#4CAF50',          // Green — streak achievement, completion
-  warning: '#FFD700',          // Temple Gold — caution
+  success: Colors.success,          // Green — streak achievement, completion
+  warning: Colors.templeGold,          // Temple Gold — caution
   error: '#EF4444',            // Red — errors
 };
 
@@ -51,8 +53,8 @@ export const lightTheme: Theme = {
   text: '#2C1200',          // Dark warm brown — on cream
   textSecondary: '#7B5E35', // Warm brown — secondary labels
   textMeaning: 'rgba(44, 18, 0, 0.75)', // Muted meaning text on cream
-  primary: '#E55B00',       // Saffron — same across themes
-  primaryLight: '#FFD700',  // Temple Gold — same across themes
+  primary: Colors.primary,       // Saffron — same across themes
+  primaryLight: Colors.templeGold,  // Temple Gold — same across themes
   border: 'rgba(200, 120, 0, 0.20)', // Warm gold border on cream
   headerBackground: '#FFF0D0',  // Pale amber — stack nav headers on light
   success: '#2E7D32',       // Deeper green for legibility on cream

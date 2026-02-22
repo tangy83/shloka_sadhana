@@ -118,6 +118,7 @@ export const MandalaBackground = memo(() => {
     </View>
   );
 });
+MandalaBackground.displayName = 'MandalaBackground';
 
 const styles = StyleSheet.create({
   container: {

@@ -245,17 +245,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
   },
   confirmButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   description: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 16,
     fontWeight: '400',
     marginBottom: 20,
     textAlign: 'center',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   exampleItem: {
     backgroundColor: '#3C3C3C',
     borderColor: '#424242',
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   exampleText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 20,
@@ -280,6 +281,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     textDecorationLine: 'underline',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   examplesContainer: {
     backgroundColor: '#2C2C2C',
     borderRadius: 12,
@@ -297,11 +299,12 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   helpText: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 20,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   helpTextContainer: {
     backgroundColor: '#2C2C2C',
     borderLeftColor: Colors.primary,
@@ -310,12 +313,13 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     padding: 12,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   input: {
     backgroundColor: '#2C2C2C',
     borderColor: '#424242',
     borderRadius: 12,
     borderWidth: 1,
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     marginBottom: 20,
     minHeight: 120,
@@ -326,6 +330,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     width: '85%',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   modalContent: {
     backgroundColor: Colors.surface,
     borderRadius: 16,
@@ -341,20 +346,21 @@ const styles = StyleSheet.create({
   },
   overlay: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: Colors.scrim,
     flex: 1,
     justifyContent: 'center',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   skipButton: {
     backgroundColor: '#424242',
   },
   skipButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 8,

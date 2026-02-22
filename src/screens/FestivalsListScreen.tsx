@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   deity: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 13,
     fontWeight: '500',
     marginBottom: 12,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   festivalName: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 8,
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     color: Colors.background,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

@@ -40,6 +40,7 @@ export const SacredButton = memo(({
       tension: 300,
       useNativeDriver: true,
     }).start();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- scale is a stable Animated.Value ref
   }, [disabled]);
 
   const handlePressOut = useCallback(() => {
@@ -49,6 +50,7 @@ export const SacredButton = memo(({
       tension: 300,
       useNativeDriver: true,
     }).start();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- scale is a stable Animated.Value ref
   }, []);
 
   return (
@@ -66,3 +68,4 @@ export const SacredButton = memo(({
     </Animated.View>
   );
 });
+SacredButton.displayName = 'SacredButton';

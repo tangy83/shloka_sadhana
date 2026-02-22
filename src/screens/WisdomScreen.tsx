@@ -123,9 +123,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 16,
   },
-  categoryEmoji: {
-    fontSize: 16,
-  },
   categoryText: {
     color: Colors.primary,
     fontSize: 12,
@@ -147,15 +144,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   quoteText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontStyle: 'italic',
     lineHeight: 24,
     marginBottom: 16,
-  },
-  scrollContent: {
-    padding: 20,
-    paddingTop: 0,
   },
   readMore: {
     color: Colors.primary,
@@ -163,6 +156,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 12,
     textAlign: 'right',
+  },
+  scrollContent: {
+    padding: 20,
+    paddingTop: 0,
   },
   source: {
     color: Colors.textSecondary,
@@ -173,7 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

@@ -209,7 +209,7 @@ export const ShlokaDetailScreen: React.FC = () => {
         <View style={styles.infoSection}>
           <View style={styles.infoItem}>
             <Text style={styles.infoLabel}>Duration</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <View style={styles.durationRow}>
               <MaterialCommunityIcons name="timer-outline" size={16} color={Colors.textSecondary} />
               <Text style={styles.infoValue}>{shloka.duration}</Text>
             </View>
@@ -313,7 +313,7 @@ export const ShlokaDetailScreen: React.FC = () => {
 const styles = StyleSheet.create({
   audioButton: {
     alignItems: 'center',
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.success,
     borderRadius: 12,
     flexDirection: 'row',
     gap: 8,
@@ -322,47 +322,12 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   audioButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
-  audioIcon: {
-    fontSize: 20,
-  },
-  speedRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 8,
-    justifyContent: 'center',
-    marginBottom: 16,
-    marginTop: -8,
-  },
-  speedLabel: {
-    color: Colors.textSecondary,
-    fontSize: 13,
-    marginRight: 4,
-  },
-  speedBtn: {
-    borderColor: Colors.border,
-    borderRadius: 20,
-    borderWidth: 1,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-  },
-  speedBtnActive: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
-  },
-  speedBtnText: {
-    color: Colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  speedBtnTextActive: {
-    color: Colors.text,
-  },
   benefits: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 16,
     lineHeight: 24,
   },
@@ -376,9 +341,14 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   description: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 16,
     lineHeight: 24,
+  },
+  durationRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 6,
   },
   errorContainer: {
     alignItems: 'center',
@@ -393,19 +363,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   errorText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 12,
     textAlign: 'center',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   favoriteButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)', // subtle white highlight on dark header
     borderRadius: 24,
     padding: 8,
-  },
-  favoriteIcon: {
-    fontSize: 24,
   },
   header: {
     marginBottom: 24,
@@ -437,12 +405,12 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   infoValue: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 14,
     fontWeight: '500',
   },
   meaning: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 22,
   },
@@ -457,7 +425,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   sanskrit: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '500',
     lineHeight: 36,
@@ -478,7 +446,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   sectionTitle: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 12,
@@ -488,6 +456,38 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
+  },
+  speedBtn: {
+    borderColor: Colors.border,
+    borderRadius: 20,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+  },
+  speedBtnActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  speedBtnText: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  speedBtnTextActive: {
+    color: Colors.text,
+  },
+  speedLabel: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    marginRight: 4,
+  },
+  speedRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    justifyContent: 'center',
+    marginBottom: 16,
+    marginTop: -8,
   },
   startPracticeButton: {
     alignItems: 'center',
@@ -505,15 +505,12 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   startPracticeButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '700',
   },
-  startPracticeIcon: {
-    fontSize: 20,
-  },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,
@@ -525,9 +522,10 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginBottom: 12,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   youtubeButton: {
     alignItems: 'center',
-    backgroundColor: '#FF0000',
+    backgroundColor: '#FF0000', // YouTube brand red
     borderRadius: 12,
     flexDirection: 'row',
     gap: 8,
@@ -536,11 +534,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   youtubeButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
-  },
-  youtubeIcon: {
-    fontSize: 20,
   },
 });

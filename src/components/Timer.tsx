@@ -182,15 +182,15 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   buttonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '600',
   },
   completeButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.success,
   },
   completionMessage: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 16,
@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   disabledButton: {
     backgroundColor: '#424242',
   },
@@ -216,14 +217,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   secondaryButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#2196F3', // blue — secondary/skip action
   },
   tertiaryButton: {
-    backgroundColor: '#FFB74D',
+    backgroundColor: Colors.textSecondary,
   },
   timerDisplay: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 72,
     fontVariant: ['tabular-nums'],
     fontWeight: '700',

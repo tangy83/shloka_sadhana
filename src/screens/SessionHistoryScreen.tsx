@@ -216,13 +216,13 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
 const styles = StyleSheet.create({
   closeButton: {
     alignItems: 'center',
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.success,
     borderRadius: 12,
     marginTop: 16,
     padding: 16,
   },
   closeButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   emptyStateText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 8,
@@ -264,8 +264,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     textTransform: 'uppercase',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   modalOverlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)', // extra-dark overlay for bottom sheet
     flex: 1,
     justifyContent: 'flex-end',
   },
@@ -273,18 +274,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   modalTitle: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 24,
   },
   modalValue: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     lineHeight: 24,
   },
   sessionDate: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   sessionDuration: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -312,7 +313,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   sessionSankalp: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 14,
     fontStyle: 'italic',
   },
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   statValue: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 24,
     fontWeight: '700',
   },
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 16,

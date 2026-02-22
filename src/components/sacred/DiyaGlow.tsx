@@ -46,6 +46,7 @@ export const DiyaGlow = memo(({ intensity = 'idle', reducedMotion = false }: Diy
       easing: EASE_OUT_CUBIC,
       useNativeDriver: true,
     }).start();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- opacityAnim is a stable Animated.Value ref
   }, [intensity, reducedMotion]);
 
   return (
@@ -85,6 +86,7 @@ export const DiyaGlow = memo(({ intensity = 'idle', reducedMotion = false }: Diy
     </Animated.View>
   );
 });
+DiyaGlow.displayName = 'DiyaGlow';
 
 const styles = StyleSheet.create({
   container: {

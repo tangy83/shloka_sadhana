@@ -326,7 +326,7 @@ export const PracticeScreen: React.FC = () => {
 
           {/* Streak Display */}
           <View style={styles.streakContainer}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={styles.streakRow}>
               <MaterialCommunityIcons name="fire" size={20} color="#FF9A2A" />
               <Text style={styles.streakText}>{streak.currentStreak} day streak</Text>
             </View>
@@ -409,23 +409,59 @@ export const PracticeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1E0E05',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   counterSection: {
     marginBottom: 32,
+  },
+  goalBar: {
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 14,
+  },
+  goalBarCount: {
+    color: Colors.text,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  goalBarHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  goalBarLabel: {
+    color: Colors.textSecondary,
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  goalFill: {
+    backgroundColor: Colors.primary,
+    borderRadius: 4,
+    height: 6,
+  },
+  goalTrack: {
+    backgroundColor: Colors.backgroundLight,
+    borderRadius: 4,
+    height: 6,
+    overflow: 'hidden',
   },
   header: {
     marginBottom: 32,
   },
   loadingContainer: {
     alignItems: 'center',
-    backgroundColor: '#1E0E05',
+    backgroundColor: Colors.background,
     flex: 1,
     justifyContent: 'center',
   },
   loadingText: {
-    color: '#FFF3E0',
+    color: Colors.text,
     fontSize: 18,
     marginTop: 16,
   },
@@ -438,15 +474,20 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   streakContainer: {
-    backgroundColor: '#2A1408',
-    borderColor: 'rgba(255, 140, 0, 0.15)',
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
     borderRadius: 12,
     borderWidth: 1,
     padding: 16,
     ...shadows.card,
   },
+  streakRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
   streakText: {
-    color: '#FFF3E0',
+    color: Colors.text,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 4,
@@ -455,50 +496,14 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   title: {
-    color: '#FFF3E0',
+    color: Colors.text,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 16,
   },
   warningText: {
-    color: '#FFB74D',
+    color: Colors.textSecondary,
     fontSize: 14,
     marginTop: 8,
-  },
-  goalBar: {
-    backgroundColor: Colors.surface,
-    borderColor: Colors.border,
-    borderRadius: 12,
-    borderWidth: 1,
-    marginBottom: 20,
-    padding: 14,
-  },
-  goalBarHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  goalBarLabel: {
-    color: Colors.textSecondary,
-    fontSize: 12,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  goalBarCount: {
-    color: Colors.text,
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  goalTrack: {
-    backgroundColor: Colors.backgroundLight,
-    borderRadius: 4,
-    height: 6,
-    overflow: 'hidden',
-  },
-  goalFill: {
-    backgroundColor: Colors.primary,
-    borderRadius: 4,
-    height: 6,
   },
 });

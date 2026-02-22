@@ -198,19 +198,19 @@ describe('ShlokaDetailScreen', () => {
     it('should show unfilled heart when not favorited', () => {
       render(<ShlokaDetailScreen />);
       screen.getByTestId('favorite-button');
-      expect(screen.getByText('🤍')).toBeTruthy();
+      // @expo/vector-icons mock renders Ionicons icon name as text
+      expect(screen.getByText('heart-outline')).toBeTruthy();
     });
 
     it('should show filled heart when favorited', async () => {
       render(<ShlokaDetailScreen />);
       const button = screen.getByTestId('favorite-button');
 
-      // Toggle favorite
+      // Toggle favorite — icon switches from heart-outline to heart
       fireEvent.press(button);
 
-      // Wait for state update
       await waitFor(() => {
-        expect(screen.getByText('❤️')).toBeTruthy();
+        expect(screen.getByText('heart')).toBeTruthy();
       });
     });
 
@@ -223,21 +223,21 @@ describe('ShlokaDetailScreen', () => {
       render(<ShlokaDetailScreen />);
       const button = screen.getByTestId('favorite-button');
 
-      // Initially unfavorited
-      expect(screen.getByText('🤍')).toBeTruthy();
+      // Initially unfavorited — @expo/vector-icons mock renders icon name as text
+      expect(screen.getByText('heart-outline')).toBeTruthy();
 
-      // Press to favorite
+      // Press to favorite — icon switches to 'heart'
       fireEvent.press(button);
 
       await waitFor(() => {
-        expect(screen.getByText('❤️')).toBeTruthy();
+        expect(screen.getByText('heart')).toBeTruthy();
       });
 
-      // Press to unfavorite
+      // Press to unfavorite — icon switches back to 'heart-outline'
       fireEvent.press(button);
 
       await waitFor(() => {
-        expect(screen.getByText('🤍')).toBeTruthy();
+        expect(screen.getByText('heart-outline')).toBeTruthy();
       });
     });
   });

@@ -178,13 +178,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   icon: {
-    color: '#FFD700',
+    color: Colors.templeGold,
     fontSize: 36,
     fontWeight: '700',
     marginRight: 16,
   },
   significance: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 14,
     lineHeight: 20,
     marginTop: 8,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,

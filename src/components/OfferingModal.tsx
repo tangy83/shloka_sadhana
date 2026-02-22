@@ -164,33 +164,34 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   confirmButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.success,
   },
   confirmButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   description: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 16,
     fontWeight: '400',
     marginBottom: 12,
     textAlign: 'center',
   },
   elapsedTime: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 16,
     textAlign: 'center',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   input: {
     backgroundColor: '#2C2C2C',
     borderColor: '#424242',
     borderRadius: 12,
     borderWidth: 1,
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     marginBottom: 20,
     minHeight: 120,
@@ -200,6 +201,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     width: '85%',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   modalContent: {
     backgroundColor: Colors.surface,
     borderRadius: 16,
@@ -212,20 +214,21 @@ const styles = StyleSheet.create({
   },
   overlay: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: Colors.scrim,
     flex: 1,
     justifyContent: 'center',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   skipButton: {
     backgroundColor: '#424242',
   },
   skipButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 8,

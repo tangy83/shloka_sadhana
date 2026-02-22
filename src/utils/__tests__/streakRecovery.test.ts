@@ -21,6 +21,12 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
 }));
 
+// Fix "today" to match the hardcoded TODAY constant in this test file
+// (streakRecovery.ts calls getTodayISO() — mock it to return the same fixed date)
+jest.mock('@/utils/dateUtils', () => ({
+  getTodayISO: () => '2026-02-07',
+}));
+
 const mockAsyncStorage = AsyncStorage as jest.Mocked<typeof AsyncStorage>;
 
 describe('streakRecovery', () => {

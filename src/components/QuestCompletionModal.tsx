@@ -73,13 +73,7 @@ export const QuestCompletionModal: React.FC<QuestCompletionModalProps> = ({
 };
 
 const styles = StyleSheet.create({
-  overlay: {
-    alignItems: 'center',
-    backgroundColor: Colors.overlay,
-    flex: 1,
-    justifyContent: 'center',
-    padding: 32,
-  },
+  // eslint-disable-next-line react-native/no-color-literals
   card: {
     alignItems: 'center',
     backgroundColor: Colors.surfaceElevated,
@@ -89,6 +83,12 @@ const styles = StyleSheet.create({
     padding: 32,
     width: '100%',
   },
+  hint: {
+    color: Colors.textTertiary,
+    fontSize: 12,
+    fontStyle: 'italic',
+  },
+  // eslint-disable-next-line react-native/no-color-literals
   omText: {
     color: Colors.templeGold,
     fontSize: 72,
@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
   },
-  title: {
-    color: Colors.text,
-    fontSize: 24,
-    fontWeight: '700',
-    marginBottom: 6,
-    textAlign: 'center',
+  overlay: {
+    alignItems: 'center',
+    backgroundColor: Colors.overlay,
+    flex: 1,
+    justifyContent: 'center',
+    padding: 32,
   },
   questName: {
     color: Colors.textSecondary,
@@ -112,6 +112,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
+  title: {
+    color: Colors.text,
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 6,
+    textAlign: 'center',
+  },
+  // eslint-disable-next-line react-native/no-color-literals
   xpRow: {
     alignItems: 'center',
     backgroundColor: 'rgba(255, 215, 0, 0.12)',
@@ -126,10 +134,5 @@ const styles = StyleSheet.create({
     color: Colors.templeGold,
     fontSize: 16,
     fontWeight: '700',
-  },
-  hint: {
-    color: Colors.textTertiary,
-    fontSize: 12,
-    fontStyle: 'italic',
   },
 });

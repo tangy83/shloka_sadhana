@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   icon: {
-    color: '#FFD700',
+    color: Colors.templeGold,
     fontSize: 56,
     fontWeight: '700',
     marginBottom: 16,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   infoValue: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     flex: 1,
     fontSize: 14,
   },
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   sectionContent: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 22,
   },
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 8,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   vrataKatha: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 15,
     fontStyle: 'italic',
     lineHeight: 24,

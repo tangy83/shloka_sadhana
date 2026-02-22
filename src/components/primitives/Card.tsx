@@ -14,6 +14,7 @@
 import React from 'react';
 import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { shadows } from '@/constants/theme';
+import { Colors } from '@/constants/Colors';
 import { SacredButton } from '@/components/sacred';
 
 export interface CardProps {
@@ -50,16 +51,16 @@ export const Card: React.FC<CardProps> = ({ children, elevated = false, style, o
 
 const styles = StyleSheet.create({
   base: {
+    borderColor: Colors.border,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255, 140, 0, 0.15)',
     padding: 16,
     ...shadows.card,
   },
-  standard: {
-    backgroundColor: '#2A1408', // Colors.surface
-  },
   elevated: {
-    backgroundColor: '#3A1D0D', // Colors.surfaceElevated
+    backgroundColor: Colors.surfaceElevated, // Colors.surfaceElevated
+  },
+  standard: {
+    backgroundColor: Colors.surface, // Colors.surface
   },
 });

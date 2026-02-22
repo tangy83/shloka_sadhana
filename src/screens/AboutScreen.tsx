@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   footerText: {
-    color: '#FFB74D',
+    color: Colors.textSecondary,
     fontSize: 13,
     textAlign: 'center',
   },
@@ -117,13 +117,13 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   logo: {
-    color: '#FFD700',
+    color: Colors.templeGold,
     fontSize: 72,
     fontWeight: '700',
     marginBottom: 16,
   },
   paragraph: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 24,
   },

@@ -83,7 +83,7 @@ export const HomeScreen: React.FC = () => {
       <DiyaGlow intensity="idle" />
 
       {/* Header */}
-      <View style={[styles.header, { zIndex: 1 }]}>
+      <View style={[styles.header, styles.elevated]}>
         <View style={styles.headerRow}>
           <View>
             <Text style={styles.appTitle}>Shloka Sadhana</Text>
@@ -107,7 +107,7 @@ export const HomeScreen: React.FC = () => {
       <ScrollView
         testID="home-scroll"
         contentContainerStyle={styles.scrollContent}
-        style={{ zIndex: 1 }}
+        style={styles.elevated}
       >
         {/* Resume Practice Button */}
         {activePractice && (
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   actionText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 13,
     fontWeight: '500',
     textAlign: 'center',
@@ -374,27 +374,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
-  },
-  historyButton: {
-    alignItems: 'center',
-    backgroundColor: Colors.surface,
-    borderRadius: 12,
-    flexDirection: 'row',
-    padding: 16,
-  },
-  historyButtonArrow: {
-    color: Colors.primary,
-    fontSize: 24,
-    fontWeight: '300',
-    marginLeft: 'auto',
-  },
-  historyButtonIcon: {
-    marginRight: 12,
-  },
-  historyButtonText: {
-    color: '#FFF8E7',
-    fontSize: 15,
-    fontWeight: '500',
   },
   ekadashiButtonArrow: {
     color: Colors.primary,
@@ -417,10 +396,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   ekadashiButtonTitle: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 4,
+  },
+  elevated: {
+    zIndex: 1,
   },
   festivalsButton: {
     backgroundColor: Colors.surface,
@@ -447,7 +429,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   festivalsButtonTitle: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 4,
@@ -460,6 +442,27 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  historyButton: {
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    flexDirection: 'row',
+    padding: 16,
+  },
+  historyButtonArrow: {
+    color: Colors.primary,
+    fontSize: 24,
+    fontWeight: '300',
+    marginLeft: 'auto',
+  },
+  historyButtonIcon: {
+    marginRight: 12,
+  },
+  historyButtonText: {
+    color: Colors.textBright,
+    fontSize: 15,
+    fontWeight: '500',
   },
   periodStatCard: {
     backgroundColor: Colors.surface,
@@ -484,7 +487,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   periodStatValue: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -531,7 +534,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionTitle: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 16,

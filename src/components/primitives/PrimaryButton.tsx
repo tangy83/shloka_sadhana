@@ -18,6 +18,7 @@ import {
   StyleProp,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Colors } from '@/constants/Colors';
 import { SacredButton } from '@/components/sacred';
 
 export interface PrimaryButtonProps {
@@ -54,7 +55,7 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
         </LinearGradient>
       ) : (
         <LinearGradient
-          colors={['#FF9A2A', '#E55B00']}
+          colors={['#FF9A2A', Colors.primary]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={styles.gradient}
@@ -67,10 +68,6 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    borderRadius: 26,
-    overflow: 'hidden',
-  },
   gradient: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -79,12 +76,17 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   label: {
-    color: '#1E0E05', // Dark sanctum — high contrast on saffron gradient
+    color: Colors.background, // Dark sanctum — high contrast on saffron gradient
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.3,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   labelDisabled: {
-    color: 'rgba(255, 243, 224, 0.5)',
+    color: 'rgba(255, 243, 224, 0.5)', // 50% opacity cream — disabled state
+  },
+  wrapper: {
+    borderRadius: 26,
+    overflow: 'hidden',
   },
 });

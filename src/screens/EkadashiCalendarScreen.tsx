@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   ekadashiName: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   icon: {
-    color: '#FFD700',
+    color: Colors.templeGold,
     fontSize: 36,
     fontWeight: '700',
     marginRight: 16,
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   paksha: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 13,
     fontWeight: '500',
     marginBottom: 8,
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     color: Colors.background,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

@@ -23,6 +23,7 @@ export const Colors = {
 
   // Text — Warm manuscript tones
   text: '#FFF3E0',          // Warm parchment cream — primary text
+  textBright: '#FFF8E7',    // Slightly lighter cream variant — UI labels, buttons
   textSecondary: '#FFB74D', // Soft amber — secondary labels, icons
   textTertiary: 'rgba(255, 243, 224, 0.50)', // 50% cream — tertiary
   textDisabled: 'rgba(255, 243, 224, 0.35)', // 35% cream — disabled
@@ -46,6 +47,7 @@ export const Colors = {
   // Overlays
   overlay: 'rgba(30, 14, 5, 0.85)',    // Deep brown overlay
   overlayLight: 'rgba(30, 14, 5, 0.55)',
+  scrim: 'rgba(0, 0, 0, 0.7)',         // Modal/dialog dimming layer
 
   // Spiritual accent colors
   templeGold: '#FFD700',    // Achievements, mala count label

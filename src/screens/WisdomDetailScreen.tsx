@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   applicationText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     flex: 1,
     fontSize: 15,
     lineHeight: 22,
@@ -219,9 +219,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 40,
   },
-  icon: {
-    fontSize: 64,
-  },
   meaningHighlight: {
     backgroundColor: Colors.surface,
     borderLeftColor: Colors.primary,
@@ -230,19 +227,19 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   meaningText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '500',
     lineHeight: 24,
   },
   quoteText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 17,
     fontStyle: 'italic',
     lineHeight: 28,
   },
   sanskritText: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 18,
     fontWeight: '500',
     lineHeight: 32,
@@ -259,7 +256,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   sectionContent: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 24,
   },
@@ -276,7 +273,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   sourceChapter: {
-    color: '#FFB74D',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontStyle: 'italic',
   },
@@ -287,7 +284,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   tagText: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 12,
     fontWeight: '500',
   },

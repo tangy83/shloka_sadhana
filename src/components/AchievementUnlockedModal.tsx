@@ -80,13 +80,7 @@ export const AchievementUnlockedModal: React.FC<AchievementUnlockedModalProps> =
 };
 
 const styles = StyleSheet.create({
-  overlay: {
-    alignItems: 'center',
-    backgroundColor: Colors.overlay,
-    flex: 1,
-    justifyContent: 'center',
-    padding: 32,
-  },
+  // eslint-disable-next-line react-native/no-color-literals
   card: {
     alignItems: 'center',
     backgroundColor: Colors.surfaceElevated,
@@ -96,6 +90,19 @@ const styles = StyleSheet.create({
     padding: 32,
     width: '100%',
   },
+  desc: {
+    color: Colors.textMeaning,
+    fontSize: 14,
+    lineHeight: 21,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  hint: {
+    color: Colors.textTertiary,
+    fontSize: 12,
+    fontStyle: 'italic',
+  },
+  // eslint-disable-next-line react-native/no-color-literals
   iconCircle: {
     alignItems: 'center',
     backgroundColor: 'rgba(255, 215, 0, 0.15)',
@@ -115,6 +122,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textTransform: 'uppercase',
   },
+  overlay: {
+    alignItems: 'center',
+    backgroundColor: Colors.overlay,
+    flex: 1,
+    justifyContent: 'center',
+    padding: 32,
+  },
   title: {
     color: Colors.text,
     fontSize: 22,
@@ -122,13 +136,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textAlign: 'center',
   },
-  desc: {
-    color: Colors.textMeaning,
-    fontSize: 14,
-    lineHeight: 21,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
+  // eslint-disable-next-line react-native/no-color-literals
   xpRow: {
     alignItems: 'center',
     backgroundColor: 'rgba(255, 215, 0, 0.12)',
@@ -143,10 +151,5 @@ const styles = StyleSheet.create({
     color: Colors.templeGold,
     fontSize: 16,
     fontWeight: '700',
-  },
-  hint: {
-    color: Colors.textTertiary,
-    fontSize: 12,
-    fontStyle: 'italic',
   },
 });

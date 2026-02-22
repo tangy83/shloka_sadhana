@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   meaning: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 24,
     marginTop: 12,
   },
   sanskrit: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '500',
     lineHeight: 28,

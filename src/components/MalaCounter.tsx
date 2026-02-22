@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { triggerMedium, triggerLight } from '@/utils/haptics';
+import { Colors } from '@/constants/Colors';
 import { glow } from '@/constants/theme';
 import { MalaCelebration } from '@/components/sacred';
 import { checkReducedMotion } from '@/animations/sacredAnimations';
@@ -222,6 +223,7 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
 };
 
 const styles = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-color-literals
   button: {
     alignItems: 'center',
     borderRadius: 40,
@@ -235,7 +237,7 @@ const styles = StyleSheet.create({
     width: 80,
   },
   buttonText: {
-    color: '#FFF3E0',
+    color: Colors.text,
     fontSize: 48,
     fontWeight: '700',
   },
@@ -251,32 +253,32 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   countDisplay: {
-    color: '#FFF3E0',           // Warm parchment cream
+    color: Colors.text,           // Warm parchment cream
     fontSize: 96,
     fontVariant: ['tabular-nums'],
     fontWeight: '700',
     marginBottom: 32,
   },
   decrementButton: {
-    backgroundColor: '#3A1D0D', // surfaceElevated — warm, recessive
+    backgroundColor: Colors.surfaceElevated, // surfaceElevated — warm, recessive
   },
   incrementButton: {
-    backgroundColor: '#E55B00', // Deep Saffron — sacred fire energy
+    backgroundColor: Colors.primary, // Deep Saffron — sacred fire energy
   },
   malaCount: {
-    color: '#FFD700',           // Temple Gold
+    color: Colors.templeGold,           // Temple Gold
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 8,
   },
   resetButton: {
-    backgroundColor: '#3A1D0D', // surfaceElevated — recessive, non-intrusive
+    backgroundColor: Colors.surfaceElevated, // surfaceElevated — recessive, non-intrusive
     borderRadius: 24,
     height: 48,
     width: 120,
   },
   resetButtonText: {
-    color: '#FFB74D',           // Soft amber
+    color: Colors.textSecondary,           // Soft amber
     fontSize: 18,
     fontWeight: '600',
   },

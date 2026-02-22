@@ -103,6 +103,7 @@ export function useAppUpdates(): UseAppUpdatesReturn {
       console.log('[useAppUpdates] Auto-applying update...');
       applyUpdate();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional run-on-mount; applyUpdate/isDownloading adding would re-trigger on every state change
   }, [isUpdateAvailable]);
 
   return {

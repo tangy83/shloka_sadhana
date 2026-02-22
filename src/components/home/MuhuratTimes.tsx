@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   muhuratReason: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 6,
@@ -182,13 +182,13 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   muhuratTitle: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 15,
     fontWeight: '600',
     marginBottom: 4,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 16,

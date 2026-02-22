@@ -132,9 +132,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
   },
-  categoryEmoji: {
-    fontSize: 14,
-  },
   categoryTag: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -176,7 +173,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   quoteText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 15,
     fontStyle: 'italic',
     lineHeight: 22,

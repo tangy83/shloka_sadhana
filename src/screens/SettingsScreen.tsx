@@ -31,7 +31,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useFontSize } from '@/hooks/useFontSize';
 import { ThemeMode } from '@/constants/theme';
 import Constants from 'expo-constants';
-import { Colors } from '@/constants/Colors';
+import { Colors, withOpacity } from '@/constants/Colors';
 
 interface QuietHoursTime {
   hour: number;
@@ -336,7 +336,7 @@ export const SettingsScreen: React.FC = () => {
               returnKeyType="done"
               accessibilityLabel="Your display name"
             />
-            <Text style={[styles.settingLabel, { marginTop: 16, marginBottom: 10 }]}>
+            <Text style={[styles.settingLabel, styles.settingLabelAvatar]}>
               Avatar
             </Text>
             <View style={styles.emojiRow}>
@@ -396,7 +396,7 @@ export const SettingsScreen: React.FC = () => {
           </View>
 
           {/* Font size presets */}
-          <View style={[styles.settingCard, { marginTop: 8 }]}>
+          <View style={[styles.settingCard, styles.settingCardSpaced]}>
             <Text style={styles.settingLabel}>Text Size</Text>
             <View style={styles.segmentRow}>
               {FONT_PRESETS.map((preset) => (
@@ -659,7 +659,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
   },
   cancelButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -668,11 +668,53 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dangerRow: {
-    borderColor: '#F44336',
+    borderColor: Colors.error,
     borderWidth: 1,
   },
   dangerText: {
-    color: '#F44336',
+    color: Colors.error,
+  },
+  emojiBtn: {
+    alignItems: 'center',
+    borderColor: Colors.border,
+    borderRadius: 24,
+    borderWidth: 1.5,
+    height: 44,
+    justifyContent: 'center',
+    width: 44,
+  },
+  emojiBtnActive: {
+    backgroundColor: withOpacity(Colors.primary, 0.15),
+    borderColor: Colors.primary,
+  },
+  emojiRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  emojiText: {
+    fontSize: 22,
+  },
+  fontPreviewText: {
+    color: Colors.textMeaning,
+    fontStyle: 'italic',
+    marginTop: 12,
+    textAlign: 'center',
+  },
+  guestNote: {
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderRadius: 10,
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 24,
+    padding: 14,
+  },
+  guestNoteText: {
+    color: Colors.textSecondary,
+    flex: 1,
+    fontSize: 13,
+    lineHeight: 18,
   },
   header: {
     borderBottomColor: Colors.border,
@@ -681,7 +723,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   headerTitle: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
   },
@@ -708,24 +750,52 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: Colors.scrim,
     flex: 1,
     justifyContent: 'center',
   },
   modalTitle: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 20,
     textAlign: 'center',
   },
+  nameInput: {
+    backgroundColor: Colors.surfaceElevated,
+    borderColor: Colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    color: Colors.text,
+    fontSize: 16,
+    marginTop: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  profileCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    padding: 16,
+  },
   saveButton: {
     backgroundColor: Colors.primary,
   },
   saveButtonText: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
+  },
+  saveProfileBtn: {
+    alignItems: 'center',
+    backgroundColor: Colors.primary,
+    borderRadius: 10,
+    marginTop: 16,
+    paddingVertical: 12,
+  },
+  saveProfileBtnText: {
+    color: Colors.text,
+    fontSize: 15,
+    fontWeight: '700',
   },
   scrollContent: {
     padding: 20,
@@ -744,11 +814,39 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     textTransform: 'uppercase',
   },
+  segmentBtn: {
+    alignItems: 'center',
+    borderColor: Colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    flex: 1,
+    paddingVertical: 8,
+  },
+  segmentBtnActive: {
+    backgroundColor: withOpacity(Colors.primary, 0.15),
+    borderColor: Colors.primary,
+  },
+  segmentBtnText: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  segmentBtnTextActive: {
+    color: Colors.primary,
+  },
+  segmentRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 10,
+  },
   settingCard: {
     backgroundColor: Colors.surface,
     borderRadius: 12,
     marginBottom: 8,
     padding: 16,
+  },
+  settingCardSpaced: {
+    marginTop: 8,
   },
   settingDescription: {
     color: Colors.textSecondary,
@@ -759,10 +857,14 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   settingLabel: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '500',
     marginBottom: 4,
+  },
+  settingLabelAvatar: {
+    marginBottom: 10,
+    marginTop: 16,
   },
   settingRow: {
     alignItems: 'center',
@@ -780,106 +882,5 @@ const styles = StyleSheet.create({
   timePickerContainer: {
     alignItems: 'center',
     marginBottom: 24,
-  },
-
-  // ── Profile ──
-  profileCard: {
-    backgroundColor: Colors.surface,
-    borderRadius: 12,
-    padding: 16,
-  },
-  nameInput: {
-    backgroundColor: Colors.surfaceElevated,
-    borderColor: Colors.border,
-    borderRadius: 10,
-    borderWidth: 1,
-    color: Colors.text,
-    fontSize: 16,
-    marginTop: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-  },
-  emojiRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  emojiBtn: {
-    alignItems: 'center',
-    borderColor: Colors.border,
-    borderRadius: 24,
-    borderWidth: 1.5,
-    height: 44,
-    justifyContent: 'center',
-    width: 44,
-  },
-  emojiBtnActive: {
-    backgroundColor: 'rgba(229, 91, 0, 0.15)',
-    borderColor: Colors.primary,
-  },
-  emojiText: {
-    fontSize: 22,
-  },
-  saveProfileBtn: {
-    alignItems: 'center',
-    backgroundColor: Colors.primary,
-    borderRadius: 10,
-    marginTop: 16,
-    paddingVertical: 12,
-  },
-  saveProfileBtnText: {
-    color: Colors.text,
-    fontSize: 15,
-    fontWeight: '700',
-  },
-
-  // ── Appearance ──
-  segmentRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginTop: 10,
-  },
-  segmentBtn: {
-    alignItems: 'center',
-    borderColor: Colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flex: 1,
-    paddingVertical: 8,
-  },
-  segmentBtnActive: {
-    backgroundColor: 'rgba(229, 91, 0, 0.15)',
-    borderColor: Colors.primary,
-  },
-  segmentBtnText: {
-    color: Colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  segmentBtnTextActive: {
-    color: Colors.primary,
-  },
-  fontPreviewText: {
-    color: Colors.textMeaning,
-    fontStyle: 'italic',
-    marginTop: 12,
-    textAlign: 'center',
-  },
-
-  // ── Guest Note ──
-  guestNote: {
-    alignItems: 'center',
-    backgroundColor: Colors.surface,
-    borderRadius: 10,
-    flexDirection: 'row',
-    gap: 10,
-    marginBottom: 24,
-    padding: 14,
-  },
-  guestNoteText: {
-    color: Colors.textSecondary,
-    flex: 1,
-    fontSize: 13,
-    lineHeight: 18,
   },
 });

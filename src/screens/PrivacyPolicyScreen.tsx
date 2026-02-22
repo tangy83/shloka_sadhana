@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   footerText: {
-    color: '#FFB74D',
+    color: Colors.textSecondary,
     fontSize: 13,
     textAlign: 'center',
   },
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   paragraph: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 24,
   },
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 8,

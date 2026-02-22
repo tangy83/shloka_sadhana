@@ -84,12 +84,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     padding: 16,
   },
-  headerRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 8,
-  },
   cardTitle: {
     color: Colors.textSecondary,
     flex: 1,
@@ -98,19 +92,51 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
-  xpBadge: {
+  emptyHint: {
+    color: Colors.textTertiary,
+    fontSize: 12,
+    fontStyle: 'italic',
+    lineHeight: 18,
+    textAlign: 'center',
+  },
+  fill: {
+    backgroundColor: Colors.templeGold,
+    borderRadius: 4,
+    height: 6,
+  },
+  headerRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 8,
+  },
+  // eslint-disable-next-line react-native/no-color-literals
+  recentIcon: {
     alignItems: 'center',
     backgroundColor: 'rgba(255, 215, 0, 0.12)',
-    borderRadius: 10,
-    flexDirection: 'row',
-    gap: 3,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+    borderRadius: 8,
+    height: 30,
+    justifyContent: 'center',
+    width: 30,
   },
-  xpText: {
+  recentItem: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10,
+  },
+  recentList: {
+    gap: 8,
+  },
+  recentTitle: {
+    color: Colors.text,
+    flex: 1,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  recentXp: {
     color: Colors.templeGold,
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: '600',
   },
   summary: {
     color: Colors.textMeaning,
@@ -124,43 +150,19 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     overflow: 'hidden',
   },
-  fill: {
-    backgroundColor: Colors.templeGold,
-    borderRadius: 4,
-    height: 6,
-  },
-  recentList: {
-    gap: 8,
-  },
-  recentItem: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 10,
-  },
-  recentIcon: {
+  // eslint-disable-next-line react-native/no-color-literals
+  xpBadge: {
     alignItems: 'center',
     backgroundColor: 'rgba(255, 215, 0, 0.12)',
-    borderRadius: 8,
-    height: 30,
-    justifyContent: 'center',
-    width: 30,
+    borderRadius: 10,
+    flexDirection: 'row',
+    gap: 3,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
   },
-  recentTitle: {
-    color: Colors.text,
-    flex: 1,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  recentXp: {
+  xpText: {
     color: Colors.templeGold,
     fontSize: 12,
-    fontWeight: '600',
-  },
-  emptyHint: {
-    color: Colors.textTertiary,
-    fontSize: 12,
-    fontStyle: 'italic',
-    lineHeight: 18,
-    textAlign: 'center',
+    fontWeight: '700',
   },
 });

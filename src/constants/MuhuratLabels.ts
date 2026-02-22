@@ -29,7 +29,7 @@ export const MUHURAT_ACTIVITIES: Record<string, MuhuratActivity> = {
     description: 'Work, decisions, buying, new ventures',
     reason: 'The most auspicious period when Lord Vishnu conquered all obstacles. Planetary positions are favorable, making it ideal for starting new ventures and important decisions.',
     icon: '⭐',
-    color: '#4CAF50', // Green
+    color: Colors.success, // Green
     tone: 'positive',
   },
   rahuKaal: {

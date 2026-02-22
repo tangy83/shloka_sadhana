@@ -60,6 +60,7 @@ export const RecoveryMessageCard: React.FC<RecoveryMessageCardProps> = ({
 };
 
 const styles = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-color-literals
   container: {
     backgroundColor: '#2C2C2C',
     borderLeftColor: '#FFA726', // Warm orange (encouraging, not alarming)
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   cta: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
@@ -99,13 +100,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   message: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '400',
     lineHeight: 22,
     marginBottom: 12,
     textAlign: 'center',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   title: {
     color: '#FFA726', // Warm orange
     fontSize: 20,

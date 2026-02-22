@@ -224,33 +224,6 @@ export const OnboardingScreen: React.FC = () => {
 // ─── Styles ──────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.background,
-    flex: 1,
-  },
-
-  // ── Pages ──
-  page: {
-    alignItems: 'center',
-    paddingHorizontal: 28,
-    width: SCREEN_WIDTH,
-  },
-
-  // ── Page 1 ──
-  page1Content: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    zIndex: 1,
-  },
-  omSymbol: {
-    color: Colors.templeGold,
-    fontSize: 96,
-    fontWeight: '300',
-    lineHeight: 110,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
   appName: {
     color: Colors.text,
     fontSize: 32,
@@ -266,38 +239,38 @@ const styles = StyleSheet.create({
     marginBottom: 28,
     textAlign: 'center',
   },
+  container: {
+    backgroundColor: Colors.background,
+    flex: 1,
+  },
   divider: {
     backgroundColor: Colors.divider,
     height: 1,
     marginBottom: 24,
     width: '60%',
   },
-  page1Body: {
-    color: Colors.textMeaning,
-    fontSize: 16,
-    lineHeight: 25,
-    marginBottom: 40,
-    textAlign: 'center',
+  dot: {
+    backgroundColor: Colors.border,
+    borderRadius: 4,
+    height: 8,
+    width: 8,
   },
-
-  // ── Page 2 ──
-  page2Title: {
-    color: Colors.text,
-    fontSize: 28,
-    fontWeight: '700',
-    marginBottom: 8,
-    textAlign: 'center',
+  dotActive: {
+    backgroundColor: Colors.primary,
+    width: 22,
   },
-  page2Subtitle: {
-    color: Colors.textSecondary,
-    fontSize: 15,
-    marginBottom: 32,
-    textAlign: 'center',
-  },
-  featureList: {
-    gap: 16,
-    marginBottom: 40,
+  dots: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    justifyContent: 'center',
+    position: 'absolute',
     width: '100%',
+  },
+  featureBody: {
+    color: Colors.textMeaning,
+    fontSize: 13,
+    lineHeight: 19,
   },
   featureCard: {
     alignItems: 'flex-start',
@@ -317,6 +290,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 48,
   },
+  featureList: {
+    gap: 16,
+    marginBottom: 40,
+    width: '100%',
+  },
   featureText: {
     flex: 1,
   },
@@ -325,48 +303,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     marginBottom: 4,
-  },
-  featureBody: {
-    color: Colors.textMeaning,
-    fontSize: 13,
-    lineHeight: 19,
-  },
-
-  // ── Page 3 ──
-  notifHero: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 28,
-    marginTop: 16,
-  },
-  notifTitle: {
-    color: Colors.text,
-    fontSize: 26,
-    fontWeight: '700',
-    marginBottom: 14,
-    textAlign: 'center',
-  },
-  notifBody: {
-    color: Colors.textMeaning,
-    fontSize: 15,
-    lineHeight: 24,
-    marginBottom: 40,
-    textAlign: 'center',
-  },
-  notifActions: {
-    gap: 16,
-    width: '100%',
-  },
-  notifPrimaryBtn: {
-    width: '100%',
-  },
-  skipBtn: {
-    alignItems: 'center',
-    padding: 10,
-  },
-  skipText: {
-    color: Colors.textSecondary,
-    fontSize: 15,
   },
   guestNote: {
     alignItems: 'center',
@@ -379,29 +315,81 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontStyle: 'italic',
   },
-
-  // ── Shared ──
   nextBtn: {
     width: '100%',
   },
-
-  // ── Dots ──
-  dots: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 8,
-    justifyContent: 'center',
-    position: 'absolute',
+  notifActions: {
+    gap: 16,
     width: '100%',
   },
-  dot: {
-    backgroundColor: Colors.border,
-    borderRadius: 4,
-    height: 8,
-    width: 8,
+  notifBody: {
+    color: Colors.textMeaning,
+    fontSize: 15,
+    lineHeight: 24,
+    marginBottom: 40,
+    textAlign: 'center',
   },
-  dotActive: {
-    backgroundColor: Colors.primary,
-    width: 22,
+  notifHero: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 28,
+    marginTop: 16,
+  },
+  notifPrimaryBtn: {
+    width: '100%',
+  },
+  notifTitle: {
+    color: Colors.text,
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 14,
+    textAlign: 'center',
+  },
+  omSymbol: {
+    color: Colors.templeGold,
+    fontSize: 96,
+    fontWeight: '300',
+    lineHeight: 110,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  page: {
+    alignItems: 'center',
+    paddingHorizontal: 28,
+    width: SCREEN_WIDTH,
+  },
+  page1Body: {
+    color: Colors.textMeaning,
+    fontSize: 16,
+    lineHeight: 25,
+    marginBottom: 40,
+    textAlign: 'center',
+  },
+  page1Content: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    zIndex: 1,
+  },
+  page2Subtitle: {
+    color: Colors.textSecondary,
+    fontSize: 15,
+    marginBottom: 32,
+    textAlign: 'center',
+  },
+  page2Title: {
+    color: Colors.text,
+    fontSize: 28,
+    fontWeight: '700',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  skipBtn: {
+    alignItems: 'center',
+    padding: 10,
+  },
+  skipText: {
+    color: Colors.textSecondary,
+    fontSize: 15,
   },
 });

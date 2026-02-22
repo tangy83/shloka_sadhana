@@ -122,7 +122,7 @@ export const LibraryScreen: React.FC = () => {
           </Text>
 
           <View style={styles.meta}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <View style={styles.metaRow}>
               <MaterialCommunityIcons name="timer-outline" size={13} color={Colors.textSecondary} />
               <Text style={styles.duration}>{item.duration}</Text>
             </View>
@@ -212,7 +212,7 @@ export const LibraryScreen: React.FC = () => {
             name={showFavoritesOnly ? 'heart' : 'heart-outline'}
             size={14}
             color={showFavoritesOnly ? Colors.lotusPink : Colors.textSecondary}
-            style={{ marginRight: 4 }}
+            style={styles.iconSpacing}
           />
           <Text style={[styles.tabBtnText, showFavoritesOnly && styles.tabBtnTextActive]}>
             Favourites
@@ -257,9 +257,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 12,
   },
-  heartBtn: {
-    padding: 4,
-  },
   container: {
     backgroundColor: Colors.background,
     flex: 1,
@@ -270,7 +267,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   description: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 14,
     lineHeight: 20,
     marginBottom: 12,
@@ -286,6 +283,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingTop: 60,
   },
+  emptySubtext: {
+    color: Colors.textTertiary,
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+  },
   emptyTitle: {
     color: Colors.textSecondary,
     fontSize: 18,
@@ -294,15 +297,15 @@ const styles = StyleSheet.create({
     marginTop: 16,
     textAlign: 'center',
   },
-  emptySubtext: {
-    color: Colors.textTertiary,
-    fontSize: 14,
-    lineHeight: 21,
-    textAlign: 'center',
-  },
   header: {
     padding: 20,
     paddingTop: 60,
+  },
+  heartBtn: {
+    padding: 4,
+  },
+  iconSpacing: {
+    marginRight: 4,
   },
   listContent: {
     padding: 20,
@@ -312,14 +315,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 16,
   },
+  metaRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 4,
+  },
   name: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 6,
   },
-
-  // Search
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    color: Colors.text,
+    flex: 1,
+    fontSize: 15,
+  },
   searchRow: {
     alignItems: 'center',
     backgroundColor: Colors.surface,
@@ -332,21 +346,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
-  searchIcon: {
-    marginRight: 8,
-  },
-  searchInput: {
-    color: Colors.text,
-    flex: 1,
-    fontSize: 15,
-  },
-
-  // Tabs
-  tabRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 12,
-    marginHorizontal: 20,
+  subtitle: {
+    color: Colors.textSecondary,
+    fontSize: 16,
   },
   tabBtn: {
     alignItems: 'center',
@@ -369,13 +371,14 @@ const styles = StyleSheet.create({
   tabBtnTextActive: {
     color: Colors.primary,
   },
-
-  subtitle: {
-    color: Colors.textSecondary,
-    fontSize: 16,
+  tabRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 12,
+    marginHorizontal: 20,
   },
   title: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

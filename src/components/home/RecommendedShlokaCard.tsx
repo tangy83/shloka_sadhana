@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   description: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     fontSize: 14,
     lineHeight: 20,
     marginTop: 12,
@@ -200,13 +200,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   name: {
-    color: '#FFF8E7',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 4,
   },
   reason: {
-    color: 'rgba(255, 243, 224, 0.9)',
+    color: Colors.textMeaning,
     flex: 1,
     fontSize: 14,
     fontStyle: 'italic',

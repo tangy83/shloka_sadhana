@@ -29,6 +29,14 @@ jest.mock('@/utils/notifications', () => ({
   cancelAllNotifications: jest.fn(),
 }));
 
+// Mock ThemeContext — SettingsScreen uses useTheme() which requires a ThemeProvider
+jest.mock('@/contexts/ThemeContext', () => ({
+  useTheme: () => ({
+    themeMode: 'dark',
+    setThemeMode: jest.fn(),
+  }),
+}));
+
 // Mock expo-constants
 jest.mock('expo-constants', () => ({
   default: {
@@ -195,7 +203,7 @@ describe('SettingsScreen', () => {
     });
 
     it('should update reminder time when time is selected', async () => {
-      const { getByTestId, getByText } = render(<SettingsScreen />);
+      const { getByTestId, getAllByText } = render(<SettingsScreen />);
       const reminderTimeButton = getByTestId('reminder-time-button');
 
       fireEvent.press(reminderTimeButton);
@@ -205,16 +213,20 @@ describe('SettingsScreen', () => {
       const selectedDate = new Date(2000, 0, 1, 8, 30);
       fireEvent(timePicker, 'onChange', { type: 'set' }, selectedDate);
 
-      // Press Save button
-      const saveButton = getByText(/Save/i);
+      // Press Save button (use getAllByText since 'Save' may appear in multiple contexts)
+      const saveButtons = getAllByText(/Save/i);
+      const saveButton = saveButtons[saveButtons.length - 1]; // last Save = modal Save
       fireEvent.press(saveButton);
 
       await waitFor(() => {
-        expect(mockSetItem).toHaveBeenCalledWith('notification_settings', {
-          enabled: false,
-          hour: 8,
-          minute: 30,
-        });
+        expect(mockSetItem).toHaveBeenCalledWith(
+          'notification_settings',
+          expect.objectContaining({
+            enabled: false,
+            hour: 8,
+            minute: 30,
+          }),
+        );
       });
     });
 

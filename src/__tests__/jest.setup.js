@@ -33,6 +33,35 @@ jest.mock('expo-linear-gradient', () => {
   };
 });
 
+// Mock @expo/vector-icons (fixes expo-asset/expo-font loading in Jest)
+jest.mock('@expo/vector-icons', () => {
+  const React = require('react');
+  const { Text } = require('react-native');
+  const makeIconSet = () => {
+    const Icon = ({ name, ...props }) => React.createElement(Text, props, name ?? '');
+    Icon.loadFont = jest.fn().mockResolvedValue(undefined);
+    Icon.glyphMap = {};
+    return Icon;
+  };
+  const set = makeIconSet();
+  return {
+    MaterialCommunityIcons: set,
+    Ionicons: makeIconSet(),
+    MaterialIcons: makeIconSet(),
+    FontAwesome: makeIconSet(),
+    AntDesign: makeIconSet(),
+    Feather: makeIconSet(),
+    createIconSet: () => makeIconSet(),
+  };
+});
+
+// Mock expo-font
+jest.mock('expo-font', () => ({
+  loadAsync: jest.fn().mockResolvedValue(undefined),
+  isLoaded: jest.fn().mockReturnValue(true),
+  isLoading: jest.fn().mockReturnValue(false),
+}));
+
 // Mock expo-location (V3 Feature #4)
 jest.mock('expo-location', () => ({
   requestForegroundPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),

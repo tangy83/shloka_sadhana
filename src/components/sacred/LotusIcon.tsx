@@ -69,3 +69,4 @@ export const LotusIcon = memo(({ size = 56, color = '#D4AF37' }: LotusIconProps)
     </Svg>
   );
 });
+LotusIcon.displayName = 'LotusIcon';

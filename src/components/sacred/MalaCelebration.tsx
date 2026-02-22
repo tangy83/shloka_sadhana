@@ -16,6 +16,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { StyleSheet, View, Animated, Easing } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { Colors } from '@/constants/Colors';
 import {
   EASE_OUT_QUINT,
   PARTICLE_DISTANCE,
@@ -149,6 +150,7 @@ export const MalaCelebration = memo(({ active, reducedMotion = false }: MalaCele
         Animated.timing(p2op, { toValue: 0, duration: 640, easing: Easing.out(Easing.quad), useNativeDriver: true }),
       ]),
     ]).start();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- all particle Animated.Value refs are stable useRef values
   }, [active]);
 
   return (
@@ -199,6 +201,7 @@ export const MalaCelebration = memo(({ active, reducedMotion = false }: MalaCele
     </View>
   );
 });
+MalaCelebration.displayName = 'MalaCelebration';
 
 const styles = StyleSheet.create({
   container: {
@@ -212,14 +215,14 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   particle: {
-    backgroundColor: '#FFD700',
+    backgroundColor: Colors.templeGold,
     borderRadius: 4,
     height: 8,
     position: 'absolute',
     width: 8,
   },
   ring: {
-    borderColor: '#FFD700',
+    borderColor: Colors.templeGold,
     borderRadius: 60,
     borderWidth: 2,
     height: 120,
