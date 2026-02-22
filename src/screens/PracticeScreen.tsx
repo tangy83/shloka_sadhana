@@ -24,9 +24,11 @@ import {
   clearActivePractice,
   savePracticeToHistory,
 } from '@/utils/practiceStorage';
-import { CompletedPractice } from '@/types/practice';
+import { loadGoal, updateGoalProgress, resetGoalIfExpired } from '@/utils/goalsStorage';
+import { CompletedPractice, PracticeGoal } from '@/types/practice';
 import { RootStackParamList } from '@/types';
 import { shadows } from '@/constants/theme';
+import { Colors } from '@/constants/Colors';
 
 type PracticeRouteProp = RouteProp<RootStackParamList, 'Practice'>;
 
@@ -50,6 +52,7 @@ export const PracticeScreen: React.FC = () => {
   const [hasShownSankalp, setHasShownSankalp] = useState(false);
   const [sessionStartTime, setSessionStartTime] = useState<string | null>(null);
   const [initialElapsedSeconds, setInitialElapsedSeconds] = useState(0);
+  const [goal, setGoal] = useState<PracticeGoal | null>(null);
 
   const timer = useTimer({
     onComplete: (_elapsedSeconds) => {
@@ -91,6 +94,17 @@ export const PracticeScreen: React.FC = () => {
       }
     };
     loadSavedSession();
+  }, []);
+
+  // Load practice goal on mount and reset if expired
+  useEffect(() => {
+    const loadPracticeGoal = async () => {
+      const today = new Date().toISOString();
+      await resetGoalIfExpired(today);
+      const currentGoal = await loadGoal();
+      setGoal(currentGoal);
+    };
+    loadPracticeGoal();
   }, []);
 
   /**
@@ -175,6 +189,11 @@ export const PracticeScreen: React.FC = () => {
     // Mark today as complete in streak
     streak.markTodayComplete();
 
+    // Update goal progress and refresh goal display
+    await updateGoalProgress();
+    const refreshedGoal = await loadGoal();
+    setGoal(refreshedGoal);
+
     // Reset for next session
     resetSession();
   };
@@ -205,6 +224,11 @@ export const PracticeScreen: React.FC = () => {
 
     // Mark today as complete in streak even if skipped
     streak.markTodayComplete();
+
+    // Update goal progress and refresh goal display
+    await updateGoalProgress();
+    const refreshedGoal = await loadGoal();
+    setGoal(refreshedGoal);
 
     // Reset for next session
     resetSession();
@@ -269,6 +293,30 @@ export const PracticeScreen: React.FC = () => {
             )}
           </View>
         </View>
+
+        {/* Goal Progress Bar — shown only when a goal is active */}
+        {goal && goal.isActive && (
+          <View style={styles.goalBar}>
+            <View style={styles.goalBarHeader}>
+              <Text style={styles.goalBarLabel}>
+                {goal.type === 'daily' ? "Today's Goal" : "Weekly Goal"}
+              </Text>
+              <Text style={styles.goalBarCount}>
+                {goal.currentProgress} / {goal.targetSessions} sessions
+              </Text>
+            </View>
+            <View style={styles.goalTrack}>
+              <View
+                style={[
+                  styles.goalFill,
+                  {
+                    width: `${Math.min(100, (goal.currentProgress / goal.targetSessions) * 100)}%`,
+                  },
+                ]}
+              />
+            </View>
+          </View>
+        )}
 
         {/* Timer */}
         <View style={styles.timerSection}>
@@ -358,5 +406,41 @@ const styles = StyleSheet.create({
     color: '#FFB74D',
     fontSize: 14,
     marginTop: 8,
+  },
+  goalBar: {
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 14,
+  },
+  goalBarHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  goalBarLabel: {
+    color: Colors.textSecondary,
+    fontSize: 12,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  goalBarCount: {
+    color: Colors.text,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  goalTrack: {
+    backgroundColor: Colors.backgroundLight,
+    borderRadius: 4,
+    height: 6,
+    overflow: 'hidden',
+  },
+  goalFill: {
+    backgroundColor: Colors.primary,
+    borderRadius: 4,
+    height: 6,
   },
 });

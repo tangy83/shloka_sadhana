@@ -2,16 +2,24 @@
  * LibraryScreen
  * Shloka Sadhana - Browse Shlokas
  *
- * Screen for browsing all available shlokas
+ * Screen for browsing all available shlokas with search + favorites filter
  */
 
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import { Colors } from '@/constants/Colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getAllShlokas } from '@/data/shlokas';
+import { getFavorites, addFavorite, removeFavorite } from '@/utils/favorites';
 import { Shloka, RootStackParamList } from '@/types';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -21,7 +29,41 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
  */
 export const LibraryScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
-  const shlokas = getAllShlokas();
+  const allShlokas = getAllShlokas();
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+
+  // Load favorites on mount
+  useEffect(() => {
+    const load = async () => {
+      const ids = await getFavorites();
+      setFavoriteIds(ids);
+    };
+    load();
+  }, []);
+
+  // Filtered shloka list (search + favorites)
+  const filteredShlokas = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    let result = allShlokas;
+
+    if (q.length > 0) {
+      result = result.filter(
+        (s) =>
+          s.name.toLowerCase().includes(q) ||
+          s.deity.toLowerCase().includes(q) ||
+          s.description.toLowerCase().includes(q)
+      );
+    }
+
+    if (showFavoritesOnly) {
+      result = result.filter((s) => favoriteIds.includes(s.id));
+    }
+
+    return result;
+  }, [allShlokas, searchQuery, showFavoritesOnly, favoriteIds]);
 
   /**
    * Handle shloka card press - navigate to detail screen
@@ -31,56 +73,157 @@ export const LibraryScreen: React.FC = () => {
   };
 
   /**
+   * Toggle a shloka as favorite
+   */
+  const handleFavoriteToggle = async (shlokaId: string) => {
+    if (favoriteIds.includes(shlokaId)) {
+      await removeFavorite(shlokaId);
+      setFavoriteIds((prev) => prev.filter((id) => id !== shlokaId));
+    } else {
+      await addFavorite(shlokaId);
+      setFavoriteIds((prev) => [...prev, shlokaId]);
+    }
+  };
+
+  /**
    * Render individual shloka card
    */
-  const renderShlokaCard = ({ item }: { item: Shloka }) => (
-    <TouchableOpacity
-      style={styles.card}
-      onPress={() => handleShlokaPress(item.id)}
-      accessibilityRole="button"
-      accessibilityLabel={`View ${item.name}`}
-    >
-      <View style={styles.cardContent}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.deity}>{item.deity}</Text>
-        <Text style={styles.description} numberOfLines={2}>
-          {item.description}
-        </Text>
-        <View style={styles.meta}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+  const renderShlokaCard = ({ item }: { item: Shloka }) => {
+    const favorited = favoriteIds.includes(item.id);
+    return (
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => handleShlokaPress(item.id)}
+        accessibilityRole="button"
+        accessibilityLabel={`View ${item.name}`}
+      >
+        <View style={styles.cardContent}>
+          <View style={styles.cardHeader}>
+            <View style={styles.cardTitleBlock}>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.deity}>{item.deity}</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.heartBtn}
+              onPress={() => handleFavoriteToggle(item.id)}
+              accessibilityRole="button"
+              accessibilityLabel={`${favorited ? 'Remove' : 'Add'} ${item.name} ${favorited ? 'from' : 'to'} favorites`}
+            >
+              <Ionicons
+                name={favorited ? 'heart' : 'heart-outline'}
+                size={22}
+                color={favorited ? Colors.lotusPink : Colors.textSecondary}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.description} numberOfLines={2}>
+            {item.description}
+          </Text>
+
+          <View style={styles.meta}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
               <MaterialCommunityIcons name="timer-outline" size={13} color={Colors.textSecondary} />
               <Text style={styles.duration}>{item.duration}</Text>
             </View>
             <Text style={styles.bestTime}>🌅 {item.bestTime}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   /**
    * Render empty state
    */
-  const renderEmptyState = () => (
-    <View style={styles.emptyContainer}>
-      <Text style={styles.emptyText}>No shlokas available</Text>
-    </View>
-  );
+  const renderEmptyState = () => {
+    if (showFavoritesOnly && favoriteIds.length === 0) {
+      return (
+        <View style={styles.emptyContainer}>
+          <Ionicons name="heart-outline" size={48} color={Colors.textSecondary} />
+          <Text style={styles.emptyTitle}>No favourites yet</Text>
+          <Text style={styles.emptySubtext}>
+            Tap the heart icon on any shloka to save it here.
+          </Text>
+        </View>
+      );
+    }
+    if (searchQuery.trim().length > 0) {
+      return (
+        <View style={styles.emptyContainer}>
+          <Ionicons name="search-outline" size={48} color={Colors.textSecondary} />
+          <Text style={styles.emptyTitle}>No results</Text>
+          <Text style={styles.emptySubtext}>
+            {`No shlokas match "${searchQuery}".`}
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyTitle}>No shlokas available</Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>Library</Text>
-        <Text style={styles.subtitle}>{shlokas.length} Sacred Texts</Text>
+        <Text style={styles.subtitle}>{allShlokas.length} Sacred Texts</Text>
       </View>
 
-      {/* Section Label */}
-      <Text style={styles.sectionLabel}>Sacred Texts</Text>
+      {/* Search bar */}
+      <View style={styles.searchRow}>
+        <Ionicons name="search-outline" size={18} color={Colors.textSecondary} style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Search by name, deity, or description…"
+          placeholderTextColor={Colors.textSecondary}
+          returnKeyType="search"
+          accessibilityLabel="Search shlokas"
+          clearButtonMode="while-editing"
+        />
+      </View>
+
+      {/* All / Favourites tabs */}
+      <View style={styles.tabRow}>
+        <TouchableOpacity
+          style={[styles.tabBtn, !showFavoritesOnly && styles.tabBtnActive]}
+          onPress={() => setShowFavoritesOnly(false)}
+          accessibilityRole="button"
+          accessibilityLabel="Show all shlokas"
+        >
+          <Text style={[styles.tabBtnText, !showFavoritesOnly && styles.tabBtnTextActive]}>
+            All
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tabBtn, showFavoritesOnly && styles.tabBtnActive]}
+          onPress={() => setShowFavoritesOnly(true)}
+          accessibilityRole="button"
+          accessibilityLabel="Show favourites only"
+        >
+          <Ionicons
+            name={showFavoritesOnly ? 'heart' : 'heart-outline'}
+            size={14}
+            color={showFavoritesOnly ? Colors.lotusPink : Colors.textSecondary}
+            style={{ marginRight: 4 }}
+          />
+          <Text style={[styles.tabBtnText, showFavoritesOnly && styles.tabBtnTextActive]}>
+            Favourites
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Shloka List */}
       <FlatList
         testID="shloka-list"
-        data={shlokas}
+        data={filteredShlokas}
         renderItem={renderShlokaCard}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
@@ -95,16 +238,6 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 12,
   },
-  sectionLabel: {
-    color: Colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '600',
-    letterSpacing: 1,
-    marginBottom: 12,
-    marginHorizontal: 20,
-    marginTop: 8,
-    textTransform: 'uppercase',
-  },
   card: {
     backgroundColor: Colors.surface,
     borderRadius: 16,
@@ -114,6 +247,19 @@ const styles = StyleSheet.create({
   cardContent: {
     padding: 20,
   },
+  cardHeader: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  cardTitleBlock: {
+    flex: 1,
+    marginRight: 12,
+  },
+  heartBtn: {
+    padding: 4,
+  },
   container: {
     backgroundColor: Colors.background,
     flex: 1,
@@ -122,7 +268,6 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
-    marginBottom: 12,
   },
   description: {
     color: 'rgba(255, 243, 224, 0.9)',
@@ -138,11 +283,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
+    paddingHorizontal: 32,
     paddingTop: 60,
   },
-  emptyText: {
+  emptyTitle: {
     color: Colors.textSecondary,
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 8,
+    marginTop: 16,
+    textAlign: 'center',
+  },
+  emptySubtext: {
+    color: Colors.textTertiary,
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
   },
   header: {
     padding: 20,
@@ -160,8 +316,60 @@ const styles = StyleSheet.create({
     color: '#FFF8E7',
     fontSize: 20,
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: 6,
   },
+
+  // Search
+  searchRow: {
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    flexDirection: 'row',
+    marginBottom: 12,
+    marginHorizontal: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    color: Colors.text,
+    flex: 1,
+    fontSize: 15,
+  },
+
+  // Tabs
+  tabRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 12,
+    marginHorizontal: 20,
+  },
+  tabBtn: {
+    alignItems: 'center',
+    borderColor: Colors.border,
+    borderRadius: 20,
+    borderWidth: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  tabBtnActive: {
+    backgroundColor: Colors.surfaceLight,
+    borderColor: Colors.primary,
+  },
+  tabBtnText: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  tabBtnTextActive: {
+    color: Colors.primary,
+  },
+
   subtitle: {
     color: Colors.textSecondary,
     fontSize: 16,
