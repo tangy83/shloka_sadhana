@@ -20,6 +20,8 @@ import { EkadashiBanner } from '@/components/home/EkadashiBanner';
 import { VerseOfTheDayCard } from '@/components/home/VerseOfTheDayCard';
 import { RecommendedShlokaCard } from '@/components/home/RecommendedShlokaCard';
 import { DailyWisdomCard } from '@/components/home/DailyWisdomCard';
+import { DailyQuestCard } from '@/components/home/DailyQuestCard';
+import { AchievementProgressCard } from '@/components/home/AchievementProgressCard';
 import { shouldShowRecoveryMessage, markRecoveryMessageShown } from '@/utils/streakRecovery';
 import { MandalaBackground, DiyaGlow } from '@/components/sacred';
 import { Colors } from '@/constants/Colors';
@@ -271,6 +273,13 @@ export const HomeScreen: React.FC = () => {
         </View>
 
         {/* Weekly & Monthly Stats */}
+        {/* Daily Quest + Achievements */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Daily Quest</Text>
+          <DailyQuestCard />
+          <AchievementProgressCard />
+        </View>
+
         {!statsLoading && (weeklyStats || monthlyStats) && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Practice Insights</Text>

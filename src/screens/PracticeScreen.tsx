@@ -29,6 +29,12 @@ import { CompletedPractice, PracticeGoal } from '@/types/practice';
 import { RootStackParamList } from '@/types';
 import { shadows } from '@/constants/theme';
 import { Colors } from '@/constants/Colors';
+import { useQuestProgress } from '@/hooks/useQuestProgress';
+import { useAchievements } from '@/hooks/useAchievements';
+import { QuestCompletionModal } from '@/components/QuestCompletionModal';
+import { AchievementUnlockedModal } from '@/components/AchievementUnlockedModal';
+import { Quest } from '@/data/quests';
+import { getPracticeStats } from '@/utils/practiceStorage';
 
 type PracticeRouteProp = RouteProp<RootStackParamList, 'Practice'>;
 
@@ -63,6 +69,12 @@ export const PracticeScreen: React.FC = () => {
   });
 
   const streak = useStreak();
+  const questProgress = useQuestProgress();
+  const achievements = useAchievements();
+
+  // Modal state for quest completion and achievement unlock
+  const [showQuestModal, setShowQuestModal] = useState(false);
+  const [completedQuest, setCompletedQuest] = useState<Quest | null>(null);
 
   // V3 Feature #9: Background Timer Support
   // Persist timer state when app is backgrounded and restore when foregrounded
@@ -194,6 +206,9 @@ export const PracticeScreen: React.FC = () => {
     const refreshedGoal = await loadGoal();
     setGoal(refreshedGoal);
 
+    // Trigger quest + achievement checks
+    await triggerQuestAndAchievements();
+
     // Reset for next session
     resetSession();
   };
@@ -230,6 +245,9 @@ export const PracticeScreen: React.FC = () => {
     const refreshedGoal = await loadGoal();
     setGoal(refreshedGoal);
 
+    // Trigger quest + achievement checks
+    await triggerQuestAndAchievements();
+
     // Reset for next session
     resetSession();
   };
@@ -242,6 +260,32 @@ export const PracticeScreen: React.FC = () => {
     setSankalp('');
     setOffering('');
     setHasShownSankalp(false);
+  };
+
+  /**
+   * Trigger quest progress + achievement checks after a completed session.
+   * Called by both handleOfferingConfirm and handleOfferingSkip.
+   */
+  const triggerQuestAndAchievements = async () => {
+    // Increment quest progress (1 practice completed)
+    const wasCompleted = questProgress.isCompleted;
+    await questProgress.incrementProgress(1);
+    // Show quest completion modal if quest is now done
+    if (!wasCompleted && questProgress.todayQuest) {
+      const newProgress = questProgress.progress + 1;
+      if (newProgress >= questProgress.todayQuest.target) {
+        setCompletedQuest(questProgress.todayQuest);
+        setShowQuestModal(true);
+      }
+    }
+
+    // Check achievements against updated stats
+    const stats = await getPracticeStats();
+    await achievements.checkAndUnlock({
+      totalPractices: stats.totalPractices,
+      currentStreak: streak.currentStreak,
+      totalMalas: stats.totalMalas,
+    });
   };
 
   /**
@@ -344,6 +388,20 @@ export const PracticeScreen: React.FC = () => {
         initialValue={offering}
         onConfirm={handleOfferingConfirm}
         onSkip={handleOfferingSkip}
+      />
+
+      {/* Quest Completion Modal */}
+      <QuestCompletionModal
+        visible={showQuestModal}
+        quest={completedQuest}
+        onDismiss={() => setShowQuestModal(false)}
+      />
+
+      {/* Achievement Unlocked Modal */}
+      <AchievementUnlockedModal
+        visible={achievements.recentlyUnlocked !== null}
+        achievement={achievements.recentlyUnlocked}
+        onDismiss={achievements.dismissRecentlyUnlocked}
       />
     </View>
   );
