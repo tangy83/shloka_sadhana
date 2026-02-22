@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
+  TextInput,
   StyleSheet,
   ScrollView,
   Switch,
@@ -16,16 +17,16 @@ import {
   Alert,
   Modal,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import Slider from '@react-native-community/slider'; // Hidden for now
 import { getItem, setItem, clearAll } from '@/utils/storage';
 import {
   requestNotificationPermissions,
   scheduleDailyReminder,
   cancelAllNotifications,
 } from '@/utils/notifications';
-// import { useFontSize } from '@/hooks/useFontSize'; // Hidden for now
+import { useUserProfile } from '@/hooks/useUserProfile';
 import Constants from 'expo-constants';
 import { Colors } from '@/constants/Colors';
 
@@ -38,13 +39,23 @@ interface NotificationSettings {
 /**
  * Settings screen - app configuration
  */
+const AVATAR_EMOJIS = ['🙏', '🌸', '🕉️', '🪷', '🔥', '⭐', '🌙', '🌺'];
+
 export const SettingsScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { profile, saveProfile } = useUserProfile();
+  const [displayName, setDisplayName] = useState('');
+  const [selectedEmoji, setSelectedEmoji] = useState('🙏');
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [notificationTime, setNotificationTime] = useState({ hour: 7, minute: 0 });
-  // const { fontSize, setFontSize } = useFontSize(); // Hidden for now
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [tempTime, setTempTime] = useState({ hour: 7, minute: 0 });
+
+  // Sync profile values when loaded
+  useEffect(() => {
+    if (profile.displayName) setDisplayName(profile.displayName);
+    if (profile.avatarEmoji) setSelectedEmoji(profile.avatarEmoji);
+  }, [profile.displayName, profile.avatarEmoji]);
 
   // Load settings on mount
   useEffect(() => {
@@ -137,6 +148,14 @@ export const SettingsScreen: React.FC = () => {
   };
 
   /**
+   * Save user profile
+   */
+  const handleSaveProfile = async () => {
+    await saveProfile({ displayName: displayName.trim(), avatarEmoji: selectedEmoji });
+    Alert.alert('Saved', 'Your profile has been updated.');
+  };
+
+  /**
    * Navigate to screen
    */
   const navigateToScreen = (screenName: string) => {
@@ -202,48 +221,48 @@ export const SettingsScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
         testID="settings-scroll"
       >
-        {/* Appearance Section - HIDDEN FOR NOW */}
-        {/* <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Appearance</Text>
+        {/* Profile Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Profile</Text>
 
-          <View style={styles.settingRow}>
-            <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Font Size</Text>
-              <Text style={styles.settingDescription}>
-                Adjust text size for better readability
-              </Text>
+          <View style={styles.profileCard}>
+            <Text style={styles.settingLabel}>Your Name</Text>
+            <TextInput
+              style={styles.nameInput}
+              value={displayName}
+              onChangeText={setDisplayName}
+              placeholder="Enter your name"
+              placeholderTextColor={Colors.textSecondary}
+              maxLength={30}
+              returnKeyType="done"
+              accessibilityLabel="Your display name"
+            />
+            <Text style={[styles.settingLabel, { marginTop: 16, marginBottom: 10 }]}>
+              Avatar
+            </Text>
+            <View style={styles.emojiRow}>
+              {AVATAR_EMOJIS.map((emoji) => (
+                <TouchableOpacity
+                  key={emoji}
+                  style={[styles.emojiBtn, selectedEmoji === emoji && styles.emojiBtnActive]}
+                  onPress={() => setSelectedEmoji(emoji)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Select avatar ${emoji}`}
+                >
+                  <Text style={styles.emojiText}>{emoji}</Text>
+                </TouchableOpacity>
+              ))}
             </View>
+            <TouchableOpacity
+              style={styles.saveProfileBtn}
+              onPress={handleSaveProfile}
+              accessibilityRole="button"
+              accessibilityLabel="Save profile"
+            >
+              <Text style={styles.saveProfileBtnText}>Save Profile</Text>
+            </TouchableOpacity>
           </View>
-
-          <View style={[styles.settingRow, styles.sliderRow]}>
-            <View style={styles.sliderContainer}>
-              <View style={styles.sliderLabels}>
-                <Text style={styles.sliderLabel}>A</Text>
-                <Text style={[styles.sliderLabel, styles.sliderLabelLarge]}>A</Text>
-              </View>
-              <Slider
-                testID="font-size-slider"
-                style={styles.slider}
-                minimumValue={0.8}
-                maximumValue={1.5}
-                step={0.1}
-                value={fontSize}
-                onValueChange={setFontSize}
-                minimumTrackTintColor={Colors.primary}
-                maximumTrackTintColor="#3e3e3e"
-                thumbTintColor="#FFA726"
-                accessibilityLabel="Font size slider"
-                accessibilityRole="adjustable"
-              />
-              <Text
-                testID="font-size-preview"
-                style={[styles.previewText, { fontSize: 16 * fontSize }]}
-              >
-                Sample Text
-              </Text>
-            </View>
-          </View>
-        </View> */}
+        </View>
 
         {/* Notifications Section */}
         <View style={styles.section}>
@@ -339,6 +358,15 @@ export const SettingsScreen: React.FC = () => {
             </View>
             <Text style={styles.arrow}>›</Text>
           </TouchableOpacity>
+        </View>
+
+        {/* Guest Mode Note */}
+        <View style={styles.guestNote}>
+          <Ionicons name="cloud-outline" size={16} color={Colors.textSecondary} />
+          <Text style={styles.guestNoteText}>
+            Guest mode · Your data is stored locally on this device.{'\n'}
+            Cloud sync is coming in a future update.
+          </Text>
         </View>
 
         {/* Data Management Section */}
@@ -564,5 +592,69 @@ const styles = StyleSheet.create({
   timePickerContainer: {
     alignItems: 'center',
     marginBottom: 24,
+  },
+  profileCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    padding: 16,
+  },
+  nameInput: {
+    backgroundColor: Colors.surfaceElevated,
+    borderColor: Colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    color: Colors.text,
+    fontSize: 16,
+    marginTop: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  emojiRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  emojiBtn: {
+    alignItems: 'center',
+    borderColor: Colors.border,
+    borderRadius: 24,
+    borderWidth: 1.5,
+    height: 44,
+    justifyContent: 'center',
+    width: 44,
+  },
+  emojiBtnActive: {
+    borderColor: Colors.primary,
+    backgroundColor: 'rgba(229, 91, 0, 0.15)',
+  },
+  emojiText: {
+    fontSize: 22,
+  },
+  saveProfileBtn: {
+    alignItems: 'center',
+    backgroundColor: Colors.primary,
+    borderRadius: 10,
+    marginTop: 16,
+    paddingVertical: 12,
+  },
+  saveProfileBtnText: {
+    color: Colors.text,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  guestNote: {
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderRadius: 10,
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 24,
+    padding: 14,
+  },
+  guestNoteText: {
+    color: Colors.textSecondary,
+    flex: 1,
+    fontSize: 13,
+    lineHeight: 18,
   },
 });

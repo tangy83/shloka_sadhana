@@ -23,12 +23,14 @@ import { DailyWisdomCard } from '@/components/home/DailyWisdomCard';
 import { shouldShowRecoveryMessage, markRecoveryMessageShown } from '@/utils/streakRecovery';
 import { MandalaBackground, DiyaGlow } from '@/components/sacred';
 import { Colors } from '@/constants/Colors';
+import { useUserProfile } from '@/hooks/useUserProfile';
 
 /**
  * Home screen - main dashboard
  */
 export const HomeScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { profile } = useUserProfile();
   const { currentStreak } = useStreak();
   const { weeklyStats, monthlyStats, longestStreak, isLoading: statsLoading } = useStats();
 
@@ -83,7 +85,11 @@ export const HomeScreen: React.FC = () => {
         <View style={styles.headerRow}>
           <View>
             <Text style={styles.appTitle}>Shloka Sadhana</Text>
-            <Text style={styles.welcomeText}>Welcome back!</Text>
+            <Text style={styles.welcomeText}>
+              {profile.displayName
+                ? `Welcome back, ${profile.displayName} ${profile.avatarEmoji}`
+                : 'Welcome back!'}
+            </Text>
           </View>
           <TouchableOpacity
             onPress={() => navigation.navigate('Settings' as never)}

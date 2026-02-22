@@ -20,7 +20,7 @@ import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import { getShlokaById } from '@/data/shlokas';
 import { isFavorite, addFavorite, removeFavorite } from '@/utils/favorites';
-import { loadAudio, playAudio, pauseAudio, unloadAudio } from '@/utils/audio';
+import { loadAudio, playAudio, pauseAudio, unloadAudio, setPlaybackSpeed } from '@/utils/audio';
 import { RootStackParamList } from '@/types';
 
 type ShlokaDetailRouteProp = RouteProp<RootStackParamList, 'ShlokaDetail'>;
@@ -37,6 +37,9 @@ export const ShlokaDetailScreen: React.FC = () => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackSpeed, setPlaybackSpeedState] = useState(1.0);
+
+  const SPEEDS = [0.75, 1.0, 1.25] as const;
 
   /**
    * Load favorite status on mount
@@ -107,6 +110,7 @@ export const ShlokaDetailScreen: React.FC = () => {
           const audioSound = await loadAudio(shloka.audioUrl);
           if (audioSound) {
             setSound(audioSound);
+            await setPlaybackSpeed(audioSound, playbackSpeed);
             await playAudio(audioSound);
             setIsPlaying(true);
 
@@ -125,6 +129,16 @@ export const ShlokaDetailScreen: React.FC = () => {
     } catch (error) {
       console.error('Failed to handle audio:', error);
       setIsPlaying(false);
+    }
+  };
+
+  /**
+   * Handle playback speed change
+   */
+  const handleSpeedChange = async (speed: number) => {
+    setPlaybackSpeedState(speed);
+    if (sound) {
+      await setPlaybackSpeed(sound, speed);
     }
   };
 
@@ -208,18 +222,39 @@ export const ShlokaDetailScreen: React.FC = () => {
 
         {/* Audio Pronunciation Button */}
         {shloka.audioUrl && (
-          <TouchableOpacity
-            testID="audio-button"
-            style={styles.audioButton}
-            onPress={handleAudioPress}
-            accessibilityRole="button"
-            accessibilityLabel={`${isPlaying ? 'Pause' : 'Play'} ${shloka.name} pronunciation`}
-          >
-            <Ionicons name={isPlaying ? 'pause-circle' : 'play-circle-outline'} size={24} color="#FFF8E7" />
-            <Text style={styles.audioButtonText}>
-              {isPlaying ? 'Pause Pronunciation' : 'Listen to Pronunciation'}
-            </Text>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity
+              testID="audio-button"
+              style={styles.audioButton}
+              onPress={handleAudioPress}
+              accessibilityRole="button"
+              accessibilityLabel={`${isPlaying ? 'Pause' : 'Play'} ${shloka.name} pronunciation`}
+            >
+              <Ionicons name={isPlaying ? 'pause-circle' : 'play-circle-outline'} size={24} color="#FFF8E7" />
+              <Text style={styles.audioButtonText}>
+                {isPlaying ? 'Pause Pronunciation' : 'Listen to Pronunciation'}
+              </Text>
+            </TouchableOpacity>
+            {/* Playback speed selector — visible once audio has loaded */}
+            {sound !== null && (
+              <View style={styles.speedRow}>
+                <Text style={styles.speedLabel}>Speed:</Text>
+                {SPEEDS.map((s) => (
+                  <TouchableOpacity
+                    key={s}
+                    style={[styles.speedBtn, playbackSpeed === s && styles.speedBtnActive]}
+                    onPress={() => handleSpeedChange(s)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Set playback speed to ${s}x`}
+                  >
+                    <Text style={[styles.speedBtnText, playbackSpeed === s && styles.speedBtnTextActive]}>
+                      {s}x
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </>
         )}
 
         {/* YouTube Link Button */}
@@ -293,6 +328,38 @@ const styles = StyleSheet.create({
   },
   audioIcon: {
     fontSize: 20,
+  },
+  speedRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    justifyContent: 'center',
+    marginBottom: 16,
+    marginTop: -8,
+  },
+  speedLabel: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    marginRight: 4,
+  },
+  speedBtn: {
+    borderColor: Colors.border,
+    borderRadius: 20,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+  },
+  speedBtnActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  speedBtnText: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  speedBtnTextActive: {
+    color: Colors.text,
   },
   benefits: {
     color: 'rgba(255, 243, 224, 0.9)',
