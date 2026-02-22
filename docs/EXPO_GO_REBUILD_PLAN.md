@@ -1,5 +1,26 @@
 # Shloka Sadhana — Expo Go Rebuild Plan
 
+## Implementation Status (as of 2026-02-22)
+
+| Stage | Description | Status | Commits |
+|-------|-------------|--------|---------|
+| 0 | Clean baseline from VAPMAIL16 | ✅ Complete | `fee6470` |
+| 1 | Firebase/Sentry removed, Expo Go boots | ✅ Complete | `6fa50d6` |
+| 0.5a–e | Design tokens, icons, navigation (Wisdom tab, gear → Settings) | ✅ Complete | multiple |
+| 2 | Mala counter, timer, streaks, session history, haptics, background timer | ✅ Complete | `6c19b81` |
+| 3 | All content screens: Library, ShlokaDetail, Wisdom, Ekadashi, Festivals, Paanchang, Muhurat | ✅ Complete | |
+| 3.5 | Audio infrastructure: `setPlaybackSpeed()`, speed selector UI, audioUrl for Gayatri Mantra | ✅ Complete | `fdb3820` |
+| 4a | LibraryScreen search + favorites filter; PracticeScreen goals progress bar | ✅ Complete | `90f7c5a` |
+| 4b | Full quest + achievement system: data, hooks, cards, modals, PracticeScreen wiring | ✅ Complete | `31acf32` |
+| 5a | OnboardingScreen (3-page) + AppNavigator conditional root | ✅ Complete | `24a3308` |
+| 5b | SettingsScreen: theme selector, text size presets, quiet hours, guest note | ✅ Complete | `24a3308` |
+| 6 | SatsangScreen graceful "coming soon" stub | ✅ Complete | `fdb3820` |
+| 7 | Local profile: `UserProfile` type, `useUserProfile` hook, greeting, Settings profile section | ✅ Complete | `fdb3820` |
+
+**Overall: 100% of planned stages complete.** All features are offline-first, no cloud, no native modules, fully Expo Go compatible.
+
+---
+
 ## Context
 
 The app was experiencing loading failures on device. While the dependency stack is technically Expo Go-compatible (Firebase JS SDK is web-based, not native), the root cause was missing Firebase credentials (`.env` not configured) causing silent crashes at startup. Firebase and all cloud dependencies have been removed entirely; the app is rebuilt as a fully offline-first, self-contained Expo Go app. Each stage ends with a manual test on device before proceeding.
@@ -164,7 +185,7 @@ The three personas drive the visual and interaction design. This is a standing c
 
 ---
 
-### Stage 3 — Content Library
+### Stage 3 — Content Library ✅
 
 **Goal:** All spiritual content screens render correctly from bundled data files; home screen recommendation engine and calendar features are functional.
 
@@ -198,7 +219,7 @@ The three personas drive the visual and interaction design. This is a standing c
 
 ---
 
-### Stage 3.5 — Audio Mantra Playback
+### Stage 3.5 — Audio Mantra Playback ✅
 
 **Goal:** Play mantra audio within `ShlokaDetailScreen` using `expo-av` with bundled local assets — zero network dependency.
 
@@ -227,7 +248,7 @@ The three personas drive the visual and interaction design. This is a standing c
 
 ---
 
-### Stage 4 — Progress & Engagement (Local)
+### Stage 4 — Progress & Engagement (Local) ✅
 
 **Goal:** Quest system, achievement system, XP, streak milestones, library favorites, library search, and practice goals work entirely from AsyncStorage.
 
@@ -254,7 +275,7 @@ The three personas drive the visual and interaction design. This is a standing c
 
 ---
 
-### Stage 5 — Onboarding & Settings Polish
+### Stage 5 — Onboarding & Settings Polish ✅
 
 **Goal:** First-launch onboarding works; theme system, font size, and quiet hours settings are functional. Single-user only — no login.
 
@@ -277,7 +298,7 @@ The three personas drive the visual and interaction design. This is a standing c
 
 ---
 
-### Stage 6 — Social Screens (Graceful Stubs)
+### Stage 6 — Social Screens (Graceful Stubs) ✅
 
 **Goal:** Social/community screens render without crashing; display graceful empty states. No backend. No user IDs.
 
@@ -294,7 +315,7 @@ The three personas drive the visual and interaction design. This is a standing c
 
 ---
 
-### Stage 7 — Full QA Pass, Local Profile & Cleanup
+### Stage 7 — Full QA Pass, Local Profile & Cleanup ✅
 
 **Goal:** End-to-end walkthrough of all app flows; local user profile added; zero Firebase/Sentry-expo remnants.
 
