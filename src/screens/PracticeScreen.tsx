@@ -8,6 +8,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MandalaBackground, DiyaGlow } from '@/components/sacred';
+import type { DiyaIntensity } from '@/components/sacred';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { Timer } from '@/components/Timer';
 import { MalaCounter } from '@/components/MalaCounter';
@@ -24,6 +26,7 @@ import {
 } from '@/utils/practiceStorage';
 import { CompletedPractice } from '@/types/practice';
 import { RootStackParamList } from '@/types';
+import { shadows } from '@/constants/theme';
 
 type PracticeRouteProp = RouteProp<RootStackParamList, 'Practice'>;
 
@@ -228,14 +231,23 @@ export const PracticeScreen: React.FC = () => {
   if (streak.isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FF6B35" />
+        <ActivityIndicator size="large" color="#E55B00" />
         <Text style={styles.loadingText}>Loading...</Text>
       </View>
     );
   }
 
+  const diyaIntensity: DiyaIntensity =
+    timer.status === 'running' ? 'active'
+      : timer.status === 'paused' ? 'paused'
+        : 'idle';
+
   return (
     <View style={styles.container}>
+      {/* Sacred decorative layer — geometry and ambient light */}
+      <MandalaBackground />
+      <DiyaGlow intensity={diyaIntensity} />
+
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -247,7 +259,7 @@ export const PracticeScreen: React.FC = () => {
           {/* Streak Display */}
           <View style={styles.streakContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <MaterialCommunityIcons name="fire" size={20} color="#FF6B35" />
+              <MaterialCommunityIcons name="fire" size={20} color="#FF9A2A" />
               <Text style={styles.streakText}>{streak.currentStreak} day streak</Text>
             </View>
             {streak.isStreakAtRisk && !streak.isPracticedToday && (
@@ -291,7 +303,7 @@ export const PracticeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: '#1E0E05',
     flex: 1,
   },
   counterSection: {
@@ -302,28 +314,33 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     alignItems: 'center',
-    backgroundColor: '#1A0A2E',
+    backgroundColor: '#1E0E05',
     flex: 1,
     justifyContent: 'center',
   },
   loadingText: {
-    color: '#FFF8E7',
+    color: '#FFF3E0',
     fontSize: 18,
     marginTop: 16,
   },
   scrollContent: {
     padding: 20,
+    paddingTop: 24,
   },
   scrollView: {
     flex: 1,
+    zIndex: 1,
   },
   streakContainer: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: '#2A1408',
+    borderColor: 'rgba(255, 140, 0, 0.15)',
     borderRadius: 12,
+    borderWidth: 1,
     padding: 16,
+    ...shadows.card,
   },
   streakText: {
-    color: '#FFF8E7',
+    color: '#FFF3E0',
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 4,
@@ -332,13 +349,13 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   title: {
-    color: '#FFF8E7',
+    color: '#FFF3E0',
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 16,
   },
   warningText: {
-    color: '#FF6B35',
+    color: '#FFB74D',
     fontSize: 14,
     marginTop: 8,
   },

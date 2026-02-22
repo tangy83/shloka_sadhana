@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import {
   Modal,
   View,
@@ -149,7 +150,7 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
                 value={text}
                 onChangeText={setText}
                 placeholder="Enter your intention..."
-                placeholderTextColor="#C9A96E"
+                placeholderTextColor={Colors.textSecondary}
                 multiline={true}
                 numberOfLines={4}
                 textAlignVertical="top"
@@ -235,13 +236,13 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   categoryName: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 8,
   },
   confirmButton: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
   },
   confirmButtonText: {
     color: '#FFF8E7',
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   description: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 16,
     fontWeight: '400',
     marginBottom: 20,
@@ -274,7 +275,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   examplesButtonText: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
     textDecorationLine: 'underline',
@@ -290,20 +291,20 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   helpButtonText: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
     textDecorationLine: 'underline',
   },
   helpText: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 20,
   },
   helpTextContainer: {
     backgroundColor: '#2C2C2C',
-    borderLeftColor: '#FF6B35',
+    borderLeftColor: Colors.primary,
     borderLeftWidth: 3,
     borderRadius: 8,
     marginBottom: 16,
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
     width: '85%',
   },
   modalContent: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     elevation: 8,
     padding: 24,

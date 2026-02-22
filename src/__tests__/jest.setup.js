@@ -25,6 +25,14 @@ if (!global.structuredClone) {
 // Suppress React Native warnings in tests
 global.__reanimatedWorkletInit = () => {};
 
+// Mock expo-linear-gradient (theme refactor — gradient CTAs)
+jest.mock('expo-linear-gradient', () => {
+  const { View } = require('react-native');
+  return {
+    LinearGradient: View,
+  };
+});
+
 // Mock expo-location (V3 Feature #4)
 jest.mock('expo-location', () => ({
   requestForegroundPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),

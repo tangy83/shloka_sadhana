@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 /**
@@ -153,7 +154,7 @@ export const TermsOfServiceScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   content: {
@@ -165,12 +166,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   footerText: {
-    color: '#757575',
+    color: '#FFB74D',
     fontSize: 13,
     textAlign: 'center',
   },
   header: {
-    borderBottomColor: '#3D2560',
+    borderBottomColor: Colors.border,
     borderBottomWidth: 1,
     marginBottom: 24,
     paddingBottom: 24,
@@ -178,23 +179,23 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   lastUpdated: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
   },
   paragraph: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 15,
     lineHeight: 24,
   },
   section: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     marginHorizontal: 20,
     padding: 20,
   },
   sectionTitle: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,

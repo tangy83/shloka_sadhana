@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Colors } from '@/constants/Colors';
 
 interface CommunityEvent {
   id: string;
@@ -126,21 +127,21 @@ export const SatsangScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   eventCard: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
   },
   eventDate: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   eventDescription: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 14,
     marginBottom: 12,
   },
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   eventTime: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   eventTitle: {
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   eventTypeText: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     textTransform: 'uppercase',
@@ -192,29 +193,29 @@ const styles = StyleSheet.create({
   },
   statsCard: {
     alignItems: 'center',
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 24,
     padding: 24,
   },
   statsCount: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 48,
     fontWeight: '700',
     marginBottom: 8,
   },
   statsSubtext: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 14,
   },
   statsTitle: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
     marginBottom: 12,
     textTransform: 'uppercase',
   },
   subtitle: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   title: {

@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet } from 'react-native';
 import { getPaanchangForDate } from '@/utils/paanchang';
 import { getRecommendationForDate } from '@/utils/weekdayRecommendations';
@@ -116,7 +117,7 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderColor: '#2E2E2E',
     borderRadius: 16,
     borderWidth: 1,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
   },
   containerEkadashi: {
     backgroundColor: '#2A2416',
-    borderColor: '#FF6B35',
+    borderColor: Colors.primary,
     borderWidth: 2,
   },
   deityName: {
@@ -140,20 +141,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   ekadashiNameContainer: {
-    borderTopColor: '#FF6B35',
+    borderTopColor: Colors.primary,
     borderTopWidth: 1,
     marginTop: 12,
     paddingTop: 12,
   },
   ekadashiNameLabel: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 4,
     textTransform: 'uppercase',
   },
   ekadasiBadge: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
@@ -170,12 +171,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '500',
   },
   recommendationBenefits: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 20,
   },
@@ -212,6 +213,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   valueEkadashi: {
-    color: '#FF6B35',
+    color: Colors.primary,
   },
 });

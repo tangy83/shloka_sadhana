@@ -2,8 +2,8 @@
  * Theme Constants
  * Shloka Sadhana - App Theme Configuration
  *
- * Ethnic Indian design language:
- *   Dark  — Deep Indigo (#1A0A2E) base, Saffron (#FF6B35) primary, Temple Gold (#FFD700) accent
+ * Ethnic Indian design language — saffron-forward, temple warmth:
+ *   Dark  — Deep warm brown (#1E0E05) base, Saffron Flame (#E55B00) primary, Temple Gold (#FFD700) accent
  *   Light — Warm Cream (#FFF8E7) base, same saffron/gold primaries
  */
 
@@ -13,40 +13,107 @@ export interface Theme {
   background: string;
   surface: string;
   surfaceSecondary: string;
+  surfaceElevated: string;
   text: string;
   textSecondary: string;
+  textMeaning: string;
   primary: string;       // Saffron — sacred fire, action, active state
   primaryLight: string;  // Temple Gold — highlights, accents
   border: string;
+  headerBackground: string; // Stack nav header background
   success: string;
   warning: string;
   error: string;
 }
 
 export const darkTheme: Theme = {
-  background: '#1A0A2E',    // Deep Indigo — night sky, meditative space
-  surface: '#2D1B4E',       // Elevated indigo — cards, surfaces
-  surfaceSecondary: '#3D2560', // Deeper indigo — modals, overlays
-  text: '#FFF8E7',          // Warm Cream — ancient manuscript warmth
-  textSecondary: '#C9A96E', // Warm gold-amber — secondary labels
-  primary: '#FF6B35',       // Saffron — sacred fire, action
-  primaryLight: '#FFD700',  // Temple Gold — highlights, mala count
-  border: '#3D2560',        // Indigo border — subtle, warm
-  success: '#4CAF50',       // Green — streak achievement, completion
-  warning: '#FFD700',       // Temple Gold — caution
-  error: '#EF4444',         // Red — errors
+  background: '#1E0E05',       // Deepest sanctum — temple at midnight
+  surface: '#2A1408',          // Warm brown — card surfaces, altar wood
+  surfaceSecondary: '#3A1D0D', // Raised warm brown — modals, dividers
+  surfaceElevated: '#3A1D0D',  // Elevated surface (same as secondary)
+  text: '#FFF3E0',             // Warm parchment cream — ancient manuscript
+  textSecondary: '#FFB74D',    // Soft amber — secondary labels, icons
+  textMeaning: 'rgba(255, 243, 224, 0.9)', // Slightly muted for English meanings
+  primary: '#E55B00',          // Deep Saffron — sacred fire, primary action
+  primaryLight: '#FFD700',     // Temple Gold — highlights, ॐ symbol, mala count
+  border: 'rgba(255, 140, 0, 0.15)', // Soft gold boundary — breathable, warm
+  headerBackground: '#2A1408',  // Warm brown — stack nav headers
+  success: '#4CAF50',          // Green — streak achievement, completion
+  warning: '#FFD700',          // Temple Gold — caution
+  error: '#EF4444',            // Red — errors
 };
 
 export const lightTheme: Theme = {
   background: '#FFF8E7',    // Warm Cream — parchment, inviting
   surface: '#FFF0D0',       // Pale amber — elevated surfaces
   surfaceSecondary: '#FFE4B0', // Light moccasin — secondary surfaces
-  text: '#1A0A2E',          // Deep Indigo — on cream
+  surfaceElevated: '#FFD9A0',  // Deeper amber for elevated on light
+  text: '#2C1200',          // Dark warm brown — on cream
   textSecondary: '#7B5E35', // Warm brown — secondary labels
-  primary: '#FF6B35',       // Saffron — same across themes
+  textMeaning: 'rgba(44, 18, 0, 0.75)', // Muted meaning text on cream
+  primary: '#E55B00',       // Saffron — same across themes
   primaryLight: '#FFD700',  // Temple Gold — same across themes
-  border: '#E8C880',        // Warm gold border
+  border: 'rgba(200, 120, 0, 0.20)', // Warm gold border on cream
+  headerBackground: '#FFF0D0',  // Pale amber — stack nav headers on light
   success: '#2E7D32',       // Deeper green for legibility on cream
   warning: '#E65100',       // Deep saffron — visible on cream
   error: '#C62828',         // Deeper red for legibility on cream
+};
+
+/**
+ * Shadow tokens — use these for elevation and depth.
+ * Spread into StyleSheet objects directly.
+ */
+export const shadows = {
+  card: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  subtle: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  modal: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 16,
+    elevation: 12,
+  },
+};
+
+/**
+ * Typography tokens — sacred text refinements.
+ * Spread into Text style objects.
+ */
+export const typography = {
+  sanskrit: {
+    letterSpacing: 0.5,
+  },
+  transliteration: {
+    fontStyle: 'italic' as const,
+  },
+};
+
+/**
+ * Glow tokens — for sacred numbers and achievement states.
+ * Apply to Text when mala count >= 108 or streak milestones.
+ */
+export const glow = {
+  gold: {
+    textShadowColor: 'rgba(255, 215, 0, 0.8)',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 14,
+  },
+  saffron: {
+    textShadowColor: 'rgba(255, 154, 42, 0.6)',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
+  },
 };

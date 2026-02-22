@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import { CompletedPractice } from '@/types/practice';
 import { loadPracticeHistory } from '@/utils/practiceStorage';
+import { Colors } from '@/constants/Colors';
 
 interface SessionHistoryScreenProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
     padding: 16,
   },
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   emptyStateSubtext: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
     textAlign: 'center',
   },
@@ -251,14 +252,14 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   modalContent: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: '80%',
     padding: 24,
   },
   modalLabel: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
     marginBottom: 4,
     textTransform: 'uppercase',
@@ -301,13 +302,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   sessionItem: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     marginBottom: 12,
     padding: 16,
   },
   sessionMala: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
   },
   sessionSankalp: {
@@ -319,7 +320,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statLabel: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
     marginTop: 4,
   },
@@ -329,7 +330,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   statsContainer: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-around',

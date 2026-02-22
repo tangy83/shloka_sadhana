@@ -2,29 +2,33 @@
  * Color Palette
  * Shloka Sadhana - Spiritual Practice Companion
  *
- * Ethnic Indian design language.
- * Primary family: Saffron — sacred fire, energy, transformation.
- * Background family: Deep Indigo — night sky, meditative stillness.
+ * Ethnic Indian design language — saffron-forward, temple warmth.
+ * Primary family: Saffron Flame — sacred fire, energy, transformation.
+ * Background family: Deep Warm Brown — temple sanctum at night, sacred depth.
  * Accent: Temple Gold — divine light, achievement.
  */
 
 export const Colors = {
-  // Primary — Saffron (sacred fire)
-  primary: '#FF6B35',       // Saffron — core action color
-  primaryDark: '#CC4A18',   // Deeper saffron for pressed states
+  // Primary — Saffron Flame (sacred fire)
+  primary: '#E55B00',       // Deep Saffron — core action color
+  primaryDark: '#C44A00',   // Pressed saffron state
   primaryLight: '#FFD700',  // Temple Gold for highlights
 
-  // Background — Deep Indigo (meditative space)
-  background: '#1A0A2E',    // Deep Indigo — dark mode base
-  backgroundLight: '#2D1B4E', // Elevated indigo — secondary surfaces
-  surface: '#2D1B4E',       // Card/surface background
-  surfaceLight: '#3D2560',  // Lighter surface for emphasis
+  // Background — Stratified warm browns (temple wood, sanctum depth)
+  background: '#1E0E05',    // Darkest sanctum — primary app background
+  backgroundLight: '#2A1408', // Warm brown — secondary surfaces
+  surface: '#2A1408',       // Card / surface background
+  surfaceLight: '#3A1D0D',  // Elevated surface — modals, raised cards
+  surfaceElevated: '#3A1D0D', // Explicit elevated alias
 
-  // Text — Warm Cream (ancient manuscript)
-  text: '#FFF8E7',          // Warm Cream — primary text on dark
-  textSecondary: '#C9A96E', // Warm amber — secondary labels
-  textTertiary: 'rgba(255, 248, 231, 0.5)', // 50% cream — tertiary
-  textDisabled: 'rgba(255, 248, 231, 0.35)', // 35% cream — disabled
+  // Text — Warm manuscript tones
+  text: '#FFF3E0',          // Warm parchment cream — primary text
+  textSecondary: '#FFB74D', // Soft amber — secondary labels, icons
+  textTertiary: 'rgba(255, 243, 224, 0.50)', // 50% cream — tertiary
+  textDisabled: 'rgba(255, 243, 224, 0.35)', // 35% cream — disabled
+  textMeaning: 'rgba(255, 243, 224, 0.9)',   // Slightly muted for English meanings
+  sanskrit: '#FFF3E0',      // Sanskrit text — warm cream, letterSpacing 0.5
+  transliteration: '#FFB74D', // Transliteration — soft amber italic
 
   // Semantic
   success: '#4CAF50',
@@ -34,25 +38,24 @@ export const Colors = {
   warning: '#FFD700',       // Temple Gold doubles as warning
   info: '#7C4DFF',          // Spiritual violet for informational
 
-  // Borders & dividers
-  border: '#3D2560',
-  borderLight: 'rgba(201, 169, 110, 0.15)', // Subtle warm gold border
-  divider: 'rgba(201, 169, 110, 0.12)',
+  // Borders & dividers — soft, breathable
+  border: 'rgba(255, 140, 0, 0.15)',      // Subtle warm gold boundary
+  borderLight: 'rgba(255, 140, 0, 0.08)', // Ultra-subtle outline
+  divider: 'rgba(255, 140, 0, 0.10)',
 
   // Overlays
-  overlay: 'rgba(26, 10, 46, 0.8)',   // Deep Indigo overlay
-  overlayLight: 'rgba(26, 10, 46, 0.5)',
+  overlay: 'rgba(30, 14, 5, 0.85)',    // Deep brown overlay
+  overlayLight: 'rgba(30, 14, 5, 0.55)',
 
   // Spiritual accent colors
   templeGold: '#FFD700',    // Achievements, mala count label
   lotusPink: '#E91E8C',     // Special moments, lotus motif
-  moonPhase: '#FFE8A3',     // Moon/calendar elements
-  sanskrit: '#FFF8E7',      // Sanskrit text — warm cream, slightly larger
-  transliteration: '#C9A96E', // Transliteration — warm amber
+  moonPhase: '#FFE8A3',     // Moon / calendar elements
+  glowGold: 'rgba(255, 215, 0, 0.8)', // Gold text-shadow for sacred number glow
 
-  // Gradient (saffron flame)
-  gradientStart: '#FF6B35',
-  gradientEnd: '#CC4A18',
+  // Gradient — Saffron Flame (left → right, warm to deep)
+  gradientStart: '#FF9A2A',
+  gradientEnd: '#E55B00',
 } as const;
 
 export type ColorKey = keyof typeof Colors;

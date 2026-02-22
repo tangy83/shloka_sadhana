@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import {
   Modal,
   View,
@@ -99,7 +100,7 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
               value={text}
               onChangeText={setText}
               placeholder="Enter your offering..."
-              placeholderTextColor="#C9A96E"
+              placeholderTextColor={Colors.textSecondary}
               multiline={true}
               numberOfLines={4}
               textAlignVertical="top"
@@ -113,7 +114,7 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
               value={notes}
               onChangeText={setNotes}
               placeholder="Add notes or reflections (optional)..."
-              placeholderTextColor="#C9A96E"
+              placeholderTextColor={Colors.textSecondary}
               multiline={true}
               numberOfLines={4}
               textAlignVertical="top"
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   description: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 16,
     fontWeight: '400',
     marginBottom: 12,
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     width: '85%',
   },
   modalContent: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     elevation: 8,
     padding: 24,

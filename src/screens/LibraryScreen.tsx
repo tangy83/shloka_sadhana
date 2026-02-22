@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Colors } from '@/constants/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -47,7 +48,7 @@ export const LibraryScreen: React.FC = () => {
         </Text>
         <View style={styles.meta}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-              <MaterialCommunityIcons name="timer-outline" size={13} color="#C9A96E" />
+              <MaterialCommunityIcons name="timer-outline" size={13} color={Colors.textSecondary} />
               <Text style={styles.duration}>{item.duration}</Text>
             </View>
             <Text style={styles.bestTime}>🌅 {item.bestTime}</Text>
@@ -73,6 +74,9 @@ export const LibraryScreen: React.FC = () => {
         <Text style={styles.subtitle}>{shlokas.length} Sacred Texts</Text>
       </View>
 
+      {/* Section Label */}
+      <Text style={styles.sectionLabel}>Sacred Texts</Text>
+
       {/* Shloka List */}
       <FlatList
         testID="shloka-list"
@@ -88,11 +92,21 @@ export const LibraryScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   bestTime: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
   },
+  sectionLabel: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+    letterSpacing: 1,
+    marginBottom: 12,
+    marginHorizontal: 20,
+    marginTop: 8,
+    textTransform: 'uppercase',
+  },
   card: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     overflow: 'hidden',
@@ -101,23 +115,23 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   deity: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 12,
   },
   description: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 14,
     lineHeight: 20,
     marginBottom: 12,
   },
   duration: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
   },
   emptyContainer: {
@@ -127,7 +141,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   emptyText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   header: {
@@ -149,7 +163,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   subtitle: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   title: {

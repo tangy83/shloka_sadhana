@@ -6,6 +6,7 @@
  */
 
 import React, { useState } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { getUpcomingFestivals, getPastFestivals, Festival } from '@/utils/festivals';
 import { getTodayISO } from '@/utils/dateUtils';
@@ -175,7 +176,7 @@ export const FestivalsListScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     overflow: 'hidden',
@@ -185,20 +186,20 @@ const styles = StyleSheet.create({
   },
   categoryBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 8,
     marginBottom: 12,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
   categoryBadgeText: {
-    color: '#1A0A2E',
+    color: Colors.background,
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 0.5,
   },
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   dateContainer: {
@@ -208,18 +209,18 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dateText: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
   },
   deity: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 13,
     fontWeight: '500',
     marginBottom: 12,
   },
   description: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
     lineHeight: 20,
   },
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   emptyText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   festivalName: {
@@ -248,23 +249,23 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   relativeDateText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   subtitle: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   tab: {
     alignItems: 'center',
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
   tabActive: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -273,12 +274,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   tabText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 15,
     fontWeight: '600',
   },
   tabTextActive: {
-    color: '#1A0A2E',
+    color: Colors.background,
   },
   title: {
     color: '#FFF8E7',

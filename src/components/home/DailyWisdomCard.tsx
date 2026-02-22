@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -37,7 +38,7 @@ export const DailyWisdomCard: React.FC = () => {
 
   const renderCategoryIcon = (category: string) => {
     const size = 14;
-    const color = '#FF6B35';
+    const color = Colors.primary;
     switch (category) {
       case 'dharma':    return <MaterialCommunityIcons name="scale-balance" size={size} color={color} />;
       case 'karma':     return <MaterialCommunityIcons name="autorenew" size={size} color={color} />;
@@ -108,25 +109,25 @@ export const DailyWisdomCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   attribution: {
-    borderTopColor: '#3D2560',
+    borderTopColor: Colors.border,
     borderTopWidth: 1,
     marginTop: 12,
     paddingTop: 12,
   },
   author: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 4,
   },
   badge: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   badgeText: {
-    color: '#1A0A2E',
+    color: Colors.background,
     fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -140,13 +141,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   categoryText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 11,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
@@ -158,12 +159,12 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   ctaArrow: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 20,
     fontWeight: '300',
   },
   ctaText: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   source: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
   },
 });

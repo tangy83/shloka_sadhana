@@ -8,6 +8,8 @@
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from '@/screens/HomeScreen';
@@ -19,6 +21,7 @@ import { SettingsScreen } from '@/screens/SettingsScreen';
 import { FestivalsListScreen } from '@/screens/FestivalsListScreen';
 import { EkadashiCalendarScreen } from '@/screens/EkadashiCalendarScreen';
 import { EkadashiDetailScreen } from '@/screens/EkadashiDetailScreen';
+import { WisdomScreen } from '@/screens/WisdomScreen';
 import { WisdomDetailScreen } from '@/screens/WisdomDetailScreen';
 import { AboutScreen } from '@/screens/AboutScreen';
 import { PrivacyPolicyScreen } from '@/screens/PrivacyPolicyScreen';
@@ -43,15 +46,15 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#1A0A2E',  // Deep Indigo
-          borderTopColor: '#3D2560',
+          backgroundColor: Colors.background,
+          borderTopColor: Colors.border,
           borderTopWidth: 1,
           height: tabBarHeight,
           paddingBottom: insets.bottom + 8,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: '#FF6B35',   // Saffron
-        tabBarInactiveTintColor: '#C9A96E', // Warm amber-gold
+        tabBarActiveTintColor: Colors.primary,
+        tabBarInactiveTintColor: Colors.textSecondary,
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600',
@@ -115,13 +118,13 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="Wisdom"
+        component={WisdomScreen}
         options={{
-          tabBarLabel: 'Settings',
+          tabBarLabel: 'Wisdom',
           tabBarIcon: ({ color, focused }) => (
-            <MaterialCommunityIcons
-              name={focused ? 'cog' : 'cog-outline'}
+            <Ionicons
+              name={focused ? 'bulb' : 'bulb-outline'}
               size={24}
               color={color}
             />
@@ -140,6 +143,7 @@ export const AppNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        animation: 'fade',
       }}
     >
       {/* Main tabs */}
@@ -152,9 +156,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: '',
           headerBackTitle: 'Library',
         }}
@@ -167,9 +171,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -182,9 +186,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -197,11 +201,26 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
+        }}
+      />
+
+      {/* Settings — accessed via gear icon on Home header */}
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: Colors.surface,
+          },
+          headerTintColor: Colors.primary,
+          headerTitle: 'Settings',
+          headerBackTitle: 'Home',
         }}
       />
 
@@ -212,9 +231,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -227,9 +246,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -242,9 +261,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -257,9 +276,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -272,9 +291,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2D1B4E',
+            backgroundColor: Colors.surface,
           },
-          headerTintColor: '#FF6B35',
+          headerTintColor: Colors.primary,
           headerTitle: 'Practice History',
           headerBackTitle: 'Home',
         }}

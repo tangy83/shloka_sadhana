@@ -21,6 +21,8 @@ import { VerseOfTheDayCard } from '@/components/home/VerseOfTheDayCard';
 import { RecommendedShlokaCard } from '@/components/home/RecommendedShlokaCard';
 import { DailyWisdomCard } from '@/components/home/DailyWisdomCard';
 import { shouldShowRecoveryMessage, markRecoveryMessageShown } from '@/utils/streakRecovery';
+import { MandalaBackground, DiyaGlow } from '@/components/sacred';
+import { Colors } from '@/constants/Colors';
 
 /**
  * Home screen - main dashboard
@@ -72,15 +74,32 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {/* Sacred decorative layer — absolute, below all content */}
+      <MandalaBackground />
+      <DiyaGlow intensity="idle" />
+
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.appTitle}>Shloka Sadhana</Text>
-        <Text style={styles.welcomeText}>Welcome back!</Text>
+      <View style={[styles.header, { zIndex: 1 }]}>
+        <View style={styles.headerRow}>
+          <View>
+            <Text style={styles.appTitle}>Shloka Sadhana</Text>
+            <Text style={styles.welcomeText}>Welcome back!</Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Settings' as never)}
+            accessibilityRole="button"
+            accessibilityLabel="Open Settings"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <MaterialCommunityIcons name="cog-outline" size={26} color={Colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
         testID="home-scroll"
         contentContainerStyle={styles.scrollContent}
+        style={{ zIndex: 1 }}
       >
         {/* Resume Practice Button */}
         {activePractice && (
@@ -92,7 +111,7 @@ export const HomeScreen: React.FC = () => {
               accessibilityLabel="Resume Practice"
             >
               <View style={styles.resumeButtonContent}>
-                <Ionicons name="play-circle" size={36} color="#1A0A2E" style={styles.resumeButtonIcon} />
+                <Ionicons name="play-circle" size={36} color={Colors.background} style={styles.resumeButtonIcon} />
                 <View style={styles.resumeButtonTextContainer}>
                   <Text style={styles.resumeButtonTitle}>Resume Practice</Text>
                   <Text style={styles.resumeButtonSubtitle}>
@@ -115,7 +134,7 @@ export const HomeScreen: React.FC = () => {
               accessibilityLabel="Start Practice"
               onPress={() => navigation.navigate('Practice' as never)}
             >
-              <MaterialCommunityIcons name="meditation" size={36} color="#FF6B35" style={styles.actionIcon} />
+              <MaterialCommunityIcons name="meditation" size={36} color={Colors.primary} style={styles.actionIcon} />
               <Text style={styles.actionText}>Start Practice</Text>
             </TouchableOpacity>
 
@@ -126,7 +145,7 @@ export const HomeScreen: React.FC = () => {
               accessibilityLabel="Browse Library"
               onPress={() => navigation.navigate('Library' as never)}
             >
-              <MaterialCommunityIcons name="book-open-variant" size={36} color="#FF6B35" style={styles.actionIcon} />
+              <MaterialCommunityIcons name="book-open-variant" size={36} color={Colors.primary} style={styles.actionIcon} />
               <Text style={styles.actionText}>Browse Library</Text>
             </TouchableOpacity>
           </View>
@@ -177,7 +196,7 @@ export const HomeScreen: React.FC = () => {
             accessibilityLabel="View Hindu Festivals"
           >
             <View style={styles.festivalsButtonContent}>
-              <MaterialCommunityIcons name="candle" size={32} color="#FF6B35" style={styles.festivalsButtonIcon} />
+              <MaterialCommunityIcons name="candle" size={32} color={Colors.primary} style={styles.festivalsButtonIcon} />
               <View style={styles.festivalsButtonTextContainer}>
                 <Text style={styles.festivalsButtonTitle}>Upcoming Festivals</Text>
                 <Text style={styles.festivalsButtonSubtitle}>
@@ -212,19 +231,19 @@ export const HomeScreen: React.FC = () => {
           <Text style={styles.sectionTitle}>Your Journey</Text>
           <View style={styles.statsGrid}>
             <View style={styles.statCard}>
-              <MaterialCommunityIcons name="fire" size={24} color="#FF6B35" style={styles.statIcon} />
+              <MaterialCommunityIcons name="fire" size={24} color={Colors.primary} style={styles.statIcon} />
               <Text style={styles.statValue}>{userStats.currentStreak}</Text>
               <Text style={styles.statLabel}>Day Streak</Text>
             </View>
 
             <View style={styles.statCard}>
-              <MaterialCommunityIcons name="calendar-check-outline" size={24} color="#FF6B35" style={styles.statIcon} />
+              <MaterialCommunityIcons name="calendar-check-outline" size={24} color={Colors.primary} style={styles.statIcon} />
               <Text style={styles.statValue}>{userStats.totalPractices}</Text>
               <Text style={styles.statLabel}>Total Practices</Text>
             </View>
 
             <View style={styles.statCard}>
-              <MaterialCommunityIcons name="timer-outline" size={24} color="#FF6B35" style={styles.statIcon} />
+              <MaterialCommunityIcons name="timer-outline" size={24} color={Colors.primary} style={styles.statIcon} />
               <Text style={styles.statValue}>{userStats.minutesPracticed}</Text>
               <Text style={styles.statLabel}>Minutes</Text>
             </View>
@@ -239,7 +258,7 @@ export const HomeScreen: React.FC = () => {
             accessibilityRole="button"
             accessibilityLabel="View practice history"
           >
-            <MaterialCommunityIcons name="history" size={20} color="#C9A96E" style={styles.historyButtonIcon} />
+            <MaterialCommunityIcons name="history" size={20} color={Colors.textSecondary} style={styles.historyButtonIcon} />
             <Text style={styles.historyButtonText}>View Practice History</Text>
             <Text style={styles.historyButtonArrow}>›</Text>
           </TouchableOpacity>
@@ -310,7 +329,7 @@ export const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   actionButton: {
     alignItems: 'center',
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     flex: 1,
     justifyContent: 'center',
@@ -327,29 +346,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   appTitle: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 4,
   },
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   ekadashiButton: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
   historyButton: {
     alignItems: 'center',
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flexDirection: 'row',
     padding: 16,
   },
   historyButtonArrow: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 24,
     fontWeight: '300',
     marginLeft: 'auto',
@@ -363,7 +382,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   ekadashiButtonArrow: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 32,
     fontWeight: '300',
   },
@@ -376,7 +395,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   ekadashiButtonSubtitle: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   ekadashiButtonTextContainer: {
@@ -389,12 +408,12 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   festivalsButton: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
   festivalsButtonArrow: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 32,
     fontWeight: '300',
   },
@@ -406,7 +425,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   festivalsButtonSubtitle: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   festivalsButtonTextContainer: {
@@ -422,14 +441,19 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 60,
   },
+  headerRow: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   periodStatCard: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     flex: 1,
     padding: 16,
   },
   periodStatLabel: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   periodStatRow: {
@@ -439,7 +463,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   periodStatTitle: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 12,
@@ -459,7 +483,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   resumeButton: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 16,
     padding: 20,
   },
@@ -471,7 +495,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   resumeButtonSubtitle: {
-    color: '#2D1B4E',
+    color: Colors.background,
     fontSize: 14,
     fontWeight: '500',
   },
@@ -479,7 +503,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   resumeButtonTitle: {
-    color: '#1A0A2E',
+    color: Colors.background,
     fontSize: 18,
     fontWeight: '700',
     marginBottom: 4,
@@ -499,7 +523,7 @@ const styles = StyleSheet.create({
   },
   statCard: {
     alignItems: 'center',
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     flex: 1,
     padding: 16,
@@ -508,12 +532,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   statLabel: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 11,
     textAlign: 'center',
   },
   statValue: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 4,
@@ -524,7 +548,7 @@ const styles = StyleSheet.create({
   },
   streakHighlightCard: {
     alignItems: 'center',
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     flexDirection: 'row',
     padding: 16,
@@ -533,7 +557,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   streakHighlightLabel: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
     marginBottom: 4,
   },
@@ -541,12 +565,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   streakHighlightValue: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 20,
     fontWeight: '700',
   },
   welcomeText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
 });

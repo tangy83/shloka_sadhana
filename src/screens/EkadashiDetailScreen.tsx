@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { getEkadashiByDate } from '@/utils/ekadashiCalendar';
@@ -118,7 +119,7 @@ export const EkadashiDetailScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   errorContainer: {
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   errorText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
     textAlign: 'center',
   },
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   infoLabel: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '500',
     width: 80,
@@ -163,19 +164,19 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     marginHorizontal: 20,
     padding: 20,
   },
   sectionContent: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 15,
     lineHeight: 22,
   },
   sectionTitle: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
@@ -188,18 +189,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   titleHindi: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 18,
     textAlign: 'center',
   },
   vrataKatha: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 15,
     fontStyle: 'italic',
     lineHeight: 24,
   },
   vrataKathaContainer: {
-    borderLeftColor: '#FF6B35',
+    borderLeftColor: Colors.primary,
     borderLeftWidth: 3,
     paddingLeft: 16,
   },

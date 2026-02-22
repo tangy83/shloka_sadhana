@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet } from 'react-native';
 import { getUserLocation, getDefaultLocation } from '@/utils/location';
 import { getMuhuratForDate } from '@/utils/muhurat';
@@ -146,7 +147,7 @@ export const MuhuratTimes: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
@@ -163,19 +164,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   muhuratDescription: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontStyle: 'italic',
   },
   muhuratReason: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 6,
     marginTop: 4,
   },
   muhuratTime: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 4,

@@ -6,12 +6,14 @@
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Colors } from '@/constants/Colors';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { getAllWisdomQuotes } from '@/data/wisdom';
 
 type CategoryIconProps = { category: string; size?: number; color?: string };
-const CategoryIcon: React.FC<CategoryIconProps> = ({ category, size = 16, color = '#FF6B35' }) => {
+const CategoryIcon: React.FC<CategoryIconProps> = ({ category, size = 16, color = Colors.primary }) => {
   switch (category) {
     case 'dharma':    return <MaterialCommunityIcons name="scale-balance" size={size} color={color} />;
     case 'karma':     return <MaterialCommunityIcons name="autorenew" size={size} color={color} />;
@@ -27,7 +29,13 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({ category, size = 16, color 
  * Wisdom screen for displaying spiritual quotes and teachings
  */
 export const WisdomScreen: React.FC = () => {
+  const navigation = useNavigation();
   const quotes = getAllWisdomQuotes();
+
+  const handleQuotePress = (quoteId: string) => {
+    // @ts-expect-error - Navigation types not fully defined
+    navigation.navigate('WisdomDetail', { quoteId });
+  };
 
   /**
    * Get category display name
@@ -59,10 +67,17 @@ export const WisdomScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
       >
         {quotes.map((quote) => (
-          <View key={quote.id} style={styles.quoteCard} testID="wisdom-quote">
+          <TouchableOpacity
+            key={quote.id}
+            style={styles.quoteCard}
+            onPress={() => handleQuotePress(quote.id)}
+            accessibilityRole="button"
+            accessibilityLabel={`Read full wisdom from ${quote.author}`}
+            testID="wisdom-quote"
+          >
             {/* Category Tag */}
             <View style={styles.categoryContainer}>
-              <CategoryIcon category={quote.category} size={16} color="#FF6B35" />
+              <CategoryIcon category={quote.category} size={16} color={Colors.primary} />
               <Text style={styles.categoryText} testID="quote-category">
                 {getCategoryDisplay(quote.category)}
               </Text>
@@ -82,7 +97,8 @@ export const WisdomScreen: React.FC = () => {
                 {quote.source}
               </Text>
             </View>
-          </View>
+            <Text style={styles.readMore}>Read More ›</Text>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -91,12 +107,12 @@ export const WisdomScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   attribution: {
-    borderTopColor: '#3D2560',
+    borderTopColor: Colors.border,
     borderTopWidth: 1,
     paddingTop: 12,
   },
   author: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 4,
@@ -111,13 +127,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   categoryText: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   header: {
@@ -125,7 +141,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   quoteCard: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
@@ -141,12 +157,19 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 0,
   },
+  readMore: {
+    color: Colors.primary,
+    fontSize: 13,
+    fontWeight: '600',
+    marginTop: 12,
+    textAlign: 'right',
+  },
   source: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
   },
   subtitle: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   title: {

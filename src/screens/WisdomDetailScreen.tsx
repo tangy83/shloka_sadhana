@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useRoute, RouteProp } from '@react-navigation/native';
@@ -20,7 +21,7 @@ type WisdomDetailRouteParams = {
 
 const CategoryIcon: React.FC<{ category: string }> = ({ category }) => {
   const size = 64;
-  const color = '#FF6B35';
+  const color = Colors.primary;
   switch (category) {
     case 'dharma':    return <MaterialCommunityIcons name="scale-balance" size={size} color={color} />;
     case 'karma':     return <MaterialCommunityIcons name="autorenew" size={size} color={color} />;
@@ -150,8 +151,8 @@ export const WisdomDetailScreen: React.FC = () => {
 const styles = StyleSheet.create({
   applicationBox: {
     alignItems: 'flex-start',
-    backgroundColor: '#3D2560',
-    borderLeftColor: '#FF6B35',
+    backgroundColor: Colors.surface,
+    borderLeftColor: Colors.primary,
     borderLeftWidth: 4,
     borderRadius: 12,
     flexDirection: 'row',
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   attributionDivider: {
-    backgroundColor: '#3D2560',
+    backgroundColor: Colors.surface,
     height: 1,
     marginBottom: 16,
     width: '100%',
@@ -179,26 +180,26 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   author: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 6,
   },
   categoryBadge: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     marginTop: 8,
     paddingHorizontal: 16,
     paddingVertical: 6,
   },
   categoryBadgeText: {
-    color: '#1A0A2E',
+    color: Colors.background,
     fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   errorContainer: {
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   errorText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
     textAlign: 'center',
   },
@@ -222,8 +223,8 @@ const styles = StyleSheet.create({
     fontSize: 64,
   },
   meaningHighlight: {
-    backgroundColor: '#2D1B4E',
-    borderLeftColor: '#FF6B35',
+    backgroundColor: Colors.surface,
+    borderLeftColor: Colors.primary,
     borderLeftWidth: 4,
     borderRadius: 12,
     padding: 16,
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
     lineHeight: 28,
   },
   sanskritText: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 18,
     fontWeight: '500',
     lineHeight: 32,
@@ -251,42 +252,42 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     marginHorizontal: 20,
     padding: 20,
   },
   sectionContent: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 15,
     lineHeight: 24,
   },
   sectionTitle: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '700',
     marginBottom: 12,
     textTransform: 'uppercase',
   },
   source: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
     marginBottom: 4,
   },
   sourceChapter: {
-    color: '#757575',
+    color: '#FFB74D',
     fontSize: 12,
     fontStyle: 'italic',
   },
   tag: {
-    backgroundColor: '#3D2560',
+    backgroundColor: Colors.surface,
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 8,
   },
   tagText: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 12,
     fontWeight: '500',
   },

@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTimer } from '@/hooks/useTimer';
 
@@ -203,13 +204,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#424242',
   },
   disabledButtonText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
   },
   primaryAction: {
     marginBottom: 16,
   },
   primaryButton: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
   },
   secondaryActions: {
     flexDirection: 'row',
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
   },
   tertiaryButton: {
-    backgroundColor: '#757575',
+    backgroundColor: '#FFB74D',
   },
   timerDisplay: {
     color: '#FFF8E7',

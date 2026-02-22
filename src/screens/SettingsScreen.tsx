@@ -27,6 +27,7 @@ import {
 } from '@/utils/notifications';
 // import { useFontSize } from '@/hooks/useFontSize'; // Hidden for now
 import Constants from 'expo-constants';
+import { Colors } from '@/constants/Colors';
 
 interface NotificationSettings {
   enabled: boolean;
@@ -228,7 +229,7 @@ export const SettingsScreen: React.FC = () => {
                 step={0.1}
                 value={fontSize}
                 onValueChange={setFontSize}
-                minimumTrackTintColor="#FF6B35"
+                minimumTrackTintColor={Colors.primary}
                 maximumTrackTintColor="#3e3e3e"
                 thumbTintColor="#FFA726"
                 accessibilityLabel="Font size slider"
@@ -259,7 +260,7 @@ export const SettingsScreen: React.FC = () => {
               testID="notification-toggle"
               value={notificationsEnabled}
               onValueChange={handleToggleNotifications}
-              trackColor={{ false: '#3e3e3e', true: '#FF6B35' }}
+              trackColor={{ false: '#3e3e3e', true: Colors.primary }}
               thumbColor={notificationsEnabled ? '#FFA726' : '#f4f3f4'}
               accessibilityLabel="Toggle daily reminders"
               accessibilityRole="switch"
@@ -413,11 +414,11 @@ export const SettingsScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   arrow: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 24,
   },
   cancelButton: {
-    backgroundColor: '#3D2560',
+    backgroundColor: Colors.surface,
   },
   cancelButtonText: {
     color: '#FFF8E7',
@@ -425,7 +426,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   dangerRow: {
@@ -436,7 +437,7 @@ const styles = StyleSheet.create({
     color: '#F44336',
   },
   header: {
-    borderBottomColor: '#3D2560',
+    borderBottomColor: Colors.border,
     borderBottomWidth: 1,
     padding: 20,
     paddingTop: 60,
@@ -458,7 +459,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   modalContent: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     maxWidth: 400,
     padding: 24,
@@ -484,7 +485,7 @@ const styles = StyleSheet.create({
   //   textAlign: 'center',
   // },
   saveButton: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
   },
   saveButtonText: {
     color: '#FFF8E7',
@@ -501,7 +502,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   sectionTitle: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '600',
     letterSpacing: 0.5,
@@ -509,7 +510,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   settingDescription: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
   },
   settingInfo: {
@@ -524,7 +525,7 @@ const styles = StyleSheet.create({
   },
   settingRow: {
     alignItems: 'center',
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -539,7 +540,7 @@ const styles = StyleSheet.create({
   //   width: '100%',
   // },
   // sliderLabel: { // Hidden with font size slider
-  //   color: '#C9A96E',
+  //   color: Colors.textSecondary,
   //   fontSize: 14,
   //   fontWeight: '600',
   // },

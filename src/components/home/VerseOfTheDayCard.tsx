@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet } from 'react-native';
 import { getVerseOfTheDay, VerseOfTheDay } from '@/utils/verseOfTheDay';
 import { getTodayISO } from '@/utils/dateUtils';
@@ -65,9 +66,9 @@ export const VerseOfTheDayCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   badge: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
-    color: '#1A0A2E',
+    color: Colors.background,
     fontSize: 11,
     fontWeight: '700',
     overflow: 'hidden',
@@ -76,17 +77,17 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   category: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontStyle: 'italic',
   },
   container: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
   deity: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 13,
     fontWeight: '500',
   },
@@ -105,14 +106,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   hindi: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontStyle: 'italic',
     lineHeight: 22,
     marginTop: 12,
   },
   meaning: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 15,
     lineHeight: 24,
     marginTop: 12,
@@ -125,13 +126,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   source: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     flex: 1,
     fontSize: 13,
     fontStyle: 'italic',
   },
   transliteration: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontStyle: 'italic',
     lineHeight: 22,

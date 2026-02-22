@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export interface RecoveryMessageCardProps {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   cta: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   dismissText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 20,
     fontWeight: '600',
   },

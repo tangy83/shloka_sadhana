@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 /**
  * Muhurat Activity Labels
  * Shloka Sadhana - V3 Feature #4
@@ -20,7 +21,7 @@ export const MUHURAT_ACTIVITIES: Record<string, MuhuratActivity> = {
     description: 'Meditation, chanting, yoga, study',
     reason: 'The hour before sunrise when the mind is calm and pure, perfect for spiritual practices as cosmic energy is most conducive to meditation and self-realization.',
     icon: '🕉️',
-    color: '#FF6B35', // Orange
+    color: Colors.primary, // Orange
     tone: 'positive',
   },
   abhijitMuhurat: {
@@ -36,7 +37,7 @@ export const MUHURAT_ACTIVITIES: Record<string, MuhuratActivity> = {
     description: 'Not ideal for starting new things',
     reason: 'A period ruled by Rahu (shadow planet) when energy is unstable. Traditionally considered inauspicious for starting new activities, but suitable for routine work and meditation.',
     icon: '⚠️',
-    color: '#C9A96E', // Gray (neutral, not red)
+    color: Colors.textSecondary, // Gray (neutral, not red)
     tone: 'gentle', // Non-alarming
   },
 };

@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getDailyRecommendation, ShlokaRecommendation } from '@/utils/shlokaRecommendation';
@@ -106,19 +107,19 @@ export const RecommendedShlokaCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   badge: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   badgeText: {
-    color: '#1A0A2E',
+    color: Colors.background,
     fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
   benefits: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     flex: 1,
     fontSize: 13,
   },
@@ -128,23 +129,23 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   benefitsLabel: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 13,
     fontWeight: '600',
   },
   category: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontStyle: 'italic',
   },
   container: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
   cta: {
     alignItems: 'center',
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     flexDirection: 'row',
     gap: 8,
@@ -153,23 +154,23 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   ctaArrow: {
-    color: '#1A0A2E',
+    color: Colors.background,
     fontSize: 24,
     fontWeight: '300',
   },
   ctaText: {
-    color: '#1A0A2E',
+    color: Colors.background,
     fontSize: 16,
     fontWeight: '700',
   },
   deity: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 12,
   },
   description: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 14,
     lineHeight: 20,
     marginTop: 12,
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   metaText: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   name: {
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   reason: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     flex: 1,
     fontSize: 14,
     fontStyle: 'italic',
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
   },
   reasonContainer: {
     alignItems: 'flex-start',
-    backgroundColor: '#3D2560',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flexDirection: 'row',
     gap: 8,

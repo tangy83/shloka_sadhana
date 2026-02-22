@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import {
   View,
   Text,
@@ -173,7 +174,7 @@ export const ShlokaDetailScreen: React.FC = () => {
               accessibilityRole="button"
               accessibilityLabel={`Toggle favorite for ${shloka.name}`}
             >
-              <Ionicons name={isFavorited ? 'heart' : 'heart-outline'} size={24} color={isFavorited ? '#E91E8C' : '#C9A96E'} />
+              <Ionicons name={isFavorited ? 'heart' : 'heart-outline'} size={24} color={isFavorited ? '#E91E8C' : Colors.textSecondary} />
             </TouchableOpacity>
           </View>
         </View>
@@ -195,7 +196,7 @@ export const ShlokaDetailScreen: React.FC = () => {
           <View style={styles.infoItem}>
             <Text style={styles.infoLabel}>Duration</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              <MaterialCommunityIcons name="timer-outline" size={16} color="#C9A96E" />
+              <MaterialCommunityIcons name="timer-outline" size={16} color={Colors.textSecondary} />
               <Text style={styles.infoValue}>{shloka.duration}</Text>
             </View>
           </View>
@@ -294,21 +295,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   benefits: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 16,
     lineHeight: 24,
   },
   container: {
-    backgroundColor: '#1A0A2E',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   deity: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '500',
   },
   description: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 16,
     lineHeight: 24,
   },
@@ -319,7 +320,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   errorSubtext: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',
@@ -352,13 +353,13 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   infoItem: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flex: 1,
     padding: 16,
   },
   infoLabel: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 12,
     marginBottom: 4,
     textTransform: 'uppercase',
@@ -374,7 +375,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   meaning: {
-    color: '#BDBDBD',
+    color: 'rgba(255, 243, 224, 0.9)',
     fontSize: 15,
     lineHeight: 22,
   },
@@ -382,7 +383,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   meaningLabel: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 4,
@@ -403,7 +404,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionNumber: {
-    color: '#FF6B35',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 12,
@@ -416,14 +417,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   shlokaSection: {
-    backgroundColor: '#2D1B4E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
   },
   startPracticeButton: {
     alignItems: 'center',
-    backgroundColor: '#FF6B35',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     elevation: 4,
     flexDirection: 'row',
@@ -431,7 +432,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 24,
     padding: 18,
-    shadowColor: '#FF6B35',
+    shadowColor: Colors.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -451,7 +452,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   transliteration: {
-    color: '#C9A96E',
+    color: Colors.textSecondary,
     fontSize: 16,
     fontStyle: 'italic',
     lineHeight: 24,
