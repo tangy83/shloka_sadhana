@@ -7,8 +7,11 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getDailyWisdomQuote } from '@/data/wisdom';
 import { getTodayISO } from '@/utils/dateUtils';
 import { WisdomQuote } from '@/data/wisdom';
@@ -18,6 +21,7 @@ import { WisdomQuote } from '@/data/wisdom';
  */
 export const DailyWisdomCard: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [quote, setQuote] = useState<WisdomQuote | null>(null);
 
   useEffect(() => {
@@ -34,16 +38,18 @@ export const DailyWisdomCard: React.FC = () => {
     return null;
   }
 
-  const getCategoryEmoji = (category: string): string => {
-    const emojiMap: Record<string, string> = {
-      dharma: '⚖️',
-      karma: '🔄',
-      devotion: '🙏',
-      meditation: '🧘',
-      wisdom: '💡',
-      compassion: '❤️',
-    };
-    return emojiMap[category] || '📖';
+  const renderCategoryIcon = (category: string) => {
+    const size = 14;
+    const color = Colors.primary;
+    switch (category) {
+      case 'dharma':    return <MaterialCommunityIcons name="scale-balance" size={size} color={color} />;
+      case 'karma':     return <MaterialCommunityIcons name="autorenew" size={size} color={color} />;
+      case 'devotion':  return <MaterialCommunityIcons name="hands-pray" size={size} color={color} />;
+      case 'meditation':return <MaterialCommunityIcons name="meditation" size={size} color={color} />;
+      case 'wisdom':    return <Ionicons name="bulb-outline" size={size} color={color} />;
+      case 'compassion':return <Ionicons name="heart-outline" size={size} color={color} />;
+      default:          return <MaterialCommunityIcons name="book-open-outline" size={size} color={color} />;
+    }
   };
 
   const getCategoryDisplay = (category: string): string => {
@@ -66,7 +72,7 @@ export const DailyWisdomCard: React.FC = () => {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.surface }]}
       onPress={handlePress}
       accessibilityRole="button"
       accessibilityLabel="View daily wisdom details"
@@ -78,20 +84,20 @@ export const DailyWisdomCard: React.FC = () => {
           <Text style={styles.badgeText}>Daily Wisdom</Text>
         </View>
         <View style={styles.categoryTag}>
-          <Text style={styles.categoryEmoji}>{getCategoryEmoji(quote.category)}</Text>
-          <Text style={styles.categoryText}>{getCategoryDisplay(quote.category)}</Text>
+          {renderCategoryIcon(quote.category)}
+          <Text style={[styles.categoryText, { color: theme.textSecondary }]}>{getCategoryDisplay(quote.category)}</Text>
         </View>
       </View>
 
       {/* Quote Text */}
-      <Text style={styles.quoteText} numberOfLines={3}>
+      <Text style={[styles.quoteText, { color: theme.textBright }]} numberOfLines={3}>
         &quot;{quote.text}&quot;
       </Text>
 
       {/* Attribution */}
-      <View style={styles.attribution}>
+      <View style={[styles.attribution, { borderTopColor: theme.divider }]}>
         <Text style={styles.author}>— {quote.author}</Text>
-        <Text style={styles.source}>{quote.source}</Text>
+        <Text style={[styles.source, { color: theme.textSecondary }]}>{quote.source}</Text>
       </View>
 
       {/* CTA */}
@@ -105,31 +111,28 @@ export const DailyWisdomCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   attribution: {
-    borderTopColor: '#2A2A2A',
+    borderTopColor: Colors.border,
     borderTopWidth: 1,
     marginTop: 12,
     paddingTop: 12,
   },
   author: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 4,
   },
   badge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   badgeText: {
-    color: '#121212',
+    color: Colors.background,
     fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
-  },
-  categoryEmoji: {
-    fontSize: 14,
   },
   categoryTag: {
     alignItems: 'center',
@@ -137,13 +140,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   categoryText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 11,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
@@ -155,12 +158,12 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   ctaArrow: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 20,
     fontWeight: '300',
   },
   ctaText: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -172,14 +175,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   quoteText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 15,
     fontStyle: 'italic',
     lineHeight: 22,
     marginBottom: 12,
   },
   source: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 12,
   },
 });

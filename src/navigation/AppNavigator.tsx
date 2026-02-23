@@ -5,8 +5,11 @@
  * Stack + bottom tab navigation connecting all main screens
  */
 
-import React from 'react';
-import { Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '@/contexts/ThemeContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from '@/screens/HomeScreen';
@@ -18,10 +21,15 @@ import { SettingsScreen } from '@/screens/SettingsScreen';
 import { FestivalsListScreen } from '@/screens/FestivalsListScreen';
 import { EkadashiCalendarScreen } from '@/screens/EkadashiCalendarScreen';
 import { EkadashiDetailScreen } from '@/screens/EkadashiDetailScreen';
+import { WisdomScreen } from '@/screens/WisdomScreen';
 import { WisdomDetailScreen } from '@/screens/WisdomDetailScreen';
 import { AboutScreen } from '@/screens/AboutScreen';
 import { PrivacyPolicyScreen } from '@/screens/PrivacyPolicyScreen';
 import { TermsOfServiceScreen } from '@/screens/TermsOfServiceScreen';
+import { SessionHistoryScreen } from '@/screens/SessionHistoryScreen';
+import { OnboardingScreen } from '@/screens/OnboardingScreen';
+import { getItem } from '@/utils/storage';
+import { STORAGE_KEYS } from '@/constants/StorageKeys';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,20 +38,27 @@ const Stack = createNativeStackNavigator();
  * Bottom Tab Navigator
  */
 const TabNavigator = () => {
+  const insets = useSafeAreaInsets();
+  const { theme } = useTheme();
+  // Reserve 60pt for icons/labels + full bottom safe area inset so the
+  // bar background reaches the screen edge and icons sit comfortably
+  // above the home indicator with ~8pt breathing room.
+  const tabBarHeight = 60 + insets.bottom;
+
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#1E1E1E',
-          borderTopColor: '#2A2A2A',
+          backgroundColor: theme.background,
+          borderTopColor: theme.border,
           borderTopWidth: 1,
-          height: 60,
-          paddingBottom: 8,
+          height: tabBarHeight,
+          paddingBottom: insets.bottom + 8,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: '#FF9800',
-        tabBarInactiveTintColor: '#B0B0B0', // Improved contrast for accessibility (4.5:1)
+        tabBarActiveTintColor: theme.primary,
+        tabBarInactiveTintColor: theme.textSecondary,
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600',
@@ -55,8 +70,12 @@ const TabNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>🏠</Text>
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? 'home-variant' : 'home-variant-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -65,8 +84,12 @@ const TabNavigator = () => {
         component={PracticeScreen}
         options={{
           tabBarLabel: 'Practice',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>🙏</Text>
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="meditation"
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -75,8 +98,12 @@ const TabNavigator = () => {
         component={LibraryScreen}
         options={{
           tabBarLabel: 'Library',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>📚</Text>
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? 'book-open-variant' : 'book-open-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -85,18 +112,26 @@ const TabNavigator = () => {
         component={SatsangScreen}
         options={{
           tabBarLabel: 'Satsang',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>🎵</Text>
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? 'bell' : 'bell-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="Wisdom"
+        component={WisdomScreen}
         options={{
-          tabBarLabel: 'Settings',
-          tabBarIcon: () => (
-            <Text style={{ fontSize: 24 }}>⚙️</Text>
+          tabBarLabel: 'Wisdom',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'bulb' : 'bulb-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -106,14 +141,42 @@ const TabNavigator = () => {
 
 /**
  * Main App Navigator with Stack
+ *
+ * On first launch (ONBOARDING_COMPLETE not set) the Onboarding screen is
+ * registered as the initial route.  After the user completes onboarding the
+ * flag is written to AsyncStorage and navigation.replace('MainTabs') is called.
+ * On subsequent launches the MainTabs screen is shown immediately.
  */
 export const AppNavigator = () => {
+  const { theme } = useTheme();
+  // null = still loading; false = first launch; true = already onboarded
+  const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      const flag = await getItem<boolean>(STORAGE_KEYS.ONBOARDING_COMPLETE);
+      setIsOnboarded(flag === true);
+    };
+    checkOnboarding();
+  }, []);
+
+  // Render nothing while we check AsyncStorage — avoids a flash of the wrong screen
+  if (isOnboarded === null) {
+    return null;
+  }
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        animation: 'fade',
       }}
     >
+      {/* Conditional root: show onboarding on first launch only */}
+      {!isOnboarded && (
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+      )}
+
       {/* Main tabs */}
       <Stack.Screen name="MainTabs" component={TabNavigator} />
 
@@ -124,9 +187,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Library',
         }}
@@ -139,9 +202,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -154,9 +217,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -169,11 +232,26 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
+        }}
+      />
+
+      {/* Settings — accessed via gear icon on Home header */}
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: theme.headerBackground,
+          },
+          headerTintColor: theme.primary,
+          headerTitle: 'Settings',
+          headerBackTitle: 'Home',
         }}
       />
 
@@ -184,9 +262,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -199,9 +277,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -214,9 +292,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -229,11 +307,26 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1E1E',
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: '#FF9800',
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
+        }}
+      />
+
+      {/* Session History */}
+      <Stack.Screen
+        name="SessionHistory"
+        component={SessionHistoryScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: theme.headerBackground,
+          },
+          headerTintColor: theme.primary,
+          headerTitle: 'Practice History',
+          headerBackTitle: 'Home',
         }}
       />
     </Stack.Navigator>

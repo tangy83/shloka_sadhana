@@ -6,6 +6,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
+import { AppText } from '@/components/primitives/AppText';
 import {
   View,
   Text,
@@ -14,11 +17,12 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import { getShlokaById } from '@/data/shlokas';
 import { isFavorite, addFavorite, removeFavorite } from '@/utils/favorites';
-import { loadAudio, playAudio, pauseAudio, unloadAudio } from '@/utils/audio';
+import { loadAudio, playAudio, pauseAudio, unloadAudio, setPlaybackSpeed } from '@/utils/audio';
 import { RootStackParamList } from '@/types';
 
 type ShlokaDetailRouteProp = RouteProp<RootStackParamList, 'ShlokaDetail'>;
@@ -28,6 +32,7 @@ type ShlokaDetailRouteProp = RouteProp<RootStackParamList, 'ShlokaDetail'>;
  */
 export const ShlokaDetailScreen: React.FC = () => {
   const route = useRoute<ShlokaDetailRouteProp>();
+  const { theme } = useTheme();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const navigation = useNavigation<any>();
   const { shlokaId } = route.params;
@@ -35,6 +40,9 @@ export const ShlokaDetailScreen: React.FC = () => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackSpeed, setPlaybackSpeedState] = useState(1.0);
+
+  const SPEEDS = [0.75, 1.0, 1.25] as const;
 
   /**
    * Load favorite status on mount
@@ -105,6 +113,7 @@ export const ShlokaDetailScreen: React.FC = () => {
           const audioSound = await loadAudio(shloka.audioUrl);
           if (audioSound) {
             setSound(audioSound);
+            await setPlaybackSpeed(audioSound, playbackSpeed);
             await playAudio(audioSound);
             setIsPlaying(true);
 
@@ -127,6 +136,16 @@ export const ShlokaDetailScreen: React.FC = () => {
   };
 
   /**
+   * Handle playback speed change
+   */
+  const handleSpeedChange = async (speed: number) => {
+    setPlaybackSpeedState(speed);
+    if (sound) {
+      await setPlaybackSpeed(sound, speed);
+    }
+  };
+
+  /**
    * Handle start practice press
    */
   const handleStartPractice = () => {
@@ -141,10 +160,10 @@ export const ShlokaDetailScreen: React.FC = () => {
   // Handle case where shloka is not found
   if (!shloka) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Shloka not found</Text>
-          <Text style={styles.errorSubtext}>
+          <Text style={[styles.errorText, { color: theme.textBright }]}>Shloka not found</Text>
+          <Text style={[styles.errorSubtext, { color: theme.textSecondary }]}>
             The requested shloka could not be found. Please try another one.
           </Text>
         </View>
@@ -153,7 +172,7 @@ export const ShlokaDetailScreen: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView
         testID="shloka-detail-scroll"
         contentContainerStyle={styles.scrollContent}
@@ -162,8 +181,8 @@ export const ShlokaDetailScreen: React.FC = () => {
         <View style={styles.header}>
           <View style={styles.headerContent}>
             <View style={styles.headerText}>
-              <Text style={styles.title}>{shloka.name}</Text>
-              <Text style={styles.deity}>{shloka.deity}</Text>
+              <Text style={[styles.title, { color: theme.textBright }]}>{shloka.name}</Text>
+              <Text style={[styles.deity, { color: theme.primary }]}>{shloka.deity}</Text>
             </View>
             <TouchableOpacity
               testID="favorite-button"
@@ -172,49 +191,73 @@ export const ShlokaDetailScreen: React.FC = () => {
               accessibilityRole="button"
               accessibilityLabel={`Toggle favorite for ${shloka.name}`}
             >
-              <Text style={styles.favoriteIcon}>{isFavorited ? '❤️' : '🤍'}</Text>
+              <Ionicons name={isFavorited ? 'heart' : 'heart-outline'} size={24} color={isFavorited ? '#E91E8C' : theme.textSecondary} />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Description Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
-          <Text style={styles.description}>{shloka.description}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>About</Text>
+          <Text style={[styles.description, { color: theme.textMeaning }]}>{shloka.description}</Text>
         </View>
 
         {/* Benefits Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Benefits</Text>
-          <Text style={styles.benefits}>{shloka.benefits}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Benefits</Text>
+          <Text style={[styles.benefits, { color: theme.textMeaning }]}>{shloka.benefits}</Text>
         </View>
 
         {/* Practice Info Section */}
         <View style={styles.infoSection}>
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Duration</Text>
-            <Text style={styles.infoValue}>⏱️ {shloka.duration}</Text>
+          <View style={[styles.infoItem, { backgroundColor: theme.surface }]}>
+            <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Duration</Text>
+            <View style={styles.durationRow}>
+              <MaterialCommunityIcons name="timer-outline" size={16} color={theme.textSecondary} />
+              <Text style={[styles.infoValue, { color: theme.textBright }]}>{shloka.duration}</Text>
+            </View>
           </View>
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Best Time</Text>
-            <Text style={styles.infoValue}>🌅 {shloka.bestTime}</Text>
+          <View style={[styles.infoItem, { backgroundColor: theme.surface }]}>
+            <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Best Time</Text>
+            <Text style={[styles.infoValue, { color: theme.textBright }]}>🌅 {shloka.bestTime}</Text>
           </View>
         </View>
 
         {/* Audio Pronunciation Button */}
         {shloka.audioUrl && (
-          <TouchableOpacity
-            testID="audio-button"
-            style={styles.audioButton}
-            onPress={handleAudioPress}
-            accessibilityRole="button"
-            accessibilityLabel={`${isPlaying ? 'Pause' : 'Play'} ${shloka.name} pronunciation`}
-          >
-            <Text style={styles.audioIcon}>{isPlaying ? '⏸️' : '🔊'}</Text>
-            <Text style={styles.audioButtonText}>
-              {isPlaying ? 'Pause Pronunciation' : 'Listen to Pronunciation'}
-            </Text>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity
+              testID="audio-button"
+              style={styles.audioButton}
+              onPress={handleAudioPress}
+              accessibilityRole="button"
+              accessibilityLabel={`${isPlaying ? 'Pause' : 'Play'} ${shloka.name} pronunciation`}
+            >
+              <Ionicons name={isPlaying ? 'pause-circle' : 'play-circle-outline'} size={24} color="#FFF8E7" />
+              <Text style={[styles.audioButtonText, { color: theme.textBright }]}>
+                {isPlaying ? 'Pause Pronunciation' : 'Listen to Pronunciation'}
+              </Text>
+            </TouchableOpacity>
+            {/* Playback speed selector — visible once audio has loaded */}
+            {sound !== null && (
+              <View style={styles.speedRow}>
+                <Text style={[styles.speedLabel, { color: theme.textSecondary }]}>Speed:</Text>
+                {SPEEDS.map((s) => (
+                  <TouchableOpacity
+                    key={s}
+                    style={[styles.speedBtn, playbackSpeed === s && styles.speedBtnActive]}
+                    onPress={() => handleSpeedChange(s)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Set playback speed to ${s}x`}
+                  >
+                    <Text style={[styles.speedBtnText, playbackSpeed === s && styles.speedBtnTextActive]}>
+                      {s}x
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </>
         )}
 
         {/* YouTube Link Button */}
@@ -226,8 +269,8 @@ export const ShlokaDetailScreen: React.FC = () => {
             accessibilityRole="button"
             accessibilityLabel={`Watch ${shloka.name} on YouTube`}
           >
-            <Text style={styles.youtubeIcon}>▶️</Text>
-            <Text style={styles.youtubeButtonText}>Watch on YouTube</Text>
+            <Ionicons name="logo-youtube" size={22} color="#FFF8E7" />
+            <Text style={[styles.youtubeButtonText, { color: Colors.textOnColor }]}>Watch on YouTube</Text>
           </TouchableOpacity>
         )}
 
@@ -239,28 +282,28 @@ export const ShlokaDetailScreen: React.FC = () => {
           accessibilityRole="button"
           accessibilityLabel={`Start practice session with ${shloka.name}`}
         >
-          <Text style={styles.startPracticeIcon}>🙏</Text>
-          <Text style={styles.startPracticeButtonText}>Start Practice</Text>
+          <MaterialCommunityIcons name="meditation" size={22} color="#FFF8E7" />
+          <Text style={[styles.startPracticeButtonText, { color: theme.textBright }]}>Start Practice</Text>
         </TouchableOpacity>
 
         {/* Shloka Sections */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Shloka</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Shloka</Text>
           {shloka.sections.map((section, index) => (
-            <View key={section.id} style={styles.shlokaSection}>
+            <View key={section.id} style={[styles.shlokaSection, { backgroundColor: theme.surface }]}>
               {/* Section Number */}
-              <Text style={styles.sectionNumber}>Verse {index + 1}</Text>
+              <Text style={[styles.sectionNumber, { color: theme.primary }]}>Verse {index + 1}</Text>
 
               {/* Sanskrit Text */}
-              <Text style={styles.sanskrit}>{section.sanskrit}</Text>
+              <AppText style={[styles.sanskrit, { color: theme.textBright }]}>{section.sanskrit}</AppText>
 
               {/* Transliteration */}
-              <Text style={styles.transliteration}>{section.transliteration}</Text>
+              <AppText style={[styles.transliteration, { color: theme.textSecondary }]}>{section.transliteration}</AppText>
 
               {/* Meaning */}
               <View style={styles.meaningContainer}>
-                <Text style={styles.meaningLabel}>Meaning:</Text>
-                <Text style={styles.meaning}>{section.meaning}</Text>
+                <Text style={[styles.meaningLabel, { color: theme.primary }]}>Meaning:</Text>
+                <AppText style={[styles.meaning, { color: theme.textMeaning }]}>{section.meaning}</AppText>
               </View>
             </View>
           ))}
@@ -273,7 +316,7 @@ export const ShlokaDetailScreen: React.FC = () => {
 const styles = StyleSheet.create({
   audioButton: {
     alignItems: 'center',
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.success,
     borderRadius: 12,
     flexDirection: 'row',
     gap: 8,
@@ -282,31 +325,33 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   audioButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
-  audioIcon: {
-    fontSize: 20,
-  },
   benefits: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 16,
     lineHeight: 24,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   deity: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '500',
   },
   description: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 16,
     lineHeight: 24,
+  },
+  durationRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 6,
   },
   errorContainer: {
     alignItems: 'center',
@@ -315,25 +360,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   errorSubtext: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',
   },
   errorText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 12,
     textAlign: 'center',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   favoriteButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)', // subtle white highlight on dark header
     borderRadius: 24,
     padding: 8,
-  },
-  favoriteIcon: {
-    fontSize: 24,
   },
   header: {
     marginBottom: 24,
@@ -348,13 +391,13 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   infoItem: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flex: 1,
     padding: 16,
   },
   infoLabel: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 12,
     marginBottom: 4,
     textTransform: 'uppercase',
@@ -365,12 +408,12 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   infoValue: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 14,
     fontWeight: '500',
   },
   meaning: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 22,
   },
@@ -378,14 +421,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   meaningLabel: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 4,
     textTransform: 'uppercase',
   },
   sanskrit: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '500',
     lineHeight: 36,
@@ -399,27 +442,59 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionNumber: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 12,
     textTransform: 'uppercase',
   },
   sectionTitle: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 12,
   },
   shlokaSection: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
   },
+  speedBtn: {
+    borderColor: Colors.border,
+    borderRadius: 20,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+  },
+  speedBtnActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  speedBtnText: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  speedBtnTextActive: {
+    color: Colors.text,
+  },
+  speedLabel: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    marginRight: 4,
+  },
+  speedRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    justifyContent: 'center',
+    marginBottom: 16,
+    marginTop: -8,
+  },
   startPracticeButton: {
     alignItems: 'center',
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     elevation: 4,
     flexDirection: 'row',
@@ -427,35 +502,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 24,
     padding: 18,
-    shadowColor: '#FF9800',
+    shadowColor: Colors.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
   },
   startPracticeButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '700',
   },
-  startPracticeIcon: {
-    fontSize: 20,
-  },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,
   },
   transliteration: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 16,
     fontStyle: 'italic',
     lineHeight: 24,
     marginBottom: 12,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   youtubeButton: {
     alignItems: 'center',
-    backgroundColor: '#FF0000',
+    backgroundColor: '#FF0000', // YouTube brand red
     borderRadius: 12,
     flexDirection: 'row',
     gap: 8,
@@ -464,11 +537,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   youtubeButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
-  },
-  youtubeIcon: {
-    fontSize: 20,
   },
 });

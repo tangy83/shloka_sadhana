@@ -8,8 +8,10 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { checkIfEkadashi, getEkadashiByDate, getNextEkadashi } from '@/utils/ekadashiCalendar';
 import { getTodayISO } from '@/utils/dateUtils';
 import { Ekadashi } from '@/utils/ekadashiCalendar';
@@ -38,6 +40,7 @@ function formatDate(dateStr: string): string {
  */
 export const EkadashiBanner: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [ekadashiData, setEkadashiData] = useState<{
     ekadashi: Ekadashi;
     isToday: boolean;
@@ -94,14 +97,14 @@ export const EkadashiBanner: React.FC = () => {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.surface }]}
       onPress={handlePress}
       accessibilityRole="button"
       accessibilityLabel={`${ekadashi.name} Ekadashi details`}
       testID="ekadashi-banner"
     >
       <View style={styles.content}>
-        <Text style={styles.icon}>🕉️</Text>
+        <Text style={styles.icon}>ॐ</Text>
         <View style={styles.textContainer}>
           {/* Badge: Today or In X days */}
           <View style={styles.badge}>
@@ -111,8 +114,8 @@ export const EkadashiBanner: React.FC = () => {
           </View>
 
           {/* Ekadashi Name */}
-          <Text style={styles.title}>{ekadashi.name}</Text>
-          <Text style={styles.titleHindi}>{ekadashi.name_hindi}</Text>
+          <Text style={[styles.title, { color: theme.textBright }]}>{ekadashi.name}</Text>
+          <Text style={[styles.titleHindi, { color: theme.textSecondary }]}>{ekadashi.name_hindi}</Text>
 
           {/* Date (if upcoming) */}
           {!isToday && (
@@ -120,12 +123,12 @@ export const EkadashiBanner: React.FC = () => {
           )}
 
           {/* Significance */}
-          <Text style={styles.significance} numberOfLines={2}>
+          <Text style={[styles.significance, { color: theme.textMeaning }]} numberOfLines={2}>
             {ekadashi.significance}
           </Text>
 
           {/* Deity */}
-          <Text style={styles.deity}>{ekadashi.deity}</Text>
+          <Text style={[styles.deity, { color: theme.textSecondary }]}>{ekadashi.deity}</Text>
 
           {/* CTA */}
           <Text style={styles.cta}>Learn More ›</Text>
@@ -138,20 +141,20 @@ export const EkadashiBanner: React.FC = () => {
 const styles = StyleSheet.create({
   badge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     marginBottom: 8,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   badgeText: {
-    color: '#121212',
+    color: Colors.background,
     fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
@@ -160,28 +163,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   cta: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '600',
     marginTop: 8,
   },
   date: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 8,
   },
   deity: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 13,
     marginTop: 4,
   },
   icon: {
-    fontSize: 32,
+    color: Colors.templeGold,
+    fontSize: 36,
+    fontWeight: '700',
     marginRight: 16,
   },
   significance: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 14,
     lineHeight: 20,
     marginTop: 8,
@@ -190,13 +195,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,
   },
   titleHindi: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     marginBottom: 4,
   },

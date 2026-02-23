@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
+  TextInput,
   StyleSheet,
   ScrollView,
   Switch,
@@ -16,34 +17,99 @@ import {
   Alert,
   Modal,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import Slider from '@react-native-community/slider'; // Hidden for now
 import { getItem, setItem, clearAll } from '@/utils/storage';
 import {
   requestNotificationPermissions,
   scheduleDailyReminder,
   cancelAllNotifications,
 } from '@/utils/notifications';
-// import { useFontSize } from '@/hooks/useFontSize'; // Hidden for now
+import { useUserProfile } from '@/hooks/useUserProfile';
+import { useTheme } from '@/contexts/ThemeContext';
+import { ThemeMode } from '@/constants/theme';
 import Constants from 'expo-constants';
+import { Colors, withOpacity } from '@/constants/Colors';
+
+interface QuietHoursTime {
+  hour: number;
+  minute: number;
+}
 
 interface NotificationSettings {
   enabled: boolean;
   hour: number;
   minute: number;
+  quietHoursEnabled?: boolean;
+  quietStart?: QuietHoursTime;
+  quietEnd?: QuietHoursTime;
 }
+
+// Determine if a notification time falls within quiet hours
+function isInQuietHours(
+  notifHour: number,
+  notifMinute: number,
+  start: QuietHoursTime,
+  end: QuietHoursTime
+): boolean {
+  const notifMins = notifHour * 60 + notifMinute;
+  const startMins = start.hour * 60 + start.minute;
+  const endMins = end.hour * 60 + end.minute;
+  if (startMins <= endMins) {
+    return notifMins >= startMins && notifMins < endMins;
+  }
+  // Overnight window (e.g. 22:00 – 06:00)
+  return notifMins >= startMins || notifMins < endMins;
+}
+
+// Format hour/minute as readable 12-hour time
+function formatTime(hour: number, minute: number): string {
+  const period = hour >= 12 ? 'PM' : 'AM';
+  const h = hour % 12 === 0 ? 12 : hour % 12;
+  return `${h}:${minute.toString().padStart(2, '0')} ${period}`;
+}
+
+const AVATAR_EMOJIS = ['🙏', '🌸', '🕉️', '🪷', '🔥', '⭐', '🌙', '🌺'];
+
+const THEME_OPTIONS: { label: string; value: ThemeMode }[] = [
+  { label: 'Dark', value: 'dark' },
+  { label: 'Light', value: 'light' },
+];
+
+type PickerMode = 'notification' | 'quietStart' | 'quietEnd';
 
 /**
  * Settings screen - app configuration
  */
 export const SettingsScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { profile, saveProfile } = useUserProfile();
+  const { theme, themeMode, setThemeMode } = useTheme();
+
+  // Profile state
+  const [displayName, setDisplayName] = useState('');
+  const [selectedEmoji, setSelectedEmoji] = useState('🙏');
+
+  // Notification state
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [notificationTime, setNotificationTime] = useState({ hour: 7, minute: 0 });
-  // const { fontSize, setFontSize } = useFontSize(); // Hidden for now
+  const [notificationTime, setNotificationTime] = useState<QuietHoursTime>({ hour: 7, minute: 0 });
+
+  // Quiet hours state
+  const [quietHoursEnabled, setQuietHoursEnabled] = useState(false);
+  const [quietStart, setQuietStart] = useState<QuietHoursTime>({ hour: 22, minute: 0 });
+  const [quietEnd, setQuietEnd] = useState<QuietHoursTime>({ hour: 6, minute: 0 });
+
+  // Time picker modal state
   const [showTimePicker, setShowTimePicker] = useState(false);
-  const [tempTime, setTempTime] = useState({ hour: 7, minute: 0 });
+  const [pickerMode, setPickerMode] = useState<PickerMode>('notification');
+  const [tempTime, setTempTime] = useState<QuietHoursTime>({ hour: 7, minute: 0 });
+
+  // Sync profile values when loaded
+  useEffect(() => {
+    if (profile.displayName) setDisplayName(profile.displayName);
+    if (profile.avatarEmoji) setSelectedEmoji(profile.avatarEmoji);
+  }, [profile.displayName, profile.avatarEmoji]);
 
   // Load settings on mount
   useEffect(() => {
@@ -59,6 +125,11 @@ export const SettingsScreen: React.FC = () => {
       if (settings) {
         setNotificationsEnabled(settings.enabled);
         setNotificationTime({ hour: settings.hour, minute: settings.minute });
+        if (settings.quietHoursEnabled !== undefined) {
+          setQuietHoursEnabled(settings.quietHoursEnabled);
+        }
+        if (settings.quietStart) setQuietStart(settings.quietStart);
+        if (settings.quietEnd) setQuietEnd(settings.quietEnd);
       }
     } catch (error) {
       console.error('[Settings] Error loading settings:', error);
@@ -68,9 +139,22 @@ export const SettingsScreen: React.FC = () => {
   /**
    * Save notification settings to storage
    */
-  const saveSettings = async (enabled: boolean, hour: number, minute: number) => {
+  const saveSettings = async (
+    enabled: boolean,
+    notifTime: QuietHoursTime,
+    qhEnabled: boolean,
+    qhStart: QuietHoursTime,
+    qhEnd: QuietHoursTime
+  ) => {
     try {
-      const settings: NotificationSettings = { enabled, hour, minute };
+      const settings: NotificationSettings = {
+        enabled,
+        hour: notifTime.hour,
+        minute: notifTime.minute,
+        quietHoursEnabled: qhEnabled,
+        quietStart: qhStart,
+        quietEnd: qhEnd,
+      };
       await setItem('notification_settings', settings);
     } catch (error) {
       console.error('[Settings] Error saving settings:', error);
@@ -82,7 +166,6 @@ export const SettingsScreen: React.FC = () => {
    */
   const handleToggleNotifications = async (value: boolean) => {
     if (value) {
-      // Request permissions first
       const hasPermission = await requestNotificationPermissions();
       if (!hasPermission) {
         Alert.alert(
@@ -92,15 +175,25 @@ export const SettingsScreen: React.FC = () => {
         return;
       }
 
-      // Schedule notification
+      // Warn if the notification time falls in quiet hours
+      if (
+        quietHoursEnabled &&
+        isInQuietHours(notificationTime.hour, notificationTime.minute, quietStart, quietEnd)
+      ) {
+        Alert.alert(
+          'Quiet Hours Conflict',
+          `Your reminder time (${formatTime(notificationTime.hour, notificationTime.minute)}) falls within your quiet hours. Please choose a different reminder time.`
+        );
+        return;
+      }
+
       await scheduleDailyReminder(notificationTime.hour, notificationTime.minute);
       setNotificationsEnabled(true);
-      await saveSettings(true, notificationTime.hour, notificationTime.minute);
+      await saveSettings(true, notificationTime, quietHoursEnabled, quietStart, quietEnd);
     } else {
-      // Cancel all notifications
       await cancelAllNotifications();
       setNotificationsEnabled(false);
-      await saveSettings(false, notificationTime.hour, notificationTime.minute);
+      await saveSettings(false, notificationTime, quietHoursEnabled, quietStart, quietEnd);
     }
   };
 
@@ -112,10 +205,7 @@ export const SettingsScreen: React.FC = () => {
       'Clear All Data',
       'This will delete all your practice history, streaks, and settings. This action cannot be undone.',
       [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
+        { text: 'Cancel', style: 'cancel' },
         {
           text: 'Clear Data',
           style: 'destructive',
@@ -124,6 +214,7 @@ export const SettingsScreen: React.FC = () => {
               await clearAll();
               setNotificationsEnabled(false);
               setNotificationTime({ hour: 7, minute: 0 });
+              setQuietHoursEnabled(false);
               Alert.alert('Success', 'All data has been cleared.');
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error) {
@@ -136,6 +227,14 @@ export const SettingsScreen: React.FC = () => {
   };
 
   /**
+   * Save user profile
+   */
+  const handleSaveProfile = async () => {
+    await saveProfile({ displayName: displayName.trim(), avatarEmoji: selectedEmoji });
+    Alert.alert('Saved', 'Your profile has been updated.');
+  };
+
+  /**
    * Navigate to screen
    */
   const navigateToScreen = (screenName: string) => {
@@ -144,10 +243,13 @@ export const SettingsScreen: React.FC = () => {
   };
 
   /**
-   * Open time picker modal
+   * Open time picker for a specific mode
    */
-  const handleOpenTimePicker = () => {
-    setTempTime(notificationTime);
+  const openTimePicker = (mode: PickerMode) => {
+    setPickerMode(mode);
+    if (mode === 'notification') setTempTime(notificationTime);
+    else if (mode === 'quietStart') setTempTime(quietStart);
+    else setTempTime(quietEnd);
     setShowTimePicker(true);
   };
 
@@ -156,43 +258,52 @@ export const SettingsScreen: React.FC = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleTimeChange = (event: any, selectedDate?: Date) => {
-    if (event.type === 'dismissed' || !selectedDate) {
-      return;
-    }
-    const hour = selectedDate.getHours();
-    const minute = selectedDate.getMinutes();
-    setTempTime({ hour, minute });
+    if (event.type === 'dismissed' || !selectedDate) return;
+    setTempTime({ hour: selectedDate.getHours(), minute: selectedDate.getMinutes() });
   };
 
   /**
    * Save selected time and close modal
    */
   const handleSaveTime = async () => {
-    setNotificationTime(tempTime);
-    await saveSettings(notificationsEnabled, tempTime.hour, tempTime.minute);
-
-    // If notifications are enabled, reschedule with new time
-    if (notificationsEnabled) {
-      await scheduleDailyReminder(tempTime.hour, tempTime.minute);
+    if (pickerMode === 'notification') {
+      setNotificationTime(tempTime);
+      await saveSettings(notificationsEnabled, tempTime, quietHoursEnabled, quietStart, quietEnd);
+      if (notificationsEnabled) await scheduleDailyReminder(tempTime.hour, tempTime.minute);
+    } else if (pickerMode === 'quietStart') {
+      setQuietStart(tempTime);
+      await saveSettings(notificationsEnabled, notificationTime, quietHoursEnabled, tempTime, quietEnd);
+    } else {
+      setQuietEnd(tempTime);
+      await saveSettings(notificationsEnabled, notificationTime, quietHoursEnabled, quietStart, tempTime);
     }
-
     setShowTimePicker(false);
   };
 
   /**
-   * Cancel time selection and close modal
+   * Toggle quiet hours
    */
-  const handleCancelTimePicker = () => {
-    setShowTimePicker(false);
+  const handleToggleQuietHours = async (value: boolean) => {
+    setQuietHoursEnabled(value);
+    await saveSettings(notificationsEnabled, notificationTime, value, quietStart, quietEnd);
   };
+
+  const handleCancelTimePicker = () => setShowTimePicker(false);
 
   const appVersion = Constants.expoConfig?.version || '1.0.0';
 
+  const pickerTitle =
+    pickerMode === 'notification'
+      ? 'Set Reminder Time'
+      : pickerMode === 'quietStart'
+      ? 'Quiet Hours — Start'
+      : 'Quiet Hours — End';
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Settings</Text>
+      <View style={[styles.header, { borderBottomColor: theme.border }]}>
+        <Text style={[styles.headerTitle, { color: theme.textBright }]}>Settings</Text>
       </View>
 
       {/* Scrollable Content */}
@@ -201,57 +312,100 @@ export const SettingsScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
         testID="settings-scroll"
       >
-        {/* Appearance Section - HIDDEN FOR NOW */}
-        {/* <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Appearance</Text>
-
-          <View style={styles.settingRow}>
-            <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Font Size</Text>
-              <Text style={styles.settingDescription}>
-                Adjust text size for better readability
-              </Text>
-            </View>
-          </View>
-
-          <View style={[styles.settingRow, styles.sliderRow]}>
-            <View style={styles.sliderContainer}>
-              <View style={styles.sliderLabels}>
-                <Text style={styles.sliderLabel}>A</Text>
-                <Text style={[styles.sliderLabel, styles.sliderLabelLarge]}>A</Text>
-              </View>
-              <Slider
-                testID="font-size-slider"
-                style={styles.slider}
-                minimumValue={0.8}
-                maximumValue={1.5}
-                step={0.1}
-                value={fontSize}
-                onValueChange={setFontSize}
-                minimumTrackTintColor="#FF9800"
-                maximumTrackTintColor="#3e3e3e"
-                thumbTintColor="#FFA726"
-                accessibilityLabel="Font size slider"
-                accessibilityRole="adjustable"
-              />
-              <Text
-                testID="font-size-preview"
-                style={[styles.previewText, { fontSize: 16 * fontSize }]}
-              >
-                Sample Text
-              </Text>
-            </View>
-          </View>
-        </View> */}
-
-        {/* Notifications Section */}
+        {/* ── Profile Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Notifications</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Profile</Text>
+          <View style={[styles.profileCard, { backgroundColor: theme.surface }]}>
+            <Text style={[styles.settingLabel, { color: theme.textBright }]}>Your Name</Text>
+            <TextInput
+              style={[styles.nameInput, {
+                backgroundColor: theme.surfaceElevated,
+                borderColor: theme.border,
+                color: theme.text,
+              }]}
+              value={displayName}
+              onChangeText={setDisplayName}
+              placeholder="Enter your name"
+              placeholderTextColor={theme.textSecondary}
+              maxLength={30}
+              returnKeyType="done"
+              accessibilityLabel="Your display name"
+            />
+            <Text style={[styles.settingLabel, styles.settingLabelAvatar, { color: theme.textBright }]}>
+              Avatar
+            </Text>
+            <View style={styles.emojiRow}>
+              {AVATAR_EMOJIS.map((emoji) => (
+                <TouchableOpacity
+                  key={emoji}
+                  style={[
+                    styles.emojiBtn,
+                    { borderColor: theme.border },
+                    selectedEmoji === emoji && { borderColor: theme.primary, backgroundColor: withOpacity(Colors.primary, 0.15) },
+                  ]}
+                  onPress={() => setSelectedEmoji(emoji)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Select avatar ${emoji}`}
+                >
+                  <Text style={styles.emojiText}>{emoji}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <TouchableOpacity
+              style={styles.saveProfileBtn}
+              onPress={handleSaveProfile}
+              accessibilityRole="button"
+              accessibilityLabel="Save profile"
+            >
+              <Text style={styles.saveProfileBtnText}>Save Profile</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-          <View style={styles.settingRow}>
+        {/* ── Appearance Section ── */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Appearance</Text>
+
+          {/* Theme selector */}
+          <View style={[styles.settingCard, { backgroundColor: theme.surface }]}>
+            <Text style={[styles.settingLabel, { color: theme.textBright }]}>Theme</Text>
+            <View style={styles.segmentRow}>
+              {THEME_OPTIONS.map((opt) => (
+                <TouchableOpacity
+                  key={opt.value}
+                  style={[
+                    styles.segmentBtn,
+                    { borderColor: theme.border },
+                    themeMode === opt.value && { borderColor: theme.primary, backgroundColor: withOpacity(Colors.primary, 0.15) },
+                  ]}
+                  onPress={() => setThemeMode(opt.value)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Set theme to ${opt.label}`}
+                >
+                  <Text
+                    style={[
+                      styles.segmentBtnText,
+                      { color: theme.textSecondary },
+                      themeMode === opt.value && { color: theme.primary },
+                    ]}
+                  >
+                    {opt.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+        </View>
+
+        {/* ── Notifications Section ── */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Notifications</Text>
+
+          <View style={[styles.settingRow, { backgroundColor: theme.surface }]}>
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Daily Reminder</Text>
-              <Text style={styles.settingDescription}>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Daily Reminder</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
                 Receive a notification each day to practice
               </Text>
             </View>
@@ -259,7 +413,7 @@ export const SettingsScreen: React.FC = () => {
               testID="notification-toggle"
               value={notificationsEnabled}
               onValueChange={handleToggleNotifications}
-              trackColor={{ false: '#3e3e3e', true: '#FF9800' }}
+              trackColor={{ false: '#3e3e3e', true: Colors.primary }}
               thumbColor={notificationsEnabled ? '#FFA726' : '#f4f3f4'}
               accessibilityLabel="Toggle daily reminders"
               accessibilityRole="switch"
@@ -267,85 +421,143 @@ export const SettingsScreen: React.FC = () => {
           </View>
 
           <TouchableOpacity
-            style={styles.settingRow}
-            onPress={handleOpenTimePicker}
+            style={[styles.settingRow, { backgroundColor: theme.surface }]}
+            onPress={() => openTimePicker('notification')}
             testID="reminder-time-button"
             accessibilityRole="button"
             accessibilityLabel="Change reminder time"
           >
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Reminder Time</Text>
-              <Text style={styles.settingDescription}>
-                {notificationTime.hour}:
-                {notificationTime.minute.toString().padStart(2, '0')} {notificationTime.hour >= 12 ? 'PM' : 'AM'}
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Reminder Time</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
+                {formatTime(notificationTime.hour, notificationTime.minute)}
               </Text>
             </View>
-            <Text style={styles.arrow}>›</Text>
+            <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
           </TouchableOpacity>
+
+          {/* Quiet Hours */}
+          <View style={[styles.settingRow, { backgroundColor: theme.surface }]}>
+            <View style={styles.settingInfo}>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Quiet Hours</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
+                Prevent reminders during sleep or focus time
+              </Text>
+            </View>
+            <Switch
+              value={quietHoursEnabled}
+              onValueChange={handleToggleQuietHours}
+              trackColor={{ false: '#3e3e3e', true: Colors.primary }}
+              thumbColor={quietHoursEnabled ? '#FFA726' : '#f4f3f4'}
+              accessibilityLabel="Toggle quiet hours"
+              accessibilityRole="switch"
+            />
+          </View>
+
+          {quietHoursEnabled && (
+            <>
+              <TouchableOpacity
+                style={[styles.settingRow, styles.indentedRow, { backgroundColor: theme.surface }]}
+                onPress={() => openTimePicker('quietStart')}
+                accessibilityRole="button"
+                accessibilityLabel="Set quiet hours start time"
+              >
+                <View style={styles.settingInfo}>
+                  <Text style={[styles.settingLabel, { color: theme.textBright }]}>Start</Text>
+                  <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
+                    {formatTime(quietStart.hour, quietStart.minute)}
+                  </Text>
+                </View>
+                <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.settingRow, styles.indentedRow, { backgroundColor: theme.surface }]}
+                onPress={() => openTimePicker('quietEnd')}
+                accessibilityRole="button"
+                accessibilityLabel="Set quiet hours end time"
+              >
+                <View style={styles.settingInfo}>
+                  <Text style={[styles.settingLabel, { color: theme.textBright }]}>End</Text>
+                  <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
+                    {formatTime(quietEnd.hour, quietEnd.minute)}
+                  </Text>
+                </View>
+                <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
 
-        {/* App Info Section */}
+        {/* ── App Info Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>About</Text>
 
-          <View style={styles.settingRow}>
+          <View style={[styles.settingRow, { backgroundColor: theme.surface }]}>
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Version</Text>
-              <Text style={styles.settingDescription}>{appVersion}</Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Version</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>{appVersion}</Text>
             </View>
           </View>
 
           <TouchableOpacity
-            style={styles.settingRow}
+            style={[styles.settingRow, { backgroundColor: theme.surface }]}
             onPress={() => navigateToScreen('About')}
             accessibilityRole="button"
             accessibilityLabel="About Shloka Sadhana"
           >
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>About Shloka Sadhana</Text>
-              <Text style={styles.settingDescription}>
-                Learn more about this app
-              </Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>About Shloka Sadhana</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>Learn more about this app</Text>
             </View>
-            <Text style={styles.arrow}>›</Text>
+            <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Links Section */}
+        {/* ── Legal Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Legal</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Legal</Text>
 
           <TouchableOpacity
-            style={styles.settingRow}
+            style={[styles.settingRow, { backgroundColor: theme.surface }]}
             onPress={() => navigateToScreen('PrivacyPolicy')}
             accessibilityRole="button"
             accessibilityLabel="Privacy Policy"
           >
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Privacy Policy</Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Privacy Policy</Text>
             </View>
-            <Text style={styles.arrow}>›</Text>
+            <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.settingRow}
+            style={[styles.settingRow, { backgroundColor: theme.surface }]}
             onPress={() => navigateToScreen('TermsOfService')}
             accessibilityRole="button"
             accessibilityLabel="Terms of Service"
           >
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Terms of Service</Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Terms of Service</Text>
             </View>
-            <Text style={styles.arrow}>›</Text>
+            <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Data Management Section */}
+        {/* ── Guest Mode Note ── */}
+        <View style={[styles.guestNote, { backgroundColor: theme.surface }]}>
+          <Ionicons name="cloud-outline" size={16} color={theme.textSecondary} />
+          <Text style={[styles.guestNoteText, { color: theme.textSecondary }]}>
+            Guest mode · Your data is stored locally on this device.{'\n'}
+            Cloud sync is coming in a future update.
+          </Text>
+        </View>
+
+        {/* ── Data Management Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Data</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Data</Text>
 
           <TouchableOpacity
-            style={[styles.settingRow, styles.dangerRow]}
+            style={[styles.settingRow, styles.dangerRow, { backgroundColor: theme.surface }]}
             onPress={handleClearData}
             accessibilityRole="button"
             accessibilityLabel="Clear all app data"
@@ -353,24 +565,22 @@ export const SettingsScreen: React.FC = () => {
           >
             <View style={styles.settingInfo}>
               <Text style={[styles.settingLabel, styles.dangerText]}>Clear Data</Text>
-              <Text style={styles.settingDescription}>
-                Delete all app data and reset
-              </Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>Delete all app data and reset</Text>
             </View>
           </TouchableOpacity>
         </View>
       </ScrollView>
 
-      {/* Time Picker Modal */}
+      {/* ── Time Picker Modal ── */}
       <Modal
         visible={showTimePicker}
-        transparent={true}
+        transparent
         animationType="slide"
         onRequestClose={handleCancelTimePicker}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Set Reminder Time</Text>
+          <View style={[styles.modalContent, { backgroundColor: theme.surfaceElevated }]}>
+            <Text style={[styles.modalTitle, { color: theme.textBright }]}>{pickerTitle}</Text>
 
             <View style={styles.timePickerContainer}>
               <DateTimePicker
@@ -380,26 +590,26 @@ export const SettingsScreen: React.FC = () => {
                 is24Hour={false}
                 display="spinner"
                 onChange={handleTimeChange}
-                textColor="#FFFFFF"
+                textColor={theme.textBright}
                 style={styles.timePicker}
               />
             </View>
 
             <View style={styles.modalButtons}>
               <TouchableOpacity
-                style={[styles.modalButton, styles.cancelButton]}
+                style={[styles.modalButton, { backgroundColor: theme.surface }]}
                 onPress={handleCancelTimePicker}
                 accessibilityRole="button"
                 accessibilityLabel="Cancel time selection"
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={[styles.cancelButtonText, { color: theme.textBright }]}>Cancel</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.modalButton, styles.saveButton]}
                 onPress={handleSaveTime}
                 accessibilityRole="button"
-                accessibilityLabel="Save reminder time"
+                accessibilityLabel="Save selected time"
               >
                 <Text style={styles.saveButtonText}>Save</Text>
               </TouchableOpacity>
@@ -413,38 +623,70 @@ export const SettingsScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   arrow: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 24,
   },
-  cancelButton: {
-    backgroundColor: '#2A2A2A',
-  },
   cancelButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   dangerRow: {
-    borderColor: '#F44336',
+    borderColor: Colors.error,
     borderWidth: 1,
   },
   dangerText: {
-    color: '#F44336',
+    color: Colors.error,
+  },
+  emojiBtn: {
+    alignItems: 'center',
+    borderColor: Colors.border,
+    borderRadius: 24,
+    borderWidth: 1.5,
+    height: 44,
+    justifyContent: 'center',
+    width: 44,
+  },
+  emojiRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  emojiText: {
+    fontSize: 22,
+  },
+  guestNote: {
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderRadius: 10,
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 24,
+    padding: 14,
+  },
+  guestNoteText: {
+    color: Colors.textSecondary,
+    flex: 1,
+    fontSize: 13,
+    lineHeight: 18,
   },
   header: {
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: Colors.border,
     borderBottomWidth: 1,
     padding: 20,
     paddingTop: 60,
   },
   headerTitle: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
+  },
+  indentedRow: {
+    marginLeft: 16,
   },
   modalButton: {
     alignItems: 'center',
@@ -458,7 +700,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   modalContent: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     maxWidth: 400,
     padding: 24,
@@ -466,30 +708,52 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: Colors.scrim,
     flex: 1,
     justifyContent: 'center',
   },
   modalTitle: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 20,
     textAlign: 'center',
   },
-  // previewText: { // Hidden with font size slider
-  //   color: '#FFFFFF',
-  //   fontWeight: '500',
-  //   marginTop: 12,
-  //   textAlign: 'center',
-  // },
+  nameInput: {
+    backgroundColor: Colors.surfaceElevated,
+    borderColor: Colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    color: Colors.text,
+    fontSize: 16,
+    marginTop: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  profileCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    padding: 16,
+  },
   saveButton: {
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
   },
   saveButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
+  },
+  saveProfileBtn: {
+    alignItems: 'center',
+    backgroundColor: Colors.primary,
+    borderRadius: 10,
+    marginTop: 16,
+    paddingVertical: 12,
+  },
+  saveProfileBtnText: {
+    color: Colors.text,
+    fontSize: 15,
+    fontWeight: '700',
   },
   scrollContent: {
     padding: 20,
@@ -501,15 +765,39 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   sectionTitle: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '600',
     letterSpacing: 0.5,
     marginBottom: 12,
     textTransform: 'uppercase',
   },
+  segmentBtn: {
+    alignItems: 'center',
+    borderColor: Colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    flex: 1,
+    paddingVertical: 8,
+  },
+  segmentBtnText: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  segmentRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 10,
+  },
+  settingCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    marginBottom: 8,
+    padding: 16,
+  },
   settingDescription: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
   },
   settingInfo: {
@@ -517,45 +805,24 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   settingLabel: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '500',
     marginBottom: 4,
   },
+  settingLabelAvatar: {
+    marginBottom: 10,
+    marginTop: 16,
+  },
   settingRow: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 8,
     padding: 16,
   },
-  // slider: { // Hidden with font size slider
-  //   height: 40,
-  //   width: '100%',
-  // },
-  // sliderContainer: { // Hidden with font size slider
-  //   width: '100%',
-  // },
-  // sliderLabel: { // Hidden with font size slider
-  //   color: '#9E9E9E',
-  //   fontSize: 14,
-  //   fontWeight: '600',
-  // },
-  // sliderLabelLarge: { // Hidden with font size slider
-  //   fontSize: 24,
-  // },
-  // sliderLabels: { // Hidden with font size slider
-  //   alignItems: 'flex-end',
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   marginBottom: 8,
-  // },
-  // sliderRow: { // Hidden with font size slider
-  //   alignItems: 'stretch',
-  //   flexDirection: 'column',
-  // },
   timePicker: {
     height: 200,
     width: '100%',

@@ -156,6 +156,14 @@ export interface FestivalWithCountdown extends Festival {
 }
 
 /**
+ * Local user profile — stored in AsyncStorage only, no cloud
+ */
+export interface UserProfile {
+  displayName: string; // e.g. "Priya" — shown in home greeting
+  avatarEmoji: string; // e.g. "🙏" — shown alongside name
+}
+
+/**
  * App settings stored in AsyncStorage
  */
 export interface AppSettings {
@@ -182,6 +190,7 @@ export type RootStackParamList = {
   Wisdom: undefined;
   Settings: undefined;
   FestivalsList: undefined; // V3 Feature #3
+  SessionHistory: undefined;
 };
 
 /**

@@ -6,7 +6,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getVerseOfTheDay, VerseOfTheDay } from '@/utils/verseOfTheDay';
 import { getTodayISO } from '@/utils/dateUtils';
 
@@ -14,6 +16,7 @@ import { getTodayISO } from '@/utils/dateUtils';
  * VerseOfTheDayCard component - displays daily verse
  */
 export const VerseOfTheDayCard: React.FC = () => {
+  const { theme } = useTheme();
   const [verse, setVerse] = useState<VerseOfTheDay | null>(null);
 
   useEffect(() => {
@@ -32,31 +35,31 @@ export const VerseOfTheDayCard: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.surface }]}>
       <View style={styles.header}>
         <Text style={styles.badge}>Verse of the Day</Text>
         <Text style={styles.deity}>{verse.deity}</Text>
       </View>
 
       {/* Sanskrit Text */}
-      <Text style={styles.sanskrit}>{verse.sanskrit}</Text>
+      <Text style={[styles.sanskrit, { color: theme.textBright }]}>{verse.sanskrit}</Text>
 
       {/* Transliteration */}
       <Text style={styles.transliteration}>{verse.transliteration}</Text>
 
       {/* English Meaning */}
-      <Text style={styles.meaning}>{verse.meaning}</Text>
+      <Text style={[styles.meaning, { color: theme.textMeaning }]}>{verse.meaning}</Text>
 
       {/* Hindi Translation (if available) */}
       {verse.hindi && (
-        <Text style={styles.hindi}>{verse.hindi}</Text>
+        <Text style={[styles.hindi, { color: theme.textSecondary }]}>{verse.hindi}</Text>
       )}
 
       {/* Source */}
       <View style={styles.footer}>
-        <Text style={styles.source}>— {verse.shlokaName}</Text>
+        <Text style={[styles.source, { color: theme.textSecondary }]}>— {verse.shlokaName}</Text>
         {verse.category && (
-          <Text style={styles.category}>{verse.category}</Text>
+          <Text style={[styles.category, { color: theme.textSecondary }]}>{verse.category}</Text>
         )}
       </View>
     </View>
@@ -65,9 +68,9 @@ export const VerseOfTheDayCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   badge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
-    color: '#121212',
+    color: Colors.background,
     fontSize: 11,
     fontWeight: '700',
     overflow: 'hidden',
@@ -76,17 +79,17 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   category: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontStyle: 'italic',
   },
   container: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     padding: 20,
   },
   deity: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 13,
     fontWeight: '500',
   },
@@ -105,33 +108,33 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   hindi: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontStyle: 'italic',
     lineHeight: 22,
     marginTop: 12,
   },
   meaning: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 24,
     marginTop: 12,
   },
   sanskrit: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '500',
     lineHeight: 28,
     marginBottom: 8,
   },
   source: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     flex: 1,
     fontSize: 13,
     fontStyle: 'italic',
   },
   transliteration: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontStyle: 'italic',
     lineHeight: 22,

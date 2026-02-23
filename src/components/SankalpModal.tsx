@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import {
   Modal,
   View,
@@ -149,7 +150,7 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
                 value={text}
                 onChangeText={setText}
                 placeholder="Enter your intention..."
-                placeholderTextColor="#9E9E9E"
+                placeholderTextColor={Colors.textSecondary}
                 multiline={true}
                 numberOfLines={4}
                 textAlignVertical="top"
@@ -235,36 +236,36 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   categoryName: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 8,
   },
   confirmButton: {
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
   },
   confirmButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   description: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 16,
     fontWeight: '400',
     marginBottom: 20,
     textAlign: 'center',
   },
   exampleItem: {
-    backgroundColor: '#3C3C3C',
-    borderColor: '#424242',
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 8,
     padding: 12,
   },
   exampleText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 20,
@@ -274,13 +275,13 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   examplesButtonText: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
     textDecorationLine: 'underline',
   },
   examplesContainer: {
-    backgroundColor: '#2C2C2C',
+    backgroundColor: Colors.surfaceLight,
     borderRadius: 12,
     marginBottom: 20,
     padding: 16,
@@ -290,31 +291,31 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   helpButtonText: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
     textDecorationLine: 'underline',
   },
   helpText: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 20,
   },
   helpTextContainer: {
-    backgroundColor: '#2C2C2C',
-    borderLeftColor: '#FF9800',
+    backgroundColor: Colors.surfaceLight,
+    borderLeftColor: Colors.primary,
     borderLeftWidth: 3,
     borderRadius: 8,
     marginBottom: 16,
     padding: 12,
   },
   input: {
-    backgroundColor: '#2C2C2C',
-    borderColor: '#424242',
+    backgroundColor: Colors.surfaceLight,
+    borderColor: Colors.border,
     borderRadius: 12,
     borderWidth: 1,
-    color: '#FFFFFF',
+    color: Colors.text,
     fontSize: 16,
     marginBottom: 20,
     minHeight: 120,
@@ -325,8 +326,9 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     width: '85%',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   modalContent: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     elevation: 8,
     padding: 24,
@@ -340,20 +342,20 @@ const styles = StyleSheet.create({
   },
   overlay: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: Colors.scrim,
     flex: 1,
     justifyContent: 'center',
   },
   skipButton: {
-    backgroundColor: '#424242',
+    backgroundColor: Colors.surfaceElevated,
   },
   skipButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 8,

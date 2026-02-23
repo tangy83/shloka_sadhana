@@ -6,8 +6,10 @@
  */
 
 import React from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getEkadashiByDate } from '@/utils/ekadashiCalendar';
 
 type EkadashiDetailRouteParams = {
@@ -33,6 +35,7 @@ function formatDate(isoDate: string): string {
  * EkadashiDetailScreen - Full details and Vrat Katha for an Ekadashi
  */
 export const EkadashiDetailScreen: React.FC = () => {
+  const { theme } = useTheme();
   const route = useRoute<RouteProp<EkadashiDetailRouteParams, 'EkadashiDetail'>>();
   const { date } = route.params;
 
@@ -42,69 +45,69 @@ export const EkadashiDetailScreen: React.FC = () => {
   // Handle case where Ekadashi not found
   if (!ekadashi) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Ekadashi not found for {date}</Text>
+          <Text style={[styles.errorText, { color: theme.textSecondary }]}>Ekadashi not found for {date}</Text>
         </View>
       </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.scrollContent}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.icon}>🕉️</Text>
-        <Text style={styles.title}>{ekadashi.name}</Text>
-        <Text style={styles.titleHindi}>{ekadashi.name_hindi}</Text>
+        <Text style={styles.icon}>ॐ</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>{ekadashi.name}</Text>
+        <Text style={[styles.titleHindi, { color: theme.textSecondary }]}>{ekadashi.name_hindi}</Text>
       </View>
 
       {/* Date & Paksha */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Date:</Text>
-          <Text style={styles.infoValue}>{formatDate(ekadashi.date)}</Text>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Date:</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>{formatDate(ekadashi.date)}</Text>
         </View>
         {ekadashi.day && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Day:</Text>
-            <Text style={styles.infoValue}>{ekadashi.day}</Text>
+            <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Day:</Text>
+            <Text style={[styles.infoValue, { color: theme.text }]}>{ekadashi.day}</Text>
           </View>
         )}
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Paksha:</Text>
-          <Text style={styles.infoValue}>{ekadashi.paksha}</Text>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Paksha:</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>{ekadashi.paksha}</Text>
         </View>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Deity:</Text>
-          <Text style={styles.infoValue}>{ekadashi.deity}</Text>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Deity:</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>{ekadashi.deity}</Text>
         </View>
       </View>
 
       {/* Significance */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Significance</Text>
-        <Text style={styles.sectionContent}>{ekadashi.significance}</Text>
+        <Text style={[styles.sectionContent, { color: theme.textMeaning }]}>{ekadashi.significance}</Text>
       </View>
 
       {/* Benefits */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Benefits</Text>
-        <Text style={styles.sectionContent}>{ekadashi.benefits}</Text>
+        <Text style={[styles.sectionContent, { color: theme.textMeaning }]}>{ekadashi.benefits}</Text>
       </View>
 
       {/* Vrat Katha (Story) */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Vrat Katha</Text>
         <View style={styles.vrataKathaContainer}>
-          <Text style={styles.vrataKatha}>{ekadashi.vrat_katha}</Text>
+          <Text style={[styles.vrataKatha, { color: theme.textMeaning }]}>{ekadashi.vrat_katha}</Text>
         </View>
       </View>
 
       {/* Recommendations */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>How to Observe</Text>
-        <Text style={styles.sectionContent}>
+        <Text style={[styles.sectionContent, { color: theme.textMeaning }]}>
           • Fast from sunrise to sunrise (or at least avoid grains and beans){'\n'}
           • Chant Vishnu Sahasranama or read scriptures{'\n'}
           • Perform puja and offer prayers to Lord Vishnu{'\n'}
@@ -118,7 +121,7 @@ export const EkadashiDetailScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   errorContainer: {
@@ -128,7 +131,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   errorText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 16,
     textAlign: 'center',
   },
@@ -139,11 +142,13 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   icon: {
-    fontSize: 48,
+    color: Colors.templeGold,
+    fontSize: 56,
+    fontWeight: '700',
     marginBottom: 16,
   },
   infoLabel: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '500',
     width: 80,
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   infoValue: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     flex: 1,
     fontSize: 14,
   },
@@ -161,43 +166,43 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     marginHorizontal: 20,
     padding: 20,
   },
   sectionContent: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 15,
     lineHeight: 22,
   },
   sectionTitle: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 8,
     textAlign: 'center',
   },
   titleHindi: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 18,
     textAlign: 'center',
   },
   vrataKatha: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 15,
     fontStyle: 'italic',
     lineHeight: 24,
   },
   vrataKathaContainer: {
-    borderLeftColor: '#FF9800',
+    borderLeftColor: Colors.primary,
     borderLeftWidth: 3,
     paddingLeft: 16,
   },

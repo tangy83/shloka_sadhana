@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export interface RecoveryMessageCardProps {
@@ -59,8 +60,9 @@ export const RecoveryMessageCard: React.FC<RecoveryMessageCardProps> = ({
 };
 
 const styles = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-color-literals
   container: {
-    backgroundColor: '#2C2C2C',
+    backgroundColor: Colors.surface,
     borderLeftColor: '#FFA726', // Warm orange (encouraging, not alarming)
     borderLeftWidth: 4,
     borderRadius: 16,
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   cta: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   dismissText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 20,
     fontWeight: '600',
   },
@@ -98,13 +100,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   message: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '400',
     lineHeight: 22,
     marginBottom: 12,
     textAlign: 'center',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   title: {
     color: '#FFA726', // Warm orange
     fontSize: 20,

@@ -6,7 +6,9 @@
  */
 
 import React, { useState } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { useNavigation } from '@react-navigation/native';
 import { getUpcomingEkadashis, getAllEkadashis, Ekadashi } from '@/utils/ekadashiCalendar';
 import { getTodayISO } from '@/utils/dateUtils';
@@ -55,6 +57,7 @@ function getRelativeDate(isoDate: string, today: string): string {
  */
 export const EkadashiCalendarScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('upcoming');
   const today = getTodayISO();
 
@@ -81,33 +84,33 @@ export const EkadashiCalendarScreen: React.FC = () => {
     return (
       <TouchableOpacity
         testID="ekadashi-card"
-        style={styles.card}
+        style={[styles.card, { backgroundColor: theme.surface }]}
         onPress={() => handleEkadashiPress(item)}
         accessibilityRole="button"
         accessibilityLabel={`View details for ${item.name}`}
       >
         <View style={styles.cardContent}>
           {/* Ekadashi Icon */}
-          <Text style={styles.icon}>🕉️</Text>
+          <Text style={styles.icon}>ॐ</Text>
 
           <View style={styles.cardTextContainer}>
             {/* Ekadashi Name */}
-            <Text style={styles.ekadashiName}>{item.name}</Text>
-            <Text style={styles.ekadashiNameHindi}>{item.name_hindi}</Text>
+            <Text style={[styles.ekadashiName, { color: theme.textBright }]}>{item.name}</Text>
+            <Text style={[styles.ekadashiNameHindi, { color: theme.textSecondary }]}>{item.name_hindi}</Text>
 
             {/* Date */}
             <View style={styles.dateContainer}>
               <Text style={styles.dateText}>{formatDate(item.date)}</Text>
               {relativeDate && (
-                <Text style={styles.relativeDateText}>• {relativeDate}</Text>
+                <Text style={[styles.relativeDateText, { color: theme.textSecondary }]}>• {relativeDate}</Text>
               )}
             </View>
 
             {/* Paksha */}
-            <Text style={styles.paksha}>{item.paksha}</Text>
+            <Text style={[styles.paksha, { color: theme.textMeaning }]}>{item.paksha}</Text>
 
             {/* Significance */}
-            <Text style={styles.significance} numberOfLines={2}>
+            <Text style={[styles.significance, { color: theme.textSecondary }]} numberOfLines={2}>
               {item.significance}
             </Text>
           </View>
@@ -121,18 +124,18 @@ export const EkadashiCalendarScreen: React.FC = () => {
    */
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
-      <Text style={styles.emptyText}>
+      <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
         {activeTab === 'upcoming' ? 'No upcoming Ekadashis' : 'No Ekadashis available'}
       </Text>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Ekadashi Calendar</Text>
-        <Text style={styles.subtitle}>
+        <Text style={[styles.title, { color: theme.textBright }]}>Ekadashi Calendar</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
           {ekadashis.length} Ekadashi{ekadashis.length !== 1 ? 's' : ''}
         </Text>
       </View>
@@ -141,26 +144,26 @@ export const EkadashiCalendarScreen: React.FC = () => {
       <View style={styles.tabContainer}>
         <TouchableOpacity
           testID="tab-upcoming"
-          style={[styles.tab, activeTab === 'upcoming' && styles.tabActive]}
+          style={[styles.tab, { backgroundColor: theme.surface }, activeTab === 'upcoming' && styles.tabActive]}
           onPress={() => setActiveTab('upcoming')}
           accessibilityRole="button"
           accessibilityLabel="View upcoming Ekadashis"
           accessibilityState={{ selected: activeTab === 'upcoming' }}
         >
-          <Text style={[styles.tabText, activeTab === 'upcoming' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'upcoming' && styles.tabTextActive]}>
             Upcoming
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           testID="tab-all"
-          style={[styles.tab, activeTab === 'all' && styles.tabActive]}
+          style={[styles.tab, { backgroundColor: theme.surface }, activeTab === 'all' && styles.tabActive]}
           onPress={() => setActiveTab('all')}
           accessibilityRole="button"
           accessibilityLabel="View all Ekadashis"
           accessibilityState={{ selected: activeTab === 'all' }}
         >
-          <Text style={[styles.tabText, activeTab === 'all' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'all' && styles.tabTextActive]}>
             All 2026
           </Text>
         </TouchableOpacity>
@@ -181,7 +184,7 @@ export const EkadashiCalendarScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     overflow: 'hidden',
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   dateContainer: {
@@ -205,18 +208,18 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dateText: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
   },
   ekadashiName: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,
   },
   ekadashiNameHindi: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     marginBottom: 8,
   },
@@ -227,7 +230,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   emptyText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   header: {
@@ -235,7 +238,9 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   icon: {
-    fontSize: 32,
+    color: Colors.templeGold,
+    fontSize: 36,
+    fontWeight: '700',
     marginRight: 16,
   },
   listContent: {
@@ -243,34 +248,34 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   paksha: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 13,
     fontWeight: '500',
     marginBottom: 8,
   },
   relativeDateText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   significance: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     lineHeight: 20,
   },
   subtitle: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   tab: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
   tabActive: {
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -279,15 +284,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   tabText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 15,
     fontWeight: '600',
   },
   tabTextActive: {
-    color: '#121212',
+    color: Colors.background,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

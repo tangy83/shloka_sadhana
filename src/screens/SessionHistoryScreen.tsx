@@ -16,8 +16,10 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import { PracticeSession } from '@/types';
-import { getSessions } from '@/utils/storage';
+import { CompletedPractice } from '@/types/practice';
+import { loadPracticeHistory } from '@/utils/practiceStorage';
+import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface SessionHistoryScreenProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,9 +27,10 @@ interface SessionHistoryScreenProps {
 }
 
 export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
-  const [sessions, setSessions] = useState<PracticeSession[]>([]);
+  const { theme } = useTheme();
+  const [sessions, setSessions] = useState<CompletedPractice[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSession, setSelectedSession] = useState<PracticeSession | null>(null);
+  const [selectedSession, setSelectedSession] = useState<CompletedPractice | null>(null);
 
   useEffect(() => {
     loadSessions();
@@ -35,13 +38,14 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
 
   const loadSessions = async () => {
     try {
-      const loadedSessions = await getSessions();
-      // Sort by timestamp descending (most recent first)
-      const sortedSessions = loadedSessions.sort((a, b) => b.timestamp - a.timestamp);
+      const loadedSessions = await loadPracticeHistory();
+      // Sort by date descending (most recent first)
+      const sortedSessions = loadedSessions.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
       setSessions(sortedSessions);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      // Handle error silently, show empty state
       setSessions([]);
     } finally {
       setLoading(false);
@@ -58,8 +62,8 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
     return `${hours}h ${remainingMinutes}m`;
   };
 
-  const formatDate = (timestamp: number): string => {
-    const date = new Date(timestamp);
+  const formatDate = (dateStr: string): string => {
+    const date = new Date(dateStr);
     const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
     return date.toLocaleDateString('en-US', options);
   };
@@ -70,20 +74,19 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
     return { totalSessions, totalMinutes };
   };
 
-  const renderSession = ({ item }: { item: PracticeSession }) => (
+  const renderSession = ({ item }: { item: CompletedPractice }) => (
     <TouchableOpacity
       testID="session-item"
-      data-session-id={item.id}
-      style={styles.sessionItem}
+      style={[styles.sessionItem, { backgroundColor: theme.surface }]}
       onPress={() => setSelectedSession(item)}
     >
       <View style={styles.sessionHeader}>
-        <Text style={styles.sessionDate}>{formatDate(item.timestamp)}</Text>
-        <Text style={styles.sessionDuration}>{formatDuration(item.duration)}</Text>
+        <Text style={[styles.sessionDate, { color: theme.textBright }]}>{formatDate(item.date)}</Text>
+        <Text style={[styles.sessionDuration, { color: theme.primary }]}>{formatDuration(item.duration)}</Text>
       </View>
       <View style={styles.sessionDetails}>
-        <Text style={styles.sessionMala}>{item.count} mala{item.count !== 1 ? 's' : ''}</Text>
-        {item.sankalp && <Text style={styles.sessionSankalp}>🙏 {item.sankalp}</Text>}
+        <Text style={[styles.sessionMala, { color: theme.textSecondary }]}>{item.malaCount} mala{item.malaCount !== 1 ? 's' : ''}</Text>
+        {item.sankalp && <Text style={[styles.sessionSankalp, { color: theme.textMeaning }]}>🙏 {item.sankalp}</Text>}
       </View>
     </TouchableOpacity>
   );
@@ -100,60 +103,60 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
         onRequestClose={() => setSelectedSession(null)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { backgroundColor: theme.surface }]}>
             <ScrollView>
-              <Text style={styles.modalTitle}>Session Details</Text>
+              <Text style={[styles.modalTitle, { color: theme.textBright }]}>Session Details</Text>
 
               <View style={styles.modalSection}>
-                <Text style={styles.modalLabel}>Date</Text>
-                <Text style={styles.modalValue}>{formatDate(selectedSession.timestamp)}</Text>
+                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Date</Text>
+                <Text style={[styles.modalValue, { color: theme.text }]}>{formatDate(selectedSession.date)}</Text>
               </View>
 
               <View style={styles.modalSection}>
-                <Text style={styles.modalLabel}>Duration</Text>
-                <Text style={styles.modalValue}>{formatDuration(selectedSession.duration)}</Text>
+                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Duration</Text>
+                <Text style={[styles.modalValue, { color: theme.text }]}>{formatDuration(selectedSession.duration)}</Text>
               </View>
 
               <View style={styles.modalSection}>
-                <Text style={styles.modalLabel}>Mala Count</Text>
-                <Text style={styles.modalValue}>{selectedSession.count}</Text>
+                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Mala Count</Text>
+                <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.malaCount}</Text>
               </View>
 
-              {selectedSession.shlokaId && (
+              {selectedSession.shlokaName && (
                 <View style={styles.modalSection}>
-                  <Text style={styles.modalLabel}>Shloka</Text>
-                  <Text style={styles.modalValue}>{selectedSession.shlokaId}</Text>
+                  <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Shloka</Text>
+                  <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.shlokaName}</Text>
                 </View>
               )}
 
               {selectedSession.sankalp && (
                 <View style={styles.modalSection}>
-                  <Text style={styles.modalLabel}>Sankalp</Text>
-                  <Text style={styles.modalValue}>{selectedSession.sankalp}</Text>
+                  <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Sankalp</Text>
+                  <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.sankalp}</Text>
                 </View>
               )}
 
               {selectedSession.offering && (
                 <View style={styles.modalSection}>
-                  <Text style={styles.modalLabel}>Offering</Text>
-                  <Text style={styles.modalValue}>{selectedSession.offering}</Text>
+                  <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Offering</Text>
+                  <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.offering}</Text>
                 </View>
               )}
 
-              {selectedSession.reflection && (
+              {selectedSession.notes && (
                 <View style={styles.modalSection}>
-                  <Text style={styles.modalLabel}>Reflection</Text>
-                  <Text style={styles.modalValue}>{selectedSession.reflection}</Text>
+                  <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Notes</Text>
+                  <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.notes}</Text>
                 </View>
               )}
             </ScrollView>
 
             <TouchableOpacity
               testID="close-modal-button"
-              style={styles.closeButton}
+              style={[styles.closeButton, { backgroundColor: theme.primary }]}
               onPress={() => setSelectedSession(null)}
             >
-              <Text style={styles.closeButtonText}>Close</Text>
+              <Text style={[styles.closeButtonText, { color: Colors.textOnColor }]}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -163,7 +166,7 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ActivityIndicator testID="loading-indicator" size="large" color="#4CAF50" />
       </View>
     );
@@ -172,28 +175,28 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
   const { totalSessions, totalMinutes } = getTotalStats();
 
   return (
-    <View style={styles.container}>
-      <Text testID="history-title" style={styles.title}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text testID="history-title" style={[styles.title, { color: theme.textBright }]}>
         Session History
       </Text>
 
       {totalSessions > 0 && (
-        <View testID="stats-summary" style={styles.statsContainer}>
+        <View testID="stats-summary" style={[styles.statsContainer, { backgroundColor: theme.surface }]}>
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>{totalSessions}</Text>
-            <Text style={styles.statLabel}>Total Sessions</Text>
+            <Text style={[styles.statValue, { color: theme.primary }]}>{totalSessions}</Text>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Total Sessions</Text>
           </View>
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>{totalMinutes}</Text>
-            <Text style={styles.statLabel}>Total Minutes</Text>
+            <Text style={[styles.statValue, { color: theme.primary }]}>{totalMinutes}</Text>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Total Minutes</Text>
           </View>
         </View>
       )}
 
       {sessions.length === 0 ? (
         <View testID="empty-state" style={styles.emptyState}>
-          <Text style={styles.emptyStateText}>No sessions yet</Text>
-          <Text style={styles.emptyStateSubtext}>
+          <Text style={[styles.emptyStateText, { color: theme.textBright }]}>No sessions yet</Text>
+          <Text style={[styles.emptyStateSubtext, { color: theme.textSecondary }]}>
             Complete your first practice session to see it here
           </Text>
         </View>
@@ -215,18 +218,18 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
 const styles = StyleSheet.create({
   closeButton: {
     alignItems: 'center',
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.success,
     borderRadius: 12,
     marginTop: 16,
     padding: 16,
   },
   closeButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
     padding: 16,
   },
@@ -237,12 +240,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   emptyStateSubtext: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     textAlign: 'center',
   },
   emptyStateText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 8,
@@ -251,20 +254,21 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   modalContent: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: '80%',
     padding: 24,
   },
   modalLabel: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 12,
     marginBottom: 4,
     textTransform: 'uppercase',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   modalOverlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)', // extra-dark overlay for bottom sheet
     flex: 1,
     justifyContent: 'flex-end',
   },
@@ -272,18 +276,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   modalTitle: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 24,
   },
   modalValue: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     lineHeight: 24,
   },
   sessionDate: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -291,7 +295,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   sessionDuration: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -301,17 +305,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   sessionItem: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     marginBottom: 12,
     padding: 16,
   },
   sessionMala: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
   },
   sessionSankalp: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 14,
     fontStyle: 'italic',
   },
@@ -319,17 +323,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statLabel: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 12,
     marginTop: 4,
   },
   statValue: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 24,
     fontWeight: '700',
   },
   statsContainer: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -337,7 +341,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 16,

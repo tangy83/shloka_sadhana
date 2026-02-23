@@ -5,9 +5,14 @@
  * Tracks repetitions of prayers/mantras (108 beads = 1 mala)
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
-import { triggerMedium, triggerHeavy, triggerLight } from '@/utils/haptics';
+import { triggerMedium, triggerLight } from '@/utils/haptics';
+import { Colors } from '@/constants/Colors';
+import { glow } from '@/constants/theme';
+import { useTheme } from '@/contexts/ThemeContext';
+import { MalaCelebration } from '@/components/sacred';
+import { checkReducedMotion } from '@/animations/sacredAnimations';
 
 export interface MalaCounterProps {
   initialCount?: number;
@@ -20,14 +25,24 @@ const BEADS_PER_MALA = 108;
  * Mala counter component with increment/decrement/reset controls
  * Displays both bead count and completed mala count
  * Shows celebration animation when completing a mala
+ * Sacred numbers (>= 108) glow gold
  */
 export const MalaCounter: React.FC<MalaCounterProps> = ({
   initialCount = 0,
   onChange,
 }) => {
+  const { theme } = useTheme();
   const [count, setCount] = useState(initialCount);
   const [showCelebration, setShowCelebration] = useState(false);
-  const [celebrationAnim] = useState(new Animated.Value(0));
+  const [reducedMotion, setReducedMotion] = useState(false);
+  // Gentle meditative pulse on every tap
+  const [pulseAnim] = useState(new Animated.Value(1));
+
+  useEffect(() => {
+    checkReducedMotion().then(setReducedMotion);
+  }, []);
+
+  const isGlowing = count >= BEADS_PER_MALA;
 
   /**
    * Calculate number of completed malas
@@ -48,27 +63,32 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
   };
 
   /**
-   * Show celebration animation when completing a mala
+   * Trigger mala completion celebration.
+   * MalaCelebration handles its own animation and haptic.
+   * The boolean toggle (false → true) is the signal it watches for.
    */
   const triggerCelebration = () => {
     setShowCelebration(true);
+    // Auto-reset after 900ms — matches MalaCelebration's 850ms animation + buffer
+    setTimeout(() => setShowCelebration(false), 900);
+  };
 
-    // Animate celebration
+  /**
+   * Soft pulse animation on every tap — meditative, not jarring
+   */
+  const triggerPulse = () => {
     Animated.sequence([
-      Animated.timing(celebrationAnim, {
+      Animated.timing(pulseAnim, {
+        toValue: 1.06,
+        duration: 80,
+        useNativeDriver: true,
+      }),
+      Animated.timing(pulseAnim, {
         toValue: 1,
-        duration: 300,
+        duration: 120,
         useNativeDriver: true,
       }),
-      Animated.timing(celebrationAnim, {
-        toValue: 0,
-        duration: 300,
-        delay: 1000,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      setShowCelebration(false);
-    });
+    ]).start();
   };
 
   /**
@@ -81,13 +101,12 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
 
     setCount(newCount);
     onChange?.(newCount);
+    triggerPulse();
 
-    // Trigger celebration and heavy haptic if completed a new mala
+    // Trigger celebration if completed a new mala (MalaCelebration owns the haptic)
     if (newMalaCount > previousMalaCount) {
       triggerCelebration();
-      triggerHeavy();
     } else {
-      // Medium haptic for regular increments
       triggerMedium();
     }
   };
@@ -139,62 +158,42 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
 
   return (
     <View style={styles.container}>
-      {/* Celebration Indicator */}
-      {showCelebration && (
-        <Animated.View
-          style={[
-            styles.celebration,
-            {
-              opacity: celebrationAnim,
-              transform: [
-                {
-                  scale: celebrationAnim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0.5, 1.5],
-                  }),
-                },
-              ],
-            },
-          ]}
-        >
-          <Text
-            style={styles.celebrationText}
-            accessibilityLabel="Celebration: You completed a mala of 108 beads"
-          >
-            🎉
-          </Text>
-        </Animated.View>
-      )}
+      {/* Mala completion celebration — gold ring pulse + ember sparks */}
+      <MalaCelebration active={showCelebration} reducedMotion={reducedMotion} />
 
-      {/* Mala Count Display */}
+      {/* Mala Count Display — glows gold when >= 1 mala completed */}
       <Text
-        style={styles.malaCount}
+        style={[styles.malaCount, isGlowing && glow.gold]}
         accessibilityLabel={getMalaAccessibilityLabel()}
         accessibilityRole="text"
       >
         {getMalaText(count)}
       </Text>
 
-      {/* Bead Count Display */}
-      <Text
-        style={styles.countDisplay}
+      {/* Bead Count Display — gently pulses on each tap; glows gold at >= 108 */}
+      <Animated.Text
+        style={[
+          styles.countDisplay,
+          { transform: [{ scale: pulseAnim }], color: theme.text },
+          isGlowing && glow.gold,
+        ]}
         accessibilityLabel={getCountAccessibilityLabel()}
         accessibilityRole="text"
       >
         {count}
-      </Text>
+      </Animated.Text>
 
       {/* Control Buttons */}
       <View style={styles.controls}>
         {/* Decrement Button */}
         <TouchableOpacity
-          style={[styles.button, styles.decrementButton]}
+          style={[styles.button, styles.decrementButton, { backgroundColor: theme.surfaceElevated }]}
           onPress={decrement}
           accessibilityLabel="Decrement count"
           accessibilityHint="Removes one bead from your count"
           accessibilityRole="button"
         >
-          <Text style={styles.buttonText}>−</Text>
+          <Text style={[styles.buttonText, { color: theme.text }]}>−</Text>
         </TouchableOpacity>
 
         {/* Increment Button */}
@@ -205,20 +204,20 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
           accessibilityHint="Adds one bead to your count. You'll feel a vibration when you complete a mala of 108 beads"
           accessibilityRole="button"
         >
-          <Text style={styles.buttonText}>+</Text>
+          <Text style={[styles.buttonText, { color: Colors.textOnColor }]}>+</Text>
         </TouchableOpacity>
       </View>
 
       {/* Reset Button (only show when count > 0) */}
       {count > 0 && (
         <TouchableOpacity
-          style={[styles.button, styles.resetButton]}
+          style={[styles.button, styles.resetButton, { backgroundColor: theme.surfaceElevated }]}
           onPress={reset}
           accessibilityLabel="Reset count to zero"
           accessibilityHint="Sets your bead count back to zero"
           accessibilityRole="button"
         >
-          <Text style={styles.resetButtonText}>Reset</Text>
+          <Text style={[styles.resetButtonText, { color: theme.textSecondary }]}>Reset</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -226,6 +225,7 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
 };
 
 const styles = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-color-literals
   button: {
     alignItems: 'center',
     borderRadius: 40,
@@ -234,22 +234,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
     width: 80,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: Colors.text,
     fontSize: 48,
     fontWeight: '700',
-  },
-  celebration: {
-    position: 'absolute',
-    top: 20,
-    zIndex: 10,
-  },
-  celebrationText: {
-    fontSize: 64,
   },
   container: {
     alignItems: 'center',
@@ -263,32 +255,32 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   countDisplay: {
-    color: '#FFFFFF',
+    color: Colors.text,           // Warm parchment cream
     fontSize: 96,
     fontVariant: ['tabular-nums'],
     fontWeight: '700',
     marginBottom: 32,
   },
   decrementButton: {
-    backgroundColor: '#F44336',
+    backgroundColor: Colors.surfaceElevated, // surfaceElevated — warm, recessive
   },
   incrementButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.primary, // Deep Saffron — sacred fire energy
   },
   malaCount: {
-    color: '#FF9800',
+    color: Colors.templeGold,           // Temple Gold
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '600',
     marginBottom: 8,
   },
   resetButton: {
-    backgroundColor: '#757575',
+    backgroundColor: Colors.surfaceElevated, // surfaceElevated — recessive, non-intrusive
     borderRadius: 24,
     height: 48,
     width: 120,
   },
   resetButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textSecondary,           // Soft amber
     fontSize: 18,
     fontWeight: '600',
   },

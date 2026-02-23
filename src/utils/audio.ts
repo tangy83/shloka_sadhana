@@ -122,6 +122,29 @@ export const getAudioStatus = async (
 };
 
 /**
+ * Set playback speed (rate)
+ * @param sound - Sound object
+ * @param rate - Playback rate (0.75, 1.0, 1.25, etc.)
+ * @param preservesPitch - Keep original pitch when changing rate (default true)
+ * @returns Promise<boolean> - True if successful
+ */
+export const setPlaybackSpeed = async (
+  sound: Audio.Sound | null,
+  rate: number,
+  preservesPitch = true
+): Promise<boolean> => {
+  if (!sound) return false;
+
+  try {
+    await sound.setRateAsync(rate, preservesPitch);
+    return true;
+  } catch (error) {
+    console.error('[Audio] Failed to set playback speed:', error);
+    return false;
+  }
+};
+
+/**
  * Seek to specific position in audio
  * @param sound - Sound object
  * @param positionMillis - Position in milliseconds

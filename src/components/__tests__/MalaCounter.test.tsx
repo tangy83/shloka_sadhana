@@ -9,6 +9,18 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { MalaCounter } from '../MalaCounter';
 
+// Mock the sacred component so MalaCelebration renders testable text instead of SVG animation
+// Note: must use require() inside the factory — jest.mock factories cannot access outer scope vars
+jest.mock('@/components/sacred', () => ({
+  MalaCelebration: ({ active }: { active: boolean }) => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const ReactMod = require('react');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { Text } = require('react-native');
+    return active ? ReactMod.createElement(Text, null, '🎉') : null;
+  },
+}));
+
 describe('MalaCounter', () => {
   describe('Initial State', () => {
     it('should render with count of 0', () => {

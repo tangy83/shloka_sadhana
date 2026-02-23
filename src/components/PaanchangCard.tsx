@@ -7,7 +7,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getPaanchangForDate } from '@/utils/paanchang';
 import { getRecommendationForDate } from '@/utils/weekdayRecommendations';
 import { PaanchangData } from '@/types';
@@ -21,6 +23,7 @@ interface PaanchangCardProps {
  * Card component displaying Hindu calendar information
  */
 export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
+  const { theme } = useTheme();
   const [paanchang, setPaanchang] = useState<PaanchangData | null>(null);
   const [recommendation, setRecommendation] = useState<WeekdayRecommendation | null>(null);
 
@@ -41,6 +44,7 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
       testID="paanchang-card"
       style={[
         styles.container,
+        { backgroundColor: theme.surface, borderColor: theme.border },
         paanchang.isEkadashi && styles.containerEkadashi,
       ]}
       accessibilityLabel="Hindu Calendar Information"
@@ -48,7 +52,7 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
     >
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Paanchang</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>Paanchang</Text>
         {paanchang.isEkadashi && (
           <View testID="ekadashi-indicator" style={styles.ekadasiBadge}>
             <Text style={styles.ekadasiBadgeText}>Ekadashi</Text>
@@ -58,43 +62,43 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
 
       {/* Weekday */}
       <View style={styles.row}>
-        <Text style={styles.label}>Weekday</Text>
-        <Text style={styles.value}>
+        <Text style={[styles.label, { color: theme.textSecondary }]}>Weekday</Text>
+        <Text style={[styles.value, { color: theme.textBright }]}>
           {paanchang.weekday} ({paanchang.weekdayEnglish})
         </Text>
       </View>
 
       {/* Tithi */}
       <View style={styles.row}>
-        <Text style={styles.label}>Tithi</Text>
-        <Text style={[styles.value, paanchang.isEkadashi && styles.valueEkadashi]}>
+        <Text style={[styles.label, { color: theme.textSecondary }]}>Tithi</Text>
+        <Text style={[styles.value, { color: theme.textBright }, paanchang.isEkadashi && styles.valueEkadashi]}>
           {paanchang.tithi}
         </Text>
       </View>
 
       {/* Paksha */}
       <View style={styles.row}>
-        <Text style={styles.label}>Paksha</Text>
-        <Text style={styles.value}>
+        <Text style={[styles.label, { color: theme.textSecondary }]}>Paksha</Text>
+        <Text style={[styles.value, { color: theme.textBright }]}>
           {paanchang.paksha} Paksha
         </Text>
       </View>
 
       {/* Nakshatra */}
       <View style={styles.row}>
-        <Text style={styles.label}>Nakshatra</Text>
-        <Text style={styles.value}>{paanchang.nakshatra}</Text>
+        <Text style={[styles.label, { color: theme.textSecondary }]}>Nakshatra</Text>
+        <Text style={[styles.value, { color: theme.textBright }]}>{paanchang.nakshatra}</Text>
       </View>
 
       {/* Hindu Month */}
       <View style={styles.row}>
-        <Text style={styles.label}>Month</Text>
-        <Text style={styles.value}>{paanchang.hinduMonth}</Text>
+        <Text style={[styles.label, { color: theme.textSecondary }]}>Month</Text>
+        <Text style={[styles.value, { color: theme.textBright }]}>{paanchang.hinduMonth}</Text>
       </View>
 
       {/* Ekadashi Name (if applicable) */}
       {paanchang.isEkadashi && paanchang.ekadasiName && (
-        <View style={styles.ekadashiNameContainer}>
+        <View style={[styles.ekadashiNameContainer, { borderTopColor: Colors.primary }]}>
           <Text style={styles.ekadashiNameLabel}>Special Ekadashi</Text>
           <Text style={styles.ekadashiName}>{paanchang.ekadasiName}</Text>
         </View>
@@ -102,11 +106,11 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
 
       {/* Weekday Recommendation */}
       {recommendation && (
-        <View style={styles.recommendationContainer} testID="weekday-recommendation">
-          <Text style={styles.recommendationTitle}>Today&apos;s Recommendation</Text>
+        <View style={[styles.recommendationContainer, { borderTopColor: theme.divider }]} testID="weekday-recommendation">
+          <Text style={[styles.recommendationTitle, { color: theme.success }]}>Today&apos;s Recommendation</Text>
           <View style={styles.recommendationContent}>
-            <Text style={styles.deityName}>{recommendation.deityName}</Text>
-            <Text style={styles.recommendationBenefits}>{recommendation.benefits}</Text>
+            <Text style={[styles.deityName, { color: theme.textBright }]}>{recommendation.deityName}</Text>
+            <Text style={[styles.recommendationBenefits, { color: theme.textSecondary }]}>{recommendation.benefits}</Text>
           </View>
         </View>
       )}
@@ -116,50 +120,51 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1E1E1E',
-    borderColor: '#2E2E2E',
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
     borderRadius: 16,
     borderWidth: 1,
     marginBottom: 16,
     padding: 16,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   containerEkadashi: {
-    backgroundColor: '#2A2416',
-    borderColor: '#FF9800',
+    backgroundColor: 'rgba(255, 152, 0, 0.08)',  // subtle warm amber Ekadashi highlight
+    borderColor: Colors.primary,
     borderWidth: 2,
   },
   deityName: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 15,
     fontWeight: '600',
     marginBottom: 4,
   },
   ekadashiName: {
-    color: '#FFB84D',
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '600',
   },
   ekadashiNameContainer: {
-    borderTopColor: '#FF9800',
+    borderTopColor: Colors.primary,
     borderTopWidth: 1,
     marginTop: 12,
     paddingTop: 12,
   },
   ekadashiNameLabel: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 4,
     textTransform: 'uppercase',
   },
   ekadasiBadge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   ekadasiBadgeText: {
-    color: '#FFFFFF',
+    color: Colors.textOnColor,  // cream on saffron badge
     fontSize: 12,
     fontWeight: '600',
   },
@@ -170,17 +175,17 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '500',
   },
   recommendationBenefits: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 20,
   },
   recommendationContainer: {
-    borderTopColor: '#2E2E2E',
+    borderTopColor: Colors.divider,
     borderTopWidth: 1,
     marginTop: 12,
     paddingTop: 12,
@@ -189,7 +194,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   recommendationTitle: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
@@ -202,16 +207,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
   },
   value: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 14,
     fontWeight: '600',
   },
   valueEkadashi: {
-    color: '#FF9800',
+    color: Colors.primary,
   },
 });

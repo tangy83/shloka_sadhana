@@ -6,7 +6,9 @@
  */
 
 import React, { useState } from 'react';
+import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getUpcomingFestivals, getPastFestivals, Festival } from '@/utils/festivals';
 import { getTodayISO } from '@/utils/dateUtils';
 
@@ -53,6 +55,7 @@ function getRelativeDate(isoDate: string, today: string): string {
  * FestivalsListScreen - Browse upcoming and past Hindu festivals
  */
 export const FestivalsListScreen: React.FC = () => {
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('upcoming');
   const today = getTodayISO();
 
@@ -71,7 +74,7 @@ export const FestivalsListScreen: React.FC = () => {
     return (
       <TouchableOpacity
         testID="festival-card"
-        style={styles.card}
+        style={[styles.card, { backgroundColor: theme.surface }]}
         onPress={() => {
           // Future: Navigate to festival detail screen
           console.log('Festival pressed:', item.name);
@@ -88,21 +91,21 @@ export const FestivalsListScreen: React.FC = () => {
           )}
 
           {/* Festival Name */}
-          <Text style={styles.festivalName}>{item.name}</Text>
+          <Text style={[styles.festivalName, { color: theme.textBright }]}>{item.name}</Text>
 
           {/* Date */}
           <View style={styles.dateContainer}>
             <Text style={styles.dateText}>{formatDate(item.date)}</Text>
             {relativeDate && (
-              <Text style={styles.relativeDateText}>• {relativeDate}</Text>
+              <Text style={[styles.relativeDateText, { color: theme.textSecondary }]}>• {relativeDate}</Text>
             )}
           </View>
 
           {/* Deity Association */}
-          <Text style={styles.deity}>{item.deity_association}</Text>
+          <Text style={[styles.deity, { color: theme.textMeaning }]}>{item.deity_association}</Text>
 
           {/* Description */}
-          <Text style={styles.description} numberOfLines={2}>
+          <Text style={[styles.description, { color: theme.textSecondary }]} numberOfLines={2}>
             {item.description}
           </Text>
         </View>
@@ -115,18 +118,18 @@ export const FestivalsListScreen: React.FC = () => {
    */
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
-      <Text style={styles.emptyText}>
+      <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
         {activeTab === 'upcoming' ? 'No upcoming festivals' : 'No past festivals'}
       </Text>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Hindu Festivals</Text>
-        <Text style={styles.subtitle}>
+        <Text style={[styles.title, { color: theme.textBright }]}>Hindu Festivals</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
           {activeTab === 'upcoming' ? upcomingFestivals.length : pastFestivals.length} Festivals
         </Text>
       </View>
@@ -135,26 +138,26 @@ export const FestivalsListScreen: React.FC = () => {
       <View style={styles.tabContainer}>
         <TouchableOpacity
           testID="tab-upcoming"
-          style={[styles.tab, activeTab === 'upcoming' && styles.tabActive]}
+          style={[styles.tab, { backgroundColor: theme.surface }, activeTab === 'upcoming' && styles.tabActive]}
           onPress={() => setActiveTab('upcoming')}
           accessibilityRole="button"
           accessibilityLabel="View upcoming festivals"
           accessibilityState={{ selected: activeTab === 'upcoming' }}
         >
-          <Text style={[styles.tabText, activeTab === 'upcoming' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'upcoming' && styles.tabTextActive]}>
             Upcoming
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           testID="tab-past"
-          style={[styles.tab, activeTab === 'past' && styles.tabActive]}
+          style={[styles.tab, { backgroundColor: theme.surface }, activeTab === 'past' && styles.tabActive]}
           onPress={() => setActiveTab('past')}
           accessibilityRole="button"
           accessibilityLabel="View past festivals"
           accessibilityState={{ selected: activeTab === 'past' }}
         >
-          <Text style={[styles.tabText, activeTab === 'past' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'past' && styles.tabTextActive]}>
             Past
           </Text>
         </TouchableOpacity>
@@ -175,7 +178,7 @@ export const FestivalsListScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     overflow: 'hidden',
@@ -185,20 +188,20 @@ const styles = StyleSheet.create({
   },
   categoryBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
     borderRadius: 8,
     marginBottom: 12,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
   categoryBadgeText: {
-    color: '#121212',
+    color: Colors.background,
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 0.5,
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   dateContainer: {
@@ -208,18 +211,18 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dateText: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '500',
   },
   deity: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 13,
     fontWeight: '500',
     marginBottom: 12,
   },
   description: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 14,
     lineHeight: 20,
   },
@@ -230,11 +233,11 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   emptyText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   festivalName: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 8,
@@ -248,23 +251,23 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   relativeDateText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   subtitle: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   tab: {
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
   tabActive: {
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.primary,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -273,15 +276,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   tabText: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 15,
     fontWeight: '600',
   },
   tabTextActive: {
-    color: '#121212',
+    color: Colors.background,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

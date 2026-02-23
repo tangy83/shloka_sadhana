@@ -27,47 +27,48 @@ describe('SatsangScreen', () => {
     });
   });
 
-  describe('Community Features', () => {
-    it('should display community section', () => {
+  // NOTE: SatsangScreen was refactored to a "Coming Soon" stub.
+  // The original Community Features and Upcoming Events sections were removed.
+  // Tests updated to reflect the current coming-soon design.
+
+  describe('Community Hero Section', () => {
+    it('should display the community invite text', () => {
       render(<SatsangScreen />);
-      expect(screen.getByText(/Global Practitioners/i)).toBeTruthy();
+      expect(screen.getByText(/global community of practitioners/i)).toBeTruthy();
     });
 
-    it('should display total practitioners count', () => {
+    it('should display the OM glyph', () => {
       render(<SatsangScreen />);
-      const countElements = screen.queryAllByTestId('practitioners-count');
-      expect(countElements.length).toBeGreaterThan(0);
+      expect(screen.getByText('ॐ')).toBeTruthy();
     });
   });
 
-  describe('Upcoming Events', () => {
-    it('should display events section', () => {
+  describe('Coming Soon Feature Cards', () => {
+    it('should display Group Chanting feature', () => {
       render(<SatsangScreen />);
-      expect(screen.getByText(/Upcoming Events/i)).toBeTruthy();
+      expect(screen.getByText('Group Chanting')).toBeTruthy();
     });
 
-    it('should display event cards', () => {
+    it('should display Satsang Events feature', () => {
       render(<SatsangScreen />);
-      const events = screen.queryAllByTestId('event-card');
-      expect(events.length).toBeGreaterThan(0);
+      expect(screen.getByText('Satsang Events')).toBeTruthy();
     });
 
-    it('should display event titles', () => {
+    it('should display Shared Streaks feature', () => {
       render(<SatsangScreen />);
-      const eventTitles = screen.queryAllByTestId('event-title');
-      expect(eventTitles.length).toBeGreaterThan(0);
+      expect(screen.getByText('Shared Streaks')).toBeTruthy();
     });
 
-    it('should display event dates', () => {
+    it('should display Coming soon label', () => {
       render(<SatsangScreen />);
-      const eventDates = screen.queryAllByTestId('event-date');
-      expect(eventDates.length).toBeGreaterThan(0);
+      expect(screen.getByText(/Coming soon/i)).toBeTruthy();
     });
+  });
 
-    it('should display event types', () => {
+  describe('CTA Section', () => {
+    it('should display Start a Personal Session CTA', () => {
       render(<SatsangScreen />);
-      const eventTypes = screen.queryAllByTestId('event-type');
-      expect(eventTypes.length).toBeGreaterThan(0);
+      expect(screen.getByText('Start a Personal Session')).toBeTruthy();
     });
   });
 

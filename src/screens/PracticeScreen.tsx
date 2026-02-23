@@ -7,6 +7,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MandalaBackground, DiyaGlow } from '@/components/sacred';
+import type { DiyaIntensity } from '@/components/sacred';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { Timer } from '@/components/Timer';
 import { MalaCounter } from '@/components/MalaCounter';
@@ -21,8 +24,19 @@ import {
   clearActivePractice,
   savePracticeToHistory,
 } from '@/utils/practiceStorage';
-import { CompletedPractice } from '@/types/practice';
+import { loadGoal, updateGoalProgress, resetGoalIfExpired } from '@/utils/goalsStorage';
+import { CompletedPractice, PracticeGoal } from '@/types/practice';
 import { RootStackParamList } from '@/types';
+import { shadows } from '@/constants/theme';
+import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
+import { AppText } from '@/components/primitives/AppText';
+import { useQuestProgress } from '@/hooks/useQuestProgress';
+import { useAchievements } from '@/hooks/useAchievements';
+import { QuestCompletionModal } from '@/components/QuestCompletionModal';
+import { AchievementUnlockedModal } from '@/components/AchievementUnlockedModal';
+import { Quest } from '@/data/quests';
+import { getPracticeStats } from '@/utils/practiceStorage';
 
 type PracticeRouteProp = RouteProp<RootStackParamList, 'Practice'>;
 
@@ -36,6 +50,7 @@ type PracticeRouteProp = RouteProp<RootStackParamList, 'Practice'>;
  */
 export const PracticeScreen: React.FC = () => {
   const route = useRoute<PracticeRouteProp>();
+  const { theme } = useTheme();
   const { shlokaId, shlokaName } = route.params || {};
 
   const [malaCount, setMalaCount] = useState(0);
@@ -46,6 +61,7 @@ export const PracticeScreen: React.FC = () => {
   const [hasShownSankalp, setHasShownSankalp] = useState(false);
   const [sessionStartTime, setSessionStartTime] = useState<string | null>(null);
   const [initialElapsedSeconds, setInitialElapsedSeconds] = useState(0);
+  const [goal, setGoal] = useState<PracticeGoal | null>(null);
 
   const timer = useTimer({
     onComplete: (_elapsedSeconds) => {
@@ -56,6 +72,12 @@ export const PracticeScreen: React.FC = () => {
   });
 
   const streak = useStreak();
+  const questProgress = useQuestProgress();
+  const achievements = useAchievements();
+
+  // Modal state for quest completion and achievement unlock
+  const [showQuestModal, setShowQuestModal] = useState(false);
+  const [completedQuest, setCompletedQuest] = useState<Quest | null>(null);
 
   // V3 Feature #9: Background Timer Support
   // Persist timer state when app is backgrounded and restore when foregrounded
@@ -87,6 +109,17 @@ export const PracticeScreen: React.FC = () => {
       }
     };
     loadSavedSession();
+  }, []);
+
+  // Load practice goal on mount and reset if expired
+  useEffect(() => {
+    const loadPracticeGoal = async () => {
+      const today = new Date().toISOString();
+      await resetGoalIfExpired(today);
+      const currentGoal = await loadGoal();
+      setGoal(currentGoal);
+    };
+    loadPracticeGoal();
   }, []);
 
   /**
@@ -171,6 +204,14 @@ export const PracticeScreen: React.FC = () => {
     // Mark today as complete in streak
     streak.markTodayComplete();
 
+    // Update goal progress and refresh goal display
+    await updateGoalProgress();
+    const refreshedGoal = await loadGoal();
+    setGoal(refreshedGoal);
+
+    // Trigger quest + achievement checks
+    await triggerQuestAndAchievements();
+
     // Reset for next session
     resetSession();
   };
@@ -202,6 +243,14 @@ export const PracticeScreen: React.FC = () => {
     // Mark today as complete in streak even if skipped
     streak.markTodayComplete();
 
+    // Update goal progress and refresh goal display
+    await updateGoalProgress();
+    const refreshedGoal = await loadGoal();
+    setGoal(refreshedGoal);
+
+    // Trigger quest + achievement checks
+    await triggerQuestAndAchievements();
+
     // Reset for next session
     resetSession();
   };
@@ -217,6 +266,32 @@ export const PracticeScreen: React.FC = () => {
   };
 
   /**
+   * Trigger quest progress + achievement checks after a completed session.
+   * Called by both handleOfferingConfirm and handleOfferingSkip.
+   */
+  const triggerQuestAndAchievements = async () => {
+    // Increment quest progress (1 practice completed)
+    const wasCompleted = questProgress.isCompleted;
+    await questProgress.incrementProgress(1);
+    // Show quest completion modal if quest is now done
+    if (!wasCompleted && questProgress.todayQuest) {
+      const newProgress = questProgress.progress + 1;
+      if (newProgress >= questProgress.todayQuest.target) {
+        setCompletedQuest(questProgress.todayQuest);
+        setShowQuestModal(true);
+      }
+    }
+
+    // Check achievements against updated stats
+    const stats = await getPracticeStats();
+    await achievements.checkAndUnlock({
+      totalPractices: stats.totalPractices,
+      currentStreak: streak.currentStreak,
+      totalMalas: stats.totalMalas,
+    });
+  };
+
+  /**
    * Handle mala count changes
    */
   const handleMalaCountChange = (count: number) => {
@@ -226,35 +301,69 @@ export const PracticeScreen: React.FC = () => {
   // Show loading state while streak data is loading
   if (streak.isLoading) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FF9800" />
-        <Text style={styles.loadingText}>Loading...</Text>
+      <View style={[styles.loadingContainer, { backgroundColor: theme.background }]}>
+        <ActivityIndicator size="large" color="#E55B00" />
+        <Text style={[styles.loadingText, { color: theme.text }]}>Loading...</Text>
       </View>
     );
   }
 
+  const diyaIntensity: DiyaIntensity =
+    timer.status === 'running' ? 'active'
+      : timer.status === 'paused' ? 'paused'
+        : 'idle';
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* Sacred decorative layer — geometry and ambient light */}
+      <MandalaBackground />
+      <DiyaGlow intensity={diyaIntensity} />
+
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>Practice</Text>
+          <AppText style={[styles.title, { color: theme.text }]}>Practice</AppText>
 
           {/* Streak Display */}
-          <View style={styles.streakContainer}>
-            <Text style={styles.streakText}>
-              🔥 {streak.currentStreak} day streak
-            </Text>
+          <View style={[styles.streakContainer, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+            <View style={styles.streakRow}>
+              <MaterialCommunityIcons name="fire" size={20} color="#FF9A2A" />
+              <Text style={[styles.streakText, { color: theme.text }]}>{streak.currentStreak} day streak</Text>
+            </View>
             {streak.isStreakAtRisk && !streak.isPracticedToday && (
-              <Text style={styles.warningText}>
+              <Text style={[styles.warningText, { color: theme.textSecondary }]}>
                 Practice today to keep your streak!
               </Text>
             )}
           </View>
         </View>
+
+        {/* Goal Progress Bar — shown only when a goal is active */}
+        {goal && goal.isActive && (
+          <View style={[styles.goalBar, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+            <View style={styles.goalBarHeader}>
+              <Text style={[styles.goalBarLabel, { color: theme.textSecondary }]}>
+                {goal.type === 'daily' ? "Today's Goal" : "Weekly Goal"}
+              </Text>
+              <Text style={[styles.goalBarCount, { color: theme.text }]}>
+                {goal.currentProgress} / {goal.targetSessions} sessions
+              </Text>
+            </View>
+            <View style={[styles.goalTrack, { backgroundColor: theme.surfaceElevated }]}>
+              <View
+                style={[
+                  styles.goalFill,
+                  {
+                    width: `${Math.min(100, (goal.currentProgress / goal.targetSessions) * 100)}%`,
+                  },
+                ]}
+              />
+            </View>
+          </View>
+        )}
 
         {/* Timer */}
         <View style={styles.timerSection}>
@@ -283,45 +392,105 @@ export const PracticeScreen: React.FC = () => {
         onConfirm={handleOfferingConfirm}
         onSkip={handleOfferingSkip}
       />
+
+      {/* Quest Completion Modal */}
+      <QuestCompletionModal
+        visible={showQuestModal}
+        quest={completedQuest}
+        onDismiss={() => setShowQuestModal(false)}
+      />
+
+      {/* Achievement Unlocked Modal */}
+      <AchievementUnlockedModal
+        visible={achievements.recentlyUnlocked !== null}
+        achievement={achievements.recentlyUnlocked}
+        onDismiss={achievements.dismissRecentlyUnlocked}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   counterSection: {
     marginBottom: 32,
+  },
+  goalBar: {
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 14,
+  },
+  goalBarCount: {
+    color: Colors.text,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  goalBarHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  goalBarLabel: {
+    color: Colors.textSecondary,
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  goalFill: {
+    backgroundColor: Colors.primary,
+    borderRadius: 4,
+    height: 6,
+  },
+  goalTrack: {
+    backgroundColor: Colors.backgroundLight,
+    borderRadius: 4,
+    height: 6,
+    overflow: 'hidden',
   },
   header: {
     marginBottom: 32,
   },
   loadingContainer: {
     alignItems: 'center',
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
     justifyContent: 'center',
   },
   loadingText: {
-    color: '#FFFFFF',
+    color: Colors.text,
     fontSize: 18,
     marginTop: 16,
   },
   scrollContent: {
     padding: 20,
+    paddingTop: 24,
   },
   scrollView: {
     flex: 1,
+    zIndex: 1,
   },
   streakContainer: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
     borderRadius: 12,
+    borderWidth: 1,
     padding: 16,
+    ...shadows.card,
+  },
+  streakRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
   },
   streakText: {
-    color: '#FFFFFF',
+    color: Colors.text,
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 4,
@@ -330,13 +499,13 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.text,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 16,
   },
   warningText: {
-    color: '#FF9800',
+    color: Colors.textSecondary,
     fontSize: 14,
     marginTop: 8,
   },

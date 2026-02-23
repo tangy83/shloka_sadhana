@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Colors } from '@/constants/Colors';
 import {
   Modal,
   View,
@@ -99,7 +100,7 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
               value={text}
               onChangeText={setText}
               placeholder="Enter your offering..."
-              placeholderTextColor="#9E9E9E"
+              placeholderTextColor={Colors.textSecondary}
               multiline={true}
               numberOfLines={4}
               textAlignVertical="top"
@@ -113,7 +114,7 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
               value={notes}
               onChangeText={setNotes}
               placeholder="Add notes or reflections (optional)..."
-              placeholderTextColor="#9E9E9E"
+              placeholderTextColor={Colors.textSecondary}
               multiline={true}
               numberOfLines={4}
               textAlignVertical="top"
@@ -163,33 +164,33 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   confirmButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.success,
   },
   confirmButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   description: {
-    color: '#BDBDBD',
+    color: Colors.textMeaning,
     fontSize: 16,
     fontWeight: '400',
     marginBottom: 12,
     textAlign: 'center',
   },
   elapsedTime: {
-    color: '#4CAF50',
+    color: Colors.success,
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 16,
     textAlign: 'center',
   },
   input: {
-    backgroundColor: '#2C2C2C',
-    borderColor: '#424242',
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
     borderRadius: 12,
     borderWidth: 1,
-    color: '#FFFFFF',
+    color: Colors.text,
     fontSize: 16,
     marginBottom: 20,
     minHeight: 120,
@@ -199,8 +200,9 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     width: '85%',
   },
+  // eslint-disable-next-line react-native/no-color-literals
   modalContent: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     elevation: 8,
     padding: 24,
@@ -211,20 +213,20 @@ const styles = StyleSheet.create({
   },
   overlay: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: Colors.scrim,
     flex: 1,
     justifyContent: 'center',
   },
   skipButton: {
-    backgroundColor: '#424242',
+    backgroundColor: Colors.surfaceElevated,
   },
   skipButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontWeight: '600',
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 8,

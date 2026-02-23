@@ -17,6 +17,13 @@ jest.mock('@/utils/paanchang', () => ({
   getPaanchangForDate: jest.fn(),
 }));
 
+// Mock weekday recommendations — prevents real recommendation text (which may contain
+// weekday names like "Monday") from appearing in the render tree and conflicting with
+// the weekday display assertions that use getByText(/Monday/).
+jest.mock('@/utils/weekdayRecommendations', () => ({
+  getRecommendationForDate: jest.fn().mockReturnValue(null),
+}));
+
 const mockGetPaanchangForDate = getPaanchangForDate as jest.MockedFunction<
   typeof getPaanchangForDate
 >;

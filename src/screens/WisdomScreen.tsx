@@ -6,14 +6,39 @@
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Colors } from '@/constants/Colors';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
+import { AppText } from '@/components/primitives/AppText';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { getAllWisdomQuotes } from '@/data/wisdom';
+
+type CategoryIconProps = { category: string; size?: number; color?: string };
+const CategoryIcon: React.FC<CategoryIconProps> = ({ category, size = 16, color = Colors.primary }) => {
+  switch (category) {
+    case 'dharma':    return <MaterialCommunityIcons name="scale-balance" size={size} color={color} />;
+    case 'karma':     return <MaterialCommunityIcons name="autorenew" size={size} color={color} />;
+    case 'devotion':  return <MaterialCommunityIcons name="hands-pray" size={size} color={color} />;
+    case 'meditation':return <MaterialCommunityIcons name="meditation" size={size} color={color} />;
+    case 'wisdom':    return <Ionicons name="bulb-outline" size={size} color={color} />;
+    case 'compassion':return <Ionicons name="heart-outline" size={size} color={color} />;
+    default:          return <MaterialCommunityIcons name="book-open-outline" size={size} color={color} />;
+  }
+};
 
 /**
  * Wisdom screen for displaying spiritual quotes and teachings
  */
 export const WisdomScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const { theme } = useTheme();
   const quotes = getAllWisdomQuotes();
+
+  const handleQuotePress = (quoteId: string) => {
+    // @ts-expect-error - Navigation types not fully defined
+    navigation.navigate('WisdomDetail', { quoteId });
+  };
 
   /**
    * Get category display name
@@ -30,27 +55,13 @@ export const WisdomScreen: React.FC = () => {
     return categoryMap[category] || category;
   };
 
-  /**
-   * Get category emoji
-   */
-  const getCategoryEmoji = (category: string): string => {
-    const emojiMap: Record<string, string> = {
-      dharma: '⚖️',
-      karma: '🔄',
-      devotion: '🙏',
-      meditation: '🧘',
-      wisdom: '💡',
-      compassion: '❤️',
-    };
-    return emojiMap[category] || '📖';
-  };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Wisdom</Text>
-        <Text style={styles.subtitle}>Daily Spiritual Teachings</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>Wisdom</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Daily Spiritual Teachings</Text>
       </View>
 
       {/* Quotes List */}
@@ -59,32 +70,38 @@ export const WisdomScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
       >
         {quotes.map((quote) => (
-          <View key={quote.id} style={styles.quoteCard} testID="wisdom-quote">
+          <TouchableOpacity
+            key={quote.id}
+            style={[styles.quoteCard, { backgroundColor: theme.surface }]}
+            onPress={() => handleQuotePress(quote.id)}
+            accessibilityRole="button"
+            accessibilityLabel={`Read full wisdom from ${quote.author}`}
+            testID="wisdom-quote"
+          >
             {/* Category Tag */}
             <View style={styles.categoryContainer}>
-              <Text style={styles.categoryEmoji} testID="quote-category">
-                {getCategoryEmoji(quote.category)}
-              </Text>
-              <Text style={styles.categoryText} testID="quote-category">
+              <CategoryIcon category={quote.category} size={16} color={theme.primary} />
+              <Text style={[styles.categoryText, { color: theme.primary }]} testID="quote-category">
                 {getCategoryDisplay(quote.category)}
               </Text>
             </View>
 
             {/* Quote Text */}
-            <Text style={styles.quoteText} testID="quote-text">
+            <AppText style={[styles.quoteText, { color: theme.textBright }]} testID="quote-text">
               &quot;{quote.text}&quot;
-            </Text>
+            </AppText>
 
             {/* Author and Source */}
-            <View style={styles.attribution}>
-              <Text style={styles.author} testID="quote-author">
+            <View style={[styles.attribution, { borderTopColor: theme.divider }]}>
+              <AppText style={[styles.author, { color: theme.primary }]} testID="quote-author">
                 — {quote.author}
-              </Text>
-              <Text style={styles.source} testID="quote-source">
+              </AppText>
+              <AppText style={[styles.source, { color: theme.textSecondary }]} testID="quote-source">
                 {quote.source}
-              </Text>
+              </AppText>
             </View>
-          </View>
+            <Text style={[styles.readMore, { color: theme.primary }]}>Read More ›</Text>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -93,12 +110,12 @@ export const WisdomScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   attribution: {
-    borderTopColor: '#2A2A2A',
+    borderTopColor: Colors.border,
     borderTopWidth: 1,
     paddingTop: 12,
   },
   author: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 4,
@@ -109,17 +126,14 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 16,
   },
-  categoryEmoji: {
-    fontSize: 16,
-  },
   categoryText: {
-    color: '#FF9800',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   container: {
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background,
     flex: 1,
   },
   header: {
@@ -127,32 +141,39 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   quoteCard: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.surface,
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
   },
   quoteText: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 16,
     fontStyle: 'italic',
     lineHeight: 24,
     marginBottom: 16,
+  },
+  readMore: {
+    color: Colors.primary,
+    fontSize: 13,
+    fontWeight: '600',
+    marginTop: 12,
+    textAlign: 'right',
   },
   scrollContent: {
     padding: 20,
     paddingTop: 0,
   },
   source: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 12,
   },
   subtitle: {
-    color: '#9E9E9E',
+    color: Colors.textSecondary,
     fontSize: 16,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textBright,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,

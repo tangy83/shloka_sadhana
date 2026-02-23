@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 /**
  * Muhurat Activity Labels
  * Shloka Sadhana - V3 Feature #4
@@ -20,7 +21,7 @@ export const MUHURAT_ACTIVITIES: Record<string, MuhuratActivity> = {
     description: 'Meditation, chanting, yoga, study',
     reason: 'The hour before sunrise when the mind is calm and pure, perfect for spiritual practices as cosmic energy is most conducive to meditation and self-realization.',
     icon: '🕉️',
-    color: '#FF9800', // Orange
+    color: Colors.primary, // Orange
     tone: 'positive',
   },
   abhijitMuhurat: {
@@ -28,7 +29,7 @@ export const MUHURAT_ACTIVITIES: Record<string, MuhuratActivity> = {
     description: 'Work, decisions, buying, new ventures',
     reason: 'The most auspicious period when Lord Vishnu conquered all obstacles. Planetary positions are favorable, making it ideal for starting new ventures and important decisions.',
     icon: '⭐',
-    color: '#4CAF50', // Green
+    color: Colors.success, // Green
     tone: 'positive',
   },
   rahuKaal: {
@@ -36,7 +37,7 @@ export const MUHURAT_ACTIVITIES: Record<string, MuhuratActivity> = {
     description: 'Not ideal for starting new things',
     reason: 'A period ruled by Rahu (shadow planet) when energy is unstable. Traditionally considered inauspicious for starting new activities, but suitable for routine work and meditation.',
     icon: '⚠️',
-    color: '#9E9E9E', // Gray (neutral, not red)
+    color: Colors.textSecondary, // Gray (neutral, not red)
     tone: 'gentle', // Non-alarming
   },
 };

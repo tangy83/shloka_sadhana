@@ -26,6 +26,13 @@ export const STORAGE_KEYS = {
   // Wisdom teachings unlock status
   WISDOM_UNLOCKED: '@shloka_sadhana:wisdom_unlocked',
 
+  // User profile (local, no cloud)
+  USER_PROFILE: '@shloka_sadhana:user_profile',
+
+  // Quest & achievement progress
+  QUEST_PROGRESS: '@shloka_sadhana:quest_progress',
+  ACHIEVEMENTS: '@shloka_sadhana:achievements',
+
   // Future: Cloud sync status
   LAST_SYNC: '@shloka_sadhana:last_sync',
   SYNC_ENABLED: '@shloka_sadhana:sync_enabled',

@@ -13,6 +13,12 @@ import * as ekadashiCalendar from '@/utils/ekadashiCalendar';
 
 // Mock the ekadashiCalendar utility
 jest.mock('@/utils/ekadashiCalendar');
+
+// Fix "today" so date-relative assertions (e.g. "In X days") use 2026-02-07
+jest.mock('@/utils/dateUtils', () => ({
+  getTodayISO: () => '2026-02-07',
+}));
+
 const mockCheckIfEkadashi = ekadashiCalendar.checkIfEkadashi as jest.MockedFunction<typeof ekadashiCalendar.checkIfEkadashi>;
 const mockGetEkadashiByDate = ekadashiCalendar.getEkadashiByDate as jest.MockedFunction<typeof ekadashiCalendar.getEkadashiByDate>;
 const mockGetNextEkadashi = ekadashiCalendar.getNextEkadashi as jest.MockedFunction<typeof ekadashiCalendar.getNextEkadashi>;
@@ -268,7 +274,7 @@ describe('EkadashiBanner', () => {
       const { getByTestId } = render(<EkadashiBanner />);
 
       const banner = getByTestId('ekadashi-banner');
-      // Should use #1E1E1E background like other cards
+      // Should use #8B0020 background like other cards
       expect(banner).toBeTruthy();
     });
 
@@ -278,8 +284,8 @@ describe('EkadashiBanner', () => {
 
       render(<EkadashiBanner />);
 
-      // Should have icon (component uses 🕉️)
-      expect(screen.getByText('🕉️')).toBeTruthy();
+      // Should have OM glyph (component renders <Text>ॐ</Text>)
+      expect(screen.getByText('ॐ')).toBeTruthy();
 
       // Component should render
       expect(screen.getByText('Vijaya Ekadashi')).toBeTruthy();
