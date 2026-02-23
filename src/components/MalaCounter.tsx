@@ -10,6 +10,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native
 import { triggerMedium, triggerLight } from '@/utils/haptics';
 import { Colors } from '@/constants/Colors';
 import { glow } from '@/constants/theme';
+import { useTheme } from '@/contexts/ThemeContext';
 import { MalaCelebration } from '@/components/sacred';
 import { checkReducedMotion } from '@/animations/sacredAnimations';
 
@@ -30,6 +31,7 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
   initialCount = 0,
   onChange,
 }) => {
+  const { theme } = useTheme();
   const [count, setCount] = useState(initialCount);
   const [showCelebration, setShowCelebration] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -172,7 +174,7 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
       <Animated.Text
         style={[
           styles.countDisplay,
-          { transform: [{ scale: pulseAnim }] },
+          { transform: [{ scale: pulseAnim }], color: theme.text },
           isGlowing && glow.gold,
         ]}
         accessibilityLabel={getCountAccessibilityLabel()}
@@ -185,13 +187,13 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
       <View style={styles.controls}>
         {/* Decrement Button */}
         <TouchableOpacity
-          style={[styles.button, styles.decrementButton]}
+          style={[styles.button, styles.decrementButton, { backgroundColor: theme.surfaceElevated }]}
           onPress={decrement}
           accessibilityLabel="Decrement count"
           accessibilityHint="Removes one bead from your count"
           accessibilityRole="button"
         >
-          <Text style={styles.buttonText}>−</Text>
+          <Text style={[styles.buttonText, { color: theme.text }]}>−</Text>
         </TouchableOpacity>
 
         {/* Increment Button */}
@@ -202,20 +204,20 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
           accessibilityHint="Adds one bead to your count. You'll feel a vibration when you complete a mala of 108 beads"
           accessibilityRole="button"
         >
-          <Text style={styles.buttonText}>+</Text>
+          <Text style={[styles.buttonText, { color: Colors.textOnColor }]}>+</Text>
         </TouchableOpacity>
       </View>
 
       {/* Reset Button (only show when count > 0) */}
       {count > 0 && (
         <TouchableOpacity
-          style={[styles.button, styles.resetButton]}
+          style={[styles.button, styles.resetButton, { backgroundColor: theme.surfaceElevated }]}
           onPress={reset}
           accessibilityLabel="Reset count to zero"
           accessibilityHint="Sets your bead count back to zero"
           accessibilityRole="button"
         >
-          <Text style={styles.resetButtonText}>Reset</Text>
+          <Text style={[styles.resetButtonText, { color: theme.textSecondary }]}>Reset</Text>
         </TouchableOpacity>
       )}
     </View>

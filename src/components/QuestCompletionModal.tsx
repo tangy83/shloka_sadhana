@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Quest } from '@/data/quests';
 
 interface QuestCompletionModalProps {
@@ -29,6 +30,7 @@ export const QuestCompletionModal: React.FC<QuestCompletionModalProps> = ({
   quest,
   onDismiss,
 }) => {
+  const { theme } = useTheme();
   // Auto-dismiss after 3 seconds
   useEffect(() => {
     if (!visible) return;
@@ -52,11 +54,11 @@ export const QuestCompletionModal: React.FC<QuestCompletionModalProps> = ({
         accessibilityRole="button"
         accessibilityLabel="Dismiss quest completion"
       >
-        <View style={styles.card}>
+        <View style={[styles.card, { backgroundColor: theme.surfaceElevated }]}>
           {/* OM glyph hero */}
           <Text style={styles.omText}>ॐ</Text>
 
-          <Text style={styles.title}>Quest Complete!</Text>
+          <Text style={[styles.title, { color: theme.text }]}>Quest Complete!</Text>
           <Text style={styles.questName}>{quest.title}</Text>
 
           {/* XP earned */}

@@ -32,6 +32,25 @@ jest.mock('@/constants/theme', () => ({
   },
 }));
 
+// Mock ThemeContext — Card calls useTheme(); @/constants/theme is partially mocked above
+jest.mock('@/contexts/ThemeContext', () => ({
+  useTheme: () => ({
+    theme: {
+      background: '#FFF8F0',
+      surface: '#FFF0D0',
+      surfaceElevated: '#FFE5B0',
+      border: 'rgba(139,90,43,0.15)',
+      text: '#4A2700',
+      textSecondary: '#8B5A2B',
+      textBright: '#2A1408',
+      primary: '#FF9A2A',
+    },
+    themeMode: 'light',
+    setThemeMode: jest.fn(),
+    isLoading: false,
+  }),
+}));
+
 describe('Card', () => {
   describe('Rendering', () => {
     it('should render without crash', () => {

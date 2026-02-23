@@ -28,7 +28,6 @@ import {
 } from '@/utils/notifications';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { useTheme } from '@/contexts/ThemeContext';
-import { useFontSize } from '@/hooks/useFontSize';
 import { ThemeMode } from '@/constants/theme';
 import Constants from 'expo-constants';
 import { Colors, withOpacity } from '@/constants/Colors';
@@ -73,16 +72,9 @@ function formatTime(hour: number, minute: number): string {
 
 const AVATAR_EMOJIS = ['🙏', '🌸', '🕉️', '🪷', '🔥', '⭐', '🌙', '🌺'];
 
-const FONT_PRESETS: { label: string; value: number }[] = [
-  { label: 'Small', value: 0.85 },
-  { label: 'Normal', value: 1.0 },
-  { label: 'Large', value: 1.3 },
-];
-
 const THEME_OPTIONS: { label: string; value: ThemeMode }[] = [
   { label: 'Dark', value: 'dark' },
   { label: 'Light', value: 'light' },
-  { label: 'System', value: 'system' },
 ];
 
 type PickerMode = 'notification' | 'quietStart' | 'quietEnd';
@@ -93,8 +85,7 @@ type PickerMode = 'notification' | 'quietStart' | 'quietEnd';
 export const SettingsScreen: React.FC = () => {
   const navigation = useNavigation();
   const { profile, saveProfile } = useUserProfile();
-  const { themeMode, setThemeMode } = useTheme();
-  const { fontSize, setFontSize } = useFontSize();
+  const { theme, themeMode, setThemeMode } = useTheme();
 
   // Profile state
   const [displayName, setDisplayName] = useState('');
@@ -309,10 +300,10 @@ export const SettingsScreen: React.FC = () => {
       : 'Quiet Hours — End';
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Settings</Text>
+      <View style={[styles.header, { borderBottomColor: theme.border }]}>
+        <Text style={[styles.headerTitle, { color: theme.textBright }]}>Settings</Text>
       </View>
 
       {/* Scrollable Content */}
@@ -323,27 +314,35 @@ export const SettingsScreen: React.FC = () => {
       >
         {/* ── Profile Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Profile</Text>
-          <View style={styles.profileCard}>
-            <Text style={styles.settingLabel}>Your Name</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Profile</Text>
+          <View style={[styles.profileCard, { backgroundColor: theme.surface }]}>
+            <Text style={[styles.settingLabel, { color: theme.textBright }]}>Your Name</Text>
             <TextInput
-              style={styles.nameInput}
+              style={[styles.nameInput, {
+                backgroundColor: theme.surfaceElevated,
+                borderColor: theme.border,
+                color: theme.text,
+              }]}
               value={displayName}
               onChangeText={setDisplayName}
               placeholder="Enter your name"
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={theme.textSecondary}
               maxLength={30}
               returnKeyType="done"
               accessibilityLabel="Your display name"
             />
-            <Text style={[styles.settingLabel, styles.settingLabelAvatar]}>
+            <Text style={[styles.settingLabel, styles.settingLabelAvatar, { color: theme.textBright }]}>
               Avatar
             </Text>
             <View style={styles.emojiRow}>
               {AVATAR_EMOJIS.map((emoji) => (
                 <TouchableOpacity
                   key={emoji}
-                  style={[styles.emojiBtn, selectedEmoji === emoji && styles.emojiBtnActive]}
+                  style={[
+                    styles.emojiBtn,
+                    { borderColor: theme.border },
+                    selectedEmoji === emoji && { borderColor: theme.primary, backgroundColor: withOpacity(Colors.primary, 0.15) },
+                  ]}
                   onPress={() => setSelectedEmoji(emoji)}
                   accessibilityRole="button"
                   accessibilityLabel={`Select avatar ${emoji}`}
@@ -365,18 +364,19 @@ export const SettingsScreen: React.FC = () => {
 
         {/* ── Appearance Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Appearance</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Appearance</Text>
 
           {/* Theme selector */}
-          <View style={styles.settingCard}>
-            <Text style={styles.settingLabel}>Theme</Text>
+          <View style={[styles.settingCard, { backgroundColor: theme.surface }]}>
+            <Text style={[styles.settingLabel, { color: theme.textBright }]}>Theme</Text>
             <View style={styles.segmentRow}>
               {THEME_OPTIONS.map((opt) => (
                 <TouchableOpacity
                   key={opt.value}
                   style={[
                     styles.segmentBtn,
-                    themeMode === opt.value && styles.segmentBtnActive,
+                    { borderColor: theme.border },
+                    themeMode === opt.value && { borderColor: theme.primary, backgroundColor: withOpacity(Colors.primary, 0.15) },
                   ]}
                   onPress={() => setThemeMode(opt.value)}
                   accessibilityRole="button"
@@ -385,7 +385,8 @@ export const SettingsScreen: React.FC = () => {
                   <Text
                     style={[
                       styles.segmentBtnText,
-                      themeMode === opt.value && styles.segmentBtnTextActive,
+                      { color: theme.textSecondary },
+                      themeMode === opt.value && { color: theme.primary },
                     ]}
                   >
                     {opt.label}
@@ -395,46 +396,16 @@ export const SettingsScreen: React.FC = () => {
             </View>
           </View>
 
-          {/* Font size presets */}
-          <View style={[styles.settingCard, styles.settingCardSpaced]}>
-            <Text style={styles.settingLabel}>Text Size</Text>
-            <View style={styles.segmentRow}>
-              {FONT_PRESETS.map((preset) => (
-                <TouchableOpacity
-                  key={preset.value}
-                  style={[
-                    styles.segmentBtn,
-                    Math.abs(fontSize - preset.value) < 0.05 && styles.segmentBtnActive,
-                  ]}
-                  onPress={() => setFontSize(preset.value)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Set text size to ${preset.label}`}
-                >
-                  <Text
-                    style={[
-                      styles.segmentBtnText,
-                      Math.abs(fontSize - preset.value) < 0.05 && styles.segmentBtnTextActive,
-                    ]}
-                  >
-                    {preset.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            <Text style={styles.fontPreviewText} numberOfLines={1}>
-              {'The path of devotion (preview)'}
-            </Text>
-          </View>
         </View>
 
         {/* ── Notifications Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Notifications</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Notifications</Text>
 
-          <View style={styles.settingRow}>
+          <View style={[styles.settingRow, { backgroundColor: theme.surface }]}>
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Daily Reminder</Text>
-              <Text style={styles.settingDescription}>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Daily Reminder</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
                 Receive a notification each day to practice
               </Text>
             </View>
@@ -450,26 +421,26 @@ export const SettingsScreen: React.FC = () => {
           </View>
 
           <TouchableOpacity
-            style={styles.settingRow}
+            style={[styles.settingRow, { backgroundColor: theme.surface }]}
             onPress={() => openTimePicker('notification')}
             testID="reminder-time-button"
             accessibilityRole="button"
             accessibilityLabel="Change reminder time"
           >
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Reminder Time</Text>
-              <Text style={styles.settingDescription}>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Reminder Time</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
                 {formatTime(notificationTime.hour, notificationTime.minute)}
               </Text>
             </View>
-            <Text style={styles.arrow}>›</Text>
+            <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
           </TouchableOpacity>
 
           {/* Quiet Hours */}
-          <View style={styles.settingRow}>
+          <View style={[styles.settingRow, { backgroundColor: theme.surface }]}>
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Quiet Hours</Text>
-              <Text style={styles.settingDescription}>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Quiet Hours</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
                 Prevent reminders during sleep or focus time
               </Text>
             </View>
@@ -486,33 +457,33 @@ export const SettingsScreen: React.FC = () => {
           {quietHoursEnabled && (
             <>
               <TouchableOpacity
-                style={[styles.settingRow, styles.indentedRow]}
+                style={[styles.settingRow, styles.indentedRow, { backgroundColor: theme.surface }]}
                 onPress={() => openTimePicker('quietStart')}
                 accessibilityRole="button"
                 accessibilityLabel="Set quiet hours start time"
               >
                 <View style={styles.settingInfo}>
-                  <Text style={styles.settingLabel}>Start</Text>
-                  <Text style={styles.settingDescription}>
+                  <Text style={[styles.settingLabel, { color: theme.textBright }]}>Start</Text>
+                  <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
                     {formatTime(quietStart.hour, quietStart.minute)}
                   </Text>
                 </View>
-                <Text style={styles.arrow}>›</Text>
+                <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.settingRow, styles.indentedRow]}
+                style={[styles.settingRow, styles.indentedRow, { backgroundColor: theme.surface }]}
                 onPress={() => openTimePicker('quietEnd')}
                 accessibilityRole="button"
                 accessibilityLabel="Set quiet hours end time"
               >
                 <View style={styles.settingInfo}>
-                  <Text style={styles.settingLabel}>End</Text>
-                  <Text style={styles.settingDescription}>
+                  <Text style={[styles.settingLabel, { color: theme.textBright }]}>End</Text>
+                  <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>
                     {formatTime(quietEnd.hour, quietEnd.minute)}
                   </Text>
                 </View>
-                <Text style={styles.arrow}>›</Text>
+                <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
               </TouchableOpacity>
             </>
           )}
@@ -520,62 +491,62 @@ export const SettingsScreen: React.FC = () => {
 
         {/* ── App Info Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>About</Text>
 
-          <View style={styles.settingRow}>
+          <View style={[styles.settingRow, { backgroundColor: theme.surface }]}>
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Version</Text>
-              <Text style={styles.settingDescription}>{appVersion}</Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Version</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>{appVersion}</Text>
             </View>
           </View>
 
           <TouchableOpacity
-            style={styles.settingRow}
+            style={[styles.settingRow, { backgroundColor: theme.surface }]}
             onPress={() => navigateToScreen('About')}
             accessibilityRole="button"
             accessibilityLabel="About Shloka Sadhana"
           >
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>About Shloka Sadhana</Text>
-              <Text style={styles.settingDescription}>Learn more about this app</Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>About Shloka Sadhana</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>Learn more about this app</Text>
             </View>
-            <Text style={styles.arrow}>›</Text>
+            <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
           </TouchableOpacity>
         </View>
 
         {/* ── Legal Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Legal</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Legal</Text>
 
           <TouchableOpacity
-            style={styles.settingRow}
+            style={[styles.settingRow, { backgroundColor: theme.surface }]}
             onPress={() => navigateToScreen('PrivacyPolicy')}
             accessibilityRole="button"
             accessibilityLabel="Privacy Policy"
           >
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Privacy Policy</Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Privacy Policy</Text>
             </View>
-            <Text style={styles.arrow}>›</Text>
+            <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.settingRow}
+            style={[styles.settingRow, { backgroundColor: theme.surface }]}
             onPress={() => navigateToScreen('TermsOfService')}
             accessibilityRole="button"
             accessibilityLabel="Terms of Service"
           >
             <View style={styles.settingInfo}>
-              <Text style={styles.settingLabel}>Terms of Service</Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>Terms of Service</Text>
             </View>
-            <Text style={styles.arrow}>›</Text>
+            <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
           </TouchableOpacity>
         </View>
 
         {/* ── Guest Mode Note ── */}
-        <View style={styles.guestNote}>
-          <Ionicons name="cloud-outline" size={16} color={Colors.textSecondary} />
-          <Text style={styles.guestNoteText}>
+        <View style={[styles.guestNote, { backgroundColor: theme.surface }]}>
+          <Ionicons name="cloud-outline" size={16} color={theme.textSecondary} />
+          <Text style={[styles.guestNoteText, { color: theme.textSecondary }]}>
             Guest mode · Your data is stored locally on this device.{'\n'}
             Cloud sync is coming in a future update.
           </Text>
@@ -583,10 +554,10 @@ export const SettingsScreen: React.FC = () => {
 
         {/* ── Data Management Section ── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Data</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Data</Text>
 
           <TouchableOpacity
-            style={[styles.settingRow, styles.dangerRow]}
+            style={[styles.settingRow, styles.dangerRow, { backgroundColor: theme.surface }]}
             onPress={handleClearData}
             accessibilityRole="button"
             accessibilityLabel="Clear all app data"
@@ -594,7 +565,7 @@ export const SettingsScreen: React.FC = () => {
           >
             <View style={styles.settingInfo}>
               <Text style={[styles.settingLabel, styles.dangerText]}>Clear Data</Text>
-              <Text style={styles.settingDescription}>Delete all app data and reset</Text>
+              <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>Delete all app data and reset</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -608,8 +579,8 @@ export const SettingsScreen: React.FC = () => {
         onRequestClose={handleCancelTimePicker}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>{pickerTitle}</Text>
+          <View style={[styles.modalContent, { backgroundColor: theme.surfaceElevated }]}>
+            <Text style={[styles.modalTitle, { color: theme.textBright }]}>{pickerTitle}</Text>
 
             <View style={styles.timePickerContainer}>
               <DateTimePicker
@@ -619,19 +590,19 @@ export const SettingsScreen: React.FC = () => {
                 is24Hour={false}
                 display="spinner"
                 onChange={handleTimeChange}
-                textColor="#FFF8E7"
+                textColor={theme.textBright}
                 style={styles.timePicker}
               />
             </View>
 
             <View style={styles.modalButtons}>
               <TouchableOpacity
-                style={[styles.modalButton, styles.cancelButton]}
+                style={[styles.modalButton, { backgroundColor: theme.surface }]}
                 onPress={handleCancelTimePicker}
                 accessibilityRole="button"
                 accessibilityLabel="Cancel time selection"
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={[styles.cancelButtonText, { color: theme.textBright }]}>Cancel</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -654,9 +625,6 @@ const styles = StyleSheet.create({
   arrow: {
     color: Colors.textSecondary,
     fontSize: 24,
-  },
-  cancelButton: {
-    backgroundColor: Colors.surface,
   },
   cancelButtonText: {
     color: Colors.textBright,
@@ -683,10 +651,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 44,
   },
-  emojiBtnActive: {
-    backgroundColor: withOpacity(Colors.primary, 0.15),
-    borderColor: Colors.primary,
-  },
   emojiRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -694,12 +658,6 @@ const styles = StyleSheet.create({
   },
   emojiText: {
     fontSize: 22,
-  },
-  fontPreviewText: {
-    color: Colors.textMeaning,
-    fontStyle: 'italic',
-    marginTop: 12,
-    textAlign: 'center',
   },
   guestNote: {
     alignItems: 'center',
@@ -822,17 +780,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 8,
   },
-  segmentBtnActive: {
-    backgroundColor: withOpacity(Colors.primary, 0.15),
-    borderColor: Colors.primary,
-  },
   segmentBtnText: {
     color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '600',
-  },
-  segmentBtnTextActive: {
-    color: Colors.primary,
   },
   segmentRow: {
     flexDirection: 'row',
@@ -844,9 +795,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 8,
     padding: 16,
-  },
-  settingCardSpaced: {
-    marginTop: 8,
   },
   settingDescription: {
     color: Colors.textSecondary,

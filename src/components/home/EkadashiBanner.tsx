@@ -11,6 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { checkIfEkadashi, getEkadashiByDate, getNextEkadashi } from '@/utils/ekadashiCalendar';
 import { getTodayISO } from '@/utils/dateUtils';
 import { Ekadashi } from '@/utils/ekadashiCalendar';
@@ -39,6 +40,7 @@ function formatDate(dateStr: string): string {
  */
 export const EkadashiBanner: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [ekadashiData, setEkadashiData] = useState<{
     ekadashi: Ekadashi;
     isToday: boolean;
@@ -95,7 +97,7 @@ export const EkadashiBanner: React.FC = () => {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.surface }]}
       onPress={handlePress}
       accessibilityRole="button"
       accessibilityLabel={`${ekadashi.name} Ekadashi details`}
@@ -112,8 +114,8 @@ export const EkadashiBanner: React.FC = () => {
           </View>
 
           {/* Ekadashi Name */}
-          <Text style={styles.title}>{ekadashi.name}</Text>
-          <Text style={styles.titleHindi}>{ekadashi.name_hindi}</Text>
+          <Text style={[styles.title, { color: theme.textBright }]}>{ekadashi.name}</Text>
+          <Text style={[styles.titleHindi, { color: theme.textSecondary }]}>{ekadashi.name_hindi}</Text>
 
           {/* Date (if upcoming) */}
           {!isToday && (
@@ -121,12 +123,12 @@ export const EkadashiBanner: React.FC = () => {
           )}
 
           {/* Significance */}
-          <Text style={styles.significance} numberOfLines={2}>
+          <Text style={[styles.significance, { color: theme.textMeaning }]} numberOfLines={2}>
             {ekadashi.significance}
           </Text>
 
           {/* Deity */}
-          <Text style={styles.deity}>{ekadashi.deity}</Text>
+          <Text style={[styles.deity, { color: theme.textSecondary }]}>{ekadashi.deity}</Text>
 
           {/* CTA */}
           <Text style={styles.cta}>Learn More ›</Text>

@@ -8,31 +8,33 @@
 import React from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /**
  * PrivacyPolicyScreen - Privacy policy details
  */
 export const PrivacyPolicyScreen: React.FC = () => {
+  const { theme } = useTheme();
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.content}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Privacy Policy</Text>
-        <Text style={styles.lastUpdated}>Last Updated: February 7, 2026</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>Privacy Policy</Text>
+        <Text style={[styles.lastUpdated, { color: theme.textSecondary }]}>Last Updated: February 7, 2026</Text>
       </View>
 
       {/* Introduction */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Introduction</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           Shloka Sadhana (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.
         </Text>
       </View>
 
       {/* Information We Collect */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Information We Collect</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We collect and store the following information locally on your device:{'\n\n'}
           • Practice history and session data{'\n'}
           • Streak and statistics information{'\n'}
@@ -43,9 +45,9 @@ export const PrivacyPolicyScreen: React.FC = () => {
       </View>
 
       {/* How We Use Information */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>How We Use Your Information</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We use the information we collect to:{'\n\n'}
           • Provide and maintain app functionality{'\n'}
           • Track your spiritual practice progress{'\n'}
@@ -56,57 +58,57 @@ export const PrivacyPolicyScreen: React.FC = () => {
       </View>
 
       {/* Data Storage */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Data Storage</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           All your data is stored locally on your device. We do not transmit your personal practice data to any external servers. Your information remains private and under your control. You can delete all app data at any time through the Settings menu.
         </Text>
       </View>
 
       {/* Location Information */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Location Information</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We may request access to your location to calculate accurate auspicious times (muhurat) based on your geographical coordinates. This information is used only for calculations and is not stored or transmitted.
         </Text>
       </View>
 
       {/* Notifications */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Notifications</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           If you enable daily reminders, we will use your device&apos;s notification system to send you practice reminders. You can disable notifications at any time through the app settings or your device settings.
         </Text>
       </View>
 
       {/* Third-Party Services */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Third-Party Services</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           Our app does not currently integrate with any third-party analytics or advertising services. We respect your privacy and do not share your data with third parties.
         </Text>
       </View>
 
       {/* Children's Privacy */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Children&apos;s Privacy</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           Our app is suitable for all ages. We do not knowingly collect personal information from children. All data is stored locally on the device and is not transmitted to external servers.
         </Text>
       </View>
 
       {/* Data Security */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Data Security</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We implement appropriate security measures to protect your information stored locally on your device. However, please note that no method of electronic storage is 100% secure.
         </Text>
       </View>
 
       {/* Your Rights */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Your Rights</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           You have the right to:{'\n\n'}
           • Access your data stored in the app{'\n'}
           • Delete all your data through app settings{'\n'}
@@ -116,17 +118,17 @@ export const PrivacyPolicyScreen: React.FC = () => {
       </View>
 
       {/* Changes to Privacy Policy */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Changes to This Privacy Policy</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the &quot;Last Updated&quot; date.
         </Text>
       </View>
 
       {/* Contact Us */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Contact Us</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           If you have any questions about this Privacy Policy, please contact us at:{'\n\n'}
           Email: privacy@shlokasadhana.com{'\n'}
           Website: www.shlokasadhana.com/privacy
@@ -135,7 +137,7 @@ export const PrivacyPolicyScreen: React.FC = () => {
 
       {/* Footer */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>
+        <Text style={[styles.footerText, { color: theme.textSecondary }]}>
           Your privacy is important to us.{'\n'}
           © 2026 Shloka Sadhana
         </Text>

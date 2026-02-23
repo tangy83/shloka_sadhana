@@ -7,6 +7,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
+import { AppText } from '@/components/primitives/AppText';
 import {
   View,
   Text,
@@ -30,6 +32,7 @@ type ShlokaDetailRouteProp = RouteProp<RootStackParamList, 'ShlokaDetail'>;
  */
 export const ShlokaDetailScreen: React.FC = () => {
   const route = useRoute<ShlokaDetailRouteProp>();
+  const { theme } = useTheme();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const navigation = useNavigation<any>();
   const { shlokaId } = route.params;
@@ -157,10 +160,10 @@ export const ShlokaDetailScreen: React.FC = () => {
   // Handle case where shloka is not found
   if (!shloka) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Shloka not found</Text>
-          <Text style={styles.errorSubtext}>
+          <Text style={[styles.errorText, { color: theme.textBright }]}>Shloka not found</Text>
+          <Text style={[styles.errorSubtext, { color: theme.textSecondary }]}>
             The requested shloka could not be found. Please try another one.
           </Text>
         </View>
@@ -169,7 +172,7 @@ export const ShlokaDetailScreen: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView
         testID="shloka-detail-scroll"
         contentContainerStyle={styles.scrollContent}
@@ -178,8 +181,8 @@ export const ShlokaDetailScreen: React.FC = () => {
         <View style={styles.header}>
           <View style={styles.headerContent}>
             <View style={styles.headerText}>
-              <Text style={styles.title}>{shloka.name}</Text>
-              <Text style={styles.deity}>{shloka.deity}</Text>
+              <Text style={[styles.title, { color: theme.textBright }]}>{shloka.name}</Text>
+              <Text style={[styles.deity, { color: theme.primary }]}>{shloka.deity}</Text>
             </View>
             <TouchableOpacity
               testID="favorite-button"
@@ -188,35 +191,35 @@ export const ShlokaDetailScreen: React.FC = () => {
               accessibilityRole="button"
               accessibilityLabel={`Toggle favorite for ${shloka.name}`}
             >
-              <Ionicons name={isFavorited ? 'heart' : 'heart-outline'} size={24} color={isFavorited ? '#E91E8C' : Colors.textSecondary} />
+              <Ionicons name={isFavorited ? 'heart' : 'heart-outline'} size={24} color={isFavorited ? '#E91E8C' : theme.textSecondary} />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Description Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
-          <Text style={styles.description}>{shloka.description}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>About</Text>
+          <Text style={[styles.description, { color: theme.textMeaning }]}>{shloka.description}</Text>
         </View>
 
         {/* Benefits Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Benefits</Text>
-          <Text style={styles.benefits}>{shloka.benefits}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Benefits</Text>
+          <Text style={[styles.benefits, { color: theme.textMeaning }]}>{shloka.benefits}</Text>
         </View>
 
         {/* Practice Info Section */}
         <View style={styles.infoSection}>
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Duration</Text>
+          <View style={[styles.infoItem, { backgroundColor: theme.surface }]}>
+            <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Duration</Text>
             <View style={styles.durationRow}>
-              <MaterialCommunityIcons name="timer-outline" size={16} color={Colors.textSecondary} />
-              <Text style={styles.infoValue}>{shloka.duration}</Text>
+              <MaterialCommunityIcons name="timer-outline" size={16} color={theme.textSecondary} />
+              <Text style={[styles.infoValue, { color: theme.textBright }]}>{shloka.duration}</Text>
             </View>
           </View>
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Best Time</Text>
-            <Text style={styles.infoValue}>🌅 {shloka.bestTime}</Text>
+          <View style={[styles.infoItem, { backgroundColor: theme.surface }]}>
+            <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Best Time</Text>
+            <Text style={[styles.infoValue, { color: theme.textBright }]}>🌅 {shloka.bestTime}</Text>
           </View>
         </View>
 
@@ -231,14 +234,14 @@ export const ShlokaDetailScreen: React.FC = () => {
               accessibilityLabel={`${isPlaying ? 'Pause' : 'Play'} ${shloka.name} pronunciation`}
             >
               <Ionicons name={isPlaying ? 'pause-circle' : 'play-circle-outline'} size={24} color="#FFF8E7" />
-              <Text style={styles.audioButtonText}>
+              <Text style={[styles.audioButtonText, { color: theme.textBright }]}>
                 {isPlaying ? 'Pause Pronunciation' : 'Listen to Pronunciation'}
               </Text>
             </TouchableOpacity>
             {/* Playback speed selector — visible once audio has loaded */}
             {sound !== null && (
               <View style={styles.speedRow}>
-                <Text style={styles.speedLabel}>Speed:</Text>
+                <Text style={[styles.speedLabel, { color: theme.textSecondary }]}>Speed:</Text>
                 {SPEEDS.map((s) => (
                   <TouchableOpacity
                     key={s}
@@ -267,7 +270,7 @@ export const ShlokaDetailScreen: React.FC = () => {
             accessibilityLabel={`Watch ${shloka.name} on YouTube`}
           >
             <Ionicons name="logo-youtube" size={22} color="#FFF8E7" />
-            <Text style={styles.youtubeButtonText}>Watch on YouTube</Text>
+            <Text style={[styles.youtubeButtonText, { color: Colors.textOnColor }]}>Watch on YouTube</Text>
           </TouchableOpacity>
         )}
 
@@ -280,27 +283,27 @@ export const ShlokaDetailScreen: React.FC = () => {
           accessibilityLabel={`Start practice session with ${shloka.name}`}
         >
           <MaterialCommunityIcons name="meditation" size={22} color="#FFF8E7" />
-          <Text style={styles.startPracticeButtonText}>Start Practice</Text>
+          <Text style={[styles.startPracticeButtonText, { color: theme.textBright }]}>Start Practice</Text>
         </TouchableOpacity>
 
         {/* Shloka Sections */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Shloka</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Shloka</Text>
           {shloka.sections.map((section, index) => (
-            <View key={section.id} style={styles.shlokaSection}>
+            <View key={section.id} style={[styles.shlokaSection, { backgroundColor: theme.surface }]}>
               {/* Section Number */}
-              <Text style={styles.sectionNumber}>Verse {index + 1}</Text>
+              <Text style={[styles.sectionNumber, { color: theme.primary }]}>Verse {index + 1}</Text>
 
               {/* Sanskrit Text */}
-              <Text style={styles.sanskrit}>{section.sanskrit}</Text>
+              <AppText style={[styles.sanskrit, { color: theme.textBright }]}>{section.sanskrit}</AppText>
 
               {/* Transliteration */}
-              <Text style={styles.transliteration}>{section.transliteration}</Text>
+              <AppText style={[styles.transliteration, { color: theme.textSecondary }]}>{section.transliteration}</AppText>
 
               {/* Meaning */}
               <View style={styles.meaningContainer}>
-                <Text style={styles.meaningLabel}>Meaning:</Text>
-                <Text style={styles.meaning}>{section.meaning}</Text>
+                <Text style={[styles.meaningLabel, { color: theme.primary }]}>Meaning:</Text>
+                <AppText style={[styles.meaning, { color: theme.textMeaning }]}>{section.meaning}</AppText>
               </View>
             </View>
           ))}

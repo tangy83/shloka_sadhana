@@ -256,10 +256,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  // eslint-disable-next-line react-native/no-color-literals
   exampleItem: {
-    backgroundColor: '#3C3C3C',
-    borderColor: '#424242',
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 8,
@@ -281,9 +280,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     textDecorationLine: 'underline',
   },
-  // eslint-disable-next-line react-native/no-color-literals
   examplesContainer: {
-    backgroundColor: '#2C2C2C',
+    backgroundColor: Colors.surfaceLight,
     borderRadius: 12,
     marginBottom: 20,
     padding: 16,
@@ -304,22 +302,20 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: 20,
   },
-  // eslint-disable-next-line react-native/no-color-literals
   helpTextContainer: {
-    backgroundColor: '#2C2C2C',
+    backgroundColor: Colors.surfaceLight,
     borderLeftColor: Colors.primary,
     borderLeftWidth: 3,
     borderRadius: 8,
     marginBottom: 16,
     padding: 12,
   },
-  // eslint-disable-next-line react-native/no-color-literals
   input: {
-    backgroundColor: '#2C2C2C',
-    borderColor: '#424242',
+    backgroundColor: Colors.surfaceLight,
+    borderColor: Colors.border,
     borderRadius: 12,
     borderWidth: 1,
-    color: Colors.textBright,
+    color: Colors.text,
     fontSize: 16,
     marginBottom: 20,
     minHeight: 120,
@@ -350,9 +346,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  // eslint-disable-next-line react-native/no-color-literals
   skipButton: {
-    backgroundColor: '#424242',
+    backgroundColor: Colors.surfaceElevated,
   },
   skipButtonText: {
     color: Colors.textBright,

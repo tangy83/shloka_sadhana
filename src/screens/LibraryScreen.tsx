@@ -15,6 +15,8 @@ import {
   TextInput,
 } from 'react-native';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
+import { AppText } from '@/components/primitives/AppText';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -29,6 +31,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
  */
 export const LibraryScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+  const { theme } = useTheme();
   const allShlokas = getAllShlokas();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -92,7 +95,7 @@ export const LibraryScreen: React.FC = () => {
     const favorited = favoriteIds.includes(item.id);
     return (
       <TouchableOpacity
-        style={styles.card}
+        style={[styles.card, { backgroundColor: theme.surface }]}
         onPress={() => handleShlokaPress(item.id)}
         accessibilityRole="button"
         accessibilityLabel={`View ${item.name}`}
@@ -100,8 +103,8 @@ export const LibraryScreen: React.FC = () => {
         <View style={styles.cardContent}>
           <View style={styles.cardHeader}>
             <View style={styles.cardTitleBlock}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.deity}>{item.deity}</Text>
+              <AppText style={[styles.name, { color: theme.textBright }]}>{item.name}</AppText>
+              <AppText style={[styles.deity, { color: theme.primary }]}>{item.deity}</AppText>
             </View>
             <TouchableOpacity
               style={styles.heartBtn}
@@ -112,21 +115,21 @@ export const LibraryScreen: React.FC = () => {
               <Ionicons
                 name={favorited ? 'heart' : 'heart-outline'}
                 size={22}
-                color={favorited ? Colors.lotusPink : Colors.textSecondary}
+                color={favorited ? Colors.lotusPink : theme.textSecondary}
               />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.description} numberOfLines={2}>
+          <AppText style={[styles.description, { color: theme.textMeaning }]} numberOfLines={2}>
             {item.description}
-          </Text>
+          </AppText>
 
           <View style={styles.meta}>
             <View style={styles.metaRow}>
-              <MaterialCommunityIcons name="timer-outline" size={13} color={Colors.textSecondary} />
-              <Text style={styles.duration}>{item.duration}</Text>
+              <MaterialCommunityIcons name="timer-outline" size={13} color={theme.textSecondary} />
+              <Text style={[styles.duration, { color: theme.textSecondary }]}>{item.duration}</Text>
             </View>
-            <Text style={styles.bestTime}>🌅 {item.bestTime}</Text>
+            <Text style={[styles.bestTime, { color: theme.textSecondary }]}>🌅 {item.bestTime}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -140,9 +143,9 @@ export const LibraryScreen: React.FC = () => {
     if (showFavoritesOnly && favoriteIds.length === 0) {
       return (
         <View style={styles.emptyContainer}>
-          <Ionicons name="heart-outline" size={48} color={Colors.textSecondary} />
-          <Text style={styles.emptyTitle}>No favourites yet</Text>
-          <Text style={styles.emptySubtext}>
+          <Ionicons name="heart-outline" size={48} color={theme.textSecondary} />
+          <Text style={[styles.emptyTitle, { color: theme.textSecondary }]}>No favourites yet</Text>
+          <Text style={[styles.emptySubtext, { color: theme.textTertiary }]}>
             Tap the heart icon on any shloka to save it here.
           </Text>
         </View>
@@ -151,9 +154,9 @@ export const LibraryScreen: React.FC = () => {
     if (searchQuery.trim().length > 0) {
       return (
         <View style={styles.emptyContainer}>
-          <Ionicons name="search-outline" size={48} color={Colors.textSecondary} />
-          <Text style={styles.emptyTitle}>No results</Text>
-          <Text style={styles.emptySubtext}>
+          <Ionicons name="search-outline" size={48} color={theme.textSecondary} />
+          <Text style={[styles.emptyTitle, { color: theme.textSecondary }]}>No results</Text>
+          <Text style={[styles.emptySubtext, { color: theme.textTertiary }]}>
             {`No shlokas match "${searchQuery}".`}
           </Text>
         </View>
@@ -161,28 +164,28 @@ export const LibraryScreen: React.FC = () => {
     }
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyTitle}>No shlokas available</Text>
+        <Text style={[styles.emptyTitle, { color: theme.textSecondary }]}>No shlokas available</Text>
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Library</Text>
-        <Text style={styles.subtitle}>{allShlokas.length} Sacred Texts</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>Library</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>{allShlokas.length} Sacred Texts</Text>
       </View>
 
       {/* Search bar */}
-      <View style={styles.searchRow}>
-        <Ionicons name="search-outline" size={18} color={Colors.textSecondary} style={styles.searchIcon} />
+      <View style={[styles.searchRow, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+        <Ionicons name="search-outline" size={18} color={theme.textSecondary} style={styles.searchIcon} />
         <TextInput
-          style={styles.searchInput}
+          style={[styles.searchInput, { color: theme.text }]}
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholder="Search by name, deity, or description…"
-          placeholderTextColor={Colors.textSecondary}
+          placeholderTextColor={theme.textSecondary}
           returnKeyType="search"
           accessibilityLabel="Search shlokas"
           clearButtonMode="while-editing"

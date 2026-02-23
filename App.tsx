@@ -11,6 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppNavigator } from '@/navigation/AppNavigator';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { useAppUpdates } from '@/hooks/useAppUpdates';
+import { Colors } from '@/constants/Colors';
 
 export default function App() {
   const updates = useAppUpdates();
@@ -29,7 +30,7 @@ export default function App() {
           <NavigationContainer>
             <AppNavigator />
           </NavigationContainer>
-          <StatusBar style="light" />
+          <StatusBar style="dark" />
         </View>
       </ThemeProvider>
     </SafeAreaProvider>
@@ -38,7 +39,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2C1200',
+    backgroundColor: Colors.background,
     flex: 1,
   },
 });

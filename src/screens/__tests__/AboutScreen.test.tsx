@@ -12,6 +12,24 @@ jest.mock('expo-constants', () => ({
   expoConfig: { version: '2.5.0' },
 }));
 
+// Mock ThemeContext — AboutScreen uses useTheme()
+jest.mock('@/contexts/ThemeContext', () => ({
+  useTheme: () => ({
+    theme: {
+      background: '#FFF8F0',
+      surface: '#FFF0D0',
+      border: 'rgba(139,90,43,0.15)',
+      text: '#4A2700',
+      textSecondary: '#8B5A2B',
+      textBright: '#2A1408',
+      primary: '#FF9A2A',
+    },
+    themeMode: 'light',
+    setThemeMode: jest.fn(),
+    isLoading: false,
+  }),
+}));
+
 describe('AboutScreen', () => {
   it('should render without crash', () => {
     expect(() => render(<AboutScreen />)).not.toThrow();
@@ -102,6 +120,23 @@ describe('AboutScreen', () => {
       jest.resetModules();
       jest.mock('expo-constants', () => ({
         expoConfig: null,
+      }));
+      // Re-mock ThemeContext after resetModules to avoid two-React-copies issue
+      jest.mock('@/contexts/ThemeContext', () => ({
+        useTheme: () => ({
+          theme: {
+            background: '#FFF8F0',
+            surface: '#FFF0D0',
+            border: 'rgba(139,90,43,0.15)',
+            text: '#4A2700',
+            textSecondary: '#8B5A2B',
+            textBright: '#2A1408',
+            primary: '#FF9A2A',
+          },
+          themeMode: 'light',
+          setThemeMode: jest.fn(),
+          isLoading: false,
+        }),
       }));
 
       // Re-require with mocked module

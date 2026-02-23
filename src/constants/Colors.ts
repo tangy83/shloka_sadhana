@@ -4,53 +4,54 @@
  *
  * Ethnic Indian design language — saffron-forward, temple warmth.
  * Primary family: Saffron Flame — sacred fire, energy, transformation.
- * Background family: Deep Warm Brown — temple sanctum at night, sacred depth.
- * Accent: Temple Gold — divine light, achievement.
+ * Background family: Warm Parchment — temple manuscript by day.
+ * Accent: Temple Gold — divine light, achievement (decorative/glow only).
  */
 
 export const Colors = {
-  // Primary — Saffron Flame (sacred fire)
+  // Primary — Saffron Flame (sacred fire) — unchanged across themes
   primary: '#E55B00',       // Deep Saffron — core action color
   primaryDark: '#C44A00',   // Pressed saffron state
-  primaryLight: '#FFD700',  // Temple Gold for highlights
+  primaryLight: '#FF9A2A',  // Lighter saffron for highlights
 
-  // Background — Stratified warm browns (temple wood, sanctum depth)
-  background: '#1E0E05',    // Darkest sanctum — primary app background
-  backgroundLight: '#2A1408', // Warm brown — secondary surfaces
-  surface: '#2A1408',       // Card / surface background
-  surfaceLight: '#3A1D0D',  // Elevated surface — modals, raised cards
-  surfaceElevated: '#3A1D0D', // Explicit elevated alias
+  // Background — Warm parchment (temple manuscript by day)
+  background: '#FFF3E0',       // Warm parchment cream — primary app background
+  backgroundLight: '#FFF8E7',  // Lighter cream — subtle background variation
+  surface: '#FFF0D5',          // Pale amber — card / surface background
+  surfaceLight: '#FFECC8',     // More elevated surface
+  surfaceElevated: '#FFE4B5',  // Moccasin — modals, raised cards
 
-  // Text — Warm manuscript tones
-  text: '#FFF3E0',          // Warm parchment cream — primary text
-  textBright: '#FFF8E7',    // Slightly lighter cream variant — UI labels, buttons
-  textSecondary: '#FFB74D', // Soft amber — secondary labels, icons
-  textTertiary: 'rgba(255, 243, 224, 0.50)', // 50% cream — tertiary
-  textDisabled: 'rgba(255, 243, 224, 0.35)', // 35% cream — disabled
-  textMeaning: 'rgba(255, 243, 224, 0.9)',   // Slightly muted for English meanings
-  sanskrit: '#FFF3E0',      // Sanskrit text — warm cream, letterSpacing 0.5
-  transliteration: '#FFB74D', // Transliteration — soft amber italic
+  // Text — Deep warm ink (dark on cream)
+  text: '#1E0E05',             // Deep dark sanctum brown — primary text
+  textBright: '#2A1408',       // Prominent text — slightly lighter than text
+  textOnColor: '#FFF8E7',      // Cream label — for use on saffron/colored surfaces (buttons)
+  textSecondary: '#7B5E35',    // Warm medium brown — secondary labels, icons
+  textTertiary: 'rgba(30, 14, 5, 0.50)',  // 50% dark — tertiary
+  textDisabled: 'rgba(30, 14, 5, 0.35)',  // 35% dark — disabled
+  textMeaning: 'rgba(30, 14, 5, 0.75)',   // Slightly muted for English meanings
+  sanskrit: '#1E0E05',         // Sanskrit text — deep dark ink, letterSpacing 0.5
+  transliteration: '#7B5E35',  // Transliteration — warm brown italic
 
   // Semantic
   success: '#4CAF50',
   successDark: '#388E3C',
   error: '#EF4444',
   errorDark: '#C62828',
-  warning: '#FFD700',       // Temple Gold doubles as warning
-  info: '#7C4DFF',          // Spiritual violet for informational
+  warning: '#E65100',          // Deep saffron — visible on cream
+  info: '#7C4DFF',             // Spiritual violet for informational
 
-  // Borders & dividers — soft, breathable
-  border: 'rgba(255, 140, 0, 0.15)',      // Subtle warm gold boundary
-  borderLight: 'rgba(255, 140, 0, 0.08)', // Ultra-subtle outline
-  divider: 'rgba(255, 140, 0, 0.10)',
+  // Borders & dividers — warm brown, breathable
+  border: 'rgba(139, 90, 43, 0.20)',       // Warm brown boundary
+  borderLight: 'rgba(139, 90, 43, 0.10)',  // Ultra-subtle outline
+  divider: 'rgba(139, 90, 43, 0.12)',
 
-  // Overlays
-  overlay: 'rgba(30, 14, 5, 0.85)',    // Deep brown overlay
-  overlayLight: 'rgba(30, 14, 5, 0.55)',
-  scrim: 'rgba(0, 0, 0, 0.7)',         // Modal/dialog dimming layer
+  // Overlays — cream-based for light theme
+  overlay: 'rgba(255, 243, 224, 0.85)',    // Cream overlay
+  overlayLight: 'rgba(255, 243, 224, 0.55)',
+  scrim: 'rgba(0, 0, 0, 0.50)',            // Modal/dialog dimming layer
 
-  // Spiritual accent colors
-  templeGold: '#FFD700',    // Achievements, mala count label
+  // Spiritual accent colors — decorative/glow only
+  templeGold: '#FFD700',    // Achievements, mala count glow (decorative)
   lotusPink: '#E91E8C',     // Special moments, lotus motif
   moonPhase: '#FFE8A3',     // Moon / calendar elements
   glowGold: 'rgba(255, 215, 0, 0.8)', // Gold text-shadow for sacred number glow

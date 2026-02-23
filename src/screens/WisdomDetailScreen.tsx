@@ -11,6 +11,7 @@ import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useRoute, RouteProp } from '@react-navigation/native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getAllWisdomQuotes } from '@/data/wisdom';
 
 type WisdomDetailRouteParams = {
@@ -52,6 +53,7 @@ const getCategoryDisplay = (category: string): string => {
  * WisdomDetailScreen - Full details for a wisdom quote
  */
 export const WisdomDetailScreen: React.FC = () => {
+  const { theme } = useTheme();
   const route = useRoute<RouteProp<WisdomDetailRouteParams, 'WisdomDetail'>>();
   const { quoteId } = route.params;
 
@@ -62,16 +64,16 @@ export const WisdomDetailScreen: React.FC = () => {
   // Handle case where quote not found
   if (!quote) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Wisdom quote not found</Text>
+          <Text style={[styles.errorText, { color: theme.textSecondary }]}>Wisdom quote not found</Text>
         </View>
       </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.scrollContent}>
       {/* Header */}
       <View style={styles.header}>
         <CategoryIcon category={quote.category} />
@@ -82,53 +84,53 @@ export const WisdomDetailScreen: React.FC = () => {
 
       {/* Sanskrit Text (if available) */}
       {quote.text_sanskrit && (
-        <View style={styles.section}>
+        <View style={[styles.section, { backgroundColor: theme.surface }]}>
           <Text style={styles.sectionTitle}>Sanskrit</Text>
-          <Text style={styles.sanskritText}>{quote.text_sanskrit}</Text>
+          <Text style={[styles.sanskritText, { color: theme.textMeaning }]}>{quote.text_sanskrit}</Text>
         </View>
       )}
 
       {/* Quote Text */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Quote</Text>
-        <Text style={styles.quoteText}>&quot;{quote.text}&quot;</Text>
+        <Text style={[styles.quoteText, { color: theme.textBright }]}>&quot;{quote.text}&quot;</Text>
       </View>
 
       {/* Meaning */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Meaning</Text>
-        <View style={styles.meaningHighlight}>
-          <Text style={styles.meaningText}>{quote.meaning}</Text>
+        <View style={[styles.meaningHighlight, { backgroundColor: theme.surfaceSecondary }]}>
+          <Text style={[styles.meaningText, { color: theme.textBright }]}>{quote.meaning}</Text>
         </View>
       </View>
 
       {/* Context */}
       {quote.context && (
-        <View style={styles.section}>
+        <View style={[styles.section, { backgroundColor: theme.surface }]}>
           <Text style={styles.sectionTitle}>Context</Text>
-          <Text style={styles.sectionContent}>{quote.context}</Text>
+          <Text style={[styles.sectionContent, { color: theme.textMeaning }]}>{quote.context}</Text>
         </View>
       )}
 
       {/* Practical Application */}
       {quote.practical_application && (
-        <View style={styles.section}>
+        <View style={[styles.section, { backgroundColor: theme.surface }]}>
           <Text style={styles.sectionTitle}>How to Apply</Text>
-          <View style={styles.applicationBox}>
+          <View style={[styles.applicationBox, { backgroundColor: theme.surfaceSecondary }]}>
             <Text style={styles.applicationIcon}>💫</Text>
-            <Text style={styles.applicationText}>{quote.practical_application}</Text>
+            <Text style={[styles.applicationText, { color: theme.textBright }]}>{quote.practical_application}</Text>
           </View>
         </View>
       )}
 
       {/* Tags */}
       {quote.tags && quote.tags.length > 0 && (
-        <View style={styles.section}>
+        <View style={[styles.section, { backgroundColor: theme.surface }]}>
           <Text style={styles.sectionTitle}>Related Topics</Text>
           <View style={styles.tagsContainer}>
             {quote.tags.map((tag, index) => (
-              <View key={index} style={styles.tag}>
-                <Text style={styles.tagText}>{tag}</Text>
+              <View key={index} style={[styles.tag, { backgroundColor: theme.surfaceElevated }]}>
+                <Text style={[styles.tagText, { color: theme.textMeaning }]}>{tag}</Text>
               </View>
             ))}
           </View>
@@ -137,11 +139,11 @@ export const WisdomDetailScreen: React.FC = () => {
 
       {/* Attribution */}
       <View style={styles.attributionSection}>
-        <View style={styles.attributionDivider} />
+        <View style={[styles.attributionDivider, { backgroundColor: theme.divider }]} />
         <Text style={styles.author}>— {quote.author}</Text>
-        <Text style={styles.source}>{quote.source}</Text>
+        <Text style={[styles.source, { color: theme.textSecondary }]}>{quote.source}</Text>
         {quote.source_chapter && (
-          <Text style={styles.sourceChapter}>{quote.source_chapter}</Text>
+          <Text style={[styles.sourceChapter, { color: theme.textSecondary }]}>{quote.source_chapter}</Text>
         )}
       </View>
     </ScrollView>

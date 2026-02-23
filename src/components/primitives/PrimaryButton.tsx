@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.3,
   },
-  // eslint-disable-next-line react-native/no-color-literals
   labelDisabled: {
-    color: 'rgba(255, 243, 224, 0.5)', // 50% opacity cream — disabled state
+    color: Colors.textOnColor,  // cream on colored surface — disabled state at reduced opacity
+    opacity: 0.5,
   },
   wrapper: {
     borderRadius: 26,

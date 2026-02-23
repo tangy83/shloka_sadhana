@@ -25,6 +25,8 @@ import { AchievementProgressCard } from '@/components/home/AchievementProgressCa
 import { shouldShowRecoveryMessage, markRecoveryMessageShown } from '@/utils/streakRecovery';
 import { MandalaBackground, DiyaGlow } from '@/components/sacred';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
+import { AppText } from '@/components/primitives/AppText';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 /**
@@ -32,6 +34,7 @@ import { useUserProfile } from '@/hooks/useUserProfile';
  */
 export const HomeScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const { profile } = useUserProfile();
   const { currentStreak } = useStreak();
   const { weeklyStats, monthlyStats, longestStreak, isLoading: statsLoading } = useStats();
@@ -77,7 +80,7 @@ export const HomeScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Sacred decorative layer — absolute, below all content */}
       <MandalaBackground />
       <DiyaGlow intensity="idle" />
@@ -86,12 +89,12 @@ export const HomeScreen: React.FC = () => {
       <View style={[styles.header, styles.elevated]}>
         <View style={styles.headerRow}>
           <View>
-            <Text style={styles.appTitle}>Shloka Sadhana</Text>
-            <Text style={styles.welcomeText}>
+            <AppText style={styles.appTitle}>Shloka Sadhana</AppText>
+            <AppText style={[styles.welcomeText, { color: theme.textSecondary }]}>
               {profile.displayName
                 ? `Welcome back, ${profile.displayName} ${profile.avatarEmoji}`
                 : 'Welcome back!'}
-            </Text>
+            </AppText>
           </View>
           <TouchableOpacity
             onPress={() => navigation.navigate('Settings' as never)}
@@ -99,7 +102,7 @@ export const HomeScreen: React.FC = () => {
             accessibilityLabel="Open Settings"
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            <MaterialCommunityIcons name="cog-outline" size={26} color={Colors.textSecondary} />
+            <MaterialCommunityIcons name="cog-outline" size={26} color={theme.textSecondary} />
           </TouchableOpacity>
         </View>
       </View>
@@ -133,28 +136,28 @@ export const HomeScreen: React.FC = () => {
 
         {/* Quick Actions */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Quick Actions</Text>
           <View style={styles.quickActions}>
             <TouchableOpacity
-              style={styles.actionButton}
+              style={[styles.actionButton, { backgroundColor: theme.surface }]}
               testID="quick-action-button"
               accessibilityRole="button"
               accessibilityLabel="Start Practice"
               onPress={() => navigation.navigate('Practice' as never)}
             >
               <MaterialCommunityIcons name="meditation" size={36} color={Colors.primary} style={styles.actionIcon} />
-              <Text style={styles.actionText}>Start Practice</Text>
+              <Text style={[styles.actionText, { color: theme.textBright }]}>Start Practice</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.actionButton}
+              style={[styles.actionButton, { backgroundColor: theme.surface }]}
               testID="quick-action-button"
               accessibilityRole="button"
               accessibilityLabel="Browse Library"
               onPress={() => navigation.navigate('Library' as never)}
             >
               <MaterialCommunityIcons name="book-open-variant" size={36} color={Colors.primary} style={styles.actionIcon} />
-              <Text style={styles.actionText}>Browse Library</Text>
+              <Text style={[styles.actionText, { color: theme.textBright }]}>Browse Library</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -177,7 +180,7 @@ export const HomeScreen: React.FC = () => {
         {/* Ekadashi Calendar - V3 Feature #10 */}
         <View style={styles.section}>
           <TouchableOpacity
-            style={styles.ekadashiButton}
+            style={[styles.ekadashiButton, { backgroundColor: theme.surface }]}
             onPress={() => navigation.navigate('EkadashiCalendar' as never)}
             accessibilityRole="button"
             accessibilityLabel="View Ekadashi Calendar"
@@ -185,12 +188,12 @@ export const HomeScreen: React.FC = () => {
             <View style={styles.ekadashiButtonContent}>
               <Text style={styles.ekadashiButtonEmoji}>ॐ</Text>
               <View style={styles.ekadashiButtonTextContainer}>
-                <Text style={styles.ekadashiButtonTitle}>Ekadashi Calendar</Text>
-                <Text style={styles.ekadashiButtonSubtitle}>
+                <Text style={[styles.ekadashiButtonTitle, { color: theme.textBright }]}>Ekadashi Calendar</Text>
+                <Text style={[styles.ekadashiButtonSubtitle, { color: theme.textSecondary }]}>
                   View all Ekadashi dates & details
                 </Text>
               </View>
-              <Text style={styles.ekadashiButtonArrow}>›</Text>
+              <Text style={[styles.ekadashiButtonArrow, { color: theme.primary }]}>›</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -198,7 +201,7 @@ export const HomeScreen: React.FC = () => {
         {/* Festivals - V3 Feature #3 */}
         <View style={styles.section}>
           <TouchableOpacity
-            style={styles.festivalsButton}
+            style={[styles.festivalsButton, { backgroundColor: theme.surface }]}
             onPress={() => navigation.navigate('FestivalsList' as never)}
             accessibilityRole="button"
             accessibilityLabel="View Hindu Festivals"
@@ -206,12 +209,12 @@ export const HomeScreen: React.FC = () => {
             <View style={styles.festivalsButtonContent}>
               <MaterialCommunityIcons name="candle" size={32} color={Colors.primary} style={styles.festivalsButtonIcon} />
               <View style={styles.festivalsButtonTextContainer}>
-                <Text style={styles.festivalsButtonTitle}>Upcoming Festivals</Text>
-                <Text style={styles.festivalsButtonSubtitle}>
+                <Text style={[styles.festivalsButtonTitle, { color: theme.textBright }]}>Upcoming Festivals</Text>
+                <Text style={[styles.festivalsButtonSubtitle, { color: theme.textSecondary }]}>
                   View Hindu festival calendar
                 </Text>
               </View>
-              <Text style={styles.festivalsButtonArrow}>›</Text>
+              <Text style={[styles.festivalsButtonArrow, { color: theme.primary }]}>›</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -236,24 +239,24 @@ export const HomeScreen: React.FC = () => {
 
         {/* Your Journey Stats */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Your Journey</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Your Journey</Text>
           <View style={styles.statsGrid}>
-            <View style={styles.statCard}>
-              <MaterialCommunityIcons name="fire" size={24} color={Colors.primary} style={styles.statIcon} />
-              <Text style={styles.statValue}>{userStats.currentStreak}</Text>
-              <Text style={styles.statLabel}>Day Streak</Text>
+            <View style={[styles.statCard, { backgroundColor: theme.surface }]}>
+              <MaterialCommunityIcons name="fire" size={24} color={theme.primary} style={styles.statIcon} />
+              <Text style={[styles.statValue, { color: theme.primary }]}>{userStats.currentStreak}</Text>
+              <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Day Streak</Text>
             </View>
 
-            <View style={styles.statCard}>
-              <MaterialCommunityIcons name="calendar-check-outline" size={24} color={Colors.primary} style={styles.statIcon} />
-              <Text style={styles.statValue}>{userStats.totalPractices}</Text>
-              <Text style={styles.statLabel}>Total Practices</Text>
+            <View style={[styles.statCard, { backgroundColor: theme.surface }]}>
+              <MaterialCommunityIcons name="calendar-check-outline" size={24} color={theme.primary} style={styles.statIcon} />
+              <Text style={[styles.statValue, { color: theme.primary }]}>{userStats.totalPractices}</Text>
+              <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Total Practices</Text>
             </View>
 
-            <View style={styles.statCard}>
-              <MaterialCommunityIcons name="timer-outline" size={24} color={Colors.primary} style={styles.statIcon} />
-              <Text style={styles.statValue}>{userStats.minutesPracticed}</Text>
-              <Text style={styles.statLabel}>Minutes</Text>
+            <View style={[styles.statCard, { backgroundColor: theme.surface }]}>
+              <MaterialCommunityIcons name="timer-outline" size={24} color={theme.primary} style={styles.statIcon} />
+              <Text style={[styles.statValue, { color: theme.primary }]}>{userStats.minutesPracticed}</Text>
+              <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Minutes</Text>
             </View>
           </View>
         </View>
@@ -261,71 +264,71 @@ export const HomeScreen: React.FC = () => {
         {/* View History Link */}
         <View style={styles.section}>
           <TouchableOpacity
-            style={styles.historyButton}
+            style={[styles.historyButton, { backgroundColor: theme.surface }]}
             onPress={() => navigation.navigate('SessionHistory' as never)}
             accessibilityRole="button"
             accessibilityLabel="View practice history"
           >
-            <MaterialCommunityIcons name="history" size={20} color={Colors.textSecondary} style={styles.historyButtonIcon} />
-            <Text style={styles.historyButtonText}>View Practice History</Text>
-            <Text style={styles.historyButtonArrow}>›</Text>
+            <MaterialCommunityIcons name="history" size={20} color={theme.textSecondary} style={styles.historyButtonIcon} />
+            <Text style={[styles.historyButtonText, { color: theme.textBright }]}>View Practice History</Text>
+            <Text style={[styles.historyButtonArrow, { color: theme.primary }]}>›</Text>
           </TouchableOpacity>
         </View>
 
         {/* Weekly & Monthly Stats */}
         {/* Daily Quest + Achievements */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Daily Quest</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Daily Quest</Text>
           <DailyQuestCard />
           <AchievementProgressCard />
         </View>
 
         {!statsLoading && (weeklyStats || monthlyStats) && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Practice Insights</Text>
+            <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Practice Insights</Text>
             <View style={styles.periodStatsContainer}>
               {/* Weekly Stats */}
-              <View style={styles.periodStatCard}>
-                <Text style={styles.periodStatTitle}>This Week</Text>
+              <View style={[styles.periodStatCard, { backgroundColor: theme.surface }]}>
+                <Text style={[styles.periodStatTitle, { color: theme.primary }]}>This Week</Text>
                 <View style={styles.periodStatRow}>
-                  <Text style={styles.periodStatLabel}>Sessions:</Text>
-                  <Text style={styles.periodStatValue}>{weeklyStats?.totalSessions || 0}</Text>
+                  <Text style={[styles.periodStatLabel, { color: theme.textSecondary }]}>Sessions:</Text>
+                  <AppText style={[styles.periodStatValue, { color: theme.textBright }]}>{weeklyStats?.totalSessions || 0}</AppText>
                 </View>
                 <View style={styles.periodStatRow}>
-                  <Text style={styles.periodStatLabel}>Minutes:</Text>
-                  <Text style={styles.periodStatValue}>{weeklyStats?.totalMinutes || 0}</Text>
+                  <Text style={[styles.periodStatLabel, { color: theme.textSecondary }]}>Minutes:</Text>
+                  <AppText style={[styles.periodStatValue, { color: theme.textBright }]}>{weeklyStats?.totalMinutes || 0}</AppText>
                 </View>
                 <View style={styles.periodStatRow}>
-                  <Text style={styles.periodStatLabel}>Malas:</Text>
-                  <Text style={styles.periodStatValue}>{weeklyStats?.totalMalas || 0}</Text>
+                  <Text style={[styles.periodStatLabel, { color: theme.textSecondary }]}>Malas:</Text>
+                  <AppText style={[styles.periodStatValue, { color: theme.textBright }]}>{weeklyStats?.totalMalas || 0}</AppText>
                 </View>
               </View>
 
               {/* Monthly Stats */}
-              <View style={styles.periodStatCard}>
-                <Text style={styles.periodStatTitle}>This Month</Text>
+              <View style={[styles.periodStatCard, { backgroundColor: theme.surface }]}>
+                <Text style={[styles.periodStatTitle, { color: theme.primary }]}>This Month</Text>
                 <View style={styles.periodStatRow}>
-                  <Text style={styles.periodStatLabel}>Sessions:</Text>
-                  <Text style={styles.periodStatValue}>{monthlyStats?.totalSessions || 0}</Text>
+                  <Text style={[styles.periodStatLabel, { color: theme.textSecondary }]}>Sessions:</Text>
+                  <AppText style={[styles.periodStatValue, { color: theme.textBright }]}>{monthlyStats?.totalSessions || 0}</AppText>
                 </View>
                 <View style={styles.periodStatRow}>
-                  <Text style={styles.periodStatLabel}>Minutes:</Text>
-                  <Text style={styles.periodStatValue}>{monthlyStats?.totalMinutes || 0}</Text>
+                  <Text style={[styles.periodStatLabel, { color: theme.textSecondary }]}>Minutes:</Text>
+                  <AppText style={[styles.periodStatValue, { color: theme.textBright }]}>{monthlyStats?.totalMinutes || 0}</AppText>
                 </View>
                 <View style={styles.periodStatRow}>
-                  <Text style={styles.periodStatLabel}>Malas:</Text>
-                  <Text style={styles.periodStatValue}>{monthlyStats?.totalMalas || 0}</Text>
+                  <Text style={[styles.periodStatLabel, { color: theme.textSecondary }]}>Malas:</Text>
+                  <AppText style={[styles.periodStatValue, { color: theme.textBright }]}>{monthlyStats?.totalMalas || 0}</AppText>
                 </View>
               </View>
             </View>
 
             {/* Longest Streak */}
             {longestStreak > 0 && (
-              <View style={styles.streakHighlightCard}>
+              <View style={[styles.streakHighlightCard, { backgroundColor: theme.surface }]}>
                 <Ionicons name="star" size={32} color="#FFD700" style={styles.streakHighlightIcon} />
                 <View style={styles.streakHighlightText}>
-                  <Text style={styles.streakHighlightLabel}>Longest Streak</Text>
-                  <Text style={styles.streakHighlightValue}>{longestStreak} days</Text>
+                  <Text style={[styles.streakHighlightLabel, { color: theme.textSecondary }]}>Longest Streak</Text>
+                  <Text style={[styles.streakHighlightValue, { color: theme.primary }]}>{longestStreak} days</Text>
                 </View>
               </View>
             )}

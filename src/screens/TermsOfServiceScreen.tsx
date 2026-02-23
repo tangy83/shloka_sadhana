@@ -8,31 +8,33 @@
 import React from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /**
  * TermsOfServiceScreen - Terms of service details
  */
 export const TermsOfServiceScreen: React.FC = () => {
+  const { theme } = useTheme();
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.content}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Terms of Service</Text>
-        <Text style={styles.lastUpdated}>Last Updated: February 7, 2026</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>Terms of Service</Text>
+        <Text style={[styles.lastUpdated, { color: theme.textSecondary }]}>Last Updated: February 7, 2026</Text>
       </View>
 
       {/* Introduction */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Agreement to Terms</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           By downloading, installing, or using Shloka Sadhana (&quot;the App&quot;), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms, please do not use the App.
         </Text>
       </View>
 
       {/* License */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>License to Use</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We grant you a limited, non-exclusive, non-transferable, revocable license to use the App for personal, non-commercial purposes in accordance with these Terms. This license does not include the right to:{'\n\n'}
           • Modify, copy, or distribute the App{'\n'}
           • Reverse engineer or decompile the App{'\n'}
@@ -42,18 +44,18 @@ export const TermsOfServiceScreen: React.FC = () => {
       </View>
 
       {/* Content and Intellectual Property */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Content and Intellectual Property</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           All shlokas, mantras, and spiritual content in the App are derived from ancient Hindu scriptures and sacred texts. While these texts are in the public domain, our specific compilation, translation, commentary, and presentation are protected by copyright.{'\n\n'}
           The App&apos;s design, features, and functionality are owned by Shloka Sadhana and are protected by international copyright, trademark, and other intellectual property laws.
         </Text>
       </View>
 
       {/* User Responsibilities */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>User Responsibilities</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           You agree to:{'\n\n'}
           • Use the App in a respectful and lawful manner{'\n'}
           • Respect the spiritual nature of the content{'\n'}
@@ -64,25 +66,25 @@ export const TermsOfServiceScreen: React.FC = () => {
       </View>
 
       {/* Spiritual Guidance Disclaimer */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Spiritual Guidance Disclaimer</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           Shloka Sadhana provides spiritual content for educational and devotional purposes. The App is not a substitute for professional spiritual guidance, religious counseling, or medical advice. Always consult with qualified teachers, priests, or healthcare professionals for personal spiritual or health matters.
         </Text>
       </View>
 
       {/* Accuracy of Content */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Accuracy of Content</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           While we strive to provide accurate translations and interpretations of sacred texts, we cannot guarantee the absolute accuracy of all content. Different schools of thought may have varying interpretations. We encourage users to consult with spiritual teachers for deeper understanding.
         </Text>
       </View>
 
       {/* Limitation of Liability */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Limitation of Liability</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           To the fullest extent permitted by law, Shloka Sadhana and its developers shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from:{'\n\n'}
           • Your use or inability to use the App{'\n'}
           • Any errors or omissions in the content{'\n'}
@@ -92,49 +94,49 @@ export const TermsOfServiceScreen: React.FC = () => {
       </View>
 
       {/* App Availability */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>App Availability</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We do not guarantee that the App will be available at all times or that it will be error-free. We reserve the right to modify, suspend, or discontinue the App at any time without notice.
         </Text>
       </View>
 
       {/* Updates and Changes */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Updates and Changes</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We may release updates to the App from time to time. These updates may include new features, bug fixes, or changes to existing functionality. You are responsible for keeping your App updated to the latest version.
         </Text>
       </View>
 
       {/* Termination */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Termination</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We reserve the right to terminate or suspend your access to the App immediately, without prior notice, for any reason, including breach of these Terms. Upon termination, you must cease all use of the App and delete it from your device.
         </Text>
       </View>
 
       {/* Governing Law */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Governing Law</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Shloka Sadhana operates, without regard to its conflict of law provisions.
         </Text>
       </View>
 
       {/* Changes to Terms */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Changes to Terms</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We reserve the right to modify these Terms at any time. We will notify you of any changes by posting the new Terms on this page and updating the &quot;Last Updated&quot; date. Your continued use of the App after changes constitutes acceptance of the new Terms.
         </Text>
       </View>
 
       {/* Contact Information */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Contact Us</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           If you have any questions about these Terms of Service, please contact us at:{'\n\n'}
           Email: legal@shlokasadhana.com{'\n'}
           Website: www.shlokasadhana.com/terms
@@ -143,7 +145,7 @@ export const TermsOfServiceScreen: React.FC = () => {
 
       {/* Footer */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>
+        <Text style={[styles.footerText, { color: theme.textSecondary }]}>
           By using Shloka Sadhana, you agree to these terms.{'\n'}
           © 2026 Shloka Sadhana
         </Text>

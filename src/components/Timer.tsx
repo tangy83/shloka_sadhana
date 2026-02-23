@@ -9,6 +9,7 @@ import React from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTimer } from '@/hooks/useTimer';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export interface TimerProps {
   onComplete?: (elapsedSeconds: number) => void;
@@ -19,6 +20,7 @@ export interface TimerProps {
  * Enforces minimum 60-second practice session requirement
  */
 export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
+  const { theme } = useTheme();
   const {
     status,
     elapsedSeconds,
@@ -115,18 +117,20 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
     return (
       <View style={styles.secondaryActions}>
         <TouchableOpacity
-          style={[styles.button, styles.tertiaryButton]}
+          style={[styles.button, styles.tertiaryButton, { backgroundColor: theme.surfaceSecondary }]}
           onPress={reset}
           accessibilityLabel="Reset timer"
           accessibilityRole="button"
         >
-          <Text style={styles.buttonText}>Reset</Text>
+          <Text style={[styles.buttonText, { color: theme.textSecondary }]}>Reset</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[
             styles.button,
-            canComplete ? styles.completeButton : styles.disabledButton,
+            canComplete
+              ? [styles.completeButton, { backgroundColor: theme.success }]
+              : [styles.disabledButton, { backgroundColor: theme.surfaceElevated }],
           ]}
           onPress={complete}
           disabled={!canComplete}
@@ -137,7 +141,7 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
           <Text
             style={[
               styles.buttonText,
-              !canComplete && styles.disabledButtonText,
+              !canComplete && [styles.disabledButtonText, { color: theme.textSecondary }],
             ]}
           >
             Complete
@@ -151,12 +155,12 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
     <View style={styles.container}>
       {/* Completion Message */}
       {status === 'completed' && (
-        <Text style={styles.completionMessage}>Practice Complete!</Text>
+        <Text style={[styles.completionMessage, { color: theme.success }]}>Practice Complete!</Text>
       )}
 
       {/* Timer Display */}
       <Text
-        style={styles.timerDisplay}
+        style={[styles.timerDisplay, { color: theme.textBright }]}
         accessibilityLabel={getTimerAccessibilityLabel()}
         accessibilityRole="timer"
       >
@@ -182,7 +186,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   buttonText: {
-    color: Colors.textBright,
+    color: Colors.textOnColor,  // cream on colored button backgrounds
     fontSize: 18,
     fontWeight: '600',
   },
@@ -200,9 +204,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  // eslint-disable-next-line react-native/no-color-literals
   disabledButton: {
-    backgroundColor: '#424242',
+    backgroundColor: Colors.surfaceElevated,  // muted warm amber — disabled state
   },
   disabledButtonText: {
     color: Colors.textSecondary,
@@ -217,9 +220,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
   },
-  // eslint-disable-next-line react-native/no-color-literals
   secondaryButton: {
-    backgroundColor: '#2196F3', // blue — secondary/skip action
+    backgroundColor: Colors.primary,  // saffron — on-brand pause button
   },
   tertiaryButton: {
     backgroundColor: Colors.textSecondary,

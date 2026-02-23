@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getVerseOfTheDay, VerseOfTheDay } from '@/utils/verseOfTheDay';
 import { getTodayISO } from '@/utils/dateUtils';
 
@@ -15,6 +16,7 @@ import { getTodayISO } from '@/utils/dateUtils';
  * VerseOfTheDayCard component - displays daily verse
  */
 export const VerseOfTheDayCard: React.FC = () => {
+  const { theme } = useTheme();
   const [verse, setVerse] = useState<VerseOfTheDay | null>(null);
 
   useEffect(() => {
@@ -33,31 +35,31 @@ export const VerseOfTheDayCard: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.surface }]}>
       <View style={styles.header}>
         <Text style={styles.badge}>Verse of the Day</Text>
         <Text style={styles.deity}>{verse.deity}</Text>
       </View>
 
       {/* Sanskrit Text */}
-      <Text style={styles.sanskrit}>{verse.sanskrit}</Text>
+      <Text style={[styles.sanskrit, { color: theme.textBright }]}>{verse.sanskrit}</Text>
 
       {/* Transliteration */}
       <Text style={styles.transliteration}>{verse.transliteration}</Text>
 
       {/* English Meaning */}
-      <Text style={styles.meaning}>{verse.meaning}</Text>
+      <Text style={[styles.meaning, { color: theme.textMeaning }]}>{verse.meaning}</Text>
 
       {/* Hindi Translation (if available) */}
       {verse.hindi && (
-        <Text style={styles.hindi}>{verse.hindi}</Text>
+        <Text style={[styles.hindi, { color: theme.textSecondary }]}>{verse.hindi}</Text>
       )}
 
       {/* Source */}
       <View style={styles.footer}>
-        <Text style={styles.source}>— {verse.shlokaName}</Text>
+        <Text style={[styles.source, { color: theme.textSecondary }]}>— {verse.shlokaName}</Text>
         {verse.category && (
-          <Text style={styles.category}>{verse.category}</Text>
+          <Text style={[styles.category, { color: theme.textSecondary }]}>{verse.category}</Text>
         )}
       </View>
     </View>

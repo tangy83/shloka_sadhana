@@ -25,7 +25,7 @@ describe('ThemeContext', () => {
   });
 
   describe('useTheme Hook', () => {
-    it('should provide dark theme by default', async () => {
+    it('should provide light theme by default', async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <ThemeProvider>{children}</ThemeProvider>
       );
@@ -36,8 +36,8 @@ describe('ThemeContext', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      expect(result.current.theme).toEqual(darkTheme);
-      expect(result.current.themeMode).toBe('dark');
+      expect(result.current.theme).toEqual(lightTheme);
+      expect(result.current.themeMode).toBe('light');
     });
 
     it('should load theme mode from storage', async () => {
@@ -97,6 +97,26 @@ describe('ThemeContext', () => {
       expect(result.current.theme).toEqual(darkTheme);
       expect(result.current.themeMode).toBe('dark');
       expect(mockSetItem).toHaveBeenCalledWith('@shloka_sadhana:theme', 'dark');
+    });
+
+    it('should ignore unknown stored theme values and use default', async () => {
+      // 'system' is no longer a valid ThemeMode — stored value should be ignored
+      mockGetItem.mockResolvedValue('system' as never);
+
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <ThemeProvider>{children}</ThemeProvider>
+      );
+
+      const { result } = renderHook(() => useTheme(), { wrapper });
+
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+
+      // Unknown value is rejected; default 'light' is used
+      expect(result.current.themeMode).toBe('light');
+      expect(result.current.theme).toBeDefined();
+      expect(result.current.theme.background).toBeTruthy();
     });
 
     it('should persist theme mode to storage when changed', async () => {

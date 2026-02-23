@@ -11,6 +11,7 @@ import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getDailyWisdomQuote } from '@/data/wisdom';
 import { getTodayISO } from '@/utils/dateUtils';
 import { WisdomQuote } from '@/data/wisdom';
@@ -20,6 +21,7 @@ import { WisdomQuote } from '@/data/wisdom';
  */
 export const DailyWisdomCard: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [quote, setQuote] = useState<WisdomQuote | null>(null);
 
   useEffect(() => {
@@ -70,7 +72,7 @@ export const DailyWisdomCard: React.FC = () => {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.surface }]}
       onPress={handlePress}
       accessibilityRole="button"
       accessibilityLabel="View daily wisdom details"
@@ -83,19 +85,19 @@ export const DailyWisdomCard: React.FC = () => {
         </View>
         <View style={styles.categoryTag}>
           {renderCategoryIcon(quote.category)}
-          <Text style={styles.categoryText}>{getCategoryDisplay(quote.category)}</Text>
+          <Text style={[styles.categoryText, { color: theme.textSecondary }]}>{getCategoryDisplay(quote.category)}</Text>
         </View>
       </View>
 
       {/* Quote Text */}
-      <Text style={styles.quoteText} numberOfLines={3}>
+      <Text style={[styles.quoteText, { color: theme.textBright }]} numberOfLines={3}>
         &quot;{quote.text}&quot;
       </Text>
 
       {/* Attribution */}
-      <View style={styles.attribution}>
+      <View style={[styles.attribution, { borderTopColor: theme.divider }]}>
         <Text style={styles.author}>— {quote.author}</Text>
-        <Text style={styles.source}>{quote.source}</Text>
+        <Text style={[styles.source, { color: theme.textSecondary }]}>{quote.source}</Text>
       </View>
 
       {/* CTA */}

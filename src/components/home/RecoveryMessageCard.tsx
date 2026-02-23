@@ -62,7 +62,7 @@ export const RecoveryMessageCard: React.FC<RecoveryMessageCardProps> = ({
 const styles = StyleSheet.create({
   // eslint-disable-next-line react-native/no-color-literals
   container: {
-    backgroundColor: '#2C2C2C',
+    backgroundColor: Colors.surface,
     borderLeftColor: '#FFA726', // Warm orange (encouraging, not alarming)
     borderLeftWidth: 4,
     borderRadius: 16,

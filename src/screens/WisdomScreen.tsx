@@ -8,6 +8,8 @@
 import React from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
+import { AppText } from '@/components/primitives/AppText';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { getAllWisdomQuotes } from '@/data/wisdom';
@@ -30,6 +32,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({ category, size = 16, color 
  */
 export const WisdomScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const quotes = getAllWisdomQuotes();
 
   const handleQuotePress = (quoteId: string) => {
@@ -54,11 +57,11 @@ export const WisdomScreen: React.FC = () => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Wisdom</Text>
-        <Text style={styles.subtitle}>Daily Spiritual Teachings</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>Wisdom</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Daily Spiritual Teachings</Text>
       </View>
 
       {/* Quotes List */}
@@ -69,7 +72,7 @@ export const WisdomScreen: React.FC = () => {
         {quotes.map((quote) => (
           <TouchableOpacity
             key={quote.id}
-            style={styles.quoteCard}
+            style={[styles.quoteCard, { backgroundColor: theme.surface }]}
             onPress={() => handleQuotePress(quote.id)}
             accessibilityRole="button"
             accessibilityLabel={`Read full wisdom from ${quote.author}`}
@@ -77,27 +80,27 @@ export const WisdomScreen: React.FC = () => {
           >
             {/* Category Tag */}
             <View style={styles.categoryContainer}>
-              <CategoryIcon category={quote.category} size={16} color={Colors.primary} />
-              <Text style={styles.categoryText} testID="quote-category">
+              <CategoryIcon category={quote.category} size={16} color={theme.primary} />
+              <Text style={[styles.categoryText, { color: theme.primary }]} testID="quote-category">
                 {getCategoryDisplay(quote.category)}
               </Text>
             </View>
 
             {/* Quote Text */}
-            <Text style={styles.quoteText} testID="quote-text">
+            <AppText style={[styles.quoteText, { color: theme.textBright }]} testID="quote-text">
               &quot;{quote.text}&quot;
-            </Text>
+            </AppText>
 
             {/* Author and Source */}
-            <View style={styles.attribution}>
-              <Text style={styles.author} testID="quote-author">
+            <View style={[styles.attribution, { borderTopColor: theme.divider }]}>
+              <AppText style={[styles.author, { color: theme.primary }]} testID="quote-author">
                 — {quote.author}
-              </Text>
-              <Text style={styles.source} testID="quote-source">
+              </AppText>
+              <AppText style={[styles.source, { color: theme.textSecondary }]} testID="quote-source">
                 {quote.source}
-              </Text>
+              </AppText>
             </View>
-            <Text style={styles.readMore}>Read More ›</Text>
+            <Text style={[styles.readMore, { color: theme.primary }]}>Read More ›</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

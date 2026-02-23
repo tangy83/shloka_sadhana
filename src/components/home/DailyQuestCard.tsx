@@ -10,9 +10,11 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import { useQuestProgress } from '@/hooks/useQuestProgress';
 
 export const DailyQuestCard: React.FC = () => {
+  const { theme } = useTheme();
   const { todayQuest, progress, isCompleted } = useQuestProgress();
 
   const pct = Math.min(100, (progress / todayQuest.target) * 100);
@@ -25,31 +27,31 @@ export const DailyQuestCard: React.FC = () => {
       : 'fire';
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
       {/* Title row */}
       <View style={styles.titleRow}>
-        <View style={styles.iconWrap}>
+        <View style={[styles.iconWrap, { backgroundColor: theme.surfaceElevated }]}>
           <MaterialCommunityIcons name={questIcon} size={20} color={Colors.primary} />
         </View>
-        <Text style={styles.cardTitle}>Daily Quest</Text>
+        <Text style={[styles.cardTitle, { color: theme.textSecondary }]}>Daily Quest</Text>
         {isCompleted && (
           <View style={styles.completedBadge}>
-            <Ionicons name="checkmark-circle" size={16} color={Colors.success} />
-            <Text style={styles.completedText}>Done!</Text>
+            <Ionicons name="checkmark-circle" size={16} color={theme.success} />
+            <Text style={[styles.completedText, { color: theme.success }]}>Done!</Text>
           </View>
         )}
       </View>
 
       {/* Quest details */}
-      <Text style={styles.questTitle}>{todayQuest.title}</Text>
-      <Text style={styles.questDesc}>{todayQuest.description}</Text>
+      <Text style={[styles.questTitle, { color: theme.text }]}>{todayQuest.title}</Text>
+      <Text style={[styles.questDesc, { color: theme.textMeaning }]}>{todayQuest.description}</Text>
 
       {/* Progress bar */}
       <View style={styles.progressRow}>
-        <View style={styles.track}>
+        <View style={[styles.track, { backgroundColor: theme.surfaceElevated }]}>
           <View style={[styles.fill, { width: `${pct}%` }]} />
         </View>
-        <Text style={styles.progressLabel}>
+        <Text style={[styles.progressLabel, { color: theme.textSecondary }]}>
           {progress} / {todayQuest.target}
         </Text>
       </View>

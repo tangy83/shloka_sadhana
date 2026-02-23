@@ -32,8 +32,24 @@ jest.mock('@/utils/notifications', () => ({
 // Mock ThemeContext — SettingsScreen uses useTheme() which requires a ThemeProvider
 jest.mock('@/contexts/ThemeContext', () => ({
   useTheme: () => ({
+    theme: {
+      background: '#FFF8F0',
+      surface: '#FFF0D0',
+      surfaceElevated: '#FFE5B0',
+      border: 'rgba(139,90,43,0.15)',
+      text: '#4A2700',
+      textSecondary: '#8B5A2B',
+      textBright: '#2A1408',
+      primary: '#FF9A2A',
+      primaryDark: '#E55B00',
+      headerBackground: '#FFF0D0',
+      textTertiary: 'rgba(30,14,5,0.50)',
+      textDisabled: 'rgba(30,14,5,0.35)',
+      divider: 'rgba(139,90,43,0.12)',
+    },
     themeMode: 'dark',
     setThemeMode: jest.fn(),
+    isLoading: false,
   }),
 }));
 

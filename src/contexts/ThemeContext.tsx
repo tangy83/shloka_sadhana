@@ -20,7 +20,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [themeMode, setThemeModeState] = useState<ThemeMode>('dark');
+  const [themeMode, setThemeModeState] = useState<ThemeMode>('light');
   const [isLoading, setIsLoading] = useState(true);
 
   // Load theme from storage on mount
@@ -28,7 +28,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const loadTheme = async () => {
       try {
         const savedTheme = await getItem<ThemeMode>(STORAGE_KEYS.THEME);
-        if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light' || savedTheme === 'system')) {
+        if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
           setThemeModeState(savedTheme);
         }
       } catch (error) {
@@ -51,8 +51,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   };
 
-  // Get current theme colors based on mode
-  const theme = themeMode === 'light' ? lightTheme : darkTheme;
+  const theme: Theme = themeMode === 'light' ? lightTheme : darkTheme;
 
   return (
     <ThemeContext.Provider value={{ theme, themeMode, setThemeMode, isLoading }}>
@@ -64,7 +63,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    // Fallback for tests or SSR — returns light theme defaults
+    return { theme: lightTheme, themeMode: 'light', setThemeMode: () => {}, isLoading: false };
   }
   return context;
 };

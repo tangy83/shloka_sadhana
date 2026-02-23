@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { useNavigation } from '@react-navigation/native';
 import { getUpcomingEkadashis, getAllEkadashis, Ekadashi } from '@/utils/ekadashiCalendar';
 import { getTodayISO } from '@/utils/dateUtils';
@@ -56,6 +57,7 @@ function getRelativeDate(isoDate: string, today: string): string {
  */
 export const EkadashiCalendarScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('upcoming');
   const today = getTodayISO();
 
@@ -82,7 +84,7 @@ export const EkadashiCalendarScreen: React.FC = () => {
     return (
       <TouchableOpacity
         testID="ekadashi-card"
-        style={styles.card}
+        style={[styles.card, { backgroundColor: theme.surface }]}
         onPress={() => handleEkadashiPress(item)}
         accessibilityRole="button"
         accessibilityLabel={`View details for ${item.name}`}
@@ -93,22 +95,22 @@ export const EkadashiCalendarScreen: React.FC = () => {
 
           <View style={styles.cardTextContainer}>
             {/* Ekadashi Name */}
-            <Text style={styles.ekadashiName}>{item.name}</Text>
-            <Text style={styles.ekadashiNameHindi}>{item.name_hindi}</Text>
+            <Text style={[styles.ekadashiName, { color: theme.textBright }]}>{item.name}</Text>
+            <Text style={[styles.ekadashiNameHindi, { color: theme.textSecondary }]}>{item.name_hindi}</Text>
 
             {/* Date */}
             <View style={styles.dateContainer}>
               <Text style={styles.dateText}>{formatDate(item.date)}</Text>
               {relativeDate && (
-                <Text style={styles.relativeDateText}>• {relativeDate}</Text>
+                <Text style={[styles.relativeDateText, { color: theme.textSecondary }]}>• {relativeDate}</Text>
               )}
             </View>
 
             {/* Paksha */}
-            <Text style={styles.paksha}>{item.paksha}</Text>
+            <Text style={[styles.paksha, { color: theme.textMeaning }]}>{item.paksha}</Text>
 
             {/* Significance */}
-            <Text style={styles.significance} numberOfLines={2}>
+            <Text style={[styles.significance, { color: theme.textSecondary }]} numberOfLines={2}>
               {item.significance}
             </Text>
           </View>
@@ -122,18 +124,18 @@ export const EkadashiCalendarScreen: React.FC = () => {
    */
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
-      <Text style={styles.emptyText}>
+      <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
         {activeTab === 'upcoming' ? 'No upcoming Ekadashis' : 'No Ekadashis available'}
       </Text>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Ekadashi Calendar</Text>
-        <Text style={styles.subtitle}>
+        <Text style={[styles.title, { color: theme.textBright }]}>Ekadashi Calendar</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
           {ekadashis.length} Ekadashi{ekadashis.length !== 1 ? 's' : ''}
         </Text>
       </View>
@@ -142,26 +144,26 @@ export const EkadashiCalendarScreen: React.FC = () => {
       <View style={styles.tabContainer}>
         <TouchableOpacity
           testID="tab-upcoming"
-          style={[styles.tab, activeTab === 'upcoming' && styles.tabActive]}
+          style={[styles.tab, { backgroundColor: theme.surface }, activeTab === 'upcoming' && styles.tabActive]}
           onPress={() => setActiveTab('upcoming')}
           accessibilityRole="button"
           accessibilityLabel="View upcoming Ekadashis"
           accessibilityState={{ selected: activeTab === 'upcoming' }}
         >
-          <Text style={[styles.tabText, activeTab === 'upcoming' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'upcoming' && styles.tabTextActive]}>
             Upcoming
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           testID="tab-all"
-          style={[styles.tab, activeTab === 'all' && styles.tabActive]}
+          style={[styles.tab, { backgroundColor: theme.surface }, activeTab === 'all' && styles.tabActive]}
           onPress={() => setActiveTab('all')}
           accessibilityRole="button"
           accessibilityLabel="View all Ekadashis"
           accessibilityState={{ selected: activeTab === 'all' }}
         >
-          <Text style={[styles.tabText, activeTab === 'all' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'all' && styles.tabTextActive]}>
             All 2026
           </Text>
         </TouchableOpacity>

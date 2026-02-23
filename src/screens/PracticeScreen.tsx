@@ -29,6 +29,8 @@ import { CompletedPractice, PracticeGoal } from '@/types/practice';
 import { RootStackParamList } from '@/types';
 import { shadows } from '@/constants/theme';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
+import { AppText } from '@/components/primitives/AppText';
 import { useQuestProgress } from '@/hooks/useQuestProgress';
 import { useAchievements } from '@/hooks/useAchievements';
 import { QuestCompletionModal } from '@/components/QuestCompletionModal';
@@ -48,6 +50,7 @@ type PracticeRouteProp = RouteProp<RootStackParamList, 'Practice'>;
  */
 export const PracticeScreen: React.FC = () => {
   const route = useRoute<PracticeRouteProp>();
+  const { theme } = useTheme();
   const { shlokaId, shlokaName } = route.params || {};
 
   const [malaCount, setMalaCount] = useState(0);
@@ -298,9 +301,9 @@ export const PracticeScreen: React.FC = () => {
   // Show loading state while streak data is loading
   if (streak.isLoading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={[styles.loadingContainer, { backgroundColor: theme.background }]}>
         <ActivityIndicator size="large" color="#E55B00" />
-        <Text style={styles.loadingText}>Loading...</Text>
+        <Text style={[styles.loadingText, { color: theme.text }]}>Loading...</Text>
       </View>
     );
   }
@@ -311,7 +314,7 @@ export const PracticeScreen: React.FC = () => {
         : 'idle';
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Sacred decorative layer — geometry and ambient light */}
       <MandalaBackground />
       <DiyaGlow intensity={diyaIntensity} />
@@ -322,16 +325,16 @@ export const PracticeScreen: React.FC = () => {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>Practice</Text>
+          <AppText style={[styles.title, { color: theme.text }]}>Practice</AppText>
 
           {/* Streak Display */}
-          <View style={styles.streakContainer}>
+          <View style={[styles.streakContainer, { backgroundColor: theme.surface, borderColor: theme.border }]}>
             <View style={styles.streakRow}>
               <MaterialCommunityIcons name="fire" size={20} color="#FF9A2A" />
-              <Text style={styles.streakText}>{streak.currentStreak} day streak</Text>
+              <Text style={[styles.streakText, { color: theme.text }]}>{streak.currentStreak} day streak</Text>
             </View>
             {streak.isStreakAtRisk && !streak.isPracticedToday && (
-              <Text style={styles.warningText}>
+              <Text style={[styles.warningText, { color: theme.textSecondary }]}>
                 Practice today to keep your streak!
               </Text>
             )}
@@ -340,16 +343,16 @@ export const PracticeScreen: React.FC = () => {
 
         {/* Goal Progress Bar — shown only when a goal is active */}
         {goal && goal.isActive && (
-          <View style={styles.goalBar}>
+          <View style={[styles.goalBar, { backgroundColor: theme.surface, borderColor: theme.border }]}>
             <View style={styles.goalBarHeader}>
-              <Text style={styles.goalBarLabel}>
+              <Text style={[styles.goalBarLabel, { color: theme.textSecondary }]}>
                 {goal.type === 'daily' ? "Today's Goal" : "Weekly Goal"}
               </Text>
-              <Text style={styles.goalBarCount}>
+              <Text style={[styles.goalBarCount, { color: theme.text }]}>
                 {goal.currentProgress} / {goal.targetSessions} sessions
               </Text>
             </View>
-            <View style={styles.goalTrack}>
+            <View style={[styles.goalTrack, { backgroundColor: theme.surfaceElevated }]}>
               <View
                 style={[
                   styles.goalFill,

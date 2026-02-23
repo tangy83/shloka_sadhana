@@ -25,6 +25,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import { STORAGE_KEYS } from '@/constants/StorageKeys';
 import { setItem } from '@/utils/storage';
 import { requestNotificationPermissions } from '@/utils/notifications';
@@ -62,6 +63,7 @@ const FEATURES = [
 
 export const OnboardingScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
+  const { theme } = useTheme();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const navigation = useNavigation<any>();
   const scrollRef = useRef<ScrollView>(null);
@@ -102,12 +104,12 @@ export const OnboardingScreen: React.FC = () => {
         {/* OM symbol */}
         <Text style={styles.omSymbol}>ॐ</Text>
 
-        <Text style={styles.appName}>Shloka Sadhana</Text>
-        <Text style={styles.appTagline}>Your daily sacred practice companion</Text>
+        <Text style={[styles.appName, { color: theme.text }]}>Shloka Sadhana</Text>
+        <Text style={[styles.appTagline, { color: theme.textSecondary }]}>Your daily sacred practice companion</Text>
 
-        <View style={styles.divider} />
+        <View style={[styles.divider, { backgroundColor: theme.divider }]} />
 
-        <Text style={styles.page1Body}>
+        <Text style={[styles.page1Body, { color: theme.textMeaning }]}>
           A peaceful space to chant, reflect, and grow — completely offline, always with you.
         </Text>
 
@@ -123,18 +125,18 @@ export const OnboardingScreen: React.FC = () => {
 
   const renderPage2 = () => (
     <View style={[styles.page, { paddingTop: insets.top + 48 }]}>
-      <Text style={styles.page2Title}>What awaits you</Text>
-      <Text style={styles.page2Subtitle}>Everything you need, nothing you don&apos;t.</Text>
+      <Text style={[styles.page2Title, { color: theme.text }]}>What awaits you</Text>
+      <Text style={[styles.page2Subtitle, { color: theme.textSecondary }]}>Everything you need, nothing you don&apos;t.</Text>
 
       <View style={styles.featureList}>
         {FEATURES.map((f) => (
-          <View key={f.title} style={styles.featureCard}>
-            <View style={styles.featureIconWrap}>
+          <View key={f.title} style={[styles.featureCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+            <View style={[styles.featureIconWrap, { backgroundColor: theme.surfaceElevated }]}>
               <MaterialCommunityIcons name={f.icon} size={28} color={Colors.primary} />
             </View>
             <View style={styles.featureText}>
-              <Text style={styles.featureTitle}>{f.title}</Text>
-              <Text style={styles.featureBody}>{f.body}</Text>
+              <Text style={[styles.featureTitle, { color: theme.text }]}>{f.title}</Text>
+              <Text style={[styles.featureBody, { color: theme.textMeaning }]}>{f.body}</Text>
             </View>
           </View>
         ))}
@@ -155,8 +157,8 @@ export const OnboardingScreen: React.FC = () => {
         <Ionicons name="notifications-outline" size={64} color={Colors.primary} />
       </View>
 
-      <Text style={styles.notifTitle}>Stay connected to your practice</Text>
-      <Text style={styles.notifBody}>
+      <Text style={[styles.notifTitle, { color: theme.text }]}>Stay connected to your practice</Text>
+      <Text style={[styles.notifBody, { color: theme.textMeaning }]}>
         A gentle daily reminder keeps your sadhana unbroken. You can customise or turn off
         notifications anytime in Settings.
       </Text>
@@ -176,14 +178,14 @@ export const OnboardingScreen: React.FC = () => {
           accessibilityRole="button"
           accessibilityLabel="Skip notifications and enter the app"
         >
-          <Text style={styles.skipText}>Maybe later</Text>
+          <Text style={[styles.skipText, { color: theme.textSecondary }]}>Maybe later</Text>
         </TouchableOpacity>
       </View>
 
       {/* Guest note */}
       <View style={styles.guestNote}>
-        <Ionicons name="cloud-outline" size={14} color={Colors.textSecondary} />
-        <Text style={styles.guestNoteText}>
+        <Ionicons name="cloud-outline" size={14} color={theme.textSecondary} />
+        <Text style={[styles.guestNoteText, { color: theme.textSecondary }]}>
           All data is stored locally — no account needed.
         </Text>
       </View>
@@ -193,7 +195,7 @@ export const OnboardingScreen: React.FC = () => {
   // ── Render ──
 
   return (
-    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
+    <View style={[styles.container, { backgroundColor: theme.background, paddingBottom: insets.bottom }]}>
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -213,7 +215,7 @@ export const OnboardingScreen: React.FC = () => {
         {Array.from({ length: TOTAL_PAGES }).map((_, i) => (
           <View
             key={i}
-            style={[styles.dot, i === currentPage && styles.dotActive]}
+            style={[styles.dot, { backgroundColor: theme.border }, i === currentPage && styles.dotActive]}
           />
         ))}
       </View>

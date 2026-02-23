@@ -15,6 +15,7 @@ import React from 'react';
 import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { shadows } from '@/constants/theme';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import { SacredButton } from '@/components/sacred';
 
 export interface CardProps {
@@ -28,9 +29,14 @@ export interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = ({ children, elevated = false, style, onPress, accessibilityLabel }) => {
+  const { theme } = useTheme();
   const cardStyle = [
     styles.base,
+    { borderColor: theme.border },
     elevated ? styles.elevated : styles.standard,
+    elevated
+      ? { backgroundColor: theme.surfaceElevated }
+      : { backgroundColor: theme.surface },
     style,
   ];
 

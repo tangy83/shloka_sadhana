@@ -185,13 +185,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
   },
-  // eslint-disable-next-line react-native/no-color-literals
   input: {
-    backgroundColor: '#2C2C2C',
-    borderColor: '#424242',
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
     borderRadius: 12,
     borderWidth: 1,
-    color: Colors.textBright,
+    color: Colors.text,
     fontSize: 16,
     marginBottom: 20,
     minHeight: 120,
@@ -218,9 +217,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  // eslint-disable-next-line react-native/no-color-literals
   skipButton: {
-    backgroundColor: '#424242',
+    backgroundColor: Colors.surfaceElevated,
   },
   skipButtonText: {
     color: Colors.textBright,

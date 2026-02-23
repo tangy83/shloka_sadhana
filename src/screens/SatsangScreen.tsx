@@ -12,19 +12,21 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /**
  * Satsang screen — graceful community coming-soon stub
  */
 export const SatsangScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Satsang</Text>
-        <Text style={styles.subtitle}>Spiritual Community</Text>
+        <Text style={[styles.title, { color: theme.text }]}>Satsang</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Spiritual Community</Text>
       </View>
 
       <ScrollView
@@ -40,20 +42,20 @@ export const SatsangScreen: React.FC = () => {
             style={styles.heroIcon}
           />
           <Text style={styles.omText}>ॐ</Text>
-          <Text style={styles.heroTitle}>
+          <Text style={[styles.heroTitle, { color: theme.text }]}>
             Join a global community of practitioners
           </Text>
-          <Text style={styles.heroBody}>
+          <Text style={[styles.heroBody, { color: theme.textMeaning }]}>
             Community features — group chanting, shared sessions,
             and Satsang circles — are coming in a future update.
           </Text>
         </View>
 
         {/* Divider */}
-        <View style={styles.divider} />
+        <View style={[styles.divider, { backgroundColor: theme.divider }]} />
 
         {/* Feature preview cards */}
-        <Text style={styles.previewLabel}>Coming soon</Text>
+        <Text style={[styles.previewLabel, { color: theme.textSecondary }]}>Coming soon</Text>
 
         {[
           {
@@ -72,16 +74,16 @@ export const SatsangScreen: React.FC = () => {
             desc: 'Challenge friends to maintain daily practice streaks',
           },
         ].map((feature) => (
-          <View key={feature.title} style={styles.featureCard}>
+          <View key={feature.title} style={[styles.featureCard, { backgroundColor: theme.surface }]}>
             <MaterialCommunityIcons
               name={feature.icon}
               size={28}
-              color={Colors.textSecondary}
+              color={theme.textSecondary}
               style={styles.featureIcon}
             />
             <View style={styles.featureText}>
-              <Text style={styles.featureTitle}>{feature.title}</Text>
-              <Text style={styles.featureDesc}>{feature.desc}</Text>
+              <Text style={[styles.featureTitle, { color: theme.text }]}>{feature.title}</Text>
+              <Text style={[styles.featureDesc, { color: theme.textMeaning }]}>{feature.desc}</Text>
             </View>
           </View>
         ))}
@@ -93,14 +95,14 @@ export const SatsangScreen: React.FC = () => {
           accessibilityRole="button"
           accessibilityLabel="Start a personal practice session"
         >
-          <MaterialCommunityIcons name="meditation" size={28} color={Colors.background} />
+          <MaterialCommunityIcons name="meditation" size={28} color={Colors.textOnColor} />
           <View style={styles.ctaText}>
             <Text style={styles.ctaTitle}>Start a Personal Session</Text>
             <Text style={styles.ctaSubtitle}>
               In the meantime, deepen your own practice
             </Text>
           </View>
-          <MaterialCommunityIcons name="chevron-right" size={22} color={Colors.background} />
+          <MaterialCommunityIcons name="chevron-right" size={22} color={Colors.textOnColor} />
         </TouchableOpacity>
       </ScrollView>
     </View>

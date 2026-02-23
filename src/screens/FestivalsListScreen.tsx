@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getUpcomingFestivals, getPastFestivals, Festival } from '@/utils/festivals';
 import { getTodayISO } from '@/utils/dateUtils';
 
@@ -54,6 +55,7 @@ function getRelativeDate(isoDate: string, today: string): string {
  * FestivalsListScreen - Browse upcoming and past Hindu festivals
  */
 export const FestivalsListScreen: React.FC = () => {
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('upcoming');
   const today = getTodayISO();
 
@@ -72,7 +74,7 @@ export const FestivalsListScreen: React.FC = () => {
     return (
       <TouchableOpacity
         testID="festival-card"
-        style={styles.card}
+        style={[styles.card, { backgroundColor: theme.surface }]}
         onPress={() => {
           // Future: Navigate to festival detail screen
           console.log('Festival pressed:', item.name);
@@ -89,21 +91,21 @@ export const FestivalsListScreen: React.FC = () => {
           )}
 
           {/* Festival Name */}
-          <Text style={styles.festivalName}>{item.name}</Text>
+          <Text style={[styles.festivalName, { color: theme.textBright }]}>{item.name}</Text>
 
           {/* Date */}
           <View style={styles.dateContainer}>
             <Text style={styles.dateText}>{formatDate(item.date)}</Text>
             {relativeDate && (
-              <Text style={styles.relativeDateText}>• {relativeDate}</Text>
+              <Text style={[styles.relativeDateText, { color: theme.textSecondary }]}>• {relativeDate}</Text>
             )}
           </View>
 
           {/* Deity Association */}
-          <Text style={styles.deity}>{item.deity_association}</Text>
+          <Text style={[styles.deity, { color: theme.textMeaning }]}>{item.deity_association}</Text>
 
           {/* Description */}
-          <Text style={styles.description} numberOfLines={2}>
+          <Text style={[styles.description, { color: theme.textSecondary }]} numberOfLines={2}>
             {item.description}
           </Text>
         </View>
@@ -116,18 +118,18 @@ export const FestivalsListScreen: React.FC = () => {
    */
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
-      <Text style={styles.emptyText}>
+      <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
         {activeTab === 'upcoming' ? 'No upcoming festivals' : 'No past festivals'}
       </Text>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Hindu Festivals</Text>
-        <Text style={styles.subtitle}>
+        <Text style={[styles.title, { color: theme.textBright }]}>Hindu Festivals</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
           {activeTab === 'upcoming' ? upcomingFestivals.length : pastFestivals.length} Festivals
         </Text>
       </View>
@@ -136,26 +138,26 @@ export const FestivalsListScreen: React.FC = () => {
       <View style={styles.tabContainer}>
         <TouchableOpacity
           testID="tab-upcoming"
-          style={[styles.tab, activeTab === 'upcoming' && styles.tabActive]}
+          style={[styles.tab, { backgroundColor: theme.surface }, activeTab === 'upcoming' && styles.tabActive]}
           onPress={() => setActiveTab('upcoming')}
           accessibilityRole="button"
           accessibilityLabel="View upcoming festivals"
           accessibilityState={{ selected: activeTab === 'upcoming' }}
         >
-          <Text style={[styles.tabText, activeTab === 'upcoming' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'upcoming' && styles.tabTextActive]}>
             Upcoming
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           testID="tab-past"
-          style={[styles.tab, activeTab === 'past' && styles.tabActive]}
+          style={[styles.tab, { backgroundColor: theme.surface }, activeTab === 'past' && styles.tabActive]}
           onPress={() => setActiveTab('past')}
           accessibilityRole="button"
           accessibilityLabel="View past festivals"
           accessibilityState={{ selected: activeTab === 'past' }}
         >
-          <Text style={[styles.tabText, activeTab === 'past' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'past' && styles.tabTextActive]}>
             Past
           </Text>
         </TouchableOpacity>

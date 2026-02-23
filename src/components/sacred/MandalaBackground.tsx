@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     left: SVG_OFFSET,
-    opacity: 0.05,
+    opacity: 0.08,
     overflow: 'hidden',
     zIndex: -1,
   },

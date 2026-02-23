@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getUserLocation, getDefaultLocation } from '@/utils/location';
 import { getMuhuratForDate } from '@/utils/muhurat';
 import { MUHURAT_ACTIVITIES } from '@/constants/MuhuratLabels';
@@ -37,6 +38,7 @@ function formatTo12Hour(time24: string): string {
  * MuhuratTimes component - displays today's auspicious times
  */
 export const MuhuratTimes: React.FC = () => {
+  const { theme } = useTheme();
   const [muhuratData, setMuhuratData] = useState<MuhuratData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -70,31 +72,31 @@ export const MuhuratTimes: React.FC = () => {
 
   if (loading || !muhuratData) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Auspicious Times Today</Text>
+      <View style={[styles.container, { backgroundColor: theme.surface }]}>
+        <Text style={[styles.title, { color: theme.textBright }]}>Auspicious Times Today</Text>
         {/* Could add a loading skeleton here */}
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Auspicious Times Today</Text>
+    <View style={[styles.container, { backgroundColor: theme.surface }]}>
+      <Text style={[styles.title, { color: theme.textBright }]}>Auspicious Times Today</Text>
 
       {/* Brahma Muhurta */}
       <View style={styles.muhuratCard}>
         <Text style={styles.icon}>{MUHURAT_ACTIVITIES.brahmaMuhurta.icon}</Text>
         <View style={styles.muhuratContent}>
-          <Text style={styles.muhuratTitle}>
+          <Text style={[styles.muhuratTitle, { color: theme.textBright }]}>
             {MUHURAT_ACTIVITIES.brahmaMuhurta.title}
           </Text>
           <Text style={styles.muhuratTime}>
             {formatTo12Hour(muhuratData.brahmaMuhurta.start)} – {formatTo12Hour(muhuratData.brahmaMuhurta.end)}
           </Text>
-          <Text style={styles.muhuratReason}>
+          <Text style={[styles.muhuratReason, { color: theme.textMeaning }]}>
             {MUHURAT_ACTIVITIES.brahmaMuhurta.reason}
           </Text>
-          <Text style={styles.muhuratDescription}>
+          <Text style={[styles.muhuratDescription, { color: theme.textSecondary }]}>
             {MUHURAT_ACTIVITIES.brahmaMuhurta.description}
           </Text>
         </View>
@@ -105,16 +107,16 @@ export const MuhuratTimes: React.FC = () => {
         <View style={styles.muhuratCard}>
           <Text style={styles.icon}>{MUHURAT_ACTIVITIES.abhijitMuhurat.icon}</Text>
           <View style={styles.muhuratContent}>
-            <Text style={styles.muhuratTitle}>
+            <Text style={[styles.muhuratTitle, { color: theme.textBright }]}>
               {MUHURAT_ACTIVITIES.abhijitMuhurat.title}
             </Text>
             <Text style={styles.muhuratTime}>
               {formatTo12Hour(muhuratData.abhijitMuhurat.start)} – {formatTo12Hour(muhuratData.abhijitMuhurat.end)}
             </Text>
-            <Text style={styles.muhuratReason}>
+            <Text style={[styles.muhuratReason, { color: theme.textMeaning }]}>
               {MUHURAT_ACTIVITIES.abhijitMuhurat.reason}
             </Text>
-            <Text style={styles.muhuratDescription}>
+            <Text style={[styles.muhuratDescription, { color: theme.textSecondary }]}>
               {MUHURAT_ACTIVITIES.abhijitMuhurat.description}
             </Text>
           </View>
@@ -126,16 +128,16 @@ export const MuhuratTimes: React.FC = () => {
         <View style={styles.muhuratCard}>
           <Text style={styles.icon}>{MUHURAT_ACTIVITIES.rahuKaal.icon}</Text>
           <View style={styles.muhuratContent}>
-            <Text style={styles.muhuratTitle}>
+            <Text style={[styles.muhuratTitle, { color: theme.textBright }]}>
               {MUHURAT_ACTIVITIES.rahuKaal.title}
             </Text>
             <Text style={styles.muhuratTime}>
               {formatTo12Hour(muhuratData.rahuKaal.start)} – {formatTo12Hour(muhuratData.rahuKaal.end)}
             </Text>
-            <Text style={styles.muhuratReason}>
+            <Text style={[styles.muhuratReason, { color: theme.textMeaning }]}>
               {MUHURAT_ACTIVITIES.rahuKaal.reason}
             </Text>
-            <Text style={styles.muhuratDescription}>
+            <Text style={[styles.muhuratDescription, { color: theme.textSecondary }]}>
               {MUHURAT_ACTIVITIES.rahuKaal.description}
             </Text>
           </View>

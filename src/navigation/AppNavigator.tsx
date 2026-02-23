@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from '@/screens/HomeScreen';
@@ -39,6 +39,7 @@ const Stack = createNativeStackNavigator();
  */
 const TabNavigator = () => {
   const insets = useSafeAreaInsets();
+  const { theme } = useTheme();
   // Reserve 60pt for icons/labels + full bottom safe area inset so the
   // bar background reaches the screen edge and icons sit comfortably
   // above the home indicator with ~8pt breathing room.
@@ -49,15 +50,15 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: Colors.background,
-          borderTopColor: Colors.border,
+          backgroundColor: theme.background,
+          borderTopColor: theme.border,
           borderTopWidth: 1,
           height: tabBarHeight,
           paddingBottom: insets.bottom + 8,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.textSecondary,
+        tabBarActiveTintColor: theme.primary,
+        tabBarInactiveTintColor: theme.textSecondary,
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600',
@@ -147,6 +148,7 @@ const TabNavigator = () => {
  * On subsequent launches the MainTabs screen is shown immediately.
  */
 export const AppNavigator = () => {
+  const { theme } = useTheme();
   // null = still loading; false = first launch; true = already onboarded
   const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
 
@@ -185,9 +187,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Library',
         }}
@@ -200,9 +202,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -215,9 +217,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -230,9 +232,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -245,9 +247,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: 'Settings',
           headerBackTitle: 'Home',
         }}
@@ -260,9 +262,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Back',
         }}
@@ -275,9 +277,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -290,9 +292,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -305,9 +307,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: '',
           headerBackTitle: 'Settings',
         }}
@@ -320,9 +322,9 @@ export const AppNavigator = () => {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: Colors.surface,
+            backgroundColor: theme.headerBackground,
           },
-          headerTintColor: Colors.primary,
+          headerTintColor: theme.primary,
           headerTitle: 'Practice History',
           headerBackTitle: 'Home',
         }}

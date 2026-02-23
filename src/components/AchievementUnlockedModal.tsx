@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Achievement } from '@/data/achievements';
 
 interface AchievementUnlockedModalProps {
@@ -29,6 +30,7 @@ export const AchievementUnlockedModal: React.FC<AchievementUnlockedModalProps> =
   achievement,
   onDismiss,
 }) => {
+  const { theme } = useTheme();
   // Auto-dismiss after 3 seconds
   useEffect(() => {
     if (!visible) return;
@@ -52,7 +54,7 @@ export const AchievementUnlockedModal: React.FC<AchievementUnlockedModalProps> =
         accessibilityRole="button"
         accessibilityLabel="Dismiss achievement unlocked"
       >
-        <View style={styles.card}>
+        <View style={[styles.card, { backgroundColor: theme.surfaceElevated }]}>
           {/* Achievement icon */}
           <View style={styles.iconCircle}>
             <MaterialCommunityIcons
@@ -63,7 +65,7 @@ export const AchievementUnlockedModal: React.FC<AchievementUnlockedModalProps> =
           </View>
 
           <Text style={styles.label}>Achievement Unlocked!</Text>
-          <Text style={styles.title}>{achievement.title}</Text>
+          <Text style={[styles.title, { color: theme.text }]}>{achievement.title}</Text>
           <Text style={styles.desc}>{achievement.description}</Text>
 
           {/* XP reward */}

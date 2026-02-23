@@ -9,34 +9,36 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /**
  * AboutScreen - Information about the app
  */
 export const AboutScreen: React.FC = () => {
+  const { theme } = useTheme();
   const appVersion = Constants.expoConfig?.version || '1.0.0';
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.content}>
       {/* App Icon/Logo */}
       <View style={styles.header}>
         <Text style={styles.logo}>ॐ</Text>
         <Text style={styles.appName}>Shloka Sadhana</Text>
-        <Text style={styles.version}>Version {appVersion}</Text>
+        <Text style={[styles.version, { color: theme.textSecondary }]}>Version {appVersion}</Text>
       </View>
 
       {/* Mission Section */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Our Mission</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           Shloka Sadhana is dedicated to preserving and promoting the sacred practice of mantra chanting and spiritual devotion. Our mission is to make ancient Hindu wisdom accessible to everyone, helping practitioners deepen their spiritual journey through daily practice and mindfulness.
         </Text>
       </View>
 
       {/* Features Section */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>What We Offer</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           • Comprehensive library of authentic shlokas and mantras{'\n'}
           • Guided meditation and chanting sessions{'\n'}
           • Track your spiritual progress with streaks and statistics{'\n'}
@@ -48,25 +50,25 @@ export const AboutScreen: React.FC = () => {
       </View>
 
       {/* Philosophy Section */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Our Philosophy</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We believe in the transformative power of consistent spiritual practice. Through daily chanting and meditation, we aim to help practitioners achieve inner peace, mental clarity, and spiritual growth. Shloka Sadhana combines traditional wisdom with modern technology to create a seamless spiritual experience.
         </Text>
       </View>
 
       {/* Authenticity Section */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Authenticity</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           All shlokas, mantras, and wisdom quotes in our app are sourced from authentic Hindu scriptures including the Bhagavad Gita, Vedas, Upanishads, and other sacred texts. We work with Sanskrit scholars and spiritual teachers to ensure accuracy and proper representation of these sacred traditions.
         </Text>
       </View>
 
       {/* Contact Section */}
-      <View style={styles.section}>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Get In Touch</Text>
-        <Text style={styles.paragraph}>
+        <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We welcome your feedback, suggestions, and questions. Feel free to reach out to us at:{'\n\n'}
           Email: contact@shlokasadhana.com{'\n'}
           Website: www.shlokasadhana.com
@@ -75,7 +77,7 @@ export const AboutScreen: React.FC = () => {
 
       {/* Footer */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>
+        <Text style={[styles.footerText, { color: theme.textSecondary }]}>
           Made with devotion and dedication{'\n'}
           © 2026 Shloka Sadhana
         </Text>

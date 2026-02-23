@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getDailyRecommendation, ShlokaRecommendation } from '@/utils/shlokaRecommendation';
 import { getTodayISO } from '@/utils/dateUtils';
 
@@ -17,6 +18,7 @@ import { getTodayISO } from '@/utils/dateUtils';
  */
 export const RecommendedShlokaCard: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [recommendation, setRecommendation] = useState<ShlokaRecommendation | null>(null);
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export const RecommendedShlokaCard: React.FC = () => {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.surface }]}
       onPress={handlePress}
       accessibilityRole="button"
       accessibilityLabel={`View ${shloka.name} details`}
@@ -55,31 +57,31 @@ export const RecommendedShlokaCard: React.FC = () => {
           <Text style={styles.badgeText}>Recommended for You</Text>
         </View>
         {shloka.category && (
-          <Text style={styles.category}>{shloka.category}</Text>
+          <Text style={[styles.category, { color: theme.textSecondary }]}>{shloka.category}</Text>
         )}
       </View>
 
       {/* Shloka Name */}
-      <Text style={styles.name}>{shloka.name}</Text>
+      <Text style={[styles.name, { color: theme.textBright }]}>{shloka.name}</Text>
 
       {/* Deity */}
       <Text style={styles.deity}>{shloka.deity}</Text>
 
       {/* Reason */}
-      <View style={styles.reasonContainer}>
+      <View style={[styles.reasonContainer, { backgroundColor: theme.surfaceSecondary }]}>
         <Text style={styles.reasonIcon}>💡</Text>
-        <Text style={styles.reason}>{reason}</Text>
+        <Text style={[styles.reason, { color: theme.textMeaning }]}>{reason}</Text>
       </View>
 
       {/* Description */}
-      <Text style={styles.description} numberOfLines={2}>
+      <Text style={[styles.description, { color: theme.textMeaning }]} numberOfLines={2}>
         {shloka.description}
       </Text>
 
       {/* Benefits */}
       <View style={styles.benefitsContainer}>
         <Text style={styles.benefitsLabel}>Benefits:</Text>
-        <Text style={styles.benefits} numberOfLines={1}>
+        <Text style={[styles.benefits, { color: theme.textSecondary }]} numberOfLines={1}>
           {shloka.benefits}
         </Text>
       </View>
@@ -88,11 +90,11 @@ export const RecommendedShlokaCard: React.FC = () => {
       <View style={styles.meta}>
         <View style={styles.metaItem}>
           <Text style={styles.metaIcon}>⏱️</Text>
-          <Text style={styles.metaText}>{shloka.duration}</Text>
+          <Text style={[styles.metaText, { color: theme.textSecondary }]}>{shloka.duration}</Text>
         </View>
         <View style={styles.metaItem}>
           <Text style={styles.metaIcon}>🌅</Text>
-          <Text style={styles.metaText}>{shloka.bestTime}</Text>
+          <Text style={[styles.metaText, { color: theme.textSecondary }]}>{shloka.bestTime}</Text>
         </View>
       </View>
 
