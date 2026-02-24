@@ -27,7 +27,7 @@ export const TermsOfServiceScreen: React.FC = () => {
       <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Agreement to Terms</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
-          By downloading, installing, or using Shloka Sadhana (&quot;the App&quot;), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms, please do not use the App.
+          By downloading, installing, or using Sadhana (&quot;the App&quot;), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms, please do not use the App.
         </Text>
       </View>
 
@@ -48,7 +48,7 @@ export const TermsOfServiceScreen: React.FC = () => {
         <Text style={styles.sectionTitle}>Content and Intellectual Property</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           All shlokas, mantras, and spiritual content in the App are derived from ancient Hindu scriptures and sacred texts. While these texts are in the public domain, our specific compilation, translation, commentary, and presentation are protected by copyright.{'\n\n'}
-          The App&apos;s design, features, and functionality are owned by Shloka Sadhana and are protected by international copyright, trademark, and other intellectual property laws.
+          The App&apos;s design, features, and functionality are owned by Sadhana and are protected by international copyright, trademark, and other intellectual property laws.
         </Text>
       </View>
 
@@ -69,7 +69,7 @@ export const TermsOfServiceScreen: React.FC = () => {
       <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Spiritual Guidance Disclaimer</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
-          Shloka Sadhana provides spiritual content for educational and devotional purposes. The App is not a substitute for professional spiritual guidance, religious counseling, or medical advice. Always consult with qualified teachers, priests, or healthcare professionals for personal spiritual or health matters.
+          Sadhana provides spiritual content for educational and devotional purposes. The App is not a substitute for professional spiritual guidance, religious counseling, or medical advice. Always consult with qualified teachers, priests, or healthcare professionals for personal spiritual or health matters.
         </Text>
       </View>
 
@@ -85,7 +85,7 @@ export const TermsOfServiceScreen: React.FC = () => {
       <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Limitation of Liability</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
-          To the fullest extent permitted by law, Shloka Sadhana and its developers shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from:{'\n\n'}
+          To the fullest extent permitted by law, Sadhana and its developers shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from:{'\n\n'}
           • Your use or inability to use the App{'\n'}
           • Any errors or omissions in the content{'\n'}
           • Any unauthorized access to or use of our servers{'\n'}
@@ -121,7 +121,7 @@ export const TermsOfServiceScreen: React.FC = () => {
       <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Governing Law</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
-          These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Shloka Sadhana operates, without regard to its conflict of law provisions.
+          These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Sadhana operates, without regard to its conflict of law provisions.
         </Text>
       </View>
 
@@ -138,16 +138,16 @@ export const TermsOfServiceScreen: React.FC = () => {
         <Text style={styles.sectionTitle}>Contact Us</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           If you have any questions about these Terms of Service, please contact us at:{'\n\n'}
-          Email: legal@shlokasadhana.com{'\n'}
-          Website: www.shlokasadhana.com/terms
+          Email: info@contextfirstai.com{'\n'}
+          Website: https://www.contextfirstai.com/
         </Text>
       </View>
 
       {/* Footer */}
       <View style={styles.footer}>
         <Text style={[styles.footerText, { color: theme.textSecondary }]}>
-          By using Shloka Sadhana, you agree to these terms.{'\n'}
-          © 2026 Shloka Sadhana
+          By using Sadhana, you agree to these terms.{'\n'}
+          © 2026 Sadhana
         </Text>
       </View>
     </ScrollView>

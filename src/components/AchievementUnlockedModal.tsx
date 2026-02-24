@@ -8,11 +8,10 @@
 
 import React, { useEffect } from 'react';
 import {
-  Modal,
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
@@ -31,53 +30,43 @@ export const AchievementUnlockedModal: React.FC<AchievementUnlockedModalProps> =
   onDismiss,
 }) => {
   const { theme } = useTheme();
-  // Auto-dismiss after 3 seconds
+
   useEffect(() => {
     if (!visible) return;
     const timer = setTimeout(onDismiss, 3000);
     return () => clearTimeout(timer);
   }, [visible, onDismiss]);
 
-  if (!achievement) return null;
+  if (!visible || !achievement) return null;
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={onDismiss}
+    <Pressable
+      style={styles.overlay}
+      onPress={onDismiss}
+      accessibilityRole="button"
+      accessibilityLabel="Dismiss achievement unlocked"
     >
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onDismiss}
-        accessibilityRole="button"
-        accessibilityLabel="Dismiss achievement unlocked"
-      >
-        <View style={[styles.card, { backgroundColor: theme.surfaceElevated }]}>
-          {/* Achievement icon */}
-          <View style={styles.iconCircle}>
-            <MaterialCommunityIcons
-              name={achievement.icon as never}
-              size={44}
-              color={Colors.templeGold}
-            />
-          </View>
-
-          <Text style={styles.label}>Achievement Unlocked!</Text>
-          <Text style={[styles.title, { color: theme.text }]}>{achievement.title}</Text>
-          <Text style={styles.desc}>{achievement.description}</Text>
-
-          {/* XP reward */}
-          <View style={styles.xpRow}>
-            <MaterialCommunityIcons name="lightning-bolt" size={18} color={Colors.templeGold} />
-            <Text style={styles.xpText}>+{achievement.xpReward} XP</Text>
-          </View>
-
-          <Text style={styles.hint}>Tap anywhere to continue</Text>
+      <View style={[styles.card, { backgroundColor: theme.surfaceElevated }]}>
+        <View style={styles.iconCircle}>
+          <MaterialCommunityIcons
+            name={achievement.icon as never}
+            size={44}
+            color={Colors.templeGold}
+          />
         </View>
-      </TouchableOpacity>
-    </Modal>
+
+        <Text style={styles.label}>Achievement Unlocked!</Text>
+        <Text style={[styles.title, { color: theme.text }]}>{achievement.title}</Text>
+        <Text style={styles.desc}>{achievement.description}</Text>
+
+        <View style={styles.xpRow}>
+          <MaterialCommunityIcons name="lightning-bolt" size={18} color={Colors.templeGold} />
+          <Text style={styles.xpText}>+{achievement.xpReward} XP</Text>
+        </View>
+
+        <Text style={styles.hint}>Tap anywhere to continue</Text>
+      </View>
+    </Pressable>
   );
 };
 
@@ -125,11 +114,12 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   overlay: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     backgroundColor: Colors.overlay,
-    flex: 1,
     justifyContent: 'center',
     padding: 32,
+    zIndex: 9999,
   },
   title: {
     color: Colors.text,

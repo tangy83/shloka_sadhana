@@ -48,7 +48,7 @@ export async function shouldShowRecoveryMessage(
     // Show (either never shown, or shown on a different day)
     return true;
   } catch (error) {
-    console.error('[streakRecovery] Failed to check last shown date:', error);
+    if (__DEV__) console.error('[streakRecovery] Failed to check last shown date:', error);
     // Default to showing if storage check fails
     return true;
   }
@@ -63,7 +63,7 @@ export async function markRecoveryMessageShown(): Promise<void> {
     const today = getTodayISO();
     await AsyncStorage.setItem(STORAGE_KEYS.STREAK_RECOVERY_LAST_SHOWN, today);
   } catch (error) {
-    console.error('[streakRecovery] Failed to mark message as shown:', error);
+    if (__DEV__) console.error('[streakRecovery] Failed to mark message as shown:', error);
     // Don't throw - failing to save is not critical
   }
 }
@@ -76,7 +76,7 @@ export async function clearRecoveryMessageFlag(): Promise<void> {
   try {
     await AsyncStorage.removeItem(STORAGE_KEYS.STREAK_RECOVERY_LAST_SHOWN);
   } catch (error) {
-    console.error('[streakRecovery] Failed to clear recovery flag:', error);
+    if (__DEV__) console.error('[streakRecovery] Failed to clear recovery flag:', error);
     // Don't throw - failing to clear is not critical
   }
 }

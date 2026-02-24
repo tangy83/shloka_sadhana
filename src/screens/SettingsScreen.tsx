@@ -14,8 +14,8 @@ import {
   ScrollView,
   Switch,
   TouchableOpacity,
+  Pressable,
   Alert,
-  Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -132,7 +132,7 @@ export const SettingsScreen: React.FC = () => {
         if (settings.quietEnd) setQuietEnd(settings.quietEnd);
       }
     } catch (error) {
-      console.error('[Settings] Error loading settings:', error);
+      if (__DEV__) console.error('[Settings] Error loading settings:', error);
     }
   };
 
@@ -157,7 +157,7 @@ export const SettingsScreen: React.FC = () => {
       };
       await setItem('notification_settings', settings);
     } catch (error) {
-      console.error('[Settings] Error saving settings:', error);
+      if (__DEV__) console.error('[Settings] Error saving settings:', error);
     }
   };
 
@@ -504,10 +504,10 @@ export const SettingsScreen: React.FC = () => {
             style={[styles.settingRow, { backgroundColor: theme.surface }]}
             onPress={() => navigateToScreen('About')}
             accessibilityRole="button"
-            accessibilityLabel="About Shloka Sadhana"
+            accessibilityLabel="About Sadhana"
           >
             <View style={styles.settingInfo}>
-              <Text style={[styles.settingLabel, { color: theme.textBright }]}>About Shloka Sadhana</Text>
+              <Text style={[styles.settingLabel, { color: theme.textBright }]}>About Sadhana</Text>
               <Text style={[styles.settingDescription, { color: theme.textSecondary }]}>Learn more about this app</Text>
             </View>
             <Text style={[styles.arrow, { color: theme.textSecondary }]}>›</Text>
@@ -571,14 +571,10 @@ export const SettingsScreen: React.FC = () => {
         </View>
       </ScrollView>
 
-      {/* ── Time Picker Modal ── */}
-      <Modal
-        visible={showTimePicker}
-        transparent
-        animationType="slide"
-        onRequestClose={handleCancelTimePicker}
-      >
+      {/* ── Time Picker Overlay ── */}
+      {showTimePicker && (
         <View style={styles.modalOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={handleCancelTimePicker} />
           <View style={[styles.modalContent, { backgroundColor: theme.surfaceElevated }]}>
             <Text style={[styles.modalTitle, { color: theme.textBright }]}>{pickerTitle}</Text>
 
@@ -596,27 +592,27 @@ export const SettingsScreen: React.FC = () => {
             </View>
 
             <View style={styles.modalButtons}>
-              <TouchableOpacity
+              <Pressable
                 style={[styles.modalButton, { backgroundColor: theme.surface }]}
                 onPress={handleCancelTimePicker}
                 accessibilityRole="button"
                 accessibilityLabel="Cancel time selection"
               >
                 <Text style={[styles.cancelButtonText, { color: theme.textBright }]}>Cancel</Text>
-              </TouchableOpacity>
+              </Pressable>
 
-              <TouchableOpacity
+              <Pressable
                 style={[styles.modalButton, styles.saveButton]}
                 onPress={handleSaveTime}
                 accessibilityRole="button"
                 accessibilityLabel="Save selected time"
               >
                 <Text style={styles.saveButtonText}>Save</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </View>
-      </Modal>
+      )}
     </View>
   );
 };
@@ -707,10 +703,11 @@ const styles = StyleSheet.create({
     width: '85%',
   },
   modalOverlay: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     backgroundColor: Colors.scrim,
-    flex: 1,
     justifyContent: 'center',
+    zIndex: 9999,
   },
   modalTitle: {
     color: Colors.textBright,

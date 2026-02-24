@@ -12,6 +12,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react/react-in-jsx-scope': 'off', // Not needed with React 17+
+    'react/prop-types': 'off', // Using TypeScript for type checking
     'react-native/no-inline-styles': 'warn',
     'react-native/no-color-literals': 'warn',
     'react-native/no-raw-text': 'off', // Can be too strict

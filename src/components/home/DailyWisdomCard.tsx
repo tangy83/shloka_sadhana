@@ -30,7 +30,7 @@ export const DailyWisdomCard: React.FC = () => {
       const dailyQuote = getDailyWisdomQuote(today);
       setQuote(dailyQuote);
     } catch (error) {
-      console.error('[DailyWisdomCard] Failed to load daily wisdom:', error);
+      if (__DEV__) console.error('[DailyWisdomCard] Failed to load daily wisdom:', error);
     }
   }, []);
 

@@ -23,7 +23,7 @@ export const AboutScreen: React.FC = () => {
       {/* App Icon/Logo */}
       <View style={styles.header}>
         <Text style={styles.logo}>ॐ</Text>
-        <Text style={styles.appName}>Shloka Sadhana</Text>
+        <Text style={styles.appName}>Sadhana</Text>
         <Text style={[styles.version, { color: theme.textSecondary }]}>Version {appVersion}</Text>
       </View>
 
@@ -31,7 +31,7 @@ export const AboutScreen: React.FC = () => {
       <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Our Mission</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
-          Shloka Sadhana is dedicated to preserving and promoting the sacred practice of mantra chanting and spiritual devotion. Our mission is to make ancient Hindu wisdom accessible to everyone, helping practitioners deepen their spiritual journey through daily practice and mindfulness.
+          Sadhana is dedicated to preserving and promoting the sacred practice of mantra chanting and spiritual devotion. Our mission is to make ancient Hindu wisdom accessible to everyone, helping practitioners deepen their spiritual journey through daily practice and mindfulness.
         </Text>
       </View>
 
@@ -53,7 +53,7 @@ export const AboutScreen: React.FC = () => {
       <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Our Philosophy</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
-          We believe in the transformative power of consistent spiritual practice. Through daily chanting and meditation, we aim to help practitioners achieve inner peace, mental clarity, and spiritual growth. Shloka Sadhana combines traditional wisdom with modern technology to create a seamless spiritual experience.
+          We believe in the transformative power of consistent spiritual practice. Through daily chanting and meditation, we aim to help practitioners achieve inner peace, mental clarity, and spiritual growth. Sadhana combines traditional wisdom with modern technology to create a seamless spiritual experience.
         </Text>
       </View>
 
@@ -70,8 +70,8 @@ export const AboutScreen: React.FC = () => {
         <Text style={styles.sectionTitle}>Get In Touch</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           We welcome your feedback, suggestions, and questions. Feel free to reach out to us at:{'\n\n'}
-          Email: contact@shlokasadhana.com{'\n'}
-          Website: www.shlokasadhana.com
+          Email: info@contextfirstai.com{'\n'}
+          Website: https://www.contextfirstai.com/
         </Text>
       </View>
 
@@ -79,7 +79,7 @@ export const AboutScreen: React.FC = () => {
       <View style={styles.footer}>
         <Text style={[styles.footerText, { color: theme.textSecondary }]}>
           Made with devotion and dedication{'\n'}
-          © 2026 Shloka Sadhana
+          © 2026 Sadhana
         </Text>
       </View>
     </ScrollView>

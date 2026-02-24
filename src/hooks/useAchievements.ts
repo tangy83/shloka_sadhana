@@ -46,7 +46,7 @@ export const useAchievements = (): UseAchievementsReturn => {
         const saved = await getItem<AchievementRecord>(STORAGE_KEYS.ACHIEVEMENTS);
         if (saved) setRecord(saved);
       } catch (error) {
-        console.error('[useAchievements] Load failed:', error);
+        if (__DEV__) console.error('[useAchievements] Load failed:', error);
       } finally {
         setIsLoading(false);
       }

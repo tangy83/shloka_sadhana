@@ -8,7 +8,9 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Shloka } from '@/types';
-import { shlokas as localShlokas } from '@/data/shlokas';
+import shlokas_content from '@/data/shlokas_content.json';
+
+const localShlokas: Shloka[] = shlokas_content as Shloka[];
 
 const CONTENT_CACHE_KEY = '@shloka_sadhana:content_cache';
 
@@ -50,7 +52,7 @@ export const loadShlokaContent = async (remoteUrl?: string): Promise<Shloka[]> =
 
     return remoteContent;
   } catch (error) {
-    console.warn('[ContentLoader] Failed to fetch remote content, using fallback:', error);
+    if (__DEV__) console.warn('[ContentLoader] Failed to fetch remote content, using fallback:', error);
 
     // Try to use cached content from AsyncStorage
     const cachedContent = await getCachedContent();
@@ -78,7 +80,7 @@ export const getCachedContent = async (): Promise<Shloka[] | null> => {
 
     return JSON.parse(cached) as Shloka[];
   } catch (error) {
-    console.warn('[ContentLoader] Failed to read cache:', error);
+    if (__DEV__) console.warn('[ContentLoader] Failed to read cache:', error);
     return null;
   }
 };

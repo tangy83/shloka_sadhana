@@ -278,7 +278,6 @@ describe('SessionHistoryScreen', () => {
 
       const modal = tree!.root.findByProps({ testID: 'session-detail-modal' });
       expect(modal).toBeTruthy();
-      expect(modal.props.visible).toBe(true);
     });
 
     it('should display full session details in modal', async () => {
@@ -341,14 +340,8 @@ describe('SessionHistoryScreen', () => {
         closeButton.props.onPress();
       });
 
-      // Modal should not be visible - try to find it, should not be present or visible=false
       const modals = tree!.root.findAllByProps({ testID: 'session-detail-modal' });
-      if (modals.length > 0) {
-        expect(modals[0].props.visible).toBe(false);
-      } else {
-        // Modal was unmounted, which is also valid
-        expect(modals.length).toBe(0);
-      }
+      expect(modals.length).toBe(0);
     });
   });
 

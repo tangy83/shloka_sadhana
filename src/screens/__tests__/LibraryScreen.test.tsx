@@ -68,12 +68,12 @@ describe('LibraryScreen', () => {
   describe('Initial Render', () => {
     it('should render the screen', () => {
       render(<LibraryScreen />);
-      expect(screen.getByText('Library')).toBeTruthy();
+      expect(screen.getByText('Mantras')).toBeTruthy();
     });
 
     it('should display screen title', () => {
       render(<LibraryScreen />);
-      expect(screen.getByText('Library')).toBeTruthy();
+      expect(screen.getByText('Mantras')).toBeTruthy();
     });
 
     it('should load and display shlokas', () => {

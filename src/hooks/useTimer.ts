@@ -2,7 +2,8 @@
  * useTimer Hook
  * Shloka Sadhana - Timer Management
  *
- * Manages practice session timer with start, pause, resume, and completion
+ * Manages practice session timer with start, pause, resume, and completion.
+ * Uses effect-based interval management to avoid side effects in state updaters.
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -25,120 +26,88 @@ export interface UseTimerReturn {
   resume: () => void;
   reset: () => void;
   complete: () => void;
-  setElapsedSeconds: (seconds: number) => void; // V3 Feature #9: For background timer restoration
+  setElapsedSeconds: (seconds: number) => void;
 }
 
 const MIN_COMPLETION_SECONDS = 60;
 
 /**
- * Hook for managing practice session timer
- * Handles start, pause, resume, reset, and completion logic
- * Enforces minimum 60-second requirement for completion
- * Supports initialElapsedSeconds for background timer restoration
+ * Hook for managing practice session timer.
+ * Interval lifecycle is driven by a useEffect watching `status`,
+ * ensuring proper cleanup via the effect's return function.
+ * Action functions only update state — no side effects.
  */
 export const useTimer = (options?: UseTimerOptions): UseTimerReturn => {
   const [status, setStatus] = useState<TimerStatus>('idle');
   const [elapsedSeconds, setElapsedSeconds] = useState(options?.initialElapsedSeconds || 0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const onCompleteRef = useRef(options?.onComplete);
+  const elapsedRef = useRef(elapsedSeconds);
+
+  useEffect(() => {
+    onCompleteRef.current = options?.onComplete;
+  }, [options?.onComplete]);
+
+  // Keep elapsedRef in sync so complete() can read the latest value
+  elapsedRef.current = elapsedSeconds;
 
   /**
-   * Clear any existing interval
+   * Effect-based interval management.
+   * Starts the interval when status is 'running', cleans up otherwise.
    */
-  const clearExistingInterval = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
+  useEffect(() => {
+    if (status !== 'running') return;
+
+    const id = setInterval(() => {
+      setElapsedSeconds((prev) => prev + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(id);
+    };
+  }, [status]);
+
+  /**
+   * Fire onComplete callback when status transitions to 'completed'.
+   * Runs in an effect so it's not nested inside a state updater.
+   */
+  const hasCalledCompleteRef = useRef(false);
+
+  useEffect(() => {
+    if (status === 'completed' && !hasCalledCompleteRef.current) {
+      hasCalledCompleteRef.current = true;
+      onCompleteRef.current?.(elapsedRef.current);
     }
+    if (status !== 'completed') {
+      hasCalledCompleteRef.current = false;
+    }
+  }, [status]);
+
+  const start = useCallback(() => {
+    setStatus((s) => (s === 'idle' ? 'running' : s));
   }, []);
 
-  /**
-   * Start timer from idle state
-   */
-  const start = useCallback(() => {
-    if (status !== 'idle') {
-      return; // Already running or paused
-    }
-
-    setStatus('running');
-    clearExistingInterval();
-
-    intervalRef.current = setInterval(() => {
-      setElapsedSeconds((prev) => prev + 1);
-    }, 1000);
-  }, [status, clearExistingInterval]);
-
-  /**
-   * Pause running timer
-   */
   const pause = useCallback(() => {
-    if (status !== 'running') {
-      return; // Not running
-    }
+    setStatus((s) => (s === 'running' ? 'paused' : s));
+  }, []);
 
-    clearExistingInterval();
-    setStatus('paused');
-  }, [status, clearExistingInterval]);
-
-  /**
-   * Resume from paused state
-   */
   const resume = useCallback(() => {
-    if (status !== 'paused') {
-      return; // Not paused
-    }
+    setStatus((s) => (s === 'paused' ? 'running' : s));
+  }, []);
 
-    setStatus('running');
-    clearExistingInterval();
-
-    intervalRef.current = setInterval(() => {
-      setElapsedSeconds((prev) => prev + 1);
-    }, 1000);
-  }, [status, clearExistingInterval]);
-
-  /**
-   * Reset timer to initial state
-   */
   const reset = useCallback(() => {
     setStatus('idle');
     setElapsedSeconds(0);
-    clearExistingInterval();
-  }, [clearExistingInterval]);
+  }, []);
 
-  /**
-   * Complete timer if minimum time requirement is met
-   */
   const complete = useCallback(() => {
-    if (elapsedSeconds < MIN_COMPLETION_SECONDS) {
-      return; // Cannot complete - minimum time not met
-    }
-
+    if (elapsedRef.current < MIN_COMPLETION_SECONDS) return;
     setStatus('completed');
-    clearExistingInterval();
+  }, []);
 
-    if (options?.onComplete) {
-      options.onComplete(elapsedSeconds);
-    }
-  }, [elapsedSeconds, clearExistingInterval, options]);
-
-  /**
-   * Format elapsed seconds as MM:SS
-   */
   const formattedTime = formatTime(elapsedSeconds);
-
-  /**
-   * Derived state
-   */
   const isRunning = status === 'running';
   const canComplete = elapsedSeconds >= MIN_COMPLETION_SECONDS;
-
-  /**
-   * Cleanup on unmount
-   */
-  useEffect(() => {
-    return () => {
-      clearExistingInterval();
-    };
-  }, [clearExistingInterval]);
 
   return {
     status,
@@ -151,14 +120,12 @@ export const useTimer = (options?: UseTimerOptions): UseTimerReturn => {
     resume,
     reset,
     complete,
-    setElapsedSeconds, // V3 Feature #9: Expose for background timer restoration
+    setElapsedSeconds,
   };
 };
 
 /**
  * Format seconds as MM:SS
- * @param seconds Total seconds
- * @returns Formatted time string
  */
 function formatTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);

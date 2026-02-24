@@ -7,31 +7,39 @@
 
 import React from 'react';
 import { Colors } from '@/constants/Colors';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTimer } from '@/hooks/useTimer';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { TimerStatus } from '@/hooks/useTimer';
 import { useTheme } from '@/contexts/ThemeContext';
 
 export interface TimerProps {
-  onComplete?: (elapsedSeconds: number) => void;
+  status: TimerStatus;
+  elapsedSeconds: number;
+  formattedTime: string;
+  canComplete: boolean;
+  onStart: () => void;
+  onPause: () => void;
+  onResume: () => void;
+  onReset: () => void;
+  onComplete: () => void;
 }
 
 /**
  * Timer component with start, pause, resume, reset, and complete controls
  * Enforces minimum 60-second practice session requirement
+ * This is a controlled component - all state is managed by the parent
  */
-export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
+export const Timer: React.FC<TimerProps> = React.memo(({
+  status,
+  elapsedSeconds,
+  formattedTime,
+  canComplete,
+  onStart,
+  onPause,
+  onResume,
+  onReset,
+  onComplete,
+}) => {
   const { theme } = useTheme();
-  const {
-    status,
-    elapsedSeconds,
-    formattedTime,
-    canComplete,
-    start,
-    pause,
-    resume,
-    reset,
-    complete,
-  } = useTimer({ onComplete });
 
   /**
    * Get accessible label for timer display
@@ -55,50 +63,50 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
     switch (status) {
       case 'idle':
         return (
-          <TouchableOpacity
-            style={[styles.button, styles.primaryButton]}
-            onPress={start}
+          <Pressable
+            style={({ pressed }) => [styles.button, styles.primaryButton, pressed && styles.pressed]}
+            onPress={onStart}
             accessibilityLabel="Start timer"
             accessibilityRole="button"
           >
             <Text style={styles.buttonText}>Start</Text>
-          </TouchableOpacity>
+          </Pressable>
         );
 
       case 'running':
         return (
-          <TouchableOpacity
-            style={[styles.button, styles.secondaryButton]}
-            onPress={pause}
+          <Pressable
+            style={({ pressed }) => [styles.button, styles.secondaryButton, pressed && styles.pressed]}
+            onPress={onPause}
             accessibilityLabel="Pause timer"
             accessibilityRole="button"
           >
             <Text style={styles.buttonText}>Pause</Text>
-          </TouchableOpacity>
+          </Pressable>
         );
 
       case 'paused':
         return (
-          <TouchableOpacity
-            style={[styles.button, styles.primaryButton]}
-            onPress={resume}
+          <Pressable
+            style={({ pressed }) => [styles.button, styles.primaryButton, pressed && styles.pressed]}
+            onPress={onResume}
             accessibilityLabel="Resume timer"
             accessibilityRole="button"
           >
             <Text style={styles.buttonText}>Resume</Text>
-          </TouchableOpacity>
+          </Pressable>
         );
 
       case 'completed':
         return (
-          <TouchableOpacity
-            style={[styles.button, styles.primaryButton]}
-            onPress={reset}
+          <Pressable
+            style={({ pressed }) => [styles.button, styles.primaryButton, pressed && styles.pressed]}
+            onPress={onReset}
             accessibilityLabel="Start new session"
             accessibilityRole="button"
           >
             <Text style={styles.buttonText}>New Session</Text>
-          </TouchableOpacity>
+          </Pressable>
         );
 
       default:
@@ -116,24 +124,24 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
 
     return (
       <View style={styles.secondaryActions}>
-        <TouchableOpacity
-          style={[styles.button, styles.tertiaryButton, { backgroundColor: theme.surfaceSecondary }]}
-          onPress={reset}
+        <Pressable
+          style={({ pressed }) => [styles.button, styles.tertiaryButton, { backgroundColor: theme.surfaceSecondary }, pressed && styles.pressed]}
+          onPress={onReset}
           accessibilityLabel="Reset timer"
           accessibilityRole="button"
         >
           <Text style={[styles.buttonText, { color: theme.textSecondary }]}>Reset</Text>
-        </TouchableOpacity>
+        </Pressable>
 
-        <TouchableOpacity
-          style={[
+        <Pressable
+          style={({ pressed }) => [
             styles.button,
             canComplete
               ? [styles.completeButton, { backgroundColor: theme.success }]
               : [styles.disabledButton, { backgroundColor: theme.surfaceElevated }],
+            canComplete && pressed && styles.pressed,
           ]}
-          onPress={complete}
-          disabled={!canComplete}
+          onPress={canComplete ? onComplete : undefined}
           accessibilityLabel="Complete practice session"
           accessibilityRole="button"
           accessibilityState={{ disabled: !canComplete }}
@@ -146,7 +154,7 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
           >
             Complete
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     );
   };
@@ -174,7 +182,9 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
       {renderSecondaryButtons()}
     </View>
   );
-};
+});
+
+Timer.displayName = 'Timer';
 
 const styles = StyleSheet.create({
   button: {
@@ -209,6 +219,9 @@ const styles = StyleSheet.create({
   },
   disabledButtonText: {
     color: Colors.textSecondary,
+  },
+  pressed: {
+    opacity: 0.7,
   },
   primaryAction: {
     marginBottom: 16,

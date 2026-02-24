@@ -19,10 +19,8 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
-import { Audio } from 'expo-av';
 import { getShlokaById } from '@/data/shlokas';
 import { isFavorite, addFavorite, removeFavorite } from '@/utils/favorites';
-import { loadAudio, playAudio, pauseAudio, unloadAudio, setPlaybackSpeed } from '@/utils/audio';
 import { RootStackParamList } from '@/types';
 
 type ShlokaDetailRouteProp = RouteProp<RootStackParamList, 'ShlokaDetail'>;
@@ -38,11 +36,6 @@ export const ShlokaDetailScreen: React.FC = () => {
   const { shlokaId } = route.params;
   const shloka = getShlokaById(shlokaId);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playbackSpeed, setPlaybackSpeedState] = useState(1.0);
-
-  const SPEEDS = [0.75, 1.0, 1.25] as const;
 
   /**
    * Load favorite status on mount
@@ -56,17 +49,6 @@ export const ShlokaDetailScreen: React.FC = () => {
     };
     loadFavoriteStatus();
   }, [shloka]);
-
-  /**
-   * Cleanup audio on unmount
-   */
-  useEffect(() => {
-    return () => {
-      if (sound) {
-        unloadAudio(sound);
-      }
-    };
-  }, [sound]);
 
   /**
    * Handle favorite toggle
@@ -91,57 +73,8 @@ export const ShlokaDetailScreen: React.FC = () => {
       try {
         await Linking.openURL(shloka.youtubeUrl);
       } catch (error) {
-        console.error('Failed to open YouTube URL:', error);
+        if (__DEV__) console.error('Failed to open YouTube URL:', error);
       }
-    }
-  };
-
-  /**
-   * Handle audio play/pause
-   */
-  const handleAudioPress = async () => {
-    if (!shloka?.audioUrl) return;
-
-    try {
-      if (isPlaying) {
-        // Pause current audio
-        await pauseAudio(sound);
-        setIsPlaying(false);
-      } else {
-        // Load and play audio
-        if (!sound) {
-          const audioSound = await loadAudio(shloka.audioUrl);
-          if (audioSound) {
-            setSound(audioSound);
-            await setPlaybackSpeed(audioSound, playbackSpeed);
-            await playAudio(audioSound);
-            setIsPlaying(true);
-
-            // Listen for playback status
-            audioSound.setOnPlaybackStatusUpdate((status) => {
-              if (status.isLoaded && status.didJustFinish) {
-                setIsPlaying(false);
-              }
-            });
-          }
-        } else {
-          await playAudio(sound);
-          setIsPlaying(true);
-        }
-      }
-    } catch (error) {
-      console.error('Failed to handle audio:', error);
-      setIsPlaying(false);
-    }
-  };
-
-  /**
-   * Handle playback speed change
-   */
-  const handleSpeedChange = async (speed: number) => {
-    setPlaybackSpeedState(speed);
-    if (sound) {
-      await setPlaybackSpeed(sound, speed);
     }
   };
 
@@ -151,10 +84,14 @@ export const ShlokaDetailScreen: React.FC = () => {
   const handleStartPractice = () => {
     if (!shloka) return;
 
-    navigation.navigate('Practice', {
-      shlokaId: shloka.id,
-      shlokaName: shloka.name,
-    });
+    // Navigate to MainTabs, then to Practice screen within it
+    navigation.navigate('MainTabs', {
+      screen: 'Practice',
+      params: {
+        shlokaId: shloka.id,
+        shlokaName: shloka.name,
+      },
+    } as never);
   };
 
   // Handle case where shloka is not found
@@ -223,42 +160,6 @@ export const ShlokaDetailScreen: React.FC = () => {
           </View>
         </View>
 
-        {/* Audio Pronunciation Button */}
-        {shloka.audioUrl && (
-          <>
-            <TouchableOpacity
-              testID="audio-button"
-              style={styles.audioButton}
-              onPress={handleAudioPress}
-              accessibilityRole="button"
-              accessibilityLabel={`${isPlaying ? 'Pause' : 'Play'} ${shloka.name} pronunciation`}
-            >
-              <Ionicons name={isPlaying ? 'pause-circle' : 'play-circle-outline'} size={24} color="#FFF8E7" />
-              <Text style={[styles.audioButtonText, { color: theme.textBright }]}>
-                {isPlaying ? 'Pause Pronunciation' : 'Listen to Pronunciation'}
-              </Text>
-            </TouchableOpacity>
-            {/* Playback speed selector — visible once audio has loaded */}
-            {sound !== null && (
-              <View style={styles.speedRow}>
-                <Text style={[styles.speedLabel, { color: theme.textSecondary }]}>Speed:</Text>
-                {SPEEDS.map((s) => (
-                  <TouchableOpacity
-                    key={s}
-                    style={[styles.speedBtn, playbackSpeed === s && styles.speedBtnActive]}
-                    onPress={() => handleSpeedChange(s)}
-                    accessibilityRole="button"
-                    accessibilityLabel={`Set playback speed to ${s}x`}
-                  >
-                    <Text style={[styles.speedBtnText, playbackSpeed === s && styles.speedBtnTextActive]}>
-                      {s}x
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </>
-        )}
 
         {/* YouTube Link Button */}
         {shloka.youtubeUrl && (
@@ -314,21 +215,6 @@ export const ShlokaDetailScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  audioButton: {
-    alignItems: 'center',
-    backgroundColor: Colors.success,
-    borderRadius: 12,
-    flexDirection: 'row',
-    gap: 8,
-    justifyContent: 'center',
-    marginBottom: 16,
-    padding: 16,
-  },
-  audioButtonText: {
-    color: Colors.textBright,
-    fontSize: 16,
-    fontWeight: '600',
-  },
   benefits: {
     color: Colors.textMeaning,
     fontSize: 16,
@@ -459,38 +345,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 16,
     padding: 20,
-  },
-  speedBtn: {
-    borderColor: Colors.border,
-    borderRadius: 20,
-    borderWidth: 1,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-  },
-  speedBtnActive: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
-  },
-  speedBtnText: {
-    color: Colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  speedBtnTextActive: {
-    color: Colors.text,
-  },
-  speedLabel: {
-    color: Colors.textSecondary,
-    fontSize: 13,
-    marginRight: 4,
-  },
-  speedRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 8,
-    justifyContent: 'center',
-    marginBottom: 16,
-    marginTop: -8,
   },
   startPracticeButton: {
     alignItems: 'center',

@@ -13,7 +13,6 @@ import { useTimer } from '../../hooks/useTimer';
 import { useStreak } from '../../hooks/useStreak';
 import { Timer } from '../../components/Timer';
 import { MalaCounter } from '../../components/MalaCounter';
-import { SankalpModal } from '../../components/SankalpModal';
 import { OfferingModal } from '../../components/OfferingModal';
 import {
   loadActivePractice,
@@ -26,10 +25,15 @@ import { PracticeSession } from '@/types/practice';
 // Mock all hooks and components
 jest.mock('../../hooks/useTimer');
 jest.mock('../../hooks/useStreak');
-jest.mock('../../components/Timer');
-jest.mock('../../components/MalaCounter');
-jest.mock('../../components/SankalpModal');
-jest.mock('../../components/OfferingModal');
+jest.mock('../../components/Timer', () => ({
+  Timer: jest.fn(() => null),
+}));
+jest.mock('../../components/MalaCounter', () => ({
+  MalaCounter: jest.fn(() => null),
+}));
+jest.mock('../../components/OfferingModal', () => ({
+  OfferingModal: jest.fn(() => null),
+}));
 jest.mock('../../utils/practiceStorage');
 
 // Mock useAchievements — added post-fork to PracticeScreen (calls checkAndUnlock on completion)
@@ -48,7 +52,6 @@ const mockUseTimer = useTimer as jest.MockedFunction<typeof useTimer>;
 const mockUseStreak = useStreak as jest.MockedFunction<typeof useStreak>;
 const MockTimer = Timer as jest.MockedFunction<typeof Timer>;
 const MockMalaCounter = MalaCounter as jest.MockedFunction<typeof MalaCounter>;
-const MockSankalpModal = SankalpModal as jest.MockedFunction<typeof SankalpModal>;
 const MockOfferingModal = OfferingModal as jest.MockedFunction<typeof OfferingModal>;
 const mockLoadActivePractice = loadActivePractice as jest.MockedFunction<typeof loadActivePractice>;
 const mockSaveActivePractice = saveActivePractice as jest.MockedFunction<typeof saveActivePractice>;
@@ -115,14 +118,6 @@ describe('PracticeScreen', () => {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { View, Text } = require('react-native');
       return <View testID="mala-counter-component"><Text>MalaCounter</Text></View>;
-    });
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    MockSankalpModal.mockImplementation((props: any) => {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { View, Text } = require('react-native');
-      if (!props.visible) return null;
-      return <View testID="sankalp-modal"><Text>SankalpModal</Text></View>;
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -200,34 +195,6 @@ describe('PracticeScreen', () => {
     });
   });
 
-  describe('Practice Flow - Sankalp Modal', () => {
-    it('should show Sankalp modal when timer starts', () => {
-      render(<PracticeScreen />);
-
-      // Simulate timer starting
-      mockUseTimer.mockReturnValue({
-        status: 'running',
-        elapsedSeconds: 1,
-        formattedTime: '00:01',
-        isRunning: true,
-        canComplete: false,
-        start: mockStart,
-        pause: jest.fn(),
-        resume: jest.fn(),
-        reset: jest.fn(),
-        complete: mockComplete,
-      setElapsedSeconds: jest.fn(),
-      });
-
-      // Re-render to reflect state change
-      const { rerender } = render(<PracticeScreen />);
-      rerender(<PracticeScreen />);
-
-      // Check if SankalpModal receives visible prop
-      expect(MockSankalpModal).toHaveBeenCalled();
-    });
-  });
-
   describe('Practice Flow - Offering Modal', () => {
     it('should show Offering modal when practice completes', () => {
       mockUseTimer.mockReturnValue({
@@ -298,6 +265,36 @@ describe('PracticeScreen', () => {
 
       await waitFor(() => {
         expect(mockMarkTodayComplete).toHaveBeenCalled();
+      });
+    });
+
+    it('should reset timer when practice completes with offering', async () => {
+      const mockReset = jest.fn();
+      mockUseTimer.mockReturnValue({
+        status: 'completed',
+        elapsedSeconds: 120,
+        formattedTime: '02:00',
+        isRunning: false,
+        canComplete: true,
+        start: mockStart,
+        pause: jest.fn(),
+        resume: jest.fn(),
+        reset: mockReset,
+        complete: mockComplete,
+        setElapsedSeconds: jest.fn(),
+      });
+
+      render(<PracticeScreen />);
+
+      // Get the OfferingModal onConfirm callback
+      const offeringCall = MockOfferingModal.mock.calls[MockOfferingModal.mock.calls.length - 1];
+      const onConfirm = offeringCall[0].onConfirm;
+
+      // Simulate user confirming offering
+      onConfirm('For all beings', '');
+
+      await waitFor(() => {
+        expect(mockReset).toHaveBeenCalled();
       });
     });
   });
@@ -381,6 +378,14 @@ describe('PracticeScreen', () => {
     });
 
     describe('Auto-saving Session', () => {
+      beforeEach(() => {
+        jest.useFakeTimers();
+      });
+
+      afterEach(() => {
+        jest.useRealTimers();
+      });
+
       it('should auto-save practice session when timer is running', async () => {
         mockUseTimer.mockReturnValue({
           status: 'running',
@@ -393,14 +398,15 @@ describe('PracticeScreen', () => {
           resume: jest.fn(),
           reset: jest.fn(),
           complete: mockComplete,
-      setElapsedSeconds: jest.fn(),
+          setElapsedSeconds: jest.fn(),
         });
 
         render(<PracticeScreen />);
 
-        await waitFor(() => {
-          expect(mockSaveActivePractice).toHaveBeenCalled();
-        });
+        // Auto-save fires on a 5-second interval while running
+        jest.advanceTimersByTime(5000);
+
+        expect(mockSaveActivePractice).toHaveBeenCalled();
       });
 
       it('should include elapsed time in saved session', async () => {
@@ -415,19 +421,19 @@ describe('PracticeScreen', () => {
           resume: jest.fn(),
           reset: jest.fn(),
           complete: mockComplete,
-      setElapsedSeconds: jest.fn(),
+          setElapsedSeconds: jest.fn(),
         });
 
         render(<PracticeScreen />);
 
-        await waitFor(() => {
-          expect(mockSaveActivePractice).toHaveBeenCalledWith(
-            expect.objectContaining({
-              elapsedSeconds: 240,
-              isActive: true,
-            })
-          );
-        });
+        jest.advanceTimersByTime(5000);
+
+        expect(mockSaveActivePractice).toHaveBeenCalledWith(
+          expect.objectContaining({
+            elapsedSeconds: 240,
+            isActive: true,
+          })
+        );
       });
 
       it('should save session when paused', async () => {
@@ -521,34 +527,7 @@ describe('PracticeScreen', () => {
         });
       });
 
-      it('should include sankalp in saved practice', async () => {
-        mockUseTimer.mockReturnValue({
-          status: 'running',
-          elapsedSeconds: 1,
-          formattedTime: '00:01',
-          isRunning: true,
-          canComplete: false,
-          start: mockStart,
-          pause: jest.fn(),
-          resume: jest.fn(),
-          reset: jest.fn(),
-          complete: mockComplete,
-      setElapsedSeconds: jest.fn(),
-        });
-
-        const { rerender } = render(<PracticeScreen />);
-
-        // Show sankalp modal
-        rerender(<PracticeScreen />);
-
-        // Get the SankalpModal onConfirm callback
-        const sankalpCall = MockSankalpModal.mock.calls[MockSankalpModal.mock.calls.length - 1];
-        const onSankalpConfirm = sankalpCall[0].onConfirm;
-
-        // Simulate user setting sankalp
-        onSankalpConfirm('For world peace');
-
-        // Complete the practice
+      it('should save practice with null sankalp (sankalp modal removed)', async () => {
         mockUseTimer.mockReturnValue({
           status: 'completed',
           elapsedSeconds: 600,
@@ -560,12 +539,11 @@ describe('PracticeScreen', () => {
           resume: jest.fn(),
           reset: jest.fn(),
           complete: mockComplete,
-      setElapsedSeconds: jest.fn(),
+          setElapsedSeconds: jest.fn(),
         });
 
-        rerender(<PracticeScreen />);
+        render(<PracticeScreen />);
 
-        // Get the OfferingModal onConfirm callback
         const offeringCall = MockOfferingModal.mock.calls[MockOfferingModal.mock.calls.length - 1];
         const onConfirm = offeringCall[0].onConfirm;
 
@@ -574,7 +552,7 @@ describe('PracticeScreen', () => {
         await waitFor(() => {
           expect(mockSavePracticeToHistory).toHaveBeenCalledWith(
             expect.objectContaining({
-              sankalp: 'For world peace',
+              sankalp: null,
             })
           );
         });

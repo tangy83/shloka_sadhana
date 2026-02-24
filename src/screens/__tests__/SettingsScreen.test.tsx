@@ -153,7 +153,7 @@ describe('SettingsScreen', () => {
 
     it('should display about section', () => {
       render(<SettingsScreen />);
-      expect(screen.getByText('About Shloka Sadhana')).toBeTruthy();
+      expect(screen.getByText('About Sadhana')).toBeTruthy();
     });
   });
 

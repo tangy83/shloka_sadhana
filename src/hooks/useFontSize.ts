@@ -32,7 +32,7 @@ export const useFontSize = (): UseFontSizeReturn => {
           setFontSizeState(saved);
         }
       } catch (error) {
-        console.error('[FontSize] Error loading font size:', error);
+        if (__DEV__) console.error('[FontSize] Error loading font size:', error);
       } finally {
         setIsLoading(false);
       }
@@ -49,7 +49,7 @@ export const useFontSize = (): UseFontSizeReturn => {
       setFontSizeState(clamped);
       await setItem(STORAGE_KEYS.FONT_SIZE, clamped);
     } catch (error) {
-      console.error('[FontSize] Error saving font size:', error);
+      if (__DEV__) console.error('[FontSize] Error saving font size:', error);
     }
   };
 

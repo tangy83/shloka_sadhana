@@ -16,7 +16,7 @@ export const requestNotificationPermissions = async (): Promise<boolean> => {
     const { status } = await Notifications.requestPermissionsAsync();
     return status === 'granted';
   } catch (error) {
-    console.error('[Notifications] Permission request error:', error);
+    if (__DEV__) console.error('[Notifications] Permission request error:', error);
     return false;
   }
 };
@@ -47,10 +47,10 @@ export const scheduleDailyReminder = async (
       },
     });
 
-    console.log('[Notifications] Daily reminder scheduled:', notificationId);
+    if (__DEV__) console.log('[Notifications] Daily reminder scheduled:', notificationId);
     return notificationId;
   } catch (error) {
-    console.error('[Notifications] Schedule error:', error);
+    if (__DEV__) console.error('[Notifications] Schedule error:', error);
     return null;
   }
 };
@@ -61,9 +61,9 @@ export const scheduleDailyReminder = async (
 export const cancelAllNotifications = async (): Promise<void> => {
   try {
     await Notifications.cancelAllScheduledNotificationsAsync();
-    console.log('[Notifications] All notifications cancelled');
+    if (__DEV__) console.log('[Notifications] All notifications cancelled');
   } catch (error) {
-    console.error('[Notifications] Cancel error:', error);
+    if (__DEV__) console.error('[Notifications] Cancel error:', error);
   }
 };
 
@@ -76,10 +76,10 @@ export const getPendingNotifications = async (): Promise<
 > => {
   try {
     const notifications = await Notifications.getAllScheduledNotificationsAsync();
-    console.log('[Notifications] Pending notifications:', notifications.length);
+    if (__DEV__) console.log('[Notifications] Pending notifications:', notifications.length);
     return notifications;
   } catch (error) {
-    console.error('[Notifications] Get pending error:', error);
+    if (__DEV__) console.error('[Notifications] Get pending error:', error);
     return [];
   }
 };

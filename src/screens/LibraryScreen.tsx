@@ -173,7 +173,7 @@ export const LibraryScreen: React.FC = () => {
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.textBright }]}>Library</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>Mantras</Text>
         <Text style={[styles.subtitle, { color: theme.textSecondary }]}>{allShlokas.length} Sacred Texts</Text>
       </View>
 

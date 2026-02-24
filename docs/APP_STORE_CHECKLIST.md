@@ -1,507 +1,548 @@
-# App Store & Play Store Submission Checklist
-**Shloka Sadhana - iOS & Android Release Preparation**
+# Shloka Sadhana — Deployment Guide (iOS & Android)
 
-Last Updated: 2026-02-05
-
----
-
-## Status Overview
-
-| Category | iOS App Store | Google Play Store | Status |
-|----------|--------------|-------------------|---------|
-| App Build | ❌ Not Started | ❌ Not Started | Needed |
-| Metadata | ❌ Not Started | ❌ Not Started | Needed |
-| Graphics | ❌ Not Started | ❌ Not Started | Needed |
-| Privacy | ⚠️ Partial | ⚠️ Partial | Needs Review |
-| Legal | ❌ Not Started | ❌ Not Started | Needed |
-| Testing | ✅ Complete | ✅ Complete | Done (V2) |
+**Step-by-step guide to deploy to App Store and Google Play Store**
+Last Updated: 2026-02-23
 
 ---
 
-## 1. APP BUILD REQUIREMENTS
+## Current App Status
 
-### iOS Build (via EAS Build)
-- [ ] **Apple Developer Account** ($99/year)
-- [ ] **Bundle Identifier** (e.g., com.yourcompany.shlokasadhana)
-- [ ] **App Icon** (all required sizes)
-- [ ] **Splash Screen**
-- [ ] **Build with Expo EAS**
-  ```bash
-  eas build --platform ios
-  ```
-- [ ] **TestFlight Beta Testing** (optional but recommended)
-- [ ] **Production Build** ready for submission
-
-### Android Build (via EAS Build)
-- [ ] **Google Play Developer Account** ($25 one-time)
-- [ ] **Package Name** (e.g., com.yourcompany.shlokasadhana)
-- [ ] **App Icon** (all required sizes)
-- [ ] **Splash Screen**
-- [ ] **Build with Expo EAS**
-  ```bash
-  eas build --platform android
-  ```
-- [ ] **Internal Testing** (optional but recommended)
-- [ ] **Production APK/AAB** ready for submission
-
-### Build Configuration
-- [ ] Update `app.json` with correct values:
-  - App name
-  - Version number (1.0.0)
-  - Bundle ID / Package name
-  - Permissions
-  - Privacy descriptions
-  - Orientation settings
-  - Icon and splash screen paths
+| Item | Status |
+|------|--------|
+| Code quality | 0 TypeScript errors, 1097 tests passing |
+| app.json config | Complete (bundle ID, permissions, encryption) |
+| eas.json | Production profile with autoIncrement |
+| ErrorBoundary | Wrapped |
+| Privacy Policy (in-app) | Written |
+| Terms of Service (in-app) | Written |
+| Require cycle | Fixed |
+| Native Modal bugs | Fixed |
 
 ---
 
-## 2. APP METADATA & STORE LISTING
+## PHASE 1: Developer Accounts (Do This First — Can Take 24-48h)
 
-### Required for Both Stores
-- [ ] **App Name**: "Shloka Sadhana" (check availability)
-- [ ] **Subtitle/Short Description**: One-line tagline (30 chars iOS, 80 chars Android)
-- [ ] **Full Description**: Detailed app description (4000 chars iOS, 4000 chars Android)
-- [ ] **Keywords**: Search optimization keywords (100 chars iOS, not visible on Android)
-- [ ] **Category**:
-  - iOS: Lifestyle or Health & Fitness
-  - Android: Lifestyle or Health & Fitness
-- [ ] **Age Rating**: 4+ (iOS) / Everyone (Android)
-- [ ] **Support URL**: Website or support email
-- [ ] **Privacy Policy URL**: **REQUIRED** (must be hosted)
+### Step 1A: Apple Developer Account
 
-### Example Descriptions:
+1. Go to https://developer.apple.com/programs/
+2. Click "Enroll"
+3. Sign in with your Apple ID (or create one)
+4. Choose "Individual" enrollment ($99/year)
+5. Complete identity verification (may require government ID)
+6. Pay the $99 fee
+7. Wait for activation (usually 24-48 hours)
 
-**Subtitle (iOS):**
+**You'll need this before you can build or submit for iOS.**
+
+### Step 1B: Google Play Developer Account
+
+1. Go to https://play.google.com/console/signup
+2. Sign in with your Google account
+3. Pay the $25 one-time fee
+4. Fill in developer profile information
+5. Complete identity verification
+6. Wait for activation (usually a few hours)
+
+---
+
+## PHASE 2: App Icon & Splash Screen
+
+Your current icons are Expo default placeholders. You need a real branded icon.
+
+### What to Design
+
+| Asset | Size | Format | Notes |
+|-------|------|--------|-------|
+| `assets/icon.png` | 1024x1024 | PNG | Main app icon. No transparency, no rounded corners (iOS rounds them automatically) |
+| `assets/adaptive-icon.png` | 1024x1024 | PNG | Android adaptive icon foreground. Can have transparency. Keep main element in center 66% (safe zone) |
+| `assets/splash-icon.png` | 1024x1024 | PNG | Splash screen logo shown during app launch |
+| `assets/notification-icon.png` | 1024x1024 | PNG | Notification bar icon (Android). Should be simple, single-color silhouette works best |
+| `assets/favicon.png` | 48x48 | PNG | Web favicon (low priority) |
+
+### Design Ideas for Sadhana
+
+- Om (ॐ) symbol with a warm saffron/gold gradient
+- Mala beads in a circle
+- Lotus flower
+- Diya (lamp) flame
+- Abstract mandala pattern
+
+### Tools to Create Icons
+
+- **Canva** (free): https://www.canva.com — search "app icon" templates
+- **Figma** (free): https://www.figma.com — more control, professional
+- **Midjourney / DALL-E**: Generate a concept, then refine in Canva/Figma
+- **Hire on Fiverr**: Search "app icon design" — $20-50 for professional quality
+
+### How to Replace
+
+Simply replace the files in the `assets/` folder with your new designs, keeping the exact same filenames. Expo automatically generates all required sizes from your 1024x1024 source images.
+
+---
+
+## PHASE 3: Host Privacy Policy & Terms of Service
+
+Both stores **require a public URL** for your privacy policy. The easiest free option is GitHub Pages.
+
+### Option A: GitHub Pages (Free, Recommended)
+
+1. Create a new GitHub repo called `shlokasadhana-legal` (or any name)
+2. Create a file `index.html` with your privacy policy and terms
+3. Go to repo Settings > Pages > Source: "main" branch
+4. Your URL will be: `https://yourusername.github.io/shlokasadhana-legal/`
+
+Here is the HTML content to use (copy into `index.html`):
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sadhana - Legal</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
+    h1 { color: #E55B00; } h2 { color: #444; margin-top: 30px; } a { color: #E55B00; }
+    nav { background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 30px; }
+    nav a { margin-right: 20px; text-decoration: none; font-weight: 600; }
+    hr { margin: 40px 0; border: none; border-top: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#privacy">Privacy Policy</a>
+    <a href="#terms">Terms of Service</a>
+  </nav>
+
+  <h1 id="privacy">Privacy Policy</h1>
+  <p><em>Last Updated: February 7, 2026</em></p>
+
+  <h2>1. Information We Collect</h2>
+  <p>Sadhana stores all data locally on your device. We collect:</p>
+  <ul>
+    <li>Practice session data (duration, mala count, notes)</li>
+    <li>App preferences and settings</li>
+    <li>Streak and progress data</li>
+  </ul>
+  <p><strong>We do NOT collect:</strong> personal information, email addresses, names, location data sent to servers, analytics, or tracking data.</p>
+
+  <h2>2. How We Use Information</h2>
+  <p>All data is stored locally on your device using AsyncStorage. It is used solely to power app features like practice tracking, streak counting, and goal progress. No data is transmitted to any server.</p>
+
+  <h2>3. Location Data</h2>
+  <p>The app may request location access to calculate auspicious times (muhurat) based on your geographical coordinates. This calculation happens entirely on your device. Your location is never transmitted to any server.</p>
+
+  <h2>4. Data Sharing</h2>
+  <p>We do not share, sell, or transfer your data to any third party. There are no ads, no analytics services, and no third-party SDKs that access your data.</p>
+
+  <h2>5. Data Storage & Security</h2>
+  <p>All data is stored in your device's local storage. It is protected by your device's built-in security (passcode, Face ID, etc.).</p>
+
+  <h2>6. Your Rights</h2>
+  <ul>
+    <li>Delete all data: Settings > Clear Data</li>
+    <li>Uninstalling the app removes all data</li>
+    <li>No account needed — no data exists on any server</li>
+  </ul>
+
+  <h2>7. Children's Privacy</h2>
+  <p>The app does not knowingly collect information from children under 13. The app is suitable for all ages.</p>
+
+  <h2>8. Changes to This Policy</h2>
+  <p>We may update this policy from time to time. Changes will be reflected in the app and on this page.</p>
+
+  <h2>9. Contact Us</h2>
+  <p>Email: <a href="mailto:info@contextfirstai.com">info@contextfirstai.com</a><br>
+  Website: <a href="https://www.contextfirstai.com/">https://www.contextfirstai.com/</a></p>
+
+  <hr>
+
+  <h1 id="terms">Terms of Service</h1>
+  <p><em>Last Updated: February 7, 2026</em></p>
+
+  <h2>1. Acceptance of Terms</h2>
+  <p>By using Sadhana ("the App"), you agree to these Terms of Service.</p>
+
+  <h2>2. Description of Service</h2>
+  <p>Sadhana is a spiritual practice companion app for mantra recitation, practice tracking, and Hindu calendar information. It is provided for spiritual practice and educational purposes.</p>
+
+  <h2>3. User Responsibilities</h2>
+  <ul>
+    <li>Use the app respectfully and in accordance with applicable laws</li>
+    <li>Do not attempt to reverse-engineer or modify the app</li>
+    <li>You are responsible for maintaining your device's security</li>
+  </ul>
+
+  <h2>4. Intellectual Property</h2>
+  <p>Traditional shlokas, mantras, and scriptures are in the public domain. The app's design, code, and original content are owned by ContextFirst AI.</p>
+
+  <h2>5. Disclaimer</h2>
+  <p>The app is provided for spiritual practice and educational purposes only. It is not a substitute for guidance from a qualified spiritual teacher. Content is presented with respect and care but we cannot guarantee complete accuracy of all translations and interpretations.</p>
+
+  <h2>6. Limitation of Liability</h2>
+  <p>The app is provided "as is" without warranties of any kind. We are not liable for any damages arising from use of the app.</p>
+
+  <h2>7. Changes to Terms</h2>
+  <p>We may update these terms from time to time. Continued use of the app constitutes acceptance of updated terms.</p>
+
+  <h2>8. Contact</h2>
+  <p>Email: <a href="mailto:info@contextfirstai.com">info@contextfirstai.com</a><br>
+  Website: <a href="https://www.contextfirstai.com/">https://www.contextfirstai.com/</a></p>
+</body>
+</html>
 ```
-Daily Mantra Practice & Tracking
+
+### Option B: Simple Web Hosting
+
+Host the HTML above on any web hosting service (Vercel, Netlify, your own domain). The URL just needs to be publicly accessible.
+
+**Save your hosted URL — you'll enter it during store submission.**
+
+---
+
+## PHASE 4: Take Screenshots
+
+You need screenshots of the app running on various device sizes.
+
+### How to Take Screenshots
+
+1. Open the app in Expo Go on your iPhone (or iOS Simulator)
+2. Navigate to each key screen
+3. Take screenshots (iPhone: Side button + Volume Up)
+
+### Screenshots to Capture (5-6 screens)
+
+| # | Screen | What to Show |
+|---|--------|-------------|
+| 1 | Home Screen | Streak counter, quick actions, daily wisdom |
+| 2 | Practice Screen | Timer running with mala counter |
+| 3 | Shloka Library | List of available shlokas/mantras |
+| 4 | Shloka Detail | Sanskrit text with transliteration and meaning |
+| 5 | Session History | Completed sessions with stats |
+| 6 | Settings | Theme, reminders, customization options |
+
+### Screenshot Sizes Required
+
+**iOS (App Store Connect):**
+
+| Device | Resolution | Required? |
+|--------|-----------|-----------|
+| iPhone 6.7" (15 Pro Max) | 1290 x 2796 | Yes |
+| iPhone 6.5" (14 Plus) | 1284 x 2778 | Yes |
+| iPhone 5.5" (8 Plus) | 1242 x 2208 | Yes (if supporting older) |
+| iPad 12.9" | 2048 x 2732 | Only if supporting iPad |
+
+**Android (Play Console):**
+
+| Device | Resolution | Required? |
+|--------|-----------|-----------|
+| Phone | At least 1080 x 1920 | Yes (min 2, max 8) |
+| Tablet | 1600 x 2560 | Optional |
+
+### Tools to Frame Screenshots
+
+- **Screenshots.pro**: https://screenshots.pro (free, adds device frames)
+- **AppMockUp**: https://app-mockup.com (free)
+- **Figma**: Use device mockup templates
+
+### Android Feature Graphic
+
+Android also needs a **Feature Graphic** (1024 x 500 px) — a banner image shown at the top of your Play Store listing. Use Canva to create one with your app name and a few key features listed.
+
+---
+
+## PHASE 5: Prepare Store Listing Text
+
+You'll need this text when filling out the store listing. Here it is ready to copy-paste:
+
+### App Name
+```
+Sadhana
 ```
 
-**Short Description (Android):**
+### Subtitle (iOS, max 30 chars)
 ```
-Practice mantras, track progress with mala counter, maintain streaks, Hindu calendar
+Daily Mantra & Prayer Practice
 ```
 
-**Full Description:**
+### Short Description (Android, max 80 chars)
 ```
-Shloka Sadhana is your companion for daily spiritual practice, helping you:
+Practice mantras, track progress with mala counter, maintain daily streaks
+```
 
-CORE FEATURES:
-• Practice shlokas and mantras with digital mala counter
-• Track your daily practice sessions and maintain streaks
-• Set and achieve practice goals
-• View Hindu calendar (Paanchang) with Tithi, Nakshatra
-• Receive personalized mantra recommendations
-• Get daily reminders for consistent practice
+### Full Description (both stores, max 4000 chars)
 
-PRACTICE TRACKING:
-• Digital mala with configurable repetitions
-• Session notes and offerings
-• Sankalp (intention setting) for each practice
+```
+Sadhana is your companion for daily spiritual practice.
+
+PRACTICE & TRACK
+• Digital mala counter for mantra recitation
+• Timer with session tracking
+• Set intentions (Sankalp) and dedications (Offering)
 • Detailed session history with statistics
 • Streak tracking to build consistency
 
-LIBRARY & CONTENT:
-• Curated collection of popular shlokas
+SHLOKA LIBRARY
+• 20 curated mantras, stotras, and chalisas
 • Sanskrit text with English transliteration
-• Meanings and context for each shloka
-• Benefits of regular practice
-• Category-based organization
+• Verse-by-verse meanings and context
+• Benefits and best times for each practice
+• YouTube links for pronunciation guidance
 
-PERSONALIZATION:
-• Adjustable font sizes for accessibility
-• Customizable reminder times
-• Practice goals and progress tracking
+DAILY INSPIRATION
+• Daily wisdom quotes from Bhagavad Gita, Vedas, Upanishads
+• Verse of the day from sacred texts
+• Personalized mantra recommendations
+
+HINDU CALENDAR
+• Daily Paanchang with Tithi and Nakshatra
+• Ekadashi dates and significance
+• Auspicious muhurat timings
+• Festival calendar and reminders
+
+GAMIFICATION
+• Daily quests to motivate practice
+• Achievement badges for milestones
+• Practice goals (daily and weekly)
+
+PERSONALIZATION
 • Dark theme for comfortable viewing
+• Adjustable font sizes
+• Customizable daily reminders
+• Practice goal setting
 
-HINDU CALENDAR:
-• Daily Tithi and Nakshatra information
-• Ekadashi dates and reminders (coming soon)
-• Auspicious timings
-• Festival notifications
+All data stays on your device. No account needed. No ads. No tracking.
 
-Whether you're new to mantra practice or a seasoned practitioner, Shloka Sadhana makes it easy to maintain a consistent spiritual routine.
+Whether you're new to mantra practice or a seasoned practitioner, Sadhana helps you build a consistent spiritual routine.
 ```
 
----
-
-## 3. GRAPHICS & VISUAL ASSETS
-
-### App Icon
-- [ ] **iOS**: 1024x1024px PNG (no transparency, no rounded corners)
-- [ ] **Android**: 512x512px PNG (can have transparency)
-- [ ] Design must be simple, recognizable, no text overlay
-- [ ] Should represent spiritual/meditation theme
-- [ ] Consider: Om symbol, Mala beads, Lotus, or abstract spiritual design
-
-### Screenshots (REQUIRED)
-**iOS:** Need for ALL device sizes
-- [ ] iPhone 6.7" (1290 x 2796) - iPhone 15 Pro Max
-- [ ] iPhone 6.5" (1284 x 2778) - iPhone 14 Pro Max
-- [ ] iPhone 5.5" (1242 x 2208) - iPhone 8 Plus
-- [ ] iPad Pro 12.9" (2048 x 2732)
-- [ ] iPad Pro 11" (1668 x 2388)
-
-**Android:** At least 2, up to 8
-- [ ] Phone: 1080 x 1920 or higher
-- [ ] Tablet: 1600 x 2560 or higher (optional)
-
-**Screenshot Content Ideas:**
-1. Home screen with stats
-2. Shloka library view
-3. Practice session with mala counter
-4. Session history/streaks
-5. Paanchang/Calendar view
-6. Settings screen
-
-### Feature Graphic (Android Only)
-- [ ] 1024 x 500px PNG/JPG
-- [ ] Used in Play Store listing
-- [ ] Banner-style promotional image
-
-### Promo Video (Optional but Recommended)
-- [ ] 15-30 seconds
-- [ ] Show key features in action
-- [ ] No audio required (add captions)
-
----
-
-## 4. PRIVACY & PERMISSIONS
-
-### Privacy Policy (REQUIRED)
-- [ ] **Must have hosted privacy policy** (critical for both stores)
-- [ ] Must explain:
-  - What data is collected (sessions, streaks, settings)
-  - How data is stored (local device only)
-  - No data sharing/selling statement
-  - User data deletion process
-  - Contact information
-
-### Example Privacy Policy Outline:
+### Keywords (iOS, max 100 chars)
 ```
-1. Information We Collect
-   - Practice session data (stored locally on device)
-   - App settings and preferences
-   - No personal information collected
-
-2. How We Use Information
-   - All data stored locally on your device
-   - Used only for app functionality
-   - No data sent to external servers
-   - No analytics or tracking
-
-3. Data Sharing
-   - We do not share, sell, or transfer your data
-   - No third-party access
-
-4. Your Rights
-   - You can delete all data via Settings > Clear Data
-   - Uninstalling removes all data
-
-5. Contact Us
-   - Email: privacy@shlokasadhana.com
+mantra,shloka,hindu,prayer,meditation,mala,spiritual,practice,sanskrit,bhagavad
 ```
 
-### App Privacy Details (iOS)
-- [ ] Fill out App Privacy questionnaire in App Store Connect
-- [ ] Current app collects:
-  - ✅ Practice data (not linked to user, stays on device)
-  - ✅ App settings (not linked to user)
-  - ❌ No identifiers
-  - ❌ No location data
-  - ❌ No contact info
-  - ❌ No tracking
+### Category
+- iOS: **Lifestyle** (or Health & Fitness)
+- Android: **Lifestyle** (or Health & Fitness)
 
-### Data Safety (Android)
-- [ ] Fill out Data Safety form in Play Console
-- [ ] Declare what data is collected
-- [ ] Confirm data stays on device
-- [ ] No data sharing
-
-### Required Permissions to Declare
-Current app uses:
-- [ ] **Notifications** - For daily reminders
-  - iOS: Must provide description in `app.json`
-  - Android: Declared automatically
-- [ ] **Local Storage** - For saving practice data
-  - Automatic, no special permission
-
-### Permission Descriptions (iOS Info.plist)
-Add to `app.json`:
-```json
-"infoPlist": {
-  "NSUserNotificationsUsageDescription": "We send daily reminders to help you maintain your practice routine. You can customize or disable reminders in Settings."
-}
-```
+### Age Rating
+- iOS: **4+**
+- Android: **Everyone**
 
 ---
 
-## 5. LEGAL & COMPLIANCE
-
-### Terms of Service
-- [ ] Create Terms of Service document
-- [ ] Host on website
-- [ ] Link in app (About screen)
-- [ ] Cover:
-  - User conduct
-  - Intellectual property
-  - Disclaimer (not religious advice)
-  - Limitation of liability
-
-### Content Rights
-- [ ] **Shlokas/Mantras**: Ensure public domain or have rights
-  - Most traditional shlokas are public domain
-  - Verify modern translations if any
-- [ ] **Images**: All assets properly licensed
-- [ ] **Fonts**: License allows app distribution
-
-### Religious Content Guidelines
-- [ ] **iOS**: Religious content is allowed, must be respectful
-- [ ] **Android**: Same, must not promote hate or discrimination
-- [ ] Add disclaimer: "For spiritual practice and educational purposes"
-- [ ] Ensure content is inclusive and respectful
-
-### Copyright & Trademark
-- [ ] App name "Shloka Sadhana" - check trademark availability
-- [ ] Logo design - ensure original or licensed
-- [ ] No use of copyrighted religious imagery without permission
-
----
-
-## 6. TECHNICAL REQUIREMENTS
-
-### Performance
-- [ ] **App Size**:
-  - iOS: Prefer < 100 MB (current should be ~10-20 MB)
-  - Android: Prefer < 50 MB
-- [ ] **Launch Time**: < 3 seconds
-- [ ] **No Crashes**: Must be stable
-- [ ] **Battery Usage**: Efficient, no background drain
-
-### Functionality
-- [ ] **All features work**: No broken buttons or screens
-- [ ] **Error handling**: Graceful error messages
-- [ ] **Offline support**: App works without internet ✅
-- [ ] **Orientation**: Support portrait mode (landscape optional)
-- [ ] **Safe Area**: Respect notches and home indicators
-
-### iOS-Specific
-- [ ] **No Private APIs**: Only use public APIs
-- [ ] **No 3rd party install prompts**: Don't ask users to download other apps
-- [ ] **Complete functionality**: Not a demo or "coming soon" app
-- [ ] **IPv6 compatible**: Expo handles this automatically
-
-### Android-Specific
-- [ ] **Target SDK**: Latest Android SDK (Expo handles)
-- [ ] **64-bit support**: Required (Expo handles)
-- [ ] **No hidden features**: All features accessible
-- [ ] **Back button**: Proper navigation handling
-
----
-
-## 7. TESTING REQUIREMENTS
-
-### Current Status: ✅ EXCELLENT
-- ✅ 656 comprehensive tests passing
-- ✅ TDD approach throughout
-- ✅ All features tested
-
-### Additional Testing Needed:
-- [ ] **Real device testing**:
-  - iPhone (latest iOS)
-  - iPad (if supporting)
-  - Android phone (latest Android)
-  - Android tablet (if supporting)
-- [ ] **Beta testing**:
-  - TestFlight (iOS) - 10-20 users
-  - Internal testing (Android) - 10-20 users
-  - Collect feedback
-  - Fix any critical bugs
-- [ ] **Performance testing**:
-  - Battery drain
-  - Memory usage
-  - Long practice sessions (1000+ repetitions)
-  - Multiple days of data
-
----
-
-## 8. APP STORE CONNECT SETUP (iOS)
+## PHASE 6: Build the App with EAS
 
 ### Prerequisites
-- [ ] Apple Developer Account ($99/year)
-- [ ] Agree to latest legal agreements
-- [ ] Payment and banking info (if paid app or in-app purchases)
+- EAS CLI installed: `npm install -g eas-cli`
+- Logged in: `eas login` (create account at https://expo.dev if needed)
 
-### Steps
-1. [ ] Create App ID in Certificates, Identifiers & Profiles
-2. [ ] Create new app in App Store Connect
-3. [ ] Fill out all metadata
-4. [ ] Upload screenshots
-5. [ ] Set pricing (Free)
-6. [ ] Fill out App Privacy details
-7. [ ] Upload build via EAS
-8. [ ] Submit for review
-9. [ ] Wait 1-7 days for review
+### Step 6A: Build for iOS
 
-### Review Process
-- **Average time**: 24-48 hours
-- **Common rejections**:
-  - Missing privacy policy
-  - Incomplete functionality
-  - Crashes or bugs
-  - Misleading screenshots
-  - Privacy issues
+```bash
+# From the project directory
+eas build --platform ios --profile production
+```
 
----
+EAS will walk you through:
+1. Selecting your Apple Developer Team
+2. Creating/selecting a Distribution Certificate
+3. Creating/selecting a Provisioning Profile
 
-## 9. GOOGLE PLAY CONSOLE SETUP (Android)
+The build takes 15-30 minutes. You'll get a download link when done.
 
-### Prerequisites
-- [ ] Google Play Developer Account ($25 one-time)
-- [ ] Agree to developer agreement
-- [ ] Payment profile setup
+### Step 6B: Build for Android
 
-### Steps
-1. [ ] Create new application
-2. [ ] Fill out store listing
-3. [ ] Upload screenshots and graphics
-4. [ ] Complete Content rating questionnaire
-5. [ ] Fill out Data safety form
-6. [ ] Set pricing and distribution (Free, All countries)
-7. [ ] Upload APK/AAB via EAS
-8. [ ] Choose release track (Production)
-9. [ ] Submit for review
-10. [ ] Wait few hours to 1 day
+```bash
+eas build --platform android --profile production
+```
 
-### Review Process
-- **Average time**: Few hours to 1 day
-- **Generally easier than iOS**
-- Common issues same as iOS
+EAS will walk you through creating an Android keystore (keep it safe — you need it for all future updates).
+
+The build takes 10-20 minutes. You'll get an `.aab` file download link.
+
+### Build Both at Once
+
+```bash
+eas build --platform all --profile production
+```
 
 ---
 
-## 10. POST-LAUNCH CHECKLIST
+## PHASE 7: Submit to iOS App Store
 
-### Monitoring
-- [ ] Set up crash reporting (Sentry, Bugsnag)
-- [ ] Monitor app store ratings
-- [ ] Track download numbers
-- [ ] Monitor user reviews
+### Step 7A: Create App in App Store Connect
 
-### Marketing
-- [ ] Create website/landing page
-- [ ] Social media presence
-- [ ] App Store Optimization (ASO)
-  - Optimize keywords
-  - Update screenshots based on performance
-  - A/B test descriptions
+1. Go to https://appstoreconnect.apple.com
+2. Click "My Apps" > "+" > "New App"
+3. Fill in:
+   - **Platform**: iOS
+   - **Name**: Sadhana
+   - **Primary Language**: English
+   - **Bundle ID**: com.shlokasadhana.app (select from dropdown after build)
+   - **SKU**: shloka-sadhana-001 (any unique string)
 
-### Updates
-- [ ] Set up EAS Update for OTA updates
-- [ ] Plan monthly update schedule
-- [ ] Collect user feedback
-- [ ] Priority bug fixes
+### Step 7B: Fill Out App Information
 
----
+In the app page, fill out these tabs:
 
-## CRITICAL BLOCKERS (Must Have Before Submission)
+**App Information:**
+- Category: Lifestyle
+- Content Rights: "This app does not contain third-party content" or appropriate declaration
+- Age Rating: Fill questionnaire (no violence, no mature content = 4+)
 
-1. ❌ **Privacy Policy** - Absolute requirement, will be rejected without
-2. ❌ **App Icon** - Must have proper icon
-3. ❌ **Screenshots** - Need minimum required screenshots
-4. ❌ **App Store Accounts** - Need both developer accounts
-5. ❌ **Build Configuration** - app.json must be complete
-6. ⚠️ **Content Review** - Ensure all shlokas/content is appropriate
+**Pricing and Availability:**
+- Price: Free
+- Availability: All territories
 
----
+**App Privacy:**
+- Data Types: Select "None" or minimal based on questionnaire
+  - The app collects NO data linked to identity
+  - Practice data stays on device only
+  - No tracking
 
-## TIMELINE ESTIMATE
+### Step 7C: Create Version & Upload
 
-| Task | Estimated Time |
-|------|---------------|
-| Developer accounts setup | 1 day |
-| Privacy policy creation | 1-2 days |
-| App icon design | 1-2 days |
-| Screenshots creation | 1 day |
-| Store listing content | 1 day |
-| Build configuration | 1 day |
-| Build generation (EAS) | 2-4 hours |
-| Testing on devices | 2-3 days |
-| Beta testing (optional) | 1-2 weeks |
-| Final submission prep | 1 day |
-| **Total (minimum)** | **7-10 days** |
-| **Total (with beta)** | **3-4 weeks** |
+**Version Information:**
+- Screenshots: Upload for each required device size
+- Description: Paste the full description from Phase 5
+- Keywords: Paste keywords from Phase 5
+- Support URL: Your website or GitHub Pages URL
+- Privacy Policy URL: Your hosted privacy policy URL
 
-Plus review time:
-- iOS: 1-7 days (usually 1-2 days)
-- Android: Few hours to 1 day
+**Upload the build:**
 
-**Realistic First Launch**: 2-4 weeks from start
+```bash
+eas submit --platform ios
+```
 
----
+Or manually: Download the `.ipa` from EAS, upload via Transporter app (Mac).
 
-## NEXT STEPS (Priority Order)
+### Step 7D: Submit for Review
 
-1. **Get Developer Accounts** (can take 1-2 days to activate)
-   - Apple Developer Program: https://developer.apple.com/programs/
-   - Google Play Developer: https://play.google.com/console/signup
-
-2. **Create Privacy Policy** (critical blocker)
-   - Use generator or hire lawyer
-   - Host on website or GitHub Pages
-
-3. **Design App Icon** (critical blocker)
-   - Hire designer or use tools like Figma/Canva
-   - Must be professional quality
-
-4. **Take Screenshots** (critical blocker)
-   - Use Expo on real devices or simulator
-   - Edit with proper device frames
-
-5. **Configure app.json** (1-2 hours)
-   - Set all metadata
-   - Add permission descriptions
-   - Configure build settings
-
-6. **Build with EAS** (2-4 hours)
-   - `eas build --platform all`
-   - Wait for builds to complete
-
-7. **Test on Real Devices** (1-2 days)
-   - Install on iPhone and Android
-   - Full feature testing
-   - Fix any issues
-
-8. **Submit for Review**
-   - Upload to stores
-   - Wait for approval
-   - Respond to any review issues
+1. Select the uploaded build
+2. Review all information
+3. Click "Submit for Review"
+4. Answer export compliance question: **No** (uses no encryption beyond standard HTTPS)
+5. Wait 1-3 days (usually 24-48 hours)
 
 ---
 
-## RESOURCES
+## PHASE 8: Submit to Google Play Store
 
-### Official Documentation
-- [Apple App Store Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
-- [Google Play Store Policies](https://play.google.com/about/developer-content-policy/)
-- [Expo EAS Build](https://docs.expo.dev/build/introduction/)
-- [Expo EAS Submit](https://docs.expo.dev/submit/introduction/)
+### Step 8A: Create App in Play Console
 
-### Tools
-- **Icon Generator**: https://appicon.co/
-- **Screenshot Frames**: https://www.screely.com/
-- **Privacy Policy Generator**: https://www.privacypolicies.com/
-- **App Store Optimization**: https://appradar.com/
+1. Go to https://play.google.com/console
+2. Click "Create app"
+3. Fill in:
+   - **App name**: Sadhana
+   - **Default language**: English
+   - **App or Game**: App
+   - **Free or Paid**: Free
+4. Accept declarations
+
+### Step 8B: Set Up Store Listing
+
+Go to **Grow > Store listing > Main store listing**:
+
+- **Short description**: Paste from Phase 5
+- **Full description**: Paste from Phase 5
+- **App icon**: Upload 512x512 version of your icon
+- **Feature graphic**: Upload 1024x500 banner
+- **Phone screenshots**: Upload 2-8 screenshots
+
+### Step 8C: Complete Required Sections
+
+Navigate through the left sidebar and complete ALL sections marked with warnings:
+
+**App content:**
+- Privacy policy URL: Enter your hosted URL
+- Ads: "No, my app does not contain ads"
+- App access: "All functionality is available without special access"
+- Content rating: Fill out questionnaire (will give "Everyone" rating)
+- Target audience: "18 and above" (simplest, avoids COPPA requirements)
+- Data safety: Fill out the form:
+  - Does your app collect data? → No (or minimal — only on-device storage)
+  - Does your app share data? → No
+
+### Step 8D: Upload & Release
+
+**Upload the build:**
+
+```bash
+eas submit --platform android
+```
+
+Or manually: Download `.aab` from EAS, upload in Play Console under Release > Production.
+
+**Create a release:**
+1. Go to Release > Production
+2. Click "Create new release"
+3. Upload the `.aab` file
+4. Add release notes: "Initial release of Sadhana — your daily spiritual practice companion."
+5. Click "Review release"
+6. Click "Start rollout to Production"
+7. Wait a few hours to 1 day for review
 
 ---
 
-## NOTES
+## PHASE 9: Post-Launch
 
-- Current app (V2) has solid functionality and testing ✅
-- Main work needed is metadata, graphics, and legal docs
-- No code changes required for store submission
-- Consider beta testing before public launch
-- Both stores are stricter now about privacy and data handling
-- Religious content is fine as long as respectful and educational
+### After Approval
 
-Last Updated: 2026-02-05
+- [ ] Verify the app appears in both stores
+- [ ] Download and test on a real device from the store
+- [ ] Monitor crash reports (check Expo dashboard)
+- [ ] Monitor store ratings and reviews
+- [ ] Respond to user feedback
+
+### For Future Updates
+
+```bash
+# Bump version in app.json, then:
+eas build --platform all --profile production
+eas submit --platform all
+```
+
+EAS auto-increments the build number thanks to our `autoIncrement: true` config.
+
+---
+
+## Quick Reference: What You Need to Prepare
+
+| # | Task | Time Estimate | Tool |
+|---|------|--------------|------|
+| 1 | Developer accounts | 1-2 days (activation wait) | Apple/Google websites |
+| 2 | App icon (4 files) | 1-3 hours | Canva, Figma, or Fiverr |
+| 3 | Host privacy policy | 30 minutes | GitHub Pages |
+| 4 | Take 5-6 screenshots | 1 hour | Your phone + Screenshots.pro |
+| 5 | Android feature graphic | 30 minutes | Canva |
+| 6 | Build with EAS | 30-60 minutes | Terminal |
+| 7 | Submit to App Store | 1-2 hours | App Store Connect |
+| 8 | Submit to Play Store | 1-2 hours | Play Console |
+| 9 | Wait for reviews | 1-3 days | Patience |
+
+**Total realistic timeline: 5-7 days** (mostly waiting for account activation and store reviews)
+
+---
+
+## Helpful Links
+
+| Resource | URL |
+|----------|-----|
+| Apple Developer Program | https://developer.apple.com/programs/ |
+| Google Play Console | https://play.google.com/console/signup |
+| EAS Build Docs | https://docs.expo.dev/build/introduction/ |
+| EAS Submit Docs | https://docs.expo.dev/submit/introduction/ |
+| App Store Review Guidelines | https://developer.apple.com/app-store/review/guidelines/ |
+| Play Store Policies | https://play.google.com/about/developer-content-policy/ |
+| Canva (icon/graphic design) | https://www.canva.com |
+| Screenshots.pro (device frames) | https://screenshots.pro |
+| AppIcon.co (icon generator) | https://appicon.co/ |
+| GitHub Pages Docs | https://pages.github.com/ |
+
+---
+
+## Contact
+
+For any questions about the app: info@contextfirstai.com

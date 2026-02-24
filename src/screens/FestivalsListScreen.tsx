@@ -77,7 +77,6 @@ export const FestivalsListScreen: React.FC = () => {
         style={[styles.card, { backgroundColor: theme.surface }]}
         onPress={() => {
           // Future: Navigate to festival detail screen
-          console.log('Festival pressed:', item.name);
         }}
         accessibilityRole="button"
         accessibilityLabel={`View details for ${item.name}`}

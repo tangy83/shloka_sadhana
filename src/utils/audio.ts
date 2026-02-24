@@ -24,7 +24,7 @@ export const loadAudio = async (
 
     return sound;
   } catch (error) {
-    console.error('[Audio] Failed to load audio:', error);
+    if (__DEV__) console.error('[Audio] Failed to load audio:', error);
     return null;
   }
 };
@@ -43,7 +43,7 @@ export const playAudio = async (
     await sound.playAsync();
     return true;
   } catch (error) {
-    console.error('[Audio] Failed to play audio:', error);
+    if (__DEV__) console.error('[Audio] Failed to play audio:', error);
     return false;
   }
 };
@@ -62,7 +62,7 @@ export const pauseAudio = async (
     await sound.pauseAsync();
     return true;
   } catch (error) {
-    console.error('[Audio] Failed to pause audio:', error);
+    if (__DEV__) console.error('[Audio] Failed to pause audio:', error);
     return false;
   }
 };
@@ -81,7 +81,7 @@ export const stopAudio = async (
     await sound.stopAsync();
     return true;
   } catch (error) {
-    console.error('[Audio] Failed to stop audio:', error);
+    if (__DEV__) console.error('[Audio] Failed to stop audio:', error);
     return false;
   }
 };
@@ -98,7 +98,7 @@ export const unloadAudio = async (
   try {
     await sound.unloadAsync();
   } catch (error) {
-    console.error('[Audio] Failed to unload audio:', error);
+    if (__DEV__) console.error('[Audio] Failed to unload audio:', error);
   }
 };
 
@@ -116,7 +116,7 @@ export const getAudioStatus = async (
     const status = await sound.getStatusAsync();
     return status;
   } catch (error) {
-    console.error('[Audio] Failed to get status:', error);
+    if (__DEV__) console.error('[Audio] Failed to get status:', error);
     return null;
   }
 };
@@ -139,7 +139,7 @@ export const setPlaybackSpeed = async (
     await sound.setRateAsync(rate, preservesPitch);
     return true;
   } catch (error) {
-    console.error('[Audio] Failed to set playback speed:', error);
+    if (__DEV__) console.error('[Audio] Failed to set playback speed:', error);
     return false;
   }
 };
@@ -160,7 +160,7 @@ export const seekAudio = async (
     await sound.setPositionAsync(positionMillis);
     return true;
   } catch (error) {
-    console.error('[Audio] Failed to seek:', error);
+    if (__DEV__) console.error('[Audio] Failed to seek:', error);
     return false;
   }
 };

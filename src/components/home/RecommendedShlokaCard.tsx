@@ -27,7 +27,7 @@ export const RecommendedShlokaCard: React.FC = () => {
       const rec = getDailyRecommendation(today);
       setRecommendation(rec);
     } catch (error) {
-      console.error('[RecommendedShlokaCard] Failed to load recommendation:', error);
+      if (__DEV__) console.error('[RecommendedShlokaCard] Failed to load recommendation:', error);
       // Graceful degradation - component won't render
     }
   }, []);

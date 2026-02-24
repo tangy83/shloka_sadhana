@@ -36,10 +36,10 @@ describe('AboutScreen', () => {
   });
 
   describe('App Identity', () => {
-    it('should display the app name "Shloka Sadhana"', () => {
+    it('should display the app name "Sadhana"', () => {
       render(<AboutScreen />);
 
-      expect(screen.getByText('Shloka Sadhana')).toBeTruthy();
+      expect(screen.getByText('Sadhana')).toBeTruthy();
     });
 
     it('should display the app version from expo-constants', () => {
@@ -91,13 +91,13 @@ describe('AboutScreen', () => {
     it('should display the email address', () => {
       render(<AboutScreen />);
 
-      expect(screen.getByText(/contact@shlokasadhana.com/)).toBeTruthy();
+      expect(screen.getByText(/info@contextfirstai.com/)).toBeTruthy();
     });
 
     it('should display the website', () => {
       render(<AboutScreen />);
 
-      expect(screen.getByText(/www.shlokasadhana.com/)).toBeTruthy();
+      expect(screen.getByText(/www.contextfirstai.com/)).toBeTruthy();
     });
   });
 
@@ -105,7 +105,7 @@ describe('AboutScreen', () => {
     it('should display the copyright notice', () => {
       render(<AboutScreen />);
 
-      expect(screen.getByText(/© 2026 Shloka Sadhana/)).toBeTruthy();
+      expect(screen.getByText(/© 2026 Sadhana/)).toBeTruthy();
     });
 
     it('should display the "Made with devotion" message', () => {

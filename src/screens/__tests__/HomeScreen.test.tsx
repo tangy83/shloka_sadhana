@@ -15,9 +15,17 @@ import { loadActivePractice, getPracticeStats, loadPracticeHistory } from '@/uti
 import { PracticeSession, PracticeStats } from '@/types/practice';
 
 // Mock navigation
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: jest.fn(),
-}));
+jest.mock('@react-navigation/native', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const React = require('react');
+  return {
+    useNavigation: jest.fn(),
+    useFocusEffect: (cb: () => void) => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      React.useEffect(cb, []);
+    },
+  };
+});
 
 // Mock useStreak hook
 jest.mock('@/hooks/useStreak', () => ({
@@ -74,12 +82,12 @@ describe('HomeScreen', () => {
   describe('Initial Render', () => {
     it('should render the screen', () => {
       render(<HomeScreen />);
-      expect(screen.getByText(/Shloka Sadhana/i)).toBeTruthy();
+      expect(screen.getByText('Sadhana')).toBeTruthy();
     });
 
     it('should display app title', () => {
       render(<HomeScreen />);
-      expect(screen.getByText(/Shloka Sadhana/i)).toBeTruthy();
+      expect(screen.getByText('Sadhana')).toBeTruthy();
     });
 
     it('should display welcome message', () => {
@@ -100,17 +108,27 @@ describe('HomeScreen', () => {
       expect(screen.getByText(/Start Practice/i)).toBeTruthy();
     });
 
-    it('should display Browse Library button', () => {
+    it('should display Mantras button', () => {
       render(<HomeScreen />);
-      expect(screen.getByText(/Browse Library/i)).toBeTruthy();
+      expect(screen.getByText('Mantras')).toBeTruthy();
     });
 
     // Removed: Daily Wisdom and Quick 5-Min buttons no longer exist in Quick Actions
 
-    it('should have 2 quick action buttons', () => {
+    it('should have 4 quick action buttons', () => {
       const { getAllByTestId } = render(<HomeScreen />);
       const actionButtons = getAllByTestId('quick-action-button');
-      expect(actionButtons.length).toBe(2);
+      expect(actionButtons.length).toBe(4);
+    });
+
+    it('should display Ekadashi button', () => {
+      render(<HomeScreen />);
+      expect(screen.getByText('Ekadashi')).toBeTruthy();
+    });
+
+    it('should display Festivals button', () => {
+      render(<HomeScreen />);
+      expect(screen.getByText('Festivals')).toBeTruthy();
     });
   });
 
@@ -197,14 +215,23 @@ describe('HomeScreen', () => {
       expect(mockNavigate).toHaveBeenCalledWith('Practice');
     });
 
-    it('should navigate to Library screen when Browse Library button is pressed', () => {
+    it('should navigate to Library screen when Mantras button is pressed', () => {
       const { getByText } = render(<HomeScreen />);
-      const libraryButton = getByText('Browse Library');
-      fireEvent.press(libraryButton);
+      fireEvent.press(getByText('Mantras'));
       expect(mockNavigate).toHaveBeenCalledWith('Library');
     });
 
-    // Removed: Daily Wisdom and Quick 5-Min buttons no longer exist in Quick Actions
+    it('should navigate to EkadashiCalendar when Ekadashi button is pressed', () => {
+      const { getByText } = render(<HomeScreen />);
+      fireEvent.press(getByText('Ekadashi'));
+      expect(mockNavigate).toHaveBeenCalledWith('EkadashiCalendar');
+    });
+
+    it('should navigate to FestivalsList when Festivals button is pressed', () => {
+      const { getByText } = render(<HomeScreen />);
+      fireEvent.press(getByText('Festivals'));
+      expect(mockNavigate).toHaveBeenCalledWith('FestivalsList');
+    });
   });
 
   describe('Practice Persistence', () => {

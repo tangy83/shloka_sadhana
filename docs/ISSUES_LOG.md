@@ -75,10 +75,41 @@
 6. **Git Repository**: Initialize git repository for better history tracking and file recovery
 7. **Backup Before Deletion**: Always confirm with user before deleting documentation
 
+## Production Release Cleanup (2026-02-23)
+
+### Issues Found During Pre-Release Audit
+
+1. **Native `<Modal>` corrupts iOS touch system**: React Native's `<Modal>` component on iOS (Expo Go) creates native UIWindows that are not properly cleaned up after dismiss, blocking all subsequent touches. Affected: PracticeScreen (SankalpModal, OfferingModal), SessionHistoryScreen, SettingsScreen.
+   - **Fix**: Replaced ALL `<Modal>` usage with absolutely-positioned `<View>` overlays using `StyleSheet.absoluteFillObject` + `zIndex: 9999`.
+   - **Prevention**: Never use `<Modal>` from react-native. Always use View-based overlays.
+
+2. **Diagnostic artifacts left in code**: Feature flags, `[DIAG]` console.log statements, and stale comments were left in PracticeScreen from debugging.
+   - **Fix**: Removed all flags, logs, and comments.
+   - **Prevention**: Clean up all debug code before merging.
+
+3. **Console statements in production**: ~60 console.log/warn/error calls across the codebase would ship to production.
+   - **Fix**: Wrapped all in `if (__DEV__)` guards.
+   - **Prevention**: Lint rule or pre-commit hook to catch unguarded console statements.
+
+4. **ErrorBoundary not wired up**: Component existed but was never used in App.tsx.
+   - **Fix**: Wrapped app with `<ErrorBoundary>`.
+
+5. **Missing iOS location permission**: App uses expo-location but lacked `NSLocationWhenInUseUsageDescription`.
+   - **Fix**: Added to app.json infoPlist.
+   - **Prevention**: Check all permission strings before submission.
+
+6. **iOS buildNumber format wrong**: Was "1.0.0" (invalid), must be integer string.
+   - **Fix**: Changed to "1".
+
+7. **Circular import**: `shlokas.ts` <-> `contentLoader.ts` causing runtime warning.
+   - **Fix**: Made contentLoader import the JSON directly instead of going through shlokas.ts.
+
+8. **MalaCounter memory leak**: `setTimeout` in celebration handler not cleaned up on unmount.
+   - **Fix**: Added ref-based timeout tracking with cleanup in useEffect return.
+
 ## TODO: Future Improvements
 
-- [ ] Initialize git repository for better version control
 - [ ] Set up automated backups
-- [ ] Create pre-commit hooks to prevent common errors
+- [ ] Create pre-commit hooks to prevent common errors (e.g., unguarded console statements, `<Modal>` imports)
 - [ ] Document architectural decisions as they're made
 - [ ] Regular code reviews before major deletions

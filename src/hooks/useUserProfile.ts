@@ -34,7 +34,7 @@ export const useUserProfile = (): UseUserProfileReturn => {
           setProfile(saved);
         }
       } catch (error) {
-        console.error('[useUserProfile] Failed to load profile:', error);
+        if (__DEV__) console.error('[useUserProfile] Failed to load profile:', error);
       } finally {
         setIsLoading(false);
       }
@@ -47,7 +47,7 @@ export const useUserProfile = (): UseUserProfileReturn => {
       await setItem(STORAGE_KEYS.USER_PROFILE, updated);
       setProfile(updated);
     } catch (error) {
-      console.error('[useUserProfile] Failed to save profile:', error);
+      if (__DEV__) console.error('[useUserProfile] Failed to save profile:', error);
     }
   }, []);
 

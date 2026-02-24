@@ -41,14 +41,14 @@ export function useAppUpdates(): UseAppUpdatesReturn {
       const update = await Updates.checkForUpdateAsync();
 
       if (update.isAvailable) {
-        console.log('[useAppUpdates] Update available');
+        if (__DEV__) console.log('[useAppUpdates] Update available');
         setIsUpdateAvailable(true);
       } else {
-        console.log('[useAppUpdates] No update available');
+        if (__DEV__) console.log('[useAppUpdates] No update available');
         setIsUpdateAvailable(false);
       }
     } catch (error) {
-      console.error('[useAppUpdates] Error checking for updates:', error);
+      if (__DEV__) console.error('[useAppUpdates] Error checking for updates:', error);
       setIsUpdateAvailable(false);
     } finally {
       setIsChecking(false);
@@ -66,20 +66,20 @@ export function useAppUpdates(): UseAppUpdatesReturn {
     }
 
     if (!isUpdateAvailable) {
-      console.log('[useAppUpdates] No update to apply');
+      if (__DEV__) console.log('[useAppUpdates] No update to apply');
       return;
     }
 
     try {
       setIsDownloading(true);
-      console.log('[useAppUpdates] Fetching update...');
+      if (__DEV__) console.log('[useAppUpdates] Fetching update...');
 
       await Updates.fetchUpdateAsync();
 
-      console.log('[useAppUpdates] Update downloaded, reloading app...');
+      if (__DEV__) console.log('[useAppUpdates] Update downloaded, reloading app...');
       await Updates.reloadAsync();
     } catch (error) {
-      console.error('[useAppUpdates] Error applying update:', error);
+      if (__DEV__) console.error('[useAppUpdates] Error applying update:', error);
       setIsDownloading(false);
     }
   };
@@ -100,7 +100,7 @@ export function useAppUpdates(): UseAppUpdatesReturn {
   useEffect(() => {
     if (isUpdateAvailable && !isDownloading) {
       // Automatically apply update in production
-      console.log('[useAppUpdates] Auto-applying update...');
+      if (__DEV__) console.log('[useAppUpdates] Auto-applying update...');
       applyUpdate();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional run-on-mount; applyUpdate/isDownloading adding would re-trigger on every state change

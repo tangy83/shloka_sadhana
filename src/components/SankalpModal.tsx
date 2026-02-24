@@ -8,11 +8,10 @@
 import React, { useState, useEffect } from 'react';
 import { Colors } from '@/constants/Colors';
 import {
-  Modal,
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -105,118 +104,103 @@ export const SankalpModal: React.FC<SankalpModalProps> = ({
     setShowExamples(false);
   };
 
+  if (!visible) return null;
+
   return (
-    <Modal
-      visible={visible}
-      animationType="fade"
-      transparent={true}
-      onRequestClose={handleSkip}
+    <KeyboardAvoidingView
+      style={styles.overlay}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <KeyboardAvoidingView
-        style={styles.overlay}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <View style={styles.modalContainer}>
-          <ScrollView style={styles.modalScrollView} showsVerticalScrollIndicator={false}>
-            <View style={styles.modalContent}>
-              {/* Title */}
-              <Text style={styles.title}>Set Your Sankalp</Text>
+      <View style={styles.modalContainer}>
+        <ScrollView style={styles.modalScrollView} showsVerticalScrollIndicator={false}>
+          <View style={styles.modalContent}>
+            <Text style={styles.title}>Set Your Sankalp</Text>
 
-              {/* Description */}
-              <Text style={styles.description}>
-                Set an intention for your practice
-              </Text>
+            <Text style={styles.description}>
+              Set an intention for your practice
+            </Text>
 
-              {/* Help Button */}
-              <TouchableOpacity
-                style={styles.helpButton}
-                onPress={handleToggleHelp}
-                accessibilityLabel="Learn what a sankalp is"
-                accessibilityRole="button"
-              >
-                <Text style={styles.helpButtonText}>What&apos;s a sankalp?</Text>
-              </TouchableOpacity>
+            <Pressable
+              style={styles.helpButton}
+              onPress={handleToggleHelp}
+              accessibilityLabel="Learn what a sankalp is"
+              accessibilityRole="button"
+            >
+              <Text style={styles.helpButtonText}>What&apos;s a sankalp?</Text>
+            </Pressable>
 
-              {/* Help Text (Expandable) */}
-              {showHelp && (
-                <View style={styles.helpTextContainer}>
-                  <Text style={styles.helpText}>{SANKALP_HELP_TEXT.FULL}</Text>
-                </View>
-              )}
+            {showHelp && (
+              <View style={styles.helpTextContainer}>
+                <Text style={styles.helpText}>{SANKALP_HELP_TEXT.FULL}</Text>
+              </View>
+            )}
 
-              {/* Text Input */}
-              <TextInput
-                style={styles.input}
-                value={text}
-                onChangeText={setText}
-                placeholder="Enter your intention..."
-                placeholderTextColor={Colors.textSecondary}
-                multiline={true}
-                numberOfLines={4}
-                textAlignVertical="top"
-                accessibilityLabel="Intention text input"
-                accessibilityRole="text"
-              />
+            <TextInput
+              style={styles.input}
+              value={text}
+              onChangeText={setText}
+              placeholder="Enter your intention..."
+              placeholderTextColor={Colors.textSecondary}
+              multiline={true}
+              numberOfLines={4}
+              textAlignVertical="top"
+              accessibilityLabel="Intention text input"
+              accessibilityRole="text"
+            />
 
-              {/* Examples Button */}
-              <TouchableOpacity
-                style={styles.examplesButton}
-                onPress={handleToggleExamples}
-                accessibilityLabel="View example sankalpas"
-                accessibilityRole="button"
-              >
-                <Text style={styles.examplesButtonText}>Need inspiration?</Text>
-              </TouchableOpacity>
+            <Pressable
+              style={styles.examplesButton}
+              onPress={handleToggleExamples}
+              accessibilityLabel="View example sankalpas"
+              accessibilityRole="button"
+            >
+              <Text style={styles.examplesButtonText}>Need inspiration?</Text>
+            </Pressable>
 
-              {/* Examples (Expandable) */}
-              {showExamples && (
-                <View style={styles.examplesContainer}>
-                  {Object.entries(SANKALP_EXAMPLES).map(([key, category]) => (
-                    <View key={key} style={styles.categoryContainer}>
-                      <Text style={styles.categoryName}>{category.name}</Text>
-                      {category.examples.map((example, index) => (
-                        <TouchableOpacity
-                          key={index}
-                          style={styles.exampleItem}
-                          onPress={() => handleSelectExample(example)}
-                          accessibilityLabel={`Select example: ${example}`}
-                          accessibilityRole="button"
-                        >
-                          <Text style={styles.exampleText}>{example}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  ))}
-                </View>
-              )}
+            {showExamples && (
+              <View style={styles.examplesContainer}>
+                {Object.entries(SANKALP_EXAMPLES).map(([key, category]) => (
+                  <View key={key} style={styles.categoryContainer}>
+                    <Text style={styles.categoryName}>{category.name}</Text>
+                    {category.examples.map((example, index) => (
+                      <Pressable
+                        key={index}
+                        style={styles.exampleItem}
+                        onPress={() => handleSelectExample(example)}
+                        accessibilityLabel={`Select example: ${example}`}
+                        accessibilityRole="button"
+                      >
+                        <Text style={styles.exampleText}>{example}</Text>
+                      </Pressable>
+                    ))}
+                  </View>
+                ))}
+              </View>
+            )}
 
-              {/* Buttons */}
-              <View style={styles.buttonContainer}>
-              {/* Skip Button */}
-              <TouchableOpacity
+            <View style={styles.buttonContainer}>
+              <Pressable
                 style={[styles.button, styles.skipButton]}
                 onPress={handleSkip}
                 accessibilityLabel="Skip setting intention"
                 accessibilityRole="button"
               >
                 <Text style={styles.skipButtonText}>Skip</Text>
-              </TouchableOpacity>
+              </Pressable>
 
-              {/* Confirm Button */}
-              <TouchableOpacity
+              <Pressable
                 style={[styles.button, styles.confirmButton]}
                 onPress={handleConfirm}
                 accessibilityLabel="Start practice with intention"
                 accessibilityRole="button"
               >
                 <Text style={styles.confirmButtonText}>Start Practice</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
-          </ScrollView>
-        </View>
-      </KeyboardAvoidingView>
-    </Modal>
+        </ScrollView>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -341,10 +325,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   overlay: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     backgroundColor: Colors.scrim,
-    flex: 1,
     justifyContent: 'center',
+    zIndex: 9999,
   },
   skipButton: {
     backgroundColor: Colors.surfaceElevated,

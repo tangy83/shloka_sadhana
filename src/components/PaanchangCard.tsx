@@ -12,6 +12,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getPaanchangForDate } from '@/utils/paanchang';
 import { getRecommendationForDate } from '@/utils/weekdayRecommendations';
+import { getNakshatraGuidance, NakshatraGuidance } from '@/utils/nakshatraGuidance';
 import { PaanchangData } from '@/types';
 import type { WeekdayRecommendation } from '@/utils/weekdayRecommendations';
 
@@ -26,13 +27,16 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
   const { theme } = useTheme();
   const [paanchang, setPaanchang] = useState<PaanchangData | null>(null);
   const [recommendation, setRecommendation] = useState<WeekdayRecommendation | null>(null);
+  const [nakshatraGuidance, setNakshatraGuidance] = useState<NakshatraGuidance | null>(null);
 
   useEffect(() => {
     const targetDate = date || new Date().toISOString().split('T')[0];
     const data = getPaanchangForDate(targetDate);
     const rec = getRecommendationForDate(targetDate);
+    const guidance = getNakshatraGuidance(data.nakshatra);
     setPaanchang(data);
     setRecommendation(rec);
+    setNakshatraGuidance(guidance);
   }, [date]);
 
   if (!paanchang) {
@@ -104,6 +108,36 @@ export const PaanchangCard: React.FC<PaanchangCardProps> = ({ date }) => {
         </View>
       )}
 
+      {/* Nakshatra Guidance */}
+      {nakshatraGuidance && nakshatraGuidance.name !== 'Unknown' && (
+        <View style={[styles.nakshatraContainer, { borderTopColor: theme.divider }]} testID="nakshatra-guidance">
+          <Text style={[styles.nakshatraTitle, { color: theme.primary }]}>Current Nakshatra Guidance</Text>
+          <Text style={[styles.nakshatraGeneral, { color: theme.textMeaning }]}>{nakshatraGuidance.general}</Text>
+
+          {nakshatraGuidance.favorable.length > 0 && (
+            <View style={styles.guidanceSection}>
+              <Text style={[styles.guidanceLabel, { color: theme.success }]}>✓ Favorable</Text>
+              {nakshatraGuidance.favorable.map((item, index) => (
+                <Text key={index} style={[styles.guidanceItem, { color: theme.textSecondary }]}>
+                  • {item}
+                </Text>
+              ))}
+            </View>
+          )}
+
+          {nakshatraGuidance.unfavorable.length > 0 && (
+            <View style={styles.guidanceSection}>
+              <Text style={[styles.guidanceLabel, styles.unfavorableLabel]}>✗ Unfavorable</Text>
+              {nakshatraGuidance.unfavorable.map((item, index) => (
+                <Text key={index} style={[styles.guidanceItem, { color: theme.textSecondary }]}>
+                  • {item}
+                </Text>
+              ))}
+            </View>
+          )}
+        </View>
+      )}
+
       {/* Weekday Recommendation */}
       {recommendation && (
         <View style={[styles.recommendationContainer, { borderTopColor: theme.divider }]} testID="weekday-recommendation">
@@ -168,6 +202,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
+  guidanceItem: {
+    color: Colors.textSecondary,
+    fontSize: 12,
+    lineHeight: 18,
+    marginLeft: 8,
+  },
+  guidanceLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 6,
+  },
+  guidanceSection: {
+    marginBottom: 12,
+  },
   header: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -178,6 +226,25 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '500',
+  },
+  nakshatraContainer: {
+    borderTopColor: Colors.divider,
+    borderTopWidth: 1,
+    marginTop: 12,
+    paddingTop: 12,
+  },
+  nakshatraGeneral: {
+    color: Colors.textMeaning,
+    fontSize: 13,
+    lineHeight: 20,
+    marginBottom: 12,
+  },
+  nakshatraTitle: {
+    color: Colors.primary,
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 8,
+    textTransform: 'uppercase',
   },
   recommendationBenefits: {
     color: Colors.textSecondary,
@@ -210,6 +277,10 @@ const styles = StyleSheet.create({
     color: Colors.textBright,
     fontSize: 20,
     fontWeight: '600',
+  },
+  // eslint-disable-next-line react-native/no-color-literals
+  unfavorableLabel: {
+    color: '#FF6B6B',
   },
   value: {
     color: Colors.textBright,

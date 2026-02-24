@@ -264,9 +264,12 @@ describe('ShlokaDetailScreen', () => {
 
       fireEvent.press(button);
 
-      expect(mockNavigate).toHaveBeenCalledWith('Practice', {
-        shlokaId: 'test-shloka',
-        shlokaName: 'Test Mantra',
+      expect(mockNavigate).toHaveBeenCalledWith('MainTabs', {
+        screen: 'Practice',
+        params: {
+          shlokaId: 'test-shloka',
+          shlokaName: 'Test Mantra',
+        },
       });
     });
 
@@ -277,9 +280,12 @@ describe('ShlokaDetailScreen', () => {
       fireEvent.press(button);
 
       expect(mockNavigate).toHaveBeenCalledWith(
-        'Practice',
+        'MainTabs',
         expect.objectContaining({
-          shlokaId: 'test-shloka',
+          screen: 'Practice',
+          params: expect.objectContaining({
+            shlokaId: 'test-shloka',
+          }),
         })
       );
     });
@@ -291,9 +297,12 @@ describe('ShlokaDetailScreen', () => {
       fireEvent.press(button);
 
       expect(mockNavigate).toHaveBeenCalledWith(
-        'Practice',
+        'MainTabs',
         expect.objectContaining({
-          shlokaName: 'Test Mantra',
+          screen: 'Practice',
+          params: expect.objectContaining({
+            shlokaName: 'Test Mantra',
+          }),
         })
       );
     });

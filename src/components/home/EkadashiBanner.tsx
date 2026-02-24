@@ -76,7 +76,7 @@ export const EkadashiBanner: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error('[EkadashiBanner] Failed to load Ekadashi data:', error);
+      if (__DEV__) console.error('[EkadashiBanner] Failed to load Ekadashi data:', error);
       // Graceful degradation - don't show banner
       setEkadashiData(null);
     }

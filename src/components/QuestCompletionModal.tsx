@@ -8,11 +8,10 @@
 
 import React, { useEffect } from 'react';
 import {
-  Modal,
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
@@ -31,46 +30,36 @@ export const QuestCompletionModal: React.FC<QuestCompletionModalProps> = ({
   onDismiss,
 }) => {
   const { theme } = useTheme();
-  // Auto-dismiss after 3 seconds
+
   useEffect(() => {
     if (!visible) return;
     const timer = setTimeout(onDismiss, 3000);
     return () => clearTimeout(timer);
   }, [visible, onDismiss]);
 
-  if (!quest) return null;
+  if (!visible || !quest) return null;
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={onDismiss}
+    <Pressable
+      style={styles.overlay}
+      onPress={onDismiss}
+      accessibilityRole="button"
+      accessibilityLabel="Dismiss quest completion"
     >
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onDismiss}
-        accessibilityRole="button"
-        accessibilityLabel="Dismiss quest completion"
-      >
-        <View style={[styles.card, { backgroundColor: theme.surfaceElevated }]}>
-          {/* OM glyph hero */}
-          <Text style={styles.omText}>ॐ</Text>
+      <View style={[styles.card, { backgroundColor: theme.surfaceElevated }]}>
+        <Text style={styles.omText}>ॐ</Text>
 
-          <Text style={[styles.title, { color: theme.text }]}>Quest Complete!</Text>
-          <Text style={styles.questName}>{quest.title}</Text>
+        <Text style={[styles.title, { color: theme.text }]}>Quest Complete!</Text>
+        <Text style={styles.questName}>{quest.title}</Text>
 
-          {/* XP earned */}
-          <View style={styles.xpRow}>
-            <MaterialCommunityIcons name="lightning-bolt" size={20} color={Colors.templeGold} />
-            <Text style={styles.xpText}>+{quest.xpReward} XP earned today</Text>
-          </View>
-
-          <Text style={styles.hint}>Tap anywhere to continue</Text>
+        <View style={styles.xpRow}>
+          <MaterialCommunityIcons name="lightning-bolt" size={20} color={Colors.templeGold} />
+          <Text style={styles.xpText}>+{quest.xpReward} XP earned today</Text>
         </View>
-      </TouchableOpacity>
-    </Modal>
+
+        <Text style={styles.hint}>Tap anywhere to continue</Text>
+      </View>
+    </Pressable>
   );
 };
 
@@ -102,11 +91,12 @@ const styles = StyleSheet.create({
     textShadowRadius: 20,
   },
   overlay: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     backgroundColor: Colors.overlay,
-    flex: 1,
     justifyContent: 'center',
     padding: 32,
+    zIndex: 9999,
   },
   questName: {
     color: Colors.textSecondary,

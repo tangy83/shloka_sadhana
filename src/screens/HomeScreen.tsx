@@ -5,10 +5,10 @@
  * Main home screen with dashboard, quick actions, and overview
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useStreak } from '@/hooks/useStreak';
 import { useStats } from '@/hooks/useStats';
 import { loadActivePractice, getPracticeStats } from '@/utils/practiceStorage';
@@ -43,16 +43,17 @@ export const HomeScreen: React.FC = () => {
   const [stats, setStats] = useState<PracticeStats | null>(null);
   const [showRecoveryMessage, setShowRecoveryMessage] = useState(false);
 
-  // Load active practice and statistics on mount
-  useEffect(() => {
-    const loadData = async () => {
-      const practice = await loadActivePractice();
-      const practiceStats = await getPracticeStats();
-      setActivePractice(practice);
-      setStats(practiceStats);
-    };
-    loadData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const loadData = async () => {
+        const practice = await loadActivePractice();
+        const practiceStats = await getPracticeStats();
+        setActivePractice(practice);
+        setStats(practiceStats);
+      };
+      loadData();
+    }, [])
+  );
 
   // Check if recovery message should be shown
   useEffect(() => {
@@ -89,7 +90,7 @@ export const HomeScreen: React.FC = () => {
       <View style={[styles.header, styles.elevated]}>
         <View style={styles.headerRow}>
           <View>
-            <AppText style={styles.appTitle}>Shloka Sadhana</AppText>
+            <AppText style={styles.appTitle}>Sadhana</AppText>
             <AppText style={[styles.welcomeText, { color: theme.textSecondary }]}>
               {profile.displayName
                 ? `Welcome back, ${profile.displayName} ${profile.avatarEmoji}`
@@ -134,10 +135,10 @@ export const HomeScreen: React.FC = () => {
           </View>
         )}
 
-        {/* Quick Actions */}
+        {/* Quick Actions — 2x2 grid */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Quick Actions</Text>
-          <View style={styles.quickActions}>
+          <View style={styles.quickActionsGrid}>
             <TouchableOpacity
               style={[styles.actionButton, { backgroundColor: theme.surface }]}
               testID="quick-action-button"
@@ -145,7 +146,7 @@ export const HomeScreen: React.FC = () => {
               accessibilityLabel="Start Practice"
               onPress={() => navigation.navigate('Practice' as never)}
             >
-              <MaterialCommunityIcons name="meditation" size={36} color={Colors.primary} style={styles.actionIcon} />
+              <MaterialCommunityIcons name="meditation" size={32} color={Colors.primary} style={styles.actionIcon} />
               <Text style={[styles.actionText, { color: theme.textBright }]}>Start Practice</Text>
             </TouchableOpacity>
 
@@ -153,11 +154,33 @@ export const HomeScreen: React.FC = () => {
               style={[styles.actionButton, { backgroundColor: theme.surface }]}
               testID="quick-action-button"
               accessibilityRole="button"
-              accessibilityLabel="Browse Library"
+              accessibilityLabel="Mantras"
               onPress={() => navigation.navigate('Library' as never)}
             >
-              <MaterialCommunityIcons name="book-open-variant" size={36} color={Colors.primary} style={styles.actionIcon} />
-              <Text style={[styles.actionText, { color: theme.textBright }]}>Browse Library</Text>
+              <MaterialCommunityIcons name="book-open-variant" size={32} color={Colors.primary} style={styles.actionIcon} />
+              <Text style={[styles.actionText, { color: theme.textBright }]}>Mantras</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.actionButton, { backgroundColor: theme.surface }]}
+              testID="quick-action-button"
+              accessibilityRole="button"
+              accessibilityLabel="Ekadashi Calendar"
+              onPress={() => navigation.navigate('EkadashiCalendar' as never)}
+            >
+              <Text style={styles.actionEmoji}>ॐ</Text>
+              <Text style={[styles.actionText, { color: theme.textBright }]}>Ekadashi</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.actionButton, { backgroundColor: theme.surface }]}
+              testID="quick-action-button"
+              accessibilityRole="button"
+              accessibilityLabel="View Festivals"
+              onPress={() => navigation.navigate('FestivalsList' as never)}
+            >
+              <MaterialCommunityIcons name="candle" size={32} color={Colors.primary} style={styles.actionIcon} />
+              <Text style={[styles.actionText, { color: theme.textBright }]}>Festivals</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -167,56 +190,14 @@ export const HomeScreen: React.FC = () => {
           <PaanchangCard />
         </View>
 
-        {/* Auspicious Times - V3 Feature #4 */}
+        {/* Auspicious Times */}
         <View style={styles.section}>
           <MuhuratTimes />
         </View>
 
-        {/* Ekadashi Banner - V3 Feature #10 */}
+        {/* Ekadashi Banner */}
         <View style={styles.section}>
           <EkadashiBanner />
-        </View>
-
-        {/* Ekadashi Calendar - V3 Feature #10 */}
-        <View style={styles.section}>
-          <TouchableOpacity
-            style={[styles.ekadashiButton, { backgroundColor: theme.surface }]}
-            onPress={() => navigation.navigate('EkadashiCalendar' as never)}
-            accessibilityRole="button"
-            accessibilityLabel="View Ekadashi Calendar"
-          >
-            <View style={styles.ekadashiButtonContent}>
-              <Text style={styles.ekadashiButtonEmoji}>ॐ</Text>
-              <View style={styles.ekadashiButtonTextContainer}>
-                <Text style={[styles.ekadashiButtonTitle, { color: theme.textBright }]}>Ekadashi Calendar</Text>
-                <Text style={[styles.ekadashiButtonSubtitle, { color: theme.textSecondary }]}>
-                  View all Ekadashi dates & details
-                </Text>
-              </View>
-              <Text style={[styles.ekadashiButtonArrow, { color: theme.primary }]}>›</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        {/* Festivals - V3 Feature #3 */}
-        <View style={styles.section}>
-          <TouchableOpacity
-            style={[styles.festivalsButton, { backgroundColor: theme.surface }]}
-            onPress={() => navigation.navigate('FestivalsList' as never)}
-            accessibilityRole="button"
-            accessibilityLabel="View Hindu Festivals"
-          >
-            <View style={styles.festivalsButtonContent}>
-              <MaterialCommunityIcons name="candle" size={32} color={Colors.primary} style={styles.festivalsButtonIcon} />
-              <View style={styles.festivalsButtonTextContainer}>
-                <Text style={[styles.festivalsButtonTitle, { color: theme.textBright }]}>Upcoming Festivals</Text>
-                <Text style={[styles.festivalsButtonSubtitle, { color: theme.textSecondary }]}>
-                  View Hindu festival calendar
-                </Text>
-              </View>
-              <Text style={[styles.festivalsButtonArrow, { color: theme.primary }]}>›</Text>
-            </View>
-          </TouchableOpacity>
         </View>
 
         {/* Verse of the Day - V3 Feature #5 */}
@@ -348,11 +329,18 @@ const styles = StyleSheet.create({
   actionButton: {
     alignItems: 'center',
     backgroundColor: Colors.surface,
+    borderColor: Colors.borderSubtle,
     borderRadius: 16,
-    flex: 1,
+    borderWidth: 0.5,
+    flexBasis: '47%',
+    flexGrow: 1,
     justifyContent: 'center',
-    minHeight: 100,
-    padding: 20,
+    minHeight: 90,
+    padding: 16,
+  },
+  actionEmoji: {
+    fontSize: 30,
+    marginBottom: 8,
   },
   actionIcon: {
     marginBottom: 8,
@@ -373,69 +361,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     flex: 1,
   },
-  ekadashiButton: {
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    padding: 20,
-  },
-  ekadashiButtonArrow: {
-    color: Colors.primary,
-    fontSize: 32,
-    fontWeight: '300',
-  },
-  ekadashiButtonContent: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  ekadashiButtonEmoji: {
-    fontSize: 32,
-    marginRight: 16,
-  },
-  ekadashiButtonSubtitle: {
-    color: Colors.textSecondary,
-    fontSize: 13,
-  },
-  ekadashiButtonTextContainer: {
-    flex: 1,
-  },
-  ekadashiButtonTitle: {
-    color: Colors.textBright,
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
   elevated: {
     zIndex: 1,
-  },
-  festivalsButton: {
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    padding: 20,
-  },
-  festivalsButtonArrow: {
-    color: Colors.primary,
-    fontSize: 32,
-    fontWeight: '300',
-  },
-  festivalsButtonContent: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  festivalsButtonIcon: {
-    marginRight: 16,
-  },
-  festivalsButtonSubtitle: {
-    color: Colors.textSecondary,
-    fontSize: 13,
-  },
-  festivalsButtonTextContainer: {
-    flex: 1,
-  },
-  festivalsButtonTitle: {
-    color: Colors.textBright,
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
   },
   header: {
     padding: 20,
@@ -499,8 +426,9 @@ const styles = StyleSheet.create({
     gap: 12,
     marginBottom: 16,
   },
-  quickActions: {
+  quickActionsGrid: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 12,
   },
   resumeButton: {

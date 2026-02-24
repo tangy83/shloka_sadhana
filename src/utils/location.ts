@@ -37,14 +37,14 @@ export async function getUserLocation(): Promise<UserLocation> {
       return JSON.parse(stored);
     }
   } catch (error) {
-    console.error('[location] Failed to load stored location:', error);
+    if (__DEV__) console.error('[location] Failed to load stored location:', error);
   }
 
   // Try to get device location (with permission)
   try {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      console.log('[location] Permission not granted, using default location');
+      if (__DEV__) console.log('[location] Permission not granted, using default location');
       return DEFAULT_LOCATION;
     }
 
@@ -60,7 +60,7 @@ export async function getUserLocation(): Promise<UserLocation> {
       timezone,
     };
   } catch (error) {
-    console.error('[location] Failed to get device location:', error);
+    if (__DEV__) console.error('[location] Failed to get device location:', error);
     // Fallback to default
     return DEFAULT_LOCATION;
   }
@@ -76,7 +76,7 @@ export async function setUserLocation(location: UserLocation): Promise<void> {
   try {
     await AsyncStorage.setItem(STORAGE_KEYS.USER_LOCATION, JSON.stringify(location));
   } catch (error) {
-    console.error('[location] Failed to save location:', error);
+    if (__DEV__) console.error('[location] Failed to save location:', error);
     throw error;
   }
 }
@@ -88,7 +88,7 @@ export async function clearUserLocation(): Promise<void> {
   try {
     await AsyncStorage.removeItem(STORAGE_KEYS.USER_LOCATION);
   } catch (error) {
-    console.error('[location] Failed to clear location:', error);
+    if (__DEV__) console.error('[location] Failed to clear location:', error);
     throw error;
   }
 }

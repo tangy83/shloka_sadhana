@@ -50,7 +50,7 @@ export const MuhuratTimes: React.FC = () => {
         try {
           location = await getUserLocation();
         } catch (error) {
-          console.error('[MuhuratTimes] Failed to get location:', error);
+          if (__DEV__) console.error('[MuhuratTimes] Failed to get location:', error);
           location = getDefaultLocation();
         }
 
@@ -60,7 +60,7 @@ export const MuhuratTimes: React.FC = () => {
 
         setMuhuratData(muhurat);
       } catch (error) {
-        console.error('[MuhuratTimes] Failed to calculate muhurat:', error);
+        if (__DEV__) console.error('[MuhuratTimes] Failed to calculate muhurat:', error);
         // Component will render with null data (graceful degradation)
       } finally {
         setLoading(false);

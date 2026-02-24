@@ -5,7 +5,7 @@
  * Tracks repetitions of prayers/mantras (108 beads = 1 mala)
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { triggerMedium, triggerLight } from '@/utils/haptics';
 import { Colors } from '@/constants/Colors';
@@ -37,9 +37,13 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
   const [reducedMotion, setReducedMotion] = useState(false);
   // Gentle meditative pulse on every tap
   const [pulseAnim] = useState(new Animated.Value(1));
+  const celebrationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     checkReducedMotion().then(setReducedMotion);
+    return () => {
+      if (celebrationTimeout.current) clearTimeout(celebrationTimeout.current);
+    };
   }, []);
 
   const isGlowing = count >= BEADS_PER_MALA;
@@ -69,8 +73,8 @@ export const MalaCounter: React.FC<MalaCounterProps> = ({
    */
   const triggerCelebration = () => {
     setShowCelebration(true);
-    // Auto-reset after 900ms — matches MalaCelebration's 850ms animation + buffer
-    setTimeout(() => setShowCelebration(false), 900);
+    if (celebrationTimeout.current) clearTimeout(celebrationTimeout.current);
+    celebrationTimeout.current = setTimeout(() => setShowCelebration(false), 900);
   };
 
   /**

@@ -11,8 +11,7 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  TouchableOpacity,
-  Modal,
+  Pressable,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
@@ -75,7 +74,7 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
   };
 
   const renderSession = ({ item }: { item: CompletedPractice }) => (
-    <TouchableOpacity
+    <Pressable
       testID="session-item"
       style={[styles.sessionItem, { backgroundColor: theme.surface }]}
       onPress={() => setSelectedSession(item)}
@@ -88,79 +87,72 @@ export const SessionHistoryScreen: React.FC<SessionHistoryScreenProps> = () => {
         <Text style={[styles.sessionMala, { color: theme.textSecondary }]}>{item.malaCount} mala{item.malaCount !== 1 ? 's' : ''}</Text>
         {item.sankalp && <Text style={[styles.sessionSankalp, { color: theme.textMeaning }]}>🙏 {item.sankalp}</Text>}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 
   const renderModal = () => {
     if (!selectedSession) return null;
 
     return (
-      <Modal
-        testID="session-detail-modal"
-        visible={!!selectedSession}
-        animationType="slide"
-        transparent
-        onRequestClose={() => setSelectedSession(null)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: theme.surface }]}>
-            <ScrollView>
-              <Text style={[styles.modalTitle, { color: theme.textBright }]}>Session Details</Text>
+      <View testID="session-detail-modal" style={styles.modalOverlay}>
+        <Pressable style={StyleSheet.absoluteFill} onPress={() => setSelectedSession(null)} />
+        <View style={[styles.modalContent, { backgroundColor: theme.surface }]}>
+          <ScrollView>
+            <Text style={[styles.modalTitle, { color: theme.textBright }]}>Session Details</Text>
 
+            <View style={styles.modalSection}>
+              <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Date</Text>
+              <Text style={[styles.modalValue, { color: theme.text }]}>{formatDate(selectedSession.date)}</Text>
+            </View>
+
+            <View style={styles.modalSection}>
+              <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Duration</Text>
+              <Text style={[styles.modalValue, { color: theme.text }]}>{formatDuration(selectedSession.duration)}</Text>
+            </View>
+
+            <View style={styles.modalSection}>
+              <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Mala Count</Text>
+              <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.malaCount}</Text>
+            </View>
+
+            {selectedSession.shlokaName && (
               <View style={styles.modalSection}>
-                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Date</Text>
-                <Text style={[styles.modalValue, { color: theme.text }]}>{formatDate(selectedSession.date)}</Text>
+                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Shloka</Text>
+                <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.shlokaName}</Text>
               </View>
+            )}
 
+            {selectedSession.sankalp && (
               <View style={styles.modalSection}>
-                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Duration</Text>
-                <Text style={[styles.modalValue, { color: theme.text }]}>{formatDuration(selectedSession.duration)}</Text>
+                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Sankalp</Text>
+                <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.sankalp}</Text>
               </View>
+            )}
 
+            {selectedSession.offering && (
               <View style={styles.modalSection}>
-                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Mala Count</Text>
-                <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.malaCount}</Text>
+                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Offering</Text>
+                <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.offering}</Text>
               </View>
+            )}
 
-              {selectedSession.shlokaName && (
-                <View style={styles.modalSection}>
-                  <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Shloka</Text>
-                  <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.shlokaName}</Text>
-                </View>
-              )}
+            {selectedSession.notes && (
+              <View style={styles.modalSection}>
+                <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Notes</Text>
+                <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.notes}</Text>
+              </View>
+            )}
+          </ScrollView>
 
-              {selectedSession.sankalp && (
-                <View style={styles.modalSection}>
-                  <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Sankalp</Text>
-                  <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.sankalp}</Text>
-                </View>
-              )}
-
-              {selectedSession.offering && (
-                <View style={styles.modalSection}>
-                  <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Offering</Text>
-                  <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.offering}</Text>
-                </View>
-              )}
-
-              {selectedSession.notes && (
-                <View style={styles.modalSection}>
-                  <Text style={[styles.modalLabel, { color: theme.textSecondary }]}>Notes</Text>
-                  <Text style={[styles.modalValue, { color: theme.text }]}>{selectedSession.notes}</Text>
-                </View>
-              )}
-            </ScrollView>
-
-            <TouchableOpacity
-              testID="close-modal-button"
-              style={[styles.closeButton, { backgroundColor: theme.primary }]}
-              onPress={() => setSelectedSession(null)}
-            >
-              <Text style={[styles.closeButtonText, { color: Colors.textOnColor }]}>Close</Text>
-            </TouchableOpacity>
-          </View>
+          <Pressable
+            testID="close-modal-button"
+            style={[styles.closeButton, { backgroundColor: theme.primary }]}
+            onPress={() => setSelectedSession(null)}
+          >
+            <Text style={[styles.closeButtonText, { color: Colors.textOnColor }]}>Close</Text>
+          </Pressable>
         </View>
-      </Modal>
+      </View>
     );
   };
 
@@ -268,9 +260,10 @@ const styles = StyleSheet.create({
   },
   // eslint-disable-next-line react-native/no-color-literals
   modalOverlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.8)', // extra-dark overlay for bottom sheet
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'flex-end',
+    zIndex: 9999,
   },
   modalSection: {
     marginBottom: 16,

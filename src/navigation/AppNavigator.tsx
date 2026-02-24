@@ -6,9 +6,9 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/contexts/ThemeContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -21,7 +21,6 @@ import { SettingsScreen } from '@/screens/SettingsScreen';
 import { FestivalsListScreen } from '@/screens/FestivalsListScreen';
 import { EkadashiCalendarScreen } from '@/screens/EkadashiCalendarScreen';
 import { EkadashiDetailScreen } from '@/screens/EkadashiDetailScreen';
-import { WisdomScreen } from '@/screens/WisdomScreen';
 import { WisdomDetailScreen } from '@/screens/WisdomDetailScreen';
 import { AboutScreen } from '@/screens/AboutScreen';
 import { PrivacyPolicyScreen } from '@/screens/PrivacyPolicyScreen';
@@ -97,7 +96,7 @@ const TabNavigator = () => {
         name="Library"
         component={LibraryScreen}
         options={{
-          tabBarLabel: 'Library',
+          tabBarLabel: 'Mantras',
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name={focused ? 'book-open-variant' : 'book-open-outline'}
@@ -115,20 +114,6 @@ const TabNavigator = () => {
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name={focused ? 'bell' : 'bell-outline'}
-              size={24}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Wisdom"
-        component={WisdomScreen}
-        options={{
-          tabBarLabel: 'Wisdom',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'bulb' : 'bulb-outline'}
               size={24}
               color={color}
             />
@@ -184,15 +169,33 @@ export const AppNavigator = () => {
       <Stack.Screen
         name="ShlokaDetail"
         component={ShlokaDetailScreen}
-        options={{
+        options={({ navigation }) => ({
           headerShown: true,
           headerStyle: {
             backgroundColor: theme.headerBackground,
           },
           headerTintColor: theme.primary,
           headerTitle: '',
-          headerBackTitle: 'Library',
-        }}
+          headerBackTitle: 'Mantras',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                // Always navigate to Library tab when back button is pressed
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (navigation as any).navigate('MainTabs', { screen: 'Library' });
+              }}
+              hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              accessibilityLabel="Go to Mantras"
+              accessibilityRole="button"
+            >
+              <MaterialCommunityIcons
+                name="chevron-left"
+                size={32}
+                color={theme.primary}
+              />
+            </TouchableOpacity>
+          ),
+        })}
       />
 
       {/* Festivals List - V3 Feature #3 */}

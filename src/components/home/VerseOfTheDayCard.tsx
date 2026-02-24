@@ -25,7 +25,7 @@ export const VerseOfTheDayCard: React.FC = () => {
       const todayVerse = getVerseOfTheDay(today);
       setVerse(todayVerse);
     } catch (error) {
-      console.error('[VerseOfTheDayCard] Failed to load verse:', error);
+      if (__DEV__) console.error('[VerseOfTheDayCard] Failed to load verse:', error);
       // Graceful degradation - component won't render
     }
   }, []);

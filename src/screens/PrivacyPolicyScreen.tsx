@@ -27,7 +27,7 @@ export const PrivacyPolicyScreen: React.FC = () => {
       <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Introduction</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
-          Shloka Sadhana (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.
+          Sadhana (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.
         </Text>
       </View>
 
@@ -130,8 +130,8 @@ export const PrivacyPolicyScreen: React.FC = () => {
         <Text style={styles.sectionTitle}>Contact Us</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
           If you have any questions about this Privacy Policy, please contact us at:{'\n\n'}
-          Email: privacy@shlokasadhana.com{'\n'}
-          Website: www.shlokasadhana.com/privacy
+          Email: info@contextfirstai.com{'\n'}
+          Website: https://www.contextfirstai.com/
         </Text>
       </View>
 
@@ -139,7 +139,7 @@ export const PrivacyPolicyScreen: React.FC = () => {
       <View style={styles.footer}>
         <Text style={[styles.footerText, { color: theme.textSecondary }]}>
           Your privacy is important to us.{'\n'}
-          © 2026 Shloka Sadhana
+          © 2026 Sadhana
         </Text>
       </View>
     </ScrollView>

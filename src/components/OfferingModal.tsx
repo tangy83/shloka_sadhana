@@ -8,11 +8,10 @@
 import React, { useState, useEffect } from 'react';
 import { Colors } from '@/constants/Colors';
 import {
-  Modal,
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -66,88 +65,75 @@ export const OfferingModal: React.FC<OfferingModalProps> = ({
     onSkip();
   };
 
+  if (!visible) return null;
+
   return (
-    <Modal
-      visible={visible}
-      animationType="fade"
-      transparent={true}
-      onRequestClose={handleSkip}
+    <KeyboardAvoidingView
+      style={styles.overlay}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <KeyboardAvoidingView
-        style={styles.overlay}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {/* Title */}
-            <Text style={styles.title}>Dedicate Your Practice</Text>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <Text style={styles.title}>Dedicate Your Practice</Text>
 
-            {/* Description */}
-            <Text style={styles.description}>
-              Offer the fruits of your practice
+          <Text style={styles.description}>
+            Offer the fruits of your practice
+          </Text>
+
+          {elapsedTime && (
+            <Text style={styles.elapsedTime}>
+              Practice completed: {elapsedTime}
             </Text>
+          )}
 
-            {/* Elapsed Time (if provided) */}
-            {elapsedTime && (
-              <Text style={styles.elapsedTime}>
-                Practice completed: {elapsedTime}
-              </Text>
-            )}
+          <TextInput
+            style={styles.input}
+            value={text}
+            onChangeText={setText}
+            placeholder="Enter your offering..."
+            placeholderTextColor={Colors.textSecondary}
+            multiline={true}
+            numberOfLines={4}
+            textAlignVertical="top"
+            accessibilityLabel="Offering text input"
+            accessibilityRole="text"
+          />
 
-            {/* Offering Text Input */}
-            <TextInput
-              style={styles.input}
-              value={text}
-              onChangeText={setText}
-              placeholder="Enter your offering..."
-              placeholderTextColor={Colors.textSecondary}
-              multiline={true}
-              numberOfLines={4}
-              textAlignVertical="top"
-              accessibilityLabel="Offering text input"
-              accessibilityRole="text"
-            />
+          <TextInput
+            style={styles.input}
+            value={notes}
+            onChangeText={setNotes}
+            placeholder="Add notes or reflections (optional)..."
+            placeholderTextColor={Colors.textSecondary}
+            multiline={true}
+            numberOfLines={4}
+            textAlignVertical="top"
+            accessibilityLabel="Session notes input"
+            accessibilityRole="text"
+          />
 
-            {/* Notes/Reflection Text Input */}
-            <TextInput
-              style={styles.input}
-              value={notes}
-              onChangeText={setNotes}
-              placeholder="Add notes or reflections (optional)..."
-              placeholderTextColor={Colors.textSecondary}
-              multiline={true}
-              numberOfLines={4}
-              textAlignVertical="top"
-              accessibilityLabel="Session notes input"
-              accessibilityRole="text"
-            />
+          <View style={styles.buttonContainer}>
+            <Pressable
+              style={[styles.button, styles.skipButton]}
+              onPress={handleSkip}
+              accessibilityLabel="Skip dedication"
+              accessibilityRole="button"
+            >
+              <Text style={styles.skipButtonText}>Skip</Text>
+            </Pressable>
 
-            {/* Buttons */}
-            <View style={styles.buttonContainer}>
-              {/* Skip Button */}
-              <TouchableOpacity
-                style={[styles.button, styles.skipButton]}
-                onPress={handleSkip}
-                accessibilityLabel="Skip dedication"
-                accessibilityRole="button"
-              >
-                <Text style={styles.skipButtonText}>Skip</Text>
-              </TouchableOpacity>
-
-              {/* Confirm Button */}
-              <TouchableOpacity
-                style={[styles.button, styles.confirmButton]}
-                onPress={handleConfirm}
-                accessibilityLabel="Complete practice with offering"
-                accessibilityRole="button"
-              >
-                <Text style={styles.confirmButtonText}>Complete</Text>
-              </TouchableOpacity>
-            </View>
+            <Pressable
+              style={[styles.button, styles.confirmButton]}
+              onPress={handleConfirm}
+              accessibilityLabel="Complete practice with offering"
+              accessibilityRole="button"
+            >
+              <Text style={styles.confirmButtonText}>Complete</Text>
+            </Pressable>
           </View>
         </View>
-      </KeyboardAvoidingView>
-    </Modal>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -212,10 +198,11 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   overlay: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     backgroundColor: Colors.scrim,
-    flex: 1,
     justifyContent: 'center',
+    zIndex: 9999,
   },
   skipButton: {
     backgroundColor: Colors.surfaceElevated,

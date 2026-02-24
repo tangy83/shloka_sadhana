@@ -43,6 +43,7 @@ export const Colors = {
   // Borders & dividers — warm brown, breathable
   border: 'rgba(139, 90, 43, 0.20)',       // Warm brown boundary
   borderLight: 'rgba(139, 90, 43, 0.10)',  // Ultra-subtle outline
+  borderSubtle: 'rgba(150, 150, 150, 0.15)', // Subtle neutral border for action buttons
   divider: 'rgba(139, 90, 43, 0.12)',
 
   // Overlays — cream-based for light theme

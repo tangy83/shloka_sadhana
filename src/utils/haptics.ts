@@ -15,7 +15,7 @@ export const triggerLight = async (): Promise<void> => {
   try {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   } catch (error) {
-    console.error('[Haptics] Light impact error:', error);
+    if (__DEV__) console.error('[Haptics] Light impact error:', error);
   }
 };
 
@@ -27,7 +27,7 @@ export const triggerMedium = async (): Promise<void> => {
   try {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   } catch (error) {
-    console.error('[Haptics] Medium impact error:', error);
+    if (__DEV__) console.error('[Haptics] Medium impact error:', error);
   }
 };
 
@@ -39,7 +39,7 @@ export const triggerHeavy = async (): Promise<void> => {
   try {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
   } catch (error) {
-    console.error('[Haptics] Heavy impact error:', error);
+    if (__DEV__) console.error('[Haptics] Heavy impact error:', error);
   }
 };
 
@@ -51,7 +51,7 @@ export const triggerSuccess = async (): Promise<void> => {
   try {
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   } catch (error) {
-    console.error('[Haptics] Success notification error:', error);
+    if (__DEV__) console.error('[Haptics] Success notification error:', error);
   }
 };
 
@@ -63,7 +63,7 @@ export const triggerWarning = async (): Promise<void> => {
   try {
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
   } catch (error) {
-    console.error('[Haptics] Warning notification error:', error);
+    if (__DEV__) console.error('[Haptics] Warning notification error:', error);
   }
 };
 
@@ -75,7 +75,7 @@ export const triggerError = async (): Promise<void> => {
   try {
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
   } catch (error) {
-    console.error('[Haptics] Error notification error:', error);
+    if (__DEV__) console.error('[Haptics] Error notification error:', error);
   }
 };
 
@@ -87,6 +87,6 @@ export const triggerSelection = async (): Promise<void> => {
   try {
     await Haptics.selectionAsync();
   } catch (error) {
-    console.error('[Haptics] Selection error:', error);
+    if (__DEV__) console.error('[Haptics] Selection error:', error);
   }
 };

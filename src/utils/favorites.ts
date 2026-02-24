@@ -34,7 +34,7 @@ export const getFavorites = async (): Promise<string[]> => {
     favoritesCache = favorites;
     return favorites;
   } catch (error) {
-    console.warn('[Favorites] Failed to get favorites:', error);
+    if (__DEV__) console.warn('[Favorites] Failed to get favorites:', error);
     favoritesCache = [];
     return [];
   }
@@ -59,7 +59,7 @@ export const addFavorite = async (shlokaId: string): Promise<void> => {
     // Update cache
     favoritesCache = updatedFavorites;
   } catch (error) {
-    console.error('[Favorites] Failed to add favorite:', error);
+    if (__DEV__) console.error('[Favorites] Failed to add favorite:', error);
   }
 };
 
@@ -77,7 +77,7 @@ export const removeFavorite = async (shlokaId: string): Promise<void> => {
     // Update cache
     favoritesCache = updatedFavorites;
   } catch (error) {
-    console.error('[Favorites] Failed to remove favorite:', error);
+    if (__DEV__) console.error('[Favorites] Failed to remove favorite:', error);
   }
 };
 
@@ -91,7 +91,7 @@ export const isFavorite = async (shlokaId: string): Promise<boolean> => {
     const favorites = await getFavorites();
     return favorites.includes(shlokaId);
   } catch (error) {
-    console.warn('[Favorites] Failed to check favorite:', error);
+    if (__DEV__) console.warn('[Favorites] Failed to check favorite:', error);
     return false;
   }
 };
@@ -104,7 +104,7 @@ export const clearFavorites = async (): Promise<void> => {
     await AsyncStorage.removeItem(FAVORITES_KEY);
     favoritesCache = null;
   } catch (error) {
-    console.error('[Favorites] Failed to clear favorites:', error);
+    if (__DEV__) console.error('[Favorites] Failed to clear favorites:', error);
   }
 };
 

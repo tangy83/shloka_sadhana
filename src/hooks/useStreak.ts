@@ -42,7 +42,7 @@ export const useStreak = (): UseStreakReturn => {
           setStreakData(data);
         }
       } catch (error) {
-        console.error('[useStreak] Failed to load streak:', error);
+        if (__DEV__) console.error('[useStreak] Failed to load streak:', error);
         // Keep default values on error
       } finally {
         setIsLoading(false);
@@ -111,7 +111,7 @@ export const useStreak = (): UseStreakReturn => {
     try {
       await storage.saveStreak(updatedData);
     } catch (error) {
-      console.error('[useStreak] Failed to save streak:', error);
+      if (__DEV__) console.error('[useStreak] Failed to save streak:', error);
       // Don't revert state - user's action counts even if save fails
     }
   }, [streakData]);
