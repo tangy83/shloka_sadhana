@@ -108,24 +108,49 @@ export interface PaanchangData {
 }
 
 /**
+ * Time period with start and end times
+ */
+export interface TimePeriod {
+  start: string; // HH:MM format (24-hour)
+  end: string; // HH:MM format (24-hour)
+}
+
+/**
+ * Choghadiya period type
+ */
+export type ChoghadiyaType = 'Amrit' | 'Shubh' | 'Labh' | 'Char' | 'Rog' | 'Kaal' | 'Udveg';
+
+/**
+ * Choghadiya period with type and timing
+ */
+export interface ChoghadiyaPeriod extends TimePeriod {
+  type: ChoghadiyaType;
+  isAuspicious: boolean; // true for Amrit/Shubh/Labh/Char, false for Rog/Kaal/Udveg
+}
+
+/**
  * Muhurat (auspicious time) information
  */
 export interface MuhuratData {
   date: string; // ISO date (YYYY-MM-DD)
   sunrise: string; // HH:MM format (24-hour)
   sunset: string; // HH:MM format (24-hour)
-  brahmaMuhurta: {
-    start: string; // HH:MM format (24-hour)
-    end: string; // HH:MM format (24-hour)
-  };
-  abhijitMuhurat?: {
-    start: string; // HH:MM format (24-hour)
-    end: string; // HH:MM format (24-hour)
-  };
-  rahuKaal?: {
-    start: string; // HH:MM format (24-hour)
-    end: string; // HH:MM format (24-hour)
-  };
+  brahmaMuhurta: TimePeriod;
+  abhijitMuhurat?: TimePeriod;
+  rahuKaal?: TimePeriod;
+  yamagandaKaal?: TimePeriod; // V3 Feature - Trading Windows
+  gulikaKaal?: TimePeriod; // V3 Feature - Trading Windows
+  dayChoghadiya?: ChoghadiyaPeriod[]; // V3 Feature - Trading Windows (8 periods)
+  nightChoghadiya?: ChoghadiyaPeriod[]; // V3 Feature - Trading Windows (8 periods)
+}
+
+/**
+ * Trading windows consolidated from muhurat data
+ */
+export interface TradingWindows {
+  date: string; // ISO date (YYYY-MM-DD)
+  auspiciousPeriods: TimePeriod[]; // Good times to trade
+  inauspiciousPeriods: TimePeriod[]; // Times to avoid trading
 }
 
 /**

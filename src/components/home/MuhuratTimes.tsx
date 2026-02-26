@@ -123,7 +123,7 @@ export const MuhuratTimes: React.FC = () => {
         </View>
       )}
 
-      {/* Rahu Kaal */}
+      {/* Rahu Kaal - Avoid for New Ventures */}
       {muhuratData.rahuKaal && (
         <View style={styles.muhuratCard}>
           <Text style={styles.icon}>{MUHURAT_ACTIVITIES.rahuKaal.icon}</Text>

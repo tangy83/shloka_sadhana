@@ -383,4 +383,41 @@ describe('HomeScreen', () => {
       });
     });
   });
+
+  describe('Trading Windows Integration', () => {
+    it('should display Trading Windows card on HomeScreen', async () => {
+      render(<HomeScreen />);
+
+      // Wait for the Trading Windows card to be rendered
+      await waitFor(() => {
+        expect(screen.getByText('Trading Windows Today')).toBeTruthy();
+      });
+    });
+
+    it('should display both Auspicious Times and Trading Windows sections', async () => {
+      render(<HomeScreen />);
+
+      // Both sections should be present
+      await waitFor(() => {
+        expect(screen.getByText('Auspicious Times Today')).toBeTruthy();
+        expect(screen.getByText('Trading Windows Today')).toBeTruthy();
+      });
+    });
+
+    it('should show trading windows subtitle', async () => {
+      render(<HomeScreen />);
+
+      await waitFor(() => {
+        expect(screen.getByText(/Based on Abhijit Muhurat & Choghadiya/i)).toBeTruthy();
+      });
+    });
+
+    it('should display auspicious trading times section', async () => {
+      render(<HomeScreen />);
+
+      await waitFor(() => {
+        expect(screen.getByText('Auspicious Trading Times')).toBeTruthy();
+      });
+    });
+  });
 });

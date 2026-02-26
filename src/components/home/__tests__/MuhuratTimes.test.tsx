@@ -44,6 +44,14 @@ describe('MuhuratTimes', () => {
       start: '15:00',
       end: '16:30',
     },
+    yamagandaKaal: {
+      start: '08:00',
+      end: '09:30',
+    },
+    gulikaKaal: {
+      start: '10:00',
+      end: '11:30',
+    },
   };
 
   beforeEach(() => {
@@ -152,6 +160,30 @@ describe('MuhuratTimes', () => {
       await waitFor(() => {
         // Should have gray/neutral color, not red
         expect(screen.getByText('⚠️')).toBeTruthy();
+      });
+    });
+
+    it('should NOT display Yamaganda Kaal label', async () => {
+      render(<MuhuratTimes />);
+      await waitFor(() => {
+        expect(screen.queryByText(/Yamaganda Kaal/i)).toBeNull();
+      });
+    });
+
+    it('should NOT display Gulika Kaal label', async () => {
+      render(<MuhuratTimes />);
+      await waitFor(() => {
+        expect(screen.queryByText(/Gulika Kaal/i)).toBeNull();
+      });
+    });
+
+    it('should only show Rahu Kaal in Avoid section (not Yamaganda or Gulika)', async () => {
+      render(<MuhuratTimes />);
+      await waitFor(() => {
+        // Should have "Avoid for New Ventures" but no sub-labels for Yamaganda/Gulika
+        expect(screen.getByText(/Avoid for New Ventures/i)).toBeTruthy();
+        expect(screen.queryByText(/Yamaganda Kaal/i)).toBeNull();
+        expect(screen.queryByText(/Gulika Kaal/i)).toBeNull();
       });
     });
   });

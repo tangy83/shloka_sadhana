@@ -40,4 +40,28 @@ export const MUHURAT_ACTIVITIES: Record<string, MuhuratActivity> = {
     color: Colors.textSecondary, // Gray (neutral, not red)
     tone: 'gentle', // Non-alarming
   },
+  yamagandaKaal: {
+    title: 'Yamaganda Kaal',
+    description: 'Avoid starting new activities',
+    reason: 'A period associated with obstacles and delays. It is advised to avoid beginning important tasks, travel, or financial transactions during this time.',
+    icon: '⚠️',
+    color: Colors.textSecondary,
+    tone: 'gentle',
+  },
+  gulikaKaal: {
+    title: 'Gulika Kaal',
+    description: 'Avoid starting new activities',
+    reason: 'A period ruled by Saturn\'s son Gulika, considered inauspicious for new beginnings. Routine activities and existing work can continue without concern.',
+    icon: '⚠️',
+    color: Colors.textSecondary,
+    tone: 'gentle',
+  },
+  inauspiciousPeriods: {
+    title: 'Avoid for New Ventures',
+    description: 'Not ideal for starting new things',
+    reason: 'These periods are traditionally considered less favorable for beginning new activities, investments, or important decisions.',
+    icon: '⚠️',
+    color: Colors.textSecondary,
+    tone: 'gentle',
+  },
 };
