@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Sadhana",
+    "name": "Shloka Sadhna",
     "slug": "shloka-sadhana",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,7 +20,9 @@
       "bundleIdentifier": "com.shlokasadhana.app",
       "buildNumber": "1",
       "infoPlist": {
-        "UIBackgroundModes": ["audio"],
+        "UIBackgroundModes": [
+          "audio"
+        ],
         "NSUserTrackingUsageDescription": "We do not track you. This is required by Apple but we respect your privacy.",
         "NSPhotoLibraryUsageDescription": "Allow Sadhana to save practice session screenshots to your photo library.",
         "NSLocationWhenInUseUsageDescription": "Sadhana uses your location to calculate accurate auspicious times (muhurat) for your practice."
@@ -63,6 +65,11 @@
     },
     "updates": {
       "enabled": false
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a6fd8e86-c112-4956-a907-577abcb5ea48"
+      }
     }
   }
 }
