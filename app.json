@@ -66,6 +66,9 @@
     "updates": {
       "enabled": false
     },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "extra": {
       "eas": {
         "projectId": "a6fd8e86-c112-4956-a907-577abcb5ea48"
