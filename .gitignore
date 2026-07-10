@@ -44,3 +44,14 @@ yarn-error.*
 # Claude Code (AI assistant configuration)
 .claude/
 coverage/
+
+# ─── CFAI Gold Standards — internal IP (DO NOT publish) ──────────────
+# Adapted reckoners under docs/standards/ are Context First AI internal
+# reference material — a build INPUT, not a deliverable (think node_modules).
+# Reconstitute them from cfai-manifest.json (committed at the repo root):
+#   python3 adopt.py --project . --repo <gold-standards-repo-url>
+# NOTE: ignore the CONTENTS (docs/standards/*), not the directory itself —
+# git cannot re-include a file whose parent DIRECTORY is excluded, so the
+# README signpost below would be lost if this were `docs/standards/`.
+docs/standards/*
+!docs/standards/README.md

@@ -1,0 +1,198 @@
+{
+  "cfai_standards_ref": "cfai_gold_standards",
+  "adopted": [
+    {
+      "module_id": "ai.status-footer",
+      "title": "Claude Code Response Status Footer",
+      "discipline": "ai",
+      "gold_standard_source": "ai/claude-code-status-footer-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/ai/claude-code-status-footer-reckoner.md",
+      "source_sha": "sha256:e7ba0cbc2d35d6c7684074eb1694a69ce9c12729a81e1755ee783591f7a1873b"
+    },
+    {
+      "module_id": "project-init.documentation-standards",
+      "title": "Project Documentation Standards",
+      "discipline": "project-init",
+      "gold_standard_source": "project-init/project-documentation-standards-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/project-init/project-documentation-standards-reckoner.md",
+      "source_sha": "sha256:b477cb59c4e99e34570f7dc20ce108066d9dd516a99d97a7579ff38647e01ad4"
+    },
+    {
+      "module_id": "mobile.eas-profiles",
+      "title": "EAS Build Profiles (eas.json)",
+      "discipline": "mobile",
+      "gold_standard_source": "mobile/eas-json-profiles.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/mobile/eas-json-profiles.md",
+      "source_sha": "sha256:95a79b7e00599604098cf8192e38811b540122651ba4f756e9e62a368f4d5ddd"
+    },
+    {
+      "module_id": "mobile.eas-build-diagnostics",
+      "title": "EAS Build Failure Diagnosis & Environment Setup",
+      "discipline": "mobile",
+      "gold_standard_source": "mobile/eas-build-diagnostics.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/mobile/eas-build-diagnostics.md",
+      "source_sha": "sha256:356b48a3d3167037e087cce4c6eef6bb816edfb581cc7f698d608c9b14e00b12"
+    },
+    {
+      "module_id": "mobile.ios-signing",
+      "title": "iOS Code Signing",
+      "discipline": "mobile",
+      "gold_standard_source": "mobile/ios-signing-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/mobile/ios-signing-reckoner.md",
+      "source_sha": "sha256:0229265548c8cdc9043de58a3738d7c2654d232c07e96fbd408d0070ef06d9e1"
+    },
+    {
+      "module_id": "mobile.ota-updates",
+      "title": "OTA Updates Decision (eas update vs eas build)",
+      "discipline": "mobile",
+      "gold_standard_source": "mobile/ota-updates-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/mobile/ota-updates-reckoner.md",
+      "source_sha": "sha256:264ad63106c2f785735136cef3d144627db4a84f2f7fccf3abedcc80ee7f7bf0"
+    },
+    {
+      "module_id": "cicd.apple-submission",
+      "title": "Apple App Store Submission Track",
+      "discipline": "cicd",
+      "gold_standard_source": "cicd/apple-app-store-submission-track.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/cicd/apple-app-store-submission-track.md",
+      "source_sha": "sha256:bf952543f9c7be1de3385169a055aeea61518ac9ae2340a24dad6670596f699f"
+    },
+    {
+      "module_id": "cicd.google-submission",
+      "title": "Google Play Submission Track",
+      "discipline": "cicd",
+      "gold_standard_source": "cicd/google-play-submission-track.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/cicd/google-play-submission-track.md",
+      "source_sha": "sha256:6161cb0a5982cfabb5405c41dc2f4c1d39a2453467c8287881a618fb9e0977ff"
+    },
+    {
+      "module_id": "compliance.store-pre-submission",
+      "title": "Store Pre-Submission Checklist (iOS + Android)",
+      "discipline": "compliance",
+      "gold_standard_source": "compliance/store-pre-submission-checklist.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/compliance/store-pre-submission-checklist.md",
+      "source_sha": "sha256:9e5a2108a6766bfb28e07fd9ef81ed20bf8726cb88d76c156dead3948964b081"
+    },
+    {
+      "module_id": "compliance.ios-pre-submission",
+      "title": "iOS-Specific Pre-Submission Checklist",
+      "discipline": "compliance",
+      "gold_standard_source": "compliance/ios-store-pre-submission-checklist.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/compliance/ios-store-pre-submission-checklist.md",
+      "source_sha": "sha256:0a31c9fdf0794a11854ac4dee02e77851d20895d17f1e453bd529e57d105d1d8"
+    },
+    {
+      "module_id": "security.git-secrets",
+      "title": "Git Secrets Hygiene & .gitignore",
+      "discipline": "security",
+      "gold_standard_source": "security/git-secrets-hygiene-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/security/git-secrets-hygiene-reckoner.md",
+      "source_sha": "sha256:776115071a9818b2dfc92bd5085c5fd32538c0d752dbfc0e325636a34311a945"
+    },
+    {
+      "module_id": "security.github-repo-setup",
+      "title": "GitHub Repository Security Setup & Hardening",
+      "discipline": "security",
+      "gold_standard_source": "security/github-repo-security-setup-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/security/github-repo-security-setup-reckoner.md",
+      "source_sha": "sha256:52ec4b5df6d9e054c17745ada9adbe4c028571730a682bff13d8998f93868e2c"
+    },
+    {
+      "module_id": "architecture.principles",
+      "title": "Architecture Principles — Modularity Rubric",
+      "discipline": "architecture",
+      "gold_standard_source": "architecture/architecture-principles-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/architecture/architecture-principles-reckoner.md",
+      "source_sha": "sha256:24614e9703b86e5f0725955c142a38027ef8eebe84b103fbfc70f1ead7edb2c4"
+    },
+    {
+      "module_id": "architecture.modularity-audit",
+      "title": "Modularity Audit — Function/Module/API Health Scorecard",
+      "discipline": "architecture",
+      "gold_standard_source": "architecture/modularity-audit-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/architecture/modularity-audit-reckoner.md",
+      "source_sha": "sha256:bc9de46f6ef24b628ffb15b2693fc7ac3e1387f5915d6734ed981f8734ffc301"
+    },
+    {
+      "module_id": "project-init.idea-to-backlog",
+      "title": "Idea to Backlog — Rough Note to Documented Backlog Item",
+      "discipline": "project-init",
+      "gold_standard_source": "project-init/idea-to-backlog-reckoner.md",
+      "adopted_at": "2026-07-10",
+      "output_file": "docs/standards/project-init/idea-to-backlog-reckoner.md",
+      "source_sha": "sha256:b96d162d35e1eba50e9e8eb86acb0043866fed683dcc56cf9baca65188825cd5"
+    }
+  ],
+  "installed_scripts": [
+    {
+      "source": "toolkit/docs_update.py",
+      "dest": "docs_update.py",
+      "origin": "baseline",
+      "installed_at": "2026-07-10",
+      "verified": true
+    },
+    {
+      "source": "toolkit/module-audit.py",
+      "dest": "module-audit.py",
+      "origin": "baseline",
+      "installed_at": "2026-07-10",
+      "verified": true
+    },
+    {
+      "source": "toolkit/session-doc-update.ts",
+      "dest": "session-doc-update.ts",
+      "origin": "baseline",
+      "installed_at": "2026-07-10",
+      "verified": null
+    },
+    {
+      "source": "toolkit/standards_report.py",
+      "dest": "standards_report.py",
+      "origin": "baseline",
+      "installed_at": "2026-07-10",
+      "verified": true
+    },
+    {
+      "source": "toolkit/idea_to_backlog.py",
+      "dest": "scripts/idea_to_backlog.py",
+      "origin": "baseline",
+      "installed_at": "2026-07-10",
+      "verified": null
+    },
+    {
+      "source": "toolkit/idea-to-backlog-workflow.md",
+      "dest": "scripts/idea-to-backlog-workflow.md",
+      "origin": "baseline",
+      "installed_at": "2026-07-10",
+      "verified": null
+    },
+    {
+      "source": "toolkit/commands/modularity-audit.md",
+      "dest": ".claude/commands/modularity-audit.md",
+      "origin": "baseline",
+      "installed_at": "2026-07-10",
+      "verified": null
+    },
+    {
+      "source": "toolkit/commands/completion-audit.md",
+      "dest": ".claude/commands/completion-audit.md",
+      "origin": "baseline",
+      "installed_at": "2026-07-10",
+      "verified": null
+    }
+  ]
+}

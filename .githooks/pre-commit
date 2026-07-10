@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Git pre-commit dispatcher (hooks dir: .githooks) — managed by CFAI adopt.py.
+# Runs cfai-standards-guard.sh and any other *-guard.sh in this directory.
+set -euo pipefail
+hookdir="$(cd "$(dirname "$0")" && pwd)"
+for guard in "$hookdir"/*-guard.sh; do
+  [ -e "$guard" ] || continue
+  "$guard"
+done
