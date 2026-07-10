@@ -2722,3 +2722,137 @@ Implement algorithmic calculation of Hindu festival dates based on lunar calenda
 - Requires extensive validation
 - Performance optimization needed
 
+
+---
+
+## Repo & Release Engineering
+
+Captured at the close of the 2026-07-10 development session. These are repository,
+tooling, and release-process items — not product features — so they sit outside the
+V3 Feature Overview Table above.
+
+### Context: This Repo Is Now an Independent Fork
+
+**Status:** Decided & Done
+**Date:** 2026-07-10
+
+`tangy83/shloka_sadhana` is the canonical repository and proceeds independently.
+
+- `vapmail16/shloka_sadhana` is **read-only** for us (`pull: true, push: false`) — we were
+  never collaborators there. It remains configured as the `origin` remote.
+- Local `main` now tracks `fork/main`. `fork/main` was fast-forwarded to local `main`.
+- PR #4 (app-store prep) was opened against `vapmail16` and then **closed** — we are not
+  merging upstream. Nothing is pending from vapmail16.
+
+---
+
+### Salvage Candidates from `archive/firebase-lineage`
+
+**Status:** Not Started
+**Epic:** Technical Debt & Prior Art
+**Priority:** P1 (reference — read before starting Features #6 or #26)
+**Estimated Effort:** Investigation 0.5 day; salvage effort varies
+
+Before the Expo Go rebuild (`6fa50d6`, 2026-02-20, "remove sentry-expo and firebase"),
+this project had a substantially different architecture on a lineage that was never merged.
+It is preserved on the fork as the annotated tag **`archive/firebase-lineage`** → `aa335e7`.
+
+That lineage contains **working implementations** of things still sitting unstarted in the
+backlog above. Read it before building them from scratch:
+
+| Archived work | Relevant backlog item |
+|---|---|
+| Firebase Auth, Firestore, Remote Config; `AuthContext`, `LoginScreen`, `SignUpScreen` | **#6** User Authentication & Cloud Sync (P1) |
+| Social/groups/referrals: `feedService`, `activityService`, `FriendsScreen`, `GroupsScreen`, `ReferralScreen`, `firestore-social.rules` | **#26** Social & Sharing Features (P3) |
+| Zustand stores (`useQuestStore`, `useAchievementStore`, `usePracticeStore`, …) | State-management reference |
+| `mlRecommendationService` | **#20** Daily Shloka Recommendation (V3) |
+| Maestro e2e suite (`e2e/*.yaml` — smoke, practice flow, library search, settings nav) | Testing infrastructure — **does not exist on `main`** |
+| ~30 test files incl. integration tests (cloud-sync, friend-system, quest-expiration) | Testing infrastructure |
+
+**Important caveats:**
+- This lineage is **not** on any branch. It survives only because of the tag. Do not delete
+  the tag — the commits will be garbage-collected.
+- It predates the entire current design system, theme migration, and sacred visual system.
+  Treat it as **reference, not something to merge**. Architecture diverged deliberately.
+- It depends on `@react-native-firebase/*`, `@sentry/react-native`, and `zustand`, none of
+  which are in the current `package.json`.
+
+#### Tasks:
+- [ ] Review `e2e/*.yaml` — the Maestro suite is the highest-value, lowest-conflict salvage
+      (test files, no runtime deps on Firebase). Consider porting to `main` as-is.
+- [ ] Before starting Feature #6, read `docs/FIRESTORE_SCHEMA.md` and `docs/firestore-social-schema.md`
+      from the tag; the schema design work is already done.
+- [ ] Decide explicitly whether the Zustand store pattern is worth revisiting, or whether
+      React Context + AsyncStorage remains the answer.
+- [ ] Recover checked: `git show archive/firebase-lineage:<path>` reads any file without checkout.
+
+---
+
+### Housekeeping — Quick Wins
+
+**Status:** Not Started
+**Priority:** P2 / P3
+**Estimated Effort:** < 1 day total
+
+#### 1. Remove the duplicate `images/` directory (P2, 15 min)
+`images/` sits untracked in the working tree and contains five PNGs that are **byte-for-byte
+identical** (verified by SHA-256) to those already committed in `assets/` by `671438a`:
+`icon.png`, `adaptive-icon.png`, `favicon.png`, `notification-icon.png`, `splash-icon.png`.
+
+It is 748K of exact duplicates and was deliberately **not committed** — adding it would put
+those bytes in history permanently. Nothing in the codebase references it.
+
+- [ ] `rm -rf images/` — or add `images/` to `.gitignore` if it is a deliberate scratch area.
+
+#### 2. Delete redundant branches on the fork (P3, 5 min)
+Both are now fully contained in `fork/main` and serve no purpose:
+- [ ] `git push fork --delete appstore-prep`
+- [ ] `git push fork --delete rebuild/expo-go-clean`
+
+#### 3. Adopt the conventional fork remote layout (P3, 5 min)
+Currently `origin` points at the upstream repo we cannot push to, and `fork` points at ours —
+the reverse of convention, and the reason a plain `git push` returned 403.
+- [ ] `git remote rename origin upstream && git remote rename fork origin`
+
+#### 4. Fix stale asset reference in docs (P3, 5 min)
+`docs/FEATURE_SUMMARY.md:92` still lists `flowerpattern.png`, `rangolipattern.png`,
+`trishul pattern.png`, and `glow pattern.png` as "new assets". These PNGs were deleted in
+`dfeb844` — they were referenced nowhere in code, and the sacred visuals are SVG components
+(`TrishulIcon.tsx`, `MandalaBackground.tsx`).
+- [ ] Update or remove that line.
+
+---
+
+### Open Question — Expo Go vs. Native Dev Builds
+
+**Status:** Needs Decision
+**Priority:** P2
+**Estimated Effort:** 0.5 day to decide; consequences vary
+
+`dfeb844` changed the dev scripts from `expo start --ios/--android` to
+`expo run:ios` / `expo run:android`, and both `ios/` and `android/` native directories are
+now present. This means **the day-to-day dev path is a native dev build, not Expo Go**.
+
+That quietly invalidates a constraint the codebase was designed around. Notably,
+`react-native-reanimated` was removed because Expo Go's SDK 54 bundle shipped an
+incompatible native Reanimated build (both v3.16 and v4.1 crashed), and the sacred
+animation system was rewritten on the RN `Animated` API as a result.
+
+- [ ] Confirm the move to native dev builds is intentional and permanent.
+- [ ] If so, re-evaluate whether `react-native-reanimated` can return — it would simplify
+      `src/animations/sacredAnimations.ts` and the sacred components considerably.
+- [ ] If Expo Go support still matters (e.g. for quick sharing/demos), document which
+      workflow is canonical so the reanimated constraint stays justified.
+
+---
+
+### Note — `eas.json` `update` Block Removed
+
+Relevant to **Feature #5 (Over-The-Air Updates, P1)** above.
+
+`dfeb844` removed the top-level `"update"` key from `eas.json`. This is **not** a regression:
+OTA channels are still declared per build profile (`development`, `preview`, `production`),
+which is where EAS actually reads them from. `expo-updates` remains installed and `app.json`
+retains its `updates` config and `runtimeVersion: { policy: "appVersion" }`.
+
+No action required — recorded so Feature #5 is not started on a false premise.
