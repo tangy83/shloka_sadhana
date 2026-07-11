@@ -2856,3 +2856,111 @@ which is where EAS actually reads them from. `expo-updates` remains installed an
 retains its `updates` config and `runtimeVersion: { policy: "appVersion" }`.
 
 No action required — recorded so Feature #5 is not started on a false premise.
+
+---
+
+### App Store Submission Blockers — 2026-07-11 audit
+
+**Status:** Open
+**Date:** 2026-07-11
+**Source:** Cross-project App Store post-mortem (Shloka Sadhana + CuroAI) against the CFAI Gold
+Standards library, run after this repo adopted 15 standards modules on 2026-07-10.
+
+The app is **one `eas build` + one `eas submit` from the App Store** — ASC record created, API key in
+place, screenshots shot, submit block written. It has never been built for release or submitted. The
+items below are what will go wrong when it is. **All of the release-engineering work from the
+2026-07-11 session is still uncommitted** (`app.json`, `eas.json`, `docs/store-assets/`) — commit it
+before anything else, or it is one `git checkout` from gone.
+
+#### 1. `appVersionSource: remote` + a re-created `projectId` — the submission will likely fail (P0, 10 min)
+
+`eas.json:4` sets `"appVersionSource": "remote"`, which means **EAS Server owns the build counter** and
+`app.json`'s `buildNumber: "1"` is *ignored*. The counter is keyed to the EAS `projectId` — and the
+`projectId` was changed on 2026-07-11 (`a6fd8e86…` → `b008d9e3…`, with `owner: analyst.tanuj`). **The
+remote counter is therefore back at 1.** If any build was ever uploaded to App Store Connect under the
+old project, every `eas submit` will be rejected with *"build number already used."*
+
+- [ ] Switch to `"appVersionSource": "local"` and own `buildNumber` in `app.json` (the CFAI default — it
+      lives in git, is visible in a diff, and survives a project change), **or** confirm no build was ever
+      uploaded under the old `projectId`.
+- Standard: `docs/standards/mobile/eas-json-profiles.md` — "Version Source & `autoIncrement`"
+
+#### 2. `supportsTablet: true` with no iPad layout (P1, 5 min — deletes a workstream)
+
+`app.json:19` declares iPad support. There is no iPad layout — `BACKLOG.md` lists *"iPad-optimized
+layout"* as **P4, Not Started**. This forced 3 iPad screenshots of a stretched phone UI
+(`docs/store-assets/screenshots/ipad-13/`) and exposes the app to a Guideline **4.0** rejection for a
+missing iPad layout.
+
+- [ ] Set `supportsTablet: false`. The iPad screenshot requirement disappears with it.
+- Standard: `docs/standards/compliance/ios-store-pre-submission-checklist.md`
+
+#### 3. Wrong Photos permission key — asks for more access than the app uses (P1, 2 min)
+
+`app.json:26` declares `NSPhotoLibraryUsageDescription` ("Allow Sadhana to **save** … screenshots"),
+which requests **full read** access to the user's photo library. The write-only key is
+`NSPhotoLibraryAddUsageDescription`. Requesting read access the app does not use — on an app marketed
+as *"No tracking. All data stays on your device"* — invites a Guideline **5.1.1** (data minimisation)
+challenge. Nothing in `src/` appears to save screenshots at all.
+
+- [ ] Switch to `NSPhotoLibraryAddUsageDescription`, or remove the key entirely if nothing saves images.
+
+#### 4. `cli.version: ">= 5.0.0"` pins nothing (P2, 1 min)
+
+`eas.json:3`. EAS CLI 5.x is roughly three years stale; the floor is so low it provides no protection
+against breaking changes. Sibling project CuroAI pins `>= 16.0.0`. CFAI standard is `>= 18.0.0`.
+
+- [ ] Raise to `">= 18.0.0"`.
+
+#### 5. `docs/PRODUCTION_SETUP.md` is entirely dead documentation (P2, 30 min)
+
+All 325 lines describe a **Sentry** integration that was removed in commit `6fa50d6` ("remove
+sentry-expo and firebase"). It still instructs the reader to add `"plugins": ["sentry-expo"]` and a
+sourcemap `postPublish` hook before a production build. Anyone following it would install a removed
+dependency. **The app currently ships with no crash reporting at all**, and nothing in the repo notices.
+
+- [ ] Rewrite or delete. If crash reporting is wanted for launch, that is its own backlog item.
+
+#### 6. Three documents disagree about whether OTA updates exist (P2, 15 min)
+
+`docs/OTA_UPDATES_GUIDE.md:38-47` says *"Setup (Already Complete)"* with six ✅ items. `app.json:65-67`
+says `"updates": { "enabled": false }`. `BACKLOG.md:17` says Feature #5 OTA Updates is *Not Started*.
+
+- [ ] Pick the truth and make the other two match it.
+
+#### 7. The learnings log stopped at 2026-02-23 (P2)
+
+`docs/ISSUES_LOG.md` has **zero entries after February**, yet the July release session hit at least four
+real problems — a misspelled app name shipped to `app.json` ("Shloka Sadhna"), a cargo-culted
+`NSUserTrackingUsageDescription` that would have triggered a mandatory ATT prompt on an app that does no
+tracking, a wrong-Expo-account `projectId`, and an app-store-prep PR opened against a repo we cannot
+push to (closed, wasted). **None were logged.** The log's own Issue #5 is flagged *⚠️ CRITICAL LESSON*
+about losing institutional knowledge — and the July session repeated exactly that failure, silently.
+
+- [ ] Run `python3 docs_update.py --learnings` at session close (installed by the CFAI adoption on
+      2026-07-10) and `--propose --repo <gold-standards>` to carry general lessons upstream.
+- Standard: `docs/standards/project-init/learnings-to-proposal-reckoner.md`
+
+#### 8. Adoption was never closed against the existing config (P2)
+
+The 2026-07-10 CFAI adoption worked — the `.gitignore` secrets rule and the `eas.json` submit block both
+came straight from the standards. But **nothing turned the standards back on the config that already
+existed**, which is why items 1–4 above survived it. Adoption generated new work; it never audited old
+work.
+
+- [ ] After fixing 1–4, re-read `docs/standards/mobile/eas-json-profiles.md` and
+      `docs/standards/compliance/ios-store-pre-submission-checklist.md` against `app.json` / `eas.json`
+      line by line.
+
+#### Note — the ASC key is shared with CuroAI, and one copy is in `~/Downloads`
+
+`credentials/AuthKey_H9GJMKN4UK.p8` is **byte-identical** (sha256 verified) to CuroAI's
+`keys/AuthKey_H9GJMKN4UK.p8` and to `~/Downloads/AuthKey_H9GJMKN4UK.p8` — one account-wide App Store
+Connect key, copied into both repos by hand. **Nothing is committed** (`*.p8` has been in `.gitignore`
+since the first commit — this is why it never became an incident). But that single key can upload builds
+and manage records for *every* app on the account.
+
+- [ ] Delete `~/Downloads/AuthKey_H9GJMKN4UK.p8` (Apple lets you download a `.p8` exactly once — put the
+      master copy in a password manager first).
+- [ ] Consider per-app ASC keys rather than one shared key, so a single leak does not compromise both apps.
+- Standard: `docs/standards/cicd/eas-submit-ios-cli-reckoner.md`
