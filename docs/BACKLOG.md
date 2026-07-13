@@ -2872,6 +2872,28 @@ items below are what will go wrong when it is. **All of the release-engineering 
 2026-07-11 session is still uncommitted** (`app.json`, `eas.json`, `docs/store-assets/`) — commit it
 before anything else, or it is one `git checkout` from gone.
 
+#### 0. Commit the release-engineering work — it is one `git checkout` from gone (P0, 2 min)
+
+Everything from the 2026-07-11 release session is **uncommitted**, sitting in the working tree with no
+copy anywhere else:
+
+```
+ M .gitignore          # adds /credentials/ — the rule keeping the ASC key out of git
+ M app.json            # app-name spelling fix, ATT string removal, new EAS projectId + owner
+ M eas.json            # the entire submit.production.ios block
+?? docs/store-assets/  # 8 screenshots (5× iPhone 6.9", 3× iPad 13")
+```
+
+This is the work that took the app from "no release config" to "one command from the App Store". None
+of it is recoverable if the working tree is cleaned. Note the `app.json` diff alone carries three
+distinct release blockers that were caught and fixed in real time — the misspelled app name
+("Shloka Sadhna" → "Shloka Sadhana", which had actually shipped in commit `671438a`), the removal of a
+cargo-culted `NSUserTrackingUsageDescription` that would have forced an ATT prompt on an app that does
+no tracking, and the re-pointing of the EAS project to the correct account.
+
+- [ ] Commit all four paths. Do it before touching anything else in this list.
+- [ ] Verify the ASC key is still ignored after committing `.gitignore`: `git check-ignore -v credentials/AuthKey_H9GJMKN4UK.p8`
+
 #### 1. `appVersionSource: remote` + a re-created `projectId` — the submission will likely fail (P0, 10 min)
 
 `eas.json:4` sets `"appVersionSource": "remote"`, which means **EAS Server owns the build counter** and
@@ -2952,7 +2974,9 @@ work.
       `docs/standards/compliance/ios-store-pre-submission-checklist.md` against `app.json` / `eas.json`
       line by line.
 
-#### Note — the ASC key is shared with CuroAI, and one copy is in `~/Downloads`
+#### 9. ASC key hygiene — one account-wide key, three copies (P0, 5 min)
+
+*Tracked in CuroAI as **E141-12**. Same key, same fix — do it once, close both.*
 
 `credentials/AuthKey_H9GJMKN4UK.p8` is **byte-identical** (sha256 verified) to CuroAI's
 `keys/AuthKey_H9GJMKN4UK.p8` and to `~/Downloads/AuthKey_H9GJMKN4UK.p8` — one account-wide App Store
