@@ -46,9 +46,9 @@ CAPTURE → CLARIFY → IMPACT → CONFIRM → UPDATE → REPORT
 Ask 2–3 questions per round, wait for the response, and continue until covered:
 - **Context & Problem** — what triggered this; what problem it solves; who feels it; how painful.
 - **Scope & Definition** — the minimum viable version; what's explicitly out of scope; edge cases.
-- **Dependencies & Timing** — what must come first; what depends on this; which `PHASES` entry.
-- **Priority & Size** — priority (from `PRIORITIES`) and effort (from `SIZES`).
-- **Acceptance Criteria** — how we'll know it's done; what success looks like.
+- **Dependencies & Timing** — what must come first; what depends on this. Record hard blockers in `Depends On`, and the initiative it belongs to (if any) in `Lane`.
+- **Priority & Size** — priority (from `PRIORITIES`) and effort (from `EFFORTS`).
+- **Success Criteria** — measurable, testable outcomes. Spell the heading exactly `**Success Criteria**`: the checkbox counter scopes to that string, so an item headed "Acceptance Criteria" reports as having none and goes silently unmeasured. Write outcomes, not activities.
 - **Related Items** — existing backlog items this affects, modifies, or supersedes.
 
 ### Phase 3 — Application Impact Assessment (automatic, before Confirm)
@@ -151,12 +151,12 @@ For each critical user/route flow the project defines, state:
 **Title**: [Clear, concise title]
 **ID**: [Proposed PREFIX-NNN]
 **Category**: [from CATEGORIES]   **Area**: [from AREAS]
-**Phase**: [from PHASES]   **Priority**: [from PRIORITIES]   **Size**: [from SIZES]
+**Status**: [from STATUSES]   **Priority**: [from PRIORITIES]   **Effort**: [from EFFORTS]
 
 **Problem Statement**: [what this solves and for whom]
 **Description**: [detailed description]
-**Acceptance Criteria**:
-- [ ] Criterion 1
+**Success Criteria**:            <- this exact spelling; see note above
+- [ ] Measurable, testable outcome (not "add the endpoint")
 **Dependencies**: [PREFIX-NNN if any, or "-"]
 **Out of Scope**: [explicit exclusions]
 **Related Items**: [existing items this affects]

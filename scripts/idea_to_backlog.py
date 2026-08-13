@@ -61,9 +61,23 @@ ID_PREFIXES = {
 }
 
 # =============================================================================
-# CONFIGURE: 3 — Roadmap phases
+# CONFIGURE: 3 — Item vocabularies
+# These are the schema's (project-documentation-standards §2.5), not yours to
+# invent. A config may only declare axes the ledger can actually store.
+#
+# There is NO roadmap-phase axis. Earlier revisions shipped
+#   PHASES = ["Phase 1", "MVP", "Growth", "Ongoing"]
+# and projects copied it, so the Clarify phase asked users to pick from labels
+# their own backlog had never heard of and the answer was discarded at write
+# time. If you need to group items by initiative, use the `Lane` field.
 # =============================================================================
-PHASES = ["Phase 1", "MVP", "Growth", "Ongoing"]
+STATUSES   = ["BACKLOG", "TODO", "IN_PROGRESS", "REVIEW", "DONE", "BLOCKED"]
+PRIORITIES = ["P0 - Critical", "P1 - High", "P2 - Medium", "P3 - Low"]
+EFFORTS    = ["XS", "S", "M", "L", "XL"]   # XS <1h · S 1-4h · M 1-2d · L 3-5d · XL 1w+
+
+# Required on every item; emitted in ITEM_FIELD_ORDER. `Completion` is DERIVED
+# (ticked ÷ total Success Criteria) and is never estimated.
+REQUIRED_FIELDS = ["Status", "Completion", "Priority", "Effort", "Added", "Updated", "Owner"]
 
 # =============================================================================
 # CONFIGURE: 4 — Personas
@@ -128,9 +142,11 @@ PRIORITIES = {
     "P3": "Low — future consideration, low urgency",
 }
 
-SIZES = {
-    "XS": "< 2 hours", "S": "2–4 hours", "M": "0.5–1 day",
-    "L": "2–3 days", "XL": "1+ week",
+# Effort bands. Named EFFORTS, matching the schema's field name — an older
+# revision called this SIZES, which is why some prose still says "size".
+EFFORT_BANDS = {
+    "XS": "< 1 hour", "S": "1–4 hours", "M": "1–2 days",
+    "L": "3–5 days", "XL": "1+ week",
 }
 
 RISK_LEVELS = {

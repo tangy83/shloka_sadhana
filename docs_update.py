@@ -125,6 +125,37 @@ DEBT_CLASS = "debt"
 KNOWN_CLASSES = (FEATURE_CLASS, DEBT_CLASS)
 
 # ---------------------------------------------------------------------------
+# Lens facets — one ledger, many views.
+#
+# `Type` and `Component` are OPTIONAL item fields that slice the single backlog
+# into generated views. They are LENS-ONLY: feature coverage and tech-debt
+# burndown stay segmented solely by the group header's `class:`. If adding a
+# Type or Component to an item moves any roll-up number, the change is wrong —
+# tests/test_backlog_views.py pins exactly that as a byte-equality assertion.
+#
+# The taxonomy lives outside docs/backlog/ so the non-recursive *.md group glob
+# can never mistake it for a group; same reason the views sit in a subdirectory.
+# ---------------------------------------------------------------------------
+BACKLOG_VIEWS_DIRNAME = BACKLOG_DIRNAME + "/views"
+EVIDENCE_RELPATH = "docs/audits/BACKLOG_EVIDENCE.md"
+TAXONOMY_RELPATH = ".cfai/backlog-taxonomy.md"
+DEFAULT_ITEM_TYPES = ("feature", "defect", "debt", "risk", "spike")
+UNCATEGORIZED = "uncategorized"
+VIEW_FACETS = ("type", "component", "persona", "status")
+
+# Canonical order of an item's Field|Value table. The writer inserts an absent
+# field at its position here, so generated and hand-written items stay uniform.
+ITEM_FIELD_ORDER = (
+    "Status", "Completion", "Priority", "Effort", "Type", "Component",
+    "Added", "Updated", "Target", "Owner", "Linked Personas", "Depends On",
+    "Touches", "Lane",
+)
+
+# Only these statuses can go stale — a BACKLOG item is *supposed* to sit still.
+ACTIVE_STATUSES = ("IN_PROGRESS", "REVIEW")
+STALE_DAYS = 14
+
+# ---------------------------------------------------------------------------
 # The canonical 12-document registry
 #
 # Each entry mirrors the spec in
@@ -381,13 +412,104 @@ def item_completion(item: dict) -> int:
     return 100 if item["status"] in DONE_STATUSES else 0
 
 
+# A Field|Value row. Tolerates **bold** keys and multi-word names ("Depends On",
+# "Linked Personas"). The |---|---| separator can't match — '-' is not [A-Za-z].
+#
+# Bounded with [ \t] and [^\n], never \s or '.', because \s matches newlines: a
+# trailing `\s*$` happily consumes the row's own line break plus the blank line
+# after it, so substituting on the match silently deletes the blank line that
+# separates the field table from the prose sections below it.
+_ITEM_FIELD_ROW = re.compile(
+    r"^\|[ \t]*\*{0,2}([A-Za-z][A-Za-z /]*?)\*{0,2}[ \t]*\|[ \t]*(.*?)[ \t]*\|[ \t]*$",
+    re.MULTILINE)
+
+# A **Bold** prose heading. No trailing $ — "**Code Location** (once built)" is
+# the canonical spelling in the schema and must still be found.
+_PROSE_HEADING = re.compile(r"^\*\*([^*]+?)\*\*", re.MULTILINE)
+
+_EMPTY_SPELLINGS = {"", "—", "-", "–", "_none_", "n/a", "none", "tbd", "_path / route_"}
+
+
+def _clean_field(raw: str) -> str:
+    """Strip backticks/emphasis and normalise the schema's 'empty' spellings.
+
+    Unbackticked values are the documented 317-item failure: without this, every
+    item read Effort `M` and 150 DONE items never matched, reporting 0%.
+    """
+    v = str(raw or "").strip().strip("`").strip("*").strip()
+    return "" if v.lower() in _EMPTY_SPELLINGS else v
+
+
+def _split_values(raw: str) -> list[str]:
+    """Comma/semicolon-separated field -> clean list, source order preserved."""
+    return [v for v in (_clean_field(p) for p in re.split(r"[,;]", str(raw or ""))) if v]
+
+
+def _prose_section(block: str, name: str) -> str:
+    """Text under a **Bold** prose heading, up to the next heading. Pure."""
+    marks = [(m.end(), m.start(), m.group(1).strip()) for m in _PROSE_HEADING.finditer(block)]
+    for i, (end, _start, label) in enumerate(marks):
+        if label.lower().startswith(name.lower()):
+            stop = marks[i + 1][1] if i + 1 < len(marks) else len(block)
+            return block[end:stop]
+    return ""
+
+
+def _item_title(block: str) -> str:
+    """The **bold title** line directly under the ### CODE-NNN heading."""
+    for line in block.splitlines()[1:]:
+        stripped = line.strip()
+        if not stripped:
+            continue
+        m = re.match(r"^\*\*(.+?)\*\*$", stripped)
+        return m.group(1).strip() if m else ""
+    return ""
+
+
+def _code_location_paths(block: str) -> list[str]:
+    """Backticked path-ish tokens from the **Code Location** section.
+
+    Only backticked tokens count. Unfenced prose ("_path / route_" from the
+    scaffold) would otherwise mint phantom paths and flag healthy items orphaned.
+    """
+    section = _prose_section(block, "Code Location")
+    out = []
+    for tok in re.findall(r"`([^`]+)`", section):
+        tok = tok.strip()
+        # A leading slash is a route, not a repo path.
+        if tok and not tok.startswith("/") and ("/" in tok or "." in tok):
+            out.append(tok)
+    return list(dict.fromkeys(out))
+
+
+def criteria_progress(block: str) -> tuple[int, int]:
+    """(ticked, total) Success Criteria checkboxes. Pure.
+
+    Scoped to the **Success Criteria** section so a checklist in Description or
+    Notes cannot inflate the count.
+    """
+    section = _prose_section(block, "Success Criteria")
+    boxes = re.findall(r"^\s*[-*]\s*\[([ xX])\]", section, re.MULTILINE)
+    return sum(1 for b in boxes if b.lower() == "x"), len(boxes)
+
+
+def derived_completion(ticked: int, total: int) -> int | None:
+    """Completion implied by the criteria. None when there are none to judge.
+
+    None is the ⚪ UNMEASURED state and must never be rounded to 0 or 100 — an
+    item with no criteria has not failed them, nobody wrote any.
+    """
+    return round(ticked / total * 100) if total else None
+
+
 def parse_backlog_group(text: str) -> dict:
     """Parse a child backlog doc into group metadata + items. Pure.
 
     Reads the leading <!-- BACKLOG_GROUP ... --> block and every '### CODE-NNN'
     item, pulling each item's Status, Completion and Effort from its Field|Value
     table. Each item -> {"id", "status", "completion", "effort"} (completion and
-    effort may be None). The group's "class" is 'feature' (default) or 'debt'.
+    effort may be None), plus the lens facets and evidence inputs described in
+    §2.5. The group's "class" is 'feature' (default) or 'debt'.
     """
     meta: dict = {}
     m = re.search(r"<!--\s*BACKLOG_GROUP\s+(.*?)-->", text, re.DOTALL)
@@ -409,8 +531,29 @@ def parse_backlog_group(text: str) -> dict:
         completion = int(cm.group(1)) if cm else None
         em = re.search(r"Effort\s*\|\s*`?\s*([A-Za-z]+)", block)
         effort = em.group(1).upper() if em else None
-        items.append({"id": idm.group(1), "status": status,
-                      "completion": completion, "effort": effort})
+
+        # Lens facets + evidence inputs. All optional: an item that declares none
+        # of them parses exactly as it did before these fields existed.
+        fields = {m.group(1).strip().lower(): m.group(2)
+                  for m in _ITEM_FIELD_ROW.finditer(block)}
+        ticked, total = criteria_progress(block)
+        items.append({
+            "id": idm.group(1), "status": status,
+            "completion": completion, "effort": effort,
+            "title": _item_title(block),
+            "type": (_clean_field(fields.get("type", "")).lower() or None),
+            "component": _split_values(fields.get("component", "")),
+            "personas": _split_values(fields.get("linked personas", "")),
+            "touches": _split_values(fields.get("touches", "")),
+            "lane": (_clean_field(fields.get("lane", "")) or None),
+            "priority": _clean_field(fields.get("priority", "")),
+            "owner": _clean_field(fields.get("owner", "")),
+            "added": _clean_field(fields.get("added", "")),
+            "updated": _clean_field(fields.get("updated", "")),
+            "target": _clean_field(fields.get("target", "")),
+            "criteria": (ticked, total),
+            "code_location": _code_location_paths(block),
+        })
 
     # An unrecognized class fails safe to 'feature': never silently hide work from
     # the coverage number. backlog_integrity_warnings() surfaces the typo instead.
@@ -611,6 +754,639 @@ def read_backlog_groups(root: Path) -> list[dict]:
     return groups
 
 
+# ---------------------------------------------------------------------------
+# Taxonomy — the declared vocabulary for Type and Component
+# ---------------------------------------------------------------------------
+
+def parse_taxonomy(text: str) -> dict:
+    """Parse a <!-- BACKLOG_TAXONOMY --> block. Pure.
+
+    `declared` is False when the block is absent, and that distinction is
+    load-bearing: an undeclared taxonomy means nobody has said what the valid
+    values are, so the views report ⚪ UNMEASURED rather than presenting whatever
+    values happen to appear as a validated set.
+    """
+    m = re.search(r"<!--\s*BACKLOG_TAXONOMY\s+(.*?)-->", text or "", re.DOTALL)
+    if not m:
+        return {"declared": False, "types": [], "components": []}
+    meta: dict = {}
+    for line in m.group(1).splitlines():
+        if ":" in line:
+            key, _, val = line.partition(":")
+            meta[key.strip().lower()] = _split_values(val)
+    return {"declared": True,
+            "types": meta.get("types", []),
+            "components": meta.get("components", [])}
+
+
+def render_taxonomy(types: list[str], components: list[str]) -> str:
+    """Render the taxonomy file. Round-trips through parse_taxonomy(). Pure."""
+    return (
+        "<!-- BACKLOG_TAXONOMY\n"
+        f"types: {', '.join(types)}\n"
+        f"components: {', '.join(components)}\n"
+        "-->\n\n"
+        "# Backlog Taxonomy\n\n"
+        "The declared vocabulary for the `Type` and `Component` fields in §2.5.\n"
+        "Both are **lens facets only** — they slice the ledger into the generated\n"
+        f"views under `{BACKLOG_VIEWS_DIRNAME}/` and never affect feature coverage\n"
+        "or tech-debt burndown, which are segmented solely by each group's `class:`.\n\n"
+        "A value used on an item but not declared here is **reported and bucketed as\n"
+        f"`{UNCATEGORIZED}`** — never dropped (the item stays visible) and never\n"
+        "silently accepted (a typo must not mint a component that reads as real).\n\n"
+        "Edit the header block above; re-run `docs_update.py --project . --views`.\n"
+    )
+
+
+def infer_components(groups: list[dict]) -> list[str]:
+    """Seed a component list from observed reality: every Component value already
+    in use, unioned with the leading path segment of every Touches entry.
+
+    Both signals are needed. Path prefixes alone would omit the values a project
+    already uses, so bootstrapping a backlog that *had* categorized its items
+    would declare none of them and report 100% uncategorized — telling the user
+    their work was lost rather than found.
+    """
+    seen = set()
+    for g in groups:
+        for it in g["items"]:
+            for value in it.get("component") or []:
+                if value.strip():
+                    seen.add(value.strip().lower())
+            for path in it.get("touches") or []:
+                head = path.strip().strip("/").split("/")[0]
+                if head and not any(ch in head for ch in "*?["):
+                    seen.add(head.lower())
+    return sorted(seen)
+
+
+def infer_types(groups: list[dict]) -> list[str]:
+    """The canonical types plus any the project already uses, so a bootstrap never
+    flags a value that was in the ledger before the taxonomy existed."""
+    seen = {t.lower() for t in DEFAULT_ITEM_TYPES}
+    for g in groups:
+        for it in g["items"]:
+            if it.get("type"):
+                seen.add(it["type"].lower())
+    return sorted(seen, key=lambda t: (t not in DEFAULT_ITEM_TYPES,
+                                       DEFAULT_ITEM_TYPES.index(t) if t in DEFAULT_ITEM_TYPES else 0,
+                                       t))
+
+
+def read_taxonomy(root: Path) -> dict:
+    """Load the project's declared taxonomy; undeclared when the file is absent."""
+    path = root / TAXONOMY_RELPATH
+    if not path.exists():
+        return {"declared": False, "types": [], "components": []}
+    return parse_taxonomy(path.read_text(encoding="utf-8"))
+
+
+# ---------------------------------------------------------------------------
+# Lens views — one ledger, many views. Pure functions of the children.
+# ---------------------------------------------------------------------------
+
+def view_filename(facet: str) -> str:
+    return f"by-{facet}.md"
+
+
+def facet_values(item: dict, facet: str) -> list[str]:
+    """The item's values on one facet. Multi-valued facets fan out. Pure."""
+    if facet == "type":
+        return [item["type"]] if item.get("type") else []
+    if facet == "component":
+        return list(item.get("component") or [])
+    if facet == "persona":
+        return list(item.get("personas") or [])
+    if facet == "status":
+        return [item.get("status") or "BACKLOG"]
+    raise ValueError(f"unknown facet {facet!r}; known: {', '.join(VIEW_FACETS)}")
+
+
+def bucket_items(groups: list[dict], facet: str,
+                 taxonomy: dict | None = None) -> tuple[dict, list[str]]:
+    """Bucket every item by one facet -> ({value: [(group, item)]}, warnings). Pure.
+
+    Deterministic: buckets sorted alphabetically with `uncategorized` forced last,
+    items within a bucket sorted by id. Same input => byte-identical output.
+    """
+    declared = None
+    if taxonomy and taxonomy.get("declared"):
+        if facet == "type":
+            declared = [v.lower() for v in taxonomy.get("types") or []]
+        elif facet == "component":
+            declared = [v.lower() for v in taxonomy.get("components") or []]
+
+    raw: dict[str, list] = {}
+    warnings: list[str] = []
+    for g in groups:
+        for it in g["items"]:
+            kept = []
+            for value in facet_values(it, facet):
+                if declared is not None and value.lower() not in declared:
+                    warnings.append(
+                        f"{g.get('file', '?')}: item {it['id']} has undeclared {facet} "
+                        f"'{value}' — bucketed as {UNCATEGORIZED}. Declare it in "
+                        f"{TAXONOMY_RELPATH} or fix the typo.")
+                    continue
+                kept.append(value)
+            for value in (kept or [UNCATEGORIZED]):
+                raw.setdefault(value, []).append((g, it))
+
+    ordered = sorted(raw, key=lambda v: (v == UNCATEGORIZED, v.lower()))
+    return ({v: sorted(raw[v], key=lambda pair: pair[1]["id"]) for v in ordered},
+            warnings)
+
+
+def build_view(groups: list[dict], facet: str, taxonomy: dict | None = None,
+               generated_on: str | None = None) -> str:
+    """Render one lens view. Pure — no clock, no filesystem, no model."""
+    buckets, warnings = bucket_items(groups, facet, taxonomy)
+    total = sum(len(g["items"]) for g in groups)
+    uncat = len(buckets.get(UNCATEGORIZED, []))
+
+    out: list[str] = [f"# Backlog by {facet.title()}\n"]
+    out.append(f"> **Auto-generated** by `docs_update.py --views`. Do NOT edit by hand — "
+               f"edit the per-group child docs, then re-run the script."
+               + (f" Generated {generated_on}." if generated_on else ""))
+    out.append("")
+    out.append(f"> **This is a lens, not a ledger.** Every item lives in exactly one child "
+               f"doc under `{BACKLOG_DIRNAME}/`; this view is derived and never authoritative. "
+               f"It does not affect feature coverage or tech-debt burndown.")
+    out.append("")
+
+    if facet in ("type", "component") and not (taxonomy or {}).get("declared"):
+        out.append(f"> ⚪ **UNMEASURED — no taxonomy declared.** `{TAXONOMY_RELPATH}` is absent, "
+                   f"so the buckets below are whatever values happen to appear, not a validated "
+                   f"set. Zero undeclared values here is not a pass — nobody has said what the "
+                   f"valid values are. Run `docs_update.py --project . --init-taxonomy`.")
+        out.append("")
+
+    out.append(f"**{total} item(s)** across {len(buckets)} bucket(s)  ·  "
+               f"**{uncat} {UNCATEGORIZED}**"
+               + (f" ({round(uncat / total * 100)}% of the ledger)" if total else ""))
+    out.append("")
+
+    if warnings:
+        out.append("## ⚠ Undeclared values\n")
+        for w in warnings:
+            out.append(f"- {w}")
+        out.append("")
+
+    for value, pairs in buckets.items():
+        label = f"`{value}`" if value != UNCATEGORIZED else f"_{UNCATEGORIZED}_"
+        out.append(f"## {label} — {len(pairs)} item(s)\n")
+        out.append("| Item | Title | Status | Completion | Effort | Priority | Group |")
+        out.append("|---|---|---|---|---|---|---|")
+        for g, it in pairs:
+            link = f"[{it['id']}](../{g['file']}#{it['id'].lower()})"
+            out.append(
+                f"| {link} | {it.get('title') or '—'} | `{it['status']}` | "
+                f"{item_completion(it)}% | {it.get('effort') or '—'} | "
+                f"{it.get('priority') or '—'} | {g.get('name') or g.get('file', '—')} |")
+        out.append("")
+
+    if not buckets:
+        out.append("_No backlog items yet._\n")
+    return "\n".join(out).rstrip() + "\n"
+
+
+def build_views(groups: list[dict], taxonomy: dict | None = None,
+                generated_on: str | None = None) -> dict[str, str]:
+    """Render every lens view -> {filename: content}. Pure."""
+    return {view_filename(f): build_view(groups, f, taxonomy, generated_on)
+            for f in VIEW_FACETS}
+
+
+# ---------------------------------------------------------------------------
+# Evidence — deterministic facts about drift. No verdicts, no model.
+# ---------------------------------------------------------------------------
+
+def days_stale(updated: str, today: str) -> int | None:
+    """Days between an item's Updated date and today. None if unparseable. Pure."""
+    try:
+        return (date.fromisoformat(today) - date.fromisoformat(_clean_field(updated))).days
+    except (ValueError, TypeError):
+        return None
+
+
+def resolve_paths(root: Path, patterns: list[str]) -> tuple[list[str], list[str]]:
+    """Split declared paths into (present, missing). Globs resolve via Path.glob.
+
+    Route-like tokens (leading '/') are skipped — they are not repo paths.
+    """
+    present, missing = [], []
+    for raw in patterns:
+        pat = str(raw or "").strip()
+        if not pat or pat.startswith("/"):
+            continue
+        try:
+            hit = any(root.glob(pat)) if any(c in pat for c in "*?[") else (root / pat).exists()
+        except (OSError, ValueError):
+            hit = False
+        (present if hit else missing).append(pat)
+    return present, missing
+
+
+def git_activity(root: Path, patterns: list[str], since: str) -> int | None:
+    """Commits touching these paths since a date. None when git can't answer. Impure."""
+    paths = [p for p in patterns if p and not p.startswith("/")]
+    if not paths or not _clean_field(since):
+        return None
+    try:
+        r = subprocess.run(
+            ["git", "-C", str(root), "log", "--oneline", f"--since={since}", "--", *paths],
+            capture_output=True, text=True, timeout=20)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if r.returncode != 0:
+        return None
+    return len([ln for ln in r.stdout.splitlines() if ln.strip()])
+
+
+def build_evidence(root: Path, groups: list[dict], today: str,
+                   use_git: bool = True) -> list[dict]:
+    """Gather deterministic evidence per item. No verdicts — facts only.
+
+    The model that consumes this adjudicates the ambiguous residue; it never sets
+    a percentage. `derived_completion` is always ticked/total Success Criteria,
+    because a number that drifts between runs cannot be trended.
+    """
+    out: list[dict] = []
+    for g in groups:
+        for it in g["items"]:
+            ticked, total = it.get("criteria", (0, 0))
+            derived = derived_completion(ticked, total)
+            current = item_completion(it)
+            paths = list(dict.fromkeys(
+                list(it.get("touches") or []) + list(it.get("code_location") or [])))
+            present, missing = resolve_paths(root, paths)
+            stale = days_stale(it.get("updated") or "", today)
+
+            flags: list[str] = []
+            if it["status"] in DONE_STATUSES and total and ticked < total:
+                flags.append("false_done")
+            if derived is not None and derived > current:
+                flags.append("understated")
+            if derived is not None and derived < current and it["status"] not in DONE_STATUSES:
+                flags.append("overstated")
+            if it["status"] in ACTIVE_STATUSES and stale is not None and stale > STALE_DAYS:
+                flags.append("stalled")
+            # No declared paths => nothing to be orphaned from. Absence of evidence
+            # is never evidence of absence.
+            #
+            # Nor can work that was never built be orphaned FROM anything.
+            # `orphaned` means "a refactor moved or deleted the code under an item
+            # nobody retired", which requires the code to have existed. An item
+            # still at BACKLOG/TODO with 0% is declaring where its code WILL live
+            # — a plan, not a claim — and flagging that fires on correctly-filed
+            # new work. In the field, three of twenty-four freshly filed items
+            # flagged immediately for exactly that.
+            #
+            # IN_PROGRESS at 0% is deliberately NOT exempt: someone says they are
+            # working on it, so the declared paths should exist by now.
+            unstarted = it["status"] in ("BACKLOG", "TODO") and current == 0
+            if paths and not present and not unstarted:
+                flags.append("orphaned")
+            # An item claimed ACTIVE with nothing ticked is invisible to every
+            # other flag: 0 ticked against 0% is internally CONSISTENT, so
+            # `understated` cannot fire, and `false_done` needs a DONE status.
+            # In the field a P0 sat at the top of a backlog for three days after
+            # its work had shipped across three merged commits, because nobody
+            # ticked a box and nothing could tell.
+            #
+            # TODO/BACKLOG are deliberately excluded: unstarted work with nothing
+            # ticked is the normal resting state of a healthy backlog, and
+            # flagging it would fire almost everywhere and train people to ignore
+            # the column.
+            if it["status"] in ACTIVE_STATUSES and total and ticked == 0 and current == 0:
+                flags.append("unticked")
+
+            out.append({
+                "id": it["id"], "title": it.get("title") or "", "file": g.get("file", ""),
+                "group": g.get("name") or g.get("code") or "", "class": g.get("class", FEATURE_CLASS),
+                "status": it["status"], "completion": current,
+                "criteria_ticked": ticked, "criteria_total": total,
+                "derived_completion": derived, "days_stale": stale,
+                "paths_present": present, "paths_missing": missing,
+                "git_commits": (git_activity(root, paths, it.get("updated") or "")
+                                if use_git else None),
+                "flags": flags,
+            })
+    return out
+
+
+def render_evidence(evidence: list[dict], today: str | None = None) -> str:
+    """Render the evidence report. Pure — takes the clock as an argument."""
+    flagged = [e for e in evidence if e["flags"]]
+    out: list[str] = ["# Backlog Evidence\n"]
+    out.append("> **Auto-generated** by `docs_update.py --evidence`. Deterministic facts "
+               "only — no verdicts, no model call. `/backlog-reconcile` reads this and "
+               "adjudicates the ambiguous residue."
+               + (f" Generated {today}." if today else ""))
+    out.append("")
+    out.append(f"**{len(evidence)} item(s) examined  ·  {len(flagged)} flagged**")
+    out.append("")
+
+    if not flagged:
+        out.append("✅ **no drift detected** — every item's claimed status is consistent with "
+                   "its Success Criteria, declared paths, and freshness.")
+        out.append("")
+    else:
+        out.append("| Item | Title | Status | Claimed | Criteria | Derived | Stale | Flags |")
+        out.append("|---|---|---|---|---|---|---|---|")
+        for e in flagged:
+            derived = "—" if e["derived_completion"] is None else f"{e['derived_completion']}%"
+            stale = "—" if e["days_stale"] is None else f"{e['days_stale']}d"
+            out.append(
+                f"| {e['id']} | {e['title'] or '—'} | `{e['status']}` | {e['completion']}% | "
+                f"{e['criteria_ticked']}/{e['criteria_total']} | {derived} | {stale} | "
+                f"{', '.join(e['flags'])} |")
+        out.append("")
+        out.append("## Missing declared paths\n")
+        orphans = [e for e in flagged if e["paths_missing"]]
+        if orphans:
+            for e in orphans:
+                out.append(f"- **{e['id']}** — missing: {', '.join('`' + p + '`' for p in e['paths_missing'])}")
+        else:
+            out.append("_none_")
+        out.append("")
+
+    out.append("## Flag meanings\n")
+    out.append("| Flag | Means |\n|---|---|")
+    out.append("| `false_done` | `DONE`, but not every Success Criterion is ticked |")
+    out.append("| `understated` | Criteria show more progress than `Completion` claims |")
+    out.append("| `overstated` | `Completion` claims more progress than the criteria show |")
+    out.append(f"| `stalled` | `IN_PROGRESS`/`REVIEW` and untouched for over {STALE_DAYS} days |")
+    out.append("| `orphaned` | Every declared `Touches`/`Code Location` path is gone (not reported for unstarted `BACKLOG`/`TODO` items at 0%, which have nothing to be orphaned from) |")
+    out.append("| `unticked` | `IN_PROGRESS`/`REVIEW` at 0% with no criterion ticked — either it has not started, or nobody is ticking |")
+    out.append("")
+    out.append("> An item with **no** Success Criteria yields a derived completion of `—`, not "
+               "0% and not 100%. That is ⚪ UNMEASURED: nobody wrote criteria, so nothing has "
+               "been checked. Never round it up.")
+    return "\n".join(out).rstrip() + "\n"
+
+
+# ---------------------------------------------------------------------------
+# Writers — the only sanctioned way to create or amend a backlog item.
+#
+# /session-to-backlog and /backlog-reconcile call these instead of splicing
+# markdown, which makes three documented field failures structural:
+#   * `### CODE-NNN` alone on its line (braid.py's _ITEM_RE anchors to EOL)
+#   * every value backticked (the 317-item 0% report)
+#   * statuses underscored (docs_update's Status regex is [A-Za-z_]+)
+# ---------------------------------------------------------------------------
+
+def _normalise_field(key: str, value: str) -> str:
+    v = str(value or "").strip().strip("`").strip()
+    if key == "Status" and v:
+        return re.sub(r"[\s\-]+", "_", v).upper()
+    return v
+
+
+def render_item(item_id: str, title: str, fields: dict | None = None) -> str:
+    """Render a complete §2.5 backlog item. Pure."""
+    fields = dict(fields or {})
+    unknown = [k for k in fields if k not in ITEM_FIELD_ORDER]
+    if unknown:
+        raise ValueError(f"unknown backlog field(s): {', '.join(sorted(unknown))}. "
+                         f"Known: {', '.join(ITEM_FIELD_ORDER)}")
+    lines = [f"### {item_id}", f"**{title}**", "", "| Field | Value |", "|---|---|"]
+    for key in ITEM_FIELD_ORDER:
+        lines.append(f"| {key} | `{_normalise_field(key, fields.get(key, '')) or '—'}` |")
+    lines += ["", "**Description**", "_What and why._", "",
+              "**Success Criteria**", "- [ ] _Measurable, testable outcome_", "",
+              "**Related Items**", "- _none yet_", "",
+              "**Code Location** (once built)", "- _path / route_", "",
+              "**Notes / Risks**", "- _none_", ""]
+    return "\n".join(lines)
+
+
+def next_item_id(text: str, code: str) -> str:
+    """Next free CODE-NNN. Always max+1 — a deleted middle number is never reused,
+    or an external reference to the deleted item would silently re-resolve."""
+    code = code.upper()
+    nums = [int(n) for n in
+            re.findall(rf"(?m)^###\s+{re.escape(code)}-(\d+)\b", text or "")]
+    return f"{code}-{max(nums, default=0) + 1:03d}"
+
+
+def append_item(text: str, item_id: str, title: str, fields: dict | None = None) -> str:
+    """Append an item to a child doc, preserving prior content verbatim. Pure."""
+    body = render_item(item_id, title, fields)
+    base = (text or "").rstrip()
+    return f"{base}\n\n{body}" if base else body
+
+
+def find_item_span(text: str, item_id: str) -> tuple[int, int] | None:
+    """(start, end) of an item's block, or None. Tolerates '### ID — Title'."""
+    m = re.search(rf"(?m)^###\s+{re.escape(item_id)}\b", text or "")
+    if not m:
+        return None
+    nxt = re.search(r"(?m)^###\s+[A-Z][A-Z0-9]*-\d+\b", text[m.end():])
+    return (m.start(), m.end() + nxt.start() if nxt else len(text))
+
+
+def _upsert_field_row(block: str, key: str, value: str) -> str:
+    """Replace a Field|Value row, or insert it at its ITEM_FIELD_ORDER position."""
+    row = f"| {key} | `{value or '—'}` |"
+    # [^\n]*$ rather than .*\s*$ — see _ITEM_FIELD_ROW: \s* would swallow the
+    # line break and collapse the blank line before **Description**.
+    existing = re.compile(rf"(?m)^\|[ \t]*\*{{0,2}}{re.escape(key)}\*{{0,2}}[ \t]*\|[^\n]*$")
+    if existing.search(block):
+        # A lambda repl: the value may contain backslashes or \g, which re.sub
+        # would otherwise interpret as group references.
+        return existing.sub(lambda _m: row, block, count=1)
+
+    order = list(ITEM_FIELD_ORDER)
+    idx = order.index(key)
+    trailing = len(block) - len(block.rstrip("\n"))
+    lines = block.rstrip("\n").split("\n")
+
+    insert_at, last_field = None, None
+    for i, line in enumerate(lines):
+        m = re.match(r"^\|\s*\*{0,2}([A-Za-z][A-Za-z /]*?)\*{0,2}\s*\|", line)
+        if not m:
+            continue
+        name = m.group(1).strip()
+        if name not in order:
+            continue
+        last_field = i
+        if order.index(name) > idx:
+            insert_at = i
+            break
+    if insert_at is None:
+        insert_at = (last_field + 1) if last_field is not None else len(lines)
+    lines.insert(insert_at, row)
+    return "\n".join(lines) + "\n" * trailing
+
+
+def set_item_fields(text: str, item_id: str, updates: dict,
+                    today: str | None = None) -> str:
+    """Surgically update an item's fields. Every prose section survives verbatim.
+
+    `Updated` is auto-stamped to `today` unless the caller sets it explicitly —
+    a field change the ledger cannot date is a field change nobody can audit.
+    """
+    unknown = [k for k in updates if k not in ITEM_FIELD_ORDER]
+    if unknown:
+        raise ValueError(f"unknown backlog field(s): {', '.join(sorted(unknown))}. "
+                         f"Known: {', '.join(ITEM_FIELD_ORDER)}")
+    span = find_item_span(text, item_id)
+    if span is None:
+        raise ValueError(f"backlog item {item_id} not found")
+
+    start, end = span
+    block = text[start:end]
+    merged = dict(updates)
+    if today and "Updated" not in merged:
+        merged["Updated"] = today
+    for key, value in merged.items():
+        block = _upsert_field_row(block, key, _normalise_field(key, value))
+    return text[:start] + block + text[end:]
+
+
+def find_group_file(root: Path, code: str) -> Path | None:
+    """The child doc owning a group code."""
+    for g in read_backlog_groups(root):
+        if (g.get("code") or "").upper() == code.upper():
+            return root / BACKLOG_DIRNAME / g["file"]
+    return None
+
+
+def find_item_file(root: Path, item_id: str) -> Path | None:
+    """The child doc containing an item id."""
+    bdir = root / BACKLOG_DIRNAME
+    if not bdir.exists():
+        return None
+    for f in sorted(bdir.glob("*.md")):
+        if f.name == BACKLOG_INDEX:
+            continue
+        if find_item_span(f.read_text(encoding="utf-8"), item_id):
+            return f
+    return None
+
+
+# ---------------------------------------------------------------------------
+# Backlog commands (deterministic — none of these call the model)
+# ---------------------------------------------------------------------------
+
+def cmd_views(root: Path, dry_run: bool) -> int:
+    """Regenerate the lens views. Deterministic; no model."""
+    groups = read_backlog_groups(root)
+    taxonomy = read_taxonomy(root)
+    views = build_views(groups, taxonomy, generated_on=date.today().isoformat())
+    vdir = root / BACKLOG_VIEWS_DIRNAME
+
+    if not taxonomy["declared"]:
+        print(f"⚪ no taxonomy declared ({TAXONOMY_RELPATH}) — type/component buckets are "
+              f"observed values, not a validated set. Run --init-taxonomy.")
+    for facet in VIEW_FACETS:
+        _, warnings = bucket_items(groups, facet, taxonomy)
+        for w in warnings:
+            print(f"WARNING: {w}")
+
+    if dry_run:
+        for name in sorted(views):
+            print(f"[DRY] would write {vdir / name} ({len(views[name])} chars)")
+        return 0
+    vdir.mkdir(parents=True, exist_ok=True)
+    for name in sorted(views):
+        (vdir / name).write_text(views[name], encoding="utf-8")
+    print(f"wrote {len(views)} view(s) to {BACKLOG_VIEWS_DIRNAME}/ "
+          f"({sum(len(g['items']) for g in groups)} items across {len(groups)} group(s))")
+    return 0
+
+
+def cmd_init_taxonomy(root: Path, dry_run: bool) -> int:
+    """Bootstrap .cfai/backlog-taxonomy.md from observed Touches prefixes."""
+    target = root / TAXONOMY_RELPATH
+    if target.exists():
+        print(f"{TAXONOMY_RELPATH} already exists — not overwriting. Edit it by hand.")
+        return 0
+    groups = read_backlog_groups(root)
+    components = infer_components(groups)
+    types = infer_types(groups)
+    content = render_taxonomy(types, components)
+    if dry_run:
+        print(f"[DRY] would create {target} "
+              f"({len(types)} types, {len(components)} components)")
+        return 0
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(content, encoding="utf-8")
+    print(f"created {TAXONOMY_RELPATH} — {len(components)} component(s) inferred from "
+          f"Component values + Touches prefixes: {', '.join(components) or 'none yet'}")
+    print("Edit it: the inferred list describes what IS, not what SHOULD BE.")
+    return 0
+
+
+def cmd_evidence(root: Path, dry_run: bool) -> int:
+    """Gather deterministic drift evidence into docs/audits/BACKLOG_EVIDENCE.md."""
+    today = date.today().isoformat()
+    evidence = build_evidence(root, read_backlog_groups(root), today)
+    report = render_evidence(evidence, today=today)
+    target = root / EVIDENCE_RELPATH
+    flagged = [e for e in evidence if e["flags"]]
+    print(f"Examined {len(evidence)} item(s); {len(flagged)} flagged.")
+    for e in flagged:
+        print(f"  {e['id']:<12} {', '.join(e['flags'])}")
+    if dry_run:
+        print(f"[DRY] would write {target} ({len(report)} chars)")
+        return 0
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(report, encoding="utf-8")
+    print(f"wrote {EVIDENCE_RELPATH}")
+    return 0
+
+
+def cmd_new_item(root: Path, code: str, title: str, fields: dict, dry_run: bool) -> int:
+    """Append a new item to the child doc owning `code`, then reindex."""
+    child = find_group_file(root, code)
+    if child is None:
+        print(f"ERROR: no backlog group with code '{code.upper()}'. "
+              f"Create one first: docs_update.py --project . --new-group \"<Name>\" --code {code.upper()}")
+        return 1
+    text = child.read_text(encoding="utf-8")
+    item_id = next_item_id(text, code)
+    today = date.today().isoformat()
+    fields = {"Status": "BACKLOG", "Completion": "0%", "Priority": "P2 - Medium",
+              "Effort": "M", "Added": today, "Updated": today, **fields}
+    if dry_run:
+        print(f"[DRY] would append {item_id} \"{title}\" to {child.relative_to(root)}")
+        return 0
+    child.write_text(append_item(text, item_id, title, fields), encoding="utf-8")
+    print(f"created {item_id} in {child.relative_to(root)}")
+    return cmd_backlog(root, dry_run=False)
+
+
+def cmd_set(root: Path, item_id: str, assignments: list[str], dry_run: bool) -> int:
+    """Apply Field=Value updates to one item, then reindex."""
+    updates = {}
+    for raw in assignments:
+        if "=" not in raw:
+            print(f"ERROR: expected Field=Value, got '{raw}'")
+            return 1
+        key, _, value = raw.partition("=")
+        updates[key.strip()] = value.strip()
+    child = find_item_file(root, item_id)
+    if child is None:
+        print(f"ERROR: backlog item {item_id} not found under {BACKLOG_DIRNAME}/")
+        return 1
+    try:
+        updated = set_item_fields(child.read_text(encoding="utf-8"), item_id,
+                                  updates, today=date.today().isoformat())
+    except ValueError as exc:
+        print(f"ERROR: {exc}")
+        return 1
+    if dry_run:
+        print(f"[DRY] would update {item_id} in {child.relative_to(root)}: "
+              f"{', '.join(f'{k}={v}' for k, v in updates.items())}")
+        return 0
+    child.write_text(updated, encoding="utf-8")
+    print(f"updated {item_id} in {child.relative_to(root)}: "
+          f"{', '.join(f'{k}={v}' for k, v in updates.items())}")
+    return cmd_backlog(root, dry_run=False)
+
+
 def cmd_backlog(root: Path, dry_run: bool) -> int:
     """Rebuild MASTER_BACKLOG.md from the child docs. Deterministic; no model."""
     groups = read_backlog_groups(root)
@@ -623,7 +1399,10 @@ def cmd_backlog(root: Path, dry_run: bool) -> int:
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(index, encoding="utf-8")
     print(f"wrote {target.relative_to(root)} ({len(groups)} groups indexed)")
-    return 0
+    # The views are a pure function of the same children. Regenerating them here
+    # means the parent and its lenses can never disagree; a separate step could
+    # only introduce the drift both exist to remove.
+    return cmd_views(root, dry_run=False)
 
 
 def cmd_new_group(root: Path, name: str, code: str | None, dry_run: bool) -> int:
@@ -1288,6 +2067,91 @@ def self_test() -> int:
     assert any("typo" in w for w in backlog_integrity_warnings([{**bad, "file": "x.md"}]))
     assert backlog_integrity_warnings([{**parsed, "file": "auth.md"}]) == []
 
+    # --- Lens facets: parse, bucket, views, and the lens-only invariant ---
+    faceted = parse_backlog_group(
+        "<!-- BACKLOG_GROUP\ncode: AUTH\n-->\n"
+        "### AUTH-001\n**Magic link**\n\n| Status | `DONE` |\n| Completion | `100%` |\n"
+        "| Effort | `M` |\n| Type | `feature` |\n| Component | `api, auth` |\n"
+        "| Linked Personas | `End User`, `Security` |\n| Updated | `2026-07-29` |\n\n"
+        "**Success Criteria**\n- [x] a\n- [x] b\n"
+    )
+    fit = faceted["items"][0]
+    assert fit["title"] == "Magic link" and fit["type"] == "feature"
+    assert fit["component"] == ["api", "auth"], fit
+    assert fit["personas"] == ["End User", "Security"], fit
+    assert fit["criteria"] == (2, 2)
+    # THE invariant: categorization must not move a roll-up number.
+    plain = parse_backlog_group(
+        "<!-- BACKLOG_GROUP\ncode: AUTH\n-->\n"
+        "### AUTH-001\n**Magic link**\n\n| Status | `DONE` |\n| Completion | `100%` |\n"
+        "| Effort | `M` |\n| Updated | `2026-07-29` |\n\n"
+        "**Success Criteria**\n- [x] a\n- [x] b\n"
+    )
+    assert (build_master_backlog([{**faceted, "file": "a.md"}], generated_on="2026-01-01")
+            == build_master_backlog([{**plain, "file": "a.md"}], generated_on="2026-01-01")), \
+        "adding Type/Component moved a roll-up number — the lens-only invariant is broken"
+
+    tax = parse_taxonomy(render_taxonomy(["feature"], ["api"]))
+    assert tax["declared"] and tax["types"] == ["feature"] and tax["components"] == ["api"]
+    assert parse_taxonomy("# nothing")["declared"] is False   # ⚪, not an empty pass
+    buckets, warns = bucket_items([{**faceted, "file": "a.md"}], "component", tax)
+    assert "api" in buckets and "auth" not in buckets, buckets   # 'auth' undeclared
+    assert any("auth" in w and "AUTH-001" in w for w in warns), warns
+    assert list(bucket_items([{**faceted, "file": "a.md"}], "type")[0]) == ["feature"]
+    views = build_views([{**faceted, "file": "a.md"}], parse_taxonomy(""), generated_on="2026-01-01")
+    assert sorted(views) == sorted(view_filename(f) for f in VIEW_FACETS)
+    assert "⚪" in views[view_filename("type")]           # no taxonomy => UNMEASURED
+    assert "⚪" not in build_view([{**faceted, "file": "a.md"}], "type", tax, "2026-01-01")
+    assert views == build_views([{**faceted, "file": "a.md"}], parse_taxonomy(""),
+                                generated_on="2026-01-01"), "views must be deterministic"
+    # The views directory must stay below the non-recursive group glob.
+    assert BACKLOG_VIEWS_DIRNAME.startswith(BACKLOG_DIRNAME + "/")
+
+    # --- Evidence: criteria math, the UNMEASURED rule, flags ---
+    assert criteria_progress("**Success Criteria**\n- [x] a\n- [ ] b\n") == (1, 2)
+    assert criteria_progress("**Description**\n- [x] stray\n\n**Success Criteria**\n- [ ] r\n") == (0, 1)
+    assert derived_completion(1, 4) == 25 and derived_completion(2, 3) == 67
+    assert derived_completion(0, 0) is None, "no criteria is UNMEASURED, never 0 or 100"
+    assert days_stale("2026-07-01", "2026-07-29") == 28 and days_stale("—", "2026-07-29") is None
+    ev = build_evidence(Path("/nonexistent-root"), [{**plain, "file": "a.md"}],
+                        today="2026-07-29", use_git=False)[0]
+    assert ev["flags"] == [] and ev["derived_completion"] == 100, ev
+    stale_group = parse_backlog_group(
+        "<!-- BACKLOG_GROUP\ncode: X\n-->\n### X-001\n**T**\n\n"
+        "| Status | `IN_PROGRESS` |\n| Completion | `100%` |\n| Updated | `2026-01-01` |\n\n"
+        "**Success Criteria**\n- [ ] a\n")
+    sev = build_evidence(Path("/nonexistent-root"), [{**stale_group, "file": "x.md"}],
+                         today="2026-07-29", use_git=False)[0]
+    assert set(sev["flags"]) == {"overstated", "stalled"}, sev
+    assert "no drift" in render_evidence([ev], today="2026-07-29").lower()
+
+    # --- Writers: the three documented format traps, enforced structurally ---
+    rendered = render_item("AUTH-012", "Session revocation",
+                           {"Status": "in progress", "Type": "feature"})
+    assert rendered.splitlines()[0] == "### AUTH-012", "heading must be the bare id (braid _ITEM_RE)"
+    assert "| Status | `IN_PROGRESS` |" in rendered, "status must be underscored + backticked"
+    assert "| Owner | `—` |" in rendered
+    round_tripped = parse_backlog_group("<!-- BACKLOG_GROUP\ncode: AUTH\n-->\n" + rendered)["items"][0]
+    assert round_tripped["id"] == "AUTH-012" and round_tripped["status"] == "IN_PROGRESS"
+    assert next_item_id("### AUTH-001\n### AUTH-007\n", "AUTH") == "AUTH-008"
+    assert next_item_id("", "PAY") == "PAY-001"
+    child_doc = "### AUTH-001\n**T**\n\n| Field | Value |\n|---|---|\n| Status | `TODO` |\n" \
+                "| Effort | `M` |\n| Added | `2026-01-01` |\n\n**Description**\nKeep me.\n"
+    bumped = set_item_fields(child_doc, "AUTH-001", {"Status": "DONE", "Type": "defect"},
+                             today="2026-07-29")
+    assert "| Status | `DONE` |" in bumped and "| Updated | `2026-07-29` |" in bumped
+    assert "Keep me." in bumped, "prose must survive a field update"
+    assert bumped.index("| Effort |") < bumped.index("| Type |") < bumped.index("| Added |")
+    assert bumped == set_item_fields(bumped, "AUTH-001", {"Status": "DONE", "Type": "defect"},
+                                     today="2026-07-29"), "set_item_fields must be idempotent"
+    for bad in (lambda: set_item_fields(child_doc, "AUTH-999", {"Status": "DONE"}),
+                lambda: set_item_fields(child_doc, "AUTH-001", {"Bogus": "x"})):
+        try:
+            bad()
+            raise AssertionError("expected ValueError")
+        except ValueError:
+            pass
+
     # --- Learnings log (F3): categories, scaffold, parse, skiplist, prompt, guard ---
     assert len(LEARNING_CATEGORIES) == 7
     scaffold = scaffold_learnings()
@@ -1362,6 +2226,16 @@ def main() -> int:
                       help="rebuild docs/backlog/MASTER_BACKLOG.md from the child docs (no model call)")
     mode.add_argument("--new-group", metavar="NAME", dest="new_group",
                       help="scaffold a new feature-group backlog child, then reindex the parent")
+    mode.add_argument("--views", action="store_true",
+                      help="regenerate docs/backlog/views/by-{type,component,persona,status}.md (no model call)")
+    mode.add_argument("--evidence", action="store_true",
+                      help="gather deterministic drift evidence into docs/audits/BACKLOG_EVIDENCE.md (no model call)")
+    mode.add_argument("--init-taxonomy", action="store_true", dest="init_taxonomy",
+                      help=f"bootstrap {TAXONOMY_RELPATH} from observed Touches prefixes (no model call)")
+    mode.add_argument("--new-item", nargs=2, metavar=("CODE", "TITLE"), dest="new_item",
+                      help="append a new backlog item to the group owning CODE, then reindex")
+    mode.add_argument("--set", nargs="+", metavar=("ID", "FIELD=VALUE"), dest="set_item",
+                      help="update one item's fields in place (e.g. --set AUTH-004 Status=DONE Completion=100%%)")
     mode.add_argument("--learnings", action="store_true",
                       help="refresh docs/LEARNINGS_LOG.md only (abstracted SW-engineering learnings)")
     mode.add_argument("--propose", action="store_true",
@@ -1369,6 +2243,15 @@ def main() -> int:
     ap.add_argument("--repo", metavar="PATH|URL", default=None,
                     help="standards repo for --propose (export) or --learnings (pull approve/reject verdicts)")
     ap.add_argument("--code", metavar="CODE", help="explicit group code for --new-group (else derived)")
+    # Lens facets + schema fields for --new-item. All optional: an item that
+    # declares none of them is exactly the item this script wrote before.
+    for opt, field in (("--type", "Type"), ("--component", "Component"),
+                       ("--effort", "Effort"), ("--priority", "Priority"),
+                       ("--owner", "Owner"), ("--persona", "Linked Personas"),
+                       ("--touches", "Touches"), ("--depends-on", "Depends On"),
+                       ("--status", "Status"), ("--target", "Target")):
+        ap.add_argument(opt, metavar="VALUE", default=None,
+                        help=f"set the '{field}' field on --new-item")
     ap.add_argument("--project", metavar="PATH", default=None,
                     help="project root (default: this script's directory)")
     ap.add_argument("--dry-run", action="store_true", help="preview targets + prompt sizes; no model call, no writes")
@@ -1385,6 +2268,24 @@ def main() -> int:
     # Backlog modes are deterministic and never call the model — handle first.
     if args.new_group:
         return cmd_new_group(root, args.new_group, args.code, args.dry_run)
+    if args.init_taxonomy:
+        return cmd_init_taxonomy(root, args.dry_run)
+    if args.views:
+        return cmd_views(root, args.dry_run)
+    if args.evidence:
+        return cmd_evidence(root, args.dry_run)
+    if args.new_item:
+        code, title = args.new_item
+        fields = {field: getattr(args, dest)
+                  for dest, field in (("type", "Type"), ("component", "Component"),
+                                      ("effort", "Effort"), ("priority", "Priority"),
+                                      ("owner", "Owner"), ("persona", "Linked Personas"),
+                                      ("touches", "Touches"), ("depends_on", "Depends On"),
+                                      ("status", "Status"), ("target", "Target"))
+                  if getattr(args, dest) is not None}
+        return cmd_new_item(root, code, title, fields, args.dry_run)
+    if args.set_item:
+        return cmd_set(root, args.set_item[0], args.set_item[1:], args.dry_run)
     if args.backlog:
         return cmd_backlog(root, args.dry_run)
 

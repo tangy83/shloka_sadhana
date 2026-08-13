@@ -4,8 +4,6 @@
 This project has adopted Context First AI Gold Standards. The adapted reckoners live under `docs/standards/` — **git-ignored internal IP**, reconstituted from `cfai-manifest.json` via `adopt.py`. This block lists pointers only and is safe to commit.
 
 **Adopted standards:**
-- Claude Code Response Status Footer → `docs/standards/ai/claude-code-status-footer-reckoner.md`
-- Project Documentation Standards → `docs/standards/project-init/project-documentation-standards-reckoner.md`
 - EAS Build Profiles (eas.json) → `docs/standards/mobile/eas-json-profiles.md`
 - EAS Build Failure Diagnosis & Environment Setup → `docs/standards/mobile/eas-build-diagnostics.md`
 - iOS Code Signing → `docs/standards/mobile/ios-signing-reckoner.md`
@@ -19,6 +17,11 @@ This project has adopted Context First AI Gold Standards. The adapted reckoners 
 - Architecture Principles — Modularity Rubric → `docs/standards/architecture/architecture-principles-reckoner.md`
 - Modularity Audit — Function/Module/API Health Scorecard → `docs/standards/architecture/modularity-audit-reckoner.md`
 - Idea to Backlog — Rough Note to Documented Backlog Item → `docs/standards/project-init/idea-to-backlog-reckoner.md`
+- Claude Code Response Status Footer → `docs/standards/ai/claude-code-status-footer-reckoner.md`
+- Project Documentation Standards → `docs/standards/project-init/project-documentation-standards-reckoner.md`
+- App Review Rejection Playbook — From Rejection to Resubmission → `docs/standards/cicd/app-review-rejection-playbook.md`
+- EAS Submit — iOS CLI Push to the App Store → `docs/standards/cicd/eas-submit-ios-cli-reckoner.md`
+- Learnings to Proposal — Nugget Promotion Reckoner → `docs/standards/project-init/learnings-to-proposal-reckoner.md`
 
 **Installed tooling scripts (git-tracked):**
 - `docs_update.py` — run: `python3 docs_update.py`
@@ -29,11 +32,13 @@ This project has adopted Context First AI Gold Standards. The adapted reckoners 
 - `scripts/idea-to-backlog-workflow.md` — run: `scripts/idea-to-backlog-workflow.md`
 - `.claude/commands/modularity-audit.md` — run: `/modularity-audit`
 - `.claude/commands/completion-audit.md` — run: `/completion-audit`
+- `remindme.py` — run: `python3 remindme.py`
+- `.claude/commands/session-to-backlog.md` — run: `/session-to-backlog`
+- `.claude/commands/backlog-reconcile.md` — run: `/backlog-reconcile`
 
 **Standards instructions:**
-- Claude Code Response Status Footer: End EVERY response with the CFAI status footer (🟢 ALL CLEAR / 🟡 PENDING / 🔴 ACTION NEEDED) separated by a `---`, leading with the state so attention items are scannable — see docs/standards/ai/claude-code-status-footer-reckoner.md.
+- Claude Code Response Status Footer: End EVERY response with the CFAI status footer (🟢 ALL CLEAR / 🟡 PENDING / 🔴 ACTION NEEDED) separated by a `---`, leading with the state so attention items are scannable. When a response created or updated backlog items, append the six-column session ledger table (Item, Title, Type, Component, Persona, Status) for THAT response only; omit it entirely otherwise — see docs/standards/ai/claude-code-status-footer-reckoner.md.
 - Project Documentation Standards: Keep the canonical docs in sync: run `python3 docs_update.py --self-test` before committing doc changes, and `npx tsx session-doc-update.ts` at the end of each session (adjust its path constants first).
-- Modularity Audit — Function/Module/API Health Scorecard: Run `python3 module-audit.py --self-test`, then `python3 module-audit.py --path <dir>` to refresh docs/audits/MODULARITY_AUDIT.md before a refactor or quality gate.
-- Idea to Backlog — Rough Note to Documented Backlog Item: Capture rough ideas by tagging `@idea_to_backlog.py <note>` in a Claude session (fill the CONFIGURE blocks first) — see docs/standards/project-init/idea-to-backlog-reckoner.md.
+- App Review Rejection Playbook — From Rejection to Resubmission: Never delete an App Store Connect record — it permanently burns the bundle ID. Rename it instead.
 
 <!-- CFAI:MANAGED:END -->

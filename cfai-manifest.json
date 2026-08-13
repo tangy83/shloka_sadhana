@@ -2,24 +2,6 @@
   "cfai_standards_ref": "cfai_gold_standards",
   "adopted": [
     {
-      "module_id": "ai.status-footer",
-      "title": "Claude Code Response Status Footer",
-      "discipline": "ai",
-      "gold_standard_source": "ai/claude-code-status-footer-reckoner.md",
-      "adopted_at": "2026-07-10",
-      "output_file": "docs/standards/ai/claude-code-status-footer-reckoner.md",
-      "source_sha": "sha256:e7ba0cbc2d35d6c7684074eb1694a69ce9c12729a81e1755ee783591f7a1873b"
-    },
-    {
-      "module_id": "project-init.documentation-standards",
-      "title": "Project Documentation Standards",
-      "discipline": "project-init",
-      "gold_standard_source": "project-init/project-documentation-standards-reckoner.md",
-      "adopted_at": "2026-07-10",
-      "output_file": "docs/standards/project-init/project-documentation-standards-reckoner.md",
-      "source_sha": "sha256:b477cb59c4e99e34570f7dc20ce108066d9dd516a99d97a7579ff38647e01ad4"
-    },
-    {
       "module_id": "mobile.eas-profiles",
       "title": "EAS Build Profiles (eas.json)",
       "discipline": "mobile",
@@ -135,6 +117,51 @@
       "adopted_at": "2026-07-10",
       "output_file": "docs/standards/project-init/idea-to-backlog-reckoner.md",
       "source_sha": "sha256:b96d162d35e1eba50e9e8eb86acb0043866fed683dcc56cf9baca65188825cd5"
+    },
+    {
+      "module_id": "ai.status-footer",
+      "title": "Claude Code Response Status Footer",
+      "discipline": "ai",
+      "gold_standard_source": "ai/claude-code-status-footer-reckoner.md",
+      "adopted_at": "2026-08-13",
+      "output_file": "docs/standards/ai/claude-code-status-footer-reckoner.md",
+      "source_sha": "sha256:88055de662657456b12b88aa2e3fa41e2ad9cbd663008a62b600c65ca36ef039"
+    },
+    {
+      "module_id": "project-init.documentation-standards",
+      "title": "Project Documentation Standards",
+      "discipline": "project-init",
+      "gold_standard_source": "project-init/project-documentation-standards-reckoner.md",
+      "adopted_at": "2026-08-13",
+      "output_file": "docs/standards/project-init/project-documentation-standards-reckoner.md",
+      "source_sha": "sha256:599ff32009c6ce19db7f8dcdd879fdd3e4a05fe7086049c572284c1ce99f174e"
+    },
+    {
+      "module_id": "cicd.app-review-rejection",
+      "title": "App Review Rejection Playbook — From Rejection to Resubmission",
+      "discipline": "cicd",
+      "gold_standard_source": "cicd/app-review-rejection-playbook.md",
+      "adopted_at": "2026-08-13",
+      "output_file": "docs/standards/cicd/app-review-rejection-playbook.md",
+      "source_sha": "sha256:44fedd7074e227000bc4820a27dd021a2e0d44d827f94257dd823d6f882326e9"
+    },
+    {
+      "module_id": "cicd.eas-submit-ios-cli",
+      "title": "EAS Submit — iOS CLI Push to the App Store",
+      "discipline": "cicd",
+      "gold_standard_source": "cicd/eas-submit-ios-cli-reckoner.md",
+      "adopted_at": "2026-08-13",
+      "output_file": "docs/standards/cicd/eas-submit-ios-cli-reckoner.md",
+      "source_sha": "sha256:f99319d46ab0d4a9c858cf75755de7a312d65a8fbc1e75980bc124f9e976e7c4"
+    },
+    {
+      "module_id": "project-init.learnings-to-proposal",
+      "title": "Learnings to Proposal — Nugget Promotion Reckoner",
+      "discipline": "project-init",
+      "gold_standard_source": "project-init/learnings-to-proposal-reckoner.md",
+      "adopted_at": "2026-08-13",
+      "output_file": "docs/standards/project-init/learnings-to-proposal-reckoner.md",
+      "source_sha": "sha256:930877e7a29783844b110428903fe3a8d3502db1279a8b14810914f15156eba1"
     }
   ],
   "installed_scripts": [
@@ -142,56 +169,77 @@
       "source": "toolkit/docs_update.py",
       "dest": "docs_update.py",
       "origin": "baseline",
-      "installed_at": "2026-07-10",
+      "installed_at": "2026-08-13",
       "verified": true
     },
     {
       "source": "toolkit/module-audit.py",
       "dest": "module-audit.py",
       "origin": "baseline",
-      "installed_at": "2026-07-10",
+      "installed_at": "2026-08-13",
       "verified": true
     },
     {
       "source": "toolkit/session-doc-update.ts",
       "dest": "session-doc-update.ts",
       "origin": "baseline",
-      "installed_at": "2026-07-10",
+      "installed_at": "2026-08-13",
       "verified": null
     },
     {
       "source": "toolkit/standards_report.py",
       "dest": "standards_report.py",
       "origin": "baseline",
-      "installed_at": "2026-07-10",
+      "installed_at": "2026-08-13",
       "verified": true
     },
     {
       "source": "toolkit/idea_to_backlog.py",
       "dest": "scripts/idea_to_backlog.py",
       "origin": "baseline",
-      "installed_at": "2026-07-10",
+      "installed_at": "2026-08-13",
       "verified": null
     },
     {
       "source": "toolkit/idea-to-backlog-workflow.md",
       "dest": "scripts/idea-to-backlog-workflow.md",
       "origin": "baseline",
-      "installed_at": "2026-07-10",
+      "installed_at": "2026-08-13",
       "verified": null
     },
     {
       "source": "toolkit/commands/modularity-audit.md",
       "dest": ".claude/commands/modularity-audit.md",
       "origin": "baseline",
-      "installed_at": "2026-07-10",
+      "installed_at": "2026-08-13",
       "verified": null
     },
     {
       "source": "toolkit/commands/completion-audit.md",
       "dest": ".claude/commands/completion-audit.md",
       "origin": "baseline",
-      "installed_at": "2026-07-10",
+      "installed_at": "2026-08-13",
+      "verified": null
+    },
+    {
+      "source": "toolkit/remindme.py",
+      "dest": "remindme.py",
+      "origin": "baseline",
+      "installed_at": "2026-08-13",
+      "verified": true
+    },
+    {
+      "source": "toolkit/commands/session-to-backlog.md",
+      "dest": ".claude/commands/session-to-backlog.md",
+      "origin": "baseline",
+      "installed_at": "2026-08-13",
+      "verified": null
+    },
+    {
+      "source": "toolkit/commands/backlog-reconcile.md",
+      "dest": ".claude/commands/backlog-reconcile.md",
+      "origin": "baseline",
+      "installed_at": "2026-08-13",
       "verified": null
     }
   ]
