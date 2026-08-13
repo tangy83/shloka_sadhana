@@ -55,3 +55,6 @@ coverage/
 # README signpost below would be lost if this were `docs/standards/`.
 docs/standards/*
 !docs/standards/README.md
+
+# ASC API key / signing secrets — never commit
+/credentials/

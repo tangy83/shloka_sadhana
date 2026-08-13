@@ -22,6 +22,13 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "6768438159",
+        "ascApiKeyPath": "./credentials/AuthKey_H9GJMKN4UK.p8",
+        "ascApiKeyId": "H9GJMKN4UK",
+        "ascApiKeyIssuerId": "41fac233-e1a5-44c3-bacc-a937ae955920"
+      }
+    }
   }
 }

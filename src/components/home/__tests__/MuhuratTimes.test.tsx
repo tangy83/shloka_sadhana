@@ -14,7 +14,11 @@ import * as muhuratUtils from '@/utils/muhurat';
 
 // Mock the utilities
 jest.mock('@/utils/location');
-jest.mock('@/utils/muhurat');
+// Keep the real formatTo12Hour (shared formatter); mock only the data function.
+jest.mock('@/utils/muhurat', () => ({
+  ...jest.requireActual('@/utils/muhurat'),
+  getMuhuratForDate: jest.fn(),
+}));
 
 const mockGetUserLocation = locationUtils.getUserLocation as jest.MockedFunction<typeof locationUtils.getUserLocation>;
 const mockGetDefaultLocation = locationUtils.getDefaultLocation as jest.MockedFunction<typeof locationUtils.getDefaultLocation>;

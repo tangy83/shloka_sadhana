@@ -2,7 +2,8 @@
  * SatsangScreen Tests
  * Shloka Sadhana - Satsang (Community) Screen
  *
- * Tests for community and social features
+ * The screen is a self-contained reflection on satsang with a personal-practice
+ * CTA. It must NOT advertise any unbuilt/"coming soon" feature (App Review 2.1).
  */
 
 import React from 'react';
@@ -11,30 +12,9 @@ import { SatsangScreen } from '../SatsangScreen';
 
 describe('SatsangScreen', () => {
   describe('Initial Render', () => {
-    it('should render the screen', () => {
+    it('should render the screen title', () => {
       render(<SatsangScreen />);
       expect(screen.getByText('Satsang')).toBeTruthy();
-    });
-
-    it('should display screen title', () => {
-      render(<SatsangScreen />);
-      expect(screen.getByText('Satsang')).toBeTruthy();
-    });
-
-    it('should display subtitle', () => {
-      render(<SatsangScreen />);
-      expect(screen.getByText(/Spiritual Community/i)).toBeTruthy();
-    });
-  });
-
-  // NOTE: SatsangScreen was refactored to a "Coming Soon" stub.
-  // The original Community Features and Upcoming Events sections were removed.
-  // Tests updated to reflect the current coming-soon design.
-
-  describe('Community Hero Section', () => {
-    it('should display the community invite text', () => {
-      render(<SatsangScreen />);
-      expect(screen.getByText(/global community of practitioners/i)).toBeTruthy();
     });
 
     it('should display the OM glyph', () => {
@@ -43,39 +23,31 @@ describe('SatsangScreen', () => {
     });
   });
 
-  describe('Coming Soon Feature Cards', () => {
-    it('should display Group Chanting feature', () => {
+  describe('Static devotional content (no unbuilt features advertised)', () => {
+    it('should display reflective notes about satsang', () => {
       render(<SatsangScreen />);
-      expect(screen.getByText('Group Chanting')).toBeTruthy();
+      expect(screen.getByText('What Satsang Means')).toBeTruthy();
+      expect(screen.getByText('Consistency Is Devotion')).toBeTruthy();
     });
 
-    it('should display Satsang Events feature', () => {
+    it('should NOT advertise any coming-soon / future feature', () => {
       render(<SatsangScreen />);
-      expect(screen.getByText('Satsang Events')).toBeTruthy();
-    });
-
-    it('should display Shared Streaks feature', () => {
-      render(<SatsangScreen />);
-      expect(screen.getByText('Shared Streaks')).toBeTruthy();
-    });
-
-    it('should display Coming soon label', () => {
-      render(<SatsangScreen />);
-      expect(screen.getByText(/Coming soon/i)).toBeTruthy();
+      expect(screen.queryByText(/coming soon/i)).toBeNull();
+      expect(screen.queryByText(/future update/i)).toBeNull();
+      expect(screen.queryByText(/Group Chanting/i)).toBeNull();
+      expect(screen.queryByText(/Shared Streaks/i)).toBeNull();
     });
   });
 
   describe('CTA Section', () => {
-    it('should display Start a Personal Session CTA', () => {
+    it('should display the Start a Personal Session CTA', () => {
       render(<SatsangScreen />);
       expect(screen.getByText('Start a Personal Session')).toBeTruthy();
     });
   });
 
-  // Removed: Spiritual Calendar section no longer exists
-
   describe('Scrollable Content', () => {
-    it('should render scrollable view', () => {
+    it('should render a scrollable view', () => {
       const { getByTestId } = render(<SatsangScreen />);
       expect(getByTestId('satsang-scroll')).toBeTruthy();
     });

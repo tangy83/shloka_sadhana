@@ -384,27 +384,25 @@ describe('HomeScreen', () => {
     });
   });
 
-  describe('Trading Windows Integration', () => {
-    it('should display Trading Windows card on HomeScreen', async () => {
+  describe('Auspicious Periods Integration', () => {
+    it('should display Auspicious Periods card on HomeScreen', async () => {
       render(<HomeScreen />);
 
-      // Wait for the Trading Windows card to be rendered
       await waitFor(() => {
-        expect(screen.getByText('Trading Windows Today')).toBeTruthy();
+        expect(screen.getByText('Choghadiya — Auspicious Periods')).toBeTruthy();
       });
     });
 
-    it('should display both Auspicious Times and Trading Windows sections', async () => {
+    it('should display both Auspicious Times and Auspicious Periods sections', async () => {
       render(<HomeScreen />);
 
-      // Both sections should be present
       await waitFor(() => {
         expect(screen.getByText('Auspicious Times Today')).toBeTruthy();
-        expect(screen.getByText('Trading Windows Today')).toBeTruthy();
+        expect(screen.getByText('Choghadiya — Auspicious Periods')).toBeTruthy();
       });
     });
 
-    it('should show trading windows subtitle', async () => {
+    it('should show the auspicious periods subtitle', async () => {
       render(<HomeScreen />);
 
       await waitFor(() => {
@@ -412,11 +410,11 @@ describe('HomeScreen', () => {
       });
     });
 
-    it('should display auspicious trading times section', async () => {
+    it('should display the auspicious periods section', async () => {
       render(<HomeScreen />);
 
       await waitFor(() => {
-        expect(screen.getByText('Auspicious Trading Times')).toBeTruthy();
+        expect(screen.getByText('Auspicious Periods')).toBeTruthy();
       });
     });
   });

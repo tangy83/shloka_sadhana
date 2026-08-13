@@ -547,8 +547,7 @@ export const SettingsScreen: React.FC = () => {
         <View style={[styles.guestNote, { backgroundColor: theme.surface }]}>
           <Ionicons name="cloud-outline" size={16} color={theme.textSecondary} />
           <Text style={[styles.guestNoteText, { color: theme.textSecondary }]}>
-            Guest mode · Your data is stored locally on this device.{'\n'}
-            Cloud sync is coming in a future update.
+            Your data is stored privately on this device.
           </Text>
         </View>
 
