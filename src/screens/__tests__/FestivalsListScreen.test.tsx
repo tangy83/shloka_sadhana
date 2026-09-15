@@ -18,6 +18,12 @@ jest.mock('../../utils/festivals', () => ({
   getPastFestivals: jest.fn(),
 }));
 
+// Pin "today" so relative-date assertions don't depend on the real clock
+jest.mock('@/utils/dateUtils', () => ({
+  ...jest.requireActual('@/utils/dateUtils'),
+  getTodayISO: () => '2026-02-07',
+}));
+
 // Mock navigation
 const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({

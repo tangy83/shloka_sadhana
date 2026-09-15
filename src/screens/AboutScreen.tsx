@@ -61,7 +61,7 @@ export const AboutScreen: React.FC = () => {
       <View style={[styles.section, { backgroundColor: theme.surface }]}>
         <Text style={styles.sectionTitle}>Authenticity</Text>
         <Text style={[styles.paragraph, { color: theme.textMeaning }]}>
-          All shlokas, mantras, and wisdom quotes in our app are sourced from authentic Hindu scriptures including the Bhagavad Gita, Vedas, Upanishads, and other sacred texts. We work with Sanskrit scholars and spiritual teachers to ensure accuracy and proper representation of these sacred traditions.
+          All shlokas, mantras, and wisdom quotes in our app are drawn from traditional sacred texts, including the Bhagavad Gita, Vedas, Upanishads, and the words of revered saints. The Sanskrit texts are presented in their traditional form; the English renderings and explanations are our own, written to be accessible for daily practice. Traditions may interpret verses differently — if you spot an error, please let us know.
         </Text>
       </View>
 

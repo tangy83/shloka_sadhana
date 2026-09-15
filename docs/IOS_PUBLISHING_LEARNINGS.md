@@ -79,6 +79,27 @@ string rejection, 90683). **Rule.** Every `NS*UsageDescription` must map to a re
 - **`buildNumber`** auto-increments (`eas.json` `appVersionSource: remote` + `autoIncrement`);
   each new build must exceed every prior value across all tracks, including rejected builds.
 
+## 8. Guideline 2.1 "Information Needed — New App Submission" (build 5, 2026-08-14)
+
+**What happened.** After the 2.5.4 fix, Apple sent its standard new-app questionnaire. It asks for a
+screen recording on a physical device, devices tested, a description, setup steps, external services,
+regional differences, and authorization for protected third-party material.
+
+**Lesson: check each answer against the binary.** Item 7 couldn't honestly be answered yes. Most
+Bhagavad Gita quotes followed a copyrighted English translation (*As It Is*, © BBT), a couple word for
+word. Checking the same content also showed 120 of 139 festival dates were wrong (2026 Adhik Maas
+ignored) and the Home Paanchang card used a mean-moon approximation. All were fixed in build 6
+before replying.
+
+**Rules.**
+- Public-domain scripture ≠ public-domain translation. Render the English yourself; a test blocks
+  the telltale phrases of known translations (`contentProvenance.test.ts`).
+- Calendar data is code. Generate it from an ephemeris with tithi rules, validate against published
+  anchors, and test anchor dates. Never hand-type or LLM-generate festival dates.
+- Fill in App Review Information → **Notes** on the first submission (what the app does, no login,
+  permissions, external services). It pre-empts this whole round.
+- Test on a physical device before submitting; Apple asks for the list.
+
 ---
 
 ## Promoted to CFAI Gold Standards

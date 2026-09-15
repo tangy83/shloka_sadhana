@@ -164,7 +164,7 @@ export const EkadashiCalendarScreen: React.FC = () => {
           accessibilityState={{ selected: activeTab === 'all' }}
         >
           <Text style={[styles.tabText, { color: theme.textSecondary }, activeTab === 'all' && styles.tabTextActive]}>
-            All 2026
+            All Dates
           </Text>
         </TouchableOpacity>
       </View>

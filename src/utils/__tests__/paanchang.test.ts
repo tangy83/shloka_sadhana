@@ -132,6 +132,81 @@ describe('Paanchang Service', () => {
     });
   });
 
+  describe('getEkadasiName (purnimanta naming, matches ekadashi.json)', () => {
+    it.each([
+      [1, 'Shukla', 'Kamada Ekadashi'],
+      [1, 'Krishna', 'Papamochani Ekadashi'],
+      [4, 'Shukla', 'Devshayani Ekadashi'],
+      [4, 'Krishna', 'Yogini Ekadashi'],
+      [5, 'Shukla', 'Shravana Putrada Ekadashi'],
+      [6, 'Shukla', 'Parivartini Ekadashi'],
+      [7, 'Krishna', 'Indira Ekadashi'],
+      [8, 'Shukla', 'Devuthani Ekadashi'],
+      [10, 'Krishna', 'Saphala Ekadashi'],
+      [11, 'Krishna', 'Shattila Ekadashi'],
+    ] as const)('month %i %s → %s', (month, paksha, name) => {
+      expect(getEkadasiName(month, paksha)).toBe(name);
+    });
+  });
+
+  describe('getPaanchangForDate — astronomical accuracy (New Delhi sunrise)', () => {
+    it('Parivartini Ekadashi 2026-09-22: Bhadrapada Shukla Ekadashi', () => {
+      const p = getPaanchangForDate('2026-09-22');
+      expect(p.paksha).toBe('Shukla');
+      expect(p.tithiNumber).toBe(11);
+      expect(p.tithi).toBe('Ekadashi');
+      expect(p.hinduMonth).toBe('Bhadrapada');
+      expect(p.nakshatra).toBe('Uttara Ashadha');
+      expect(p.isEkadashi).toBe(true);
+      expect(p.ekadasiName).toBe('Parivartini Ekadashi');
+    });
+
+    it('Diwali eve 2026-11-08: Kartika Krishna Chaturdashi (purnimanta)', () => {
+      const p = getPaanchangForDate('2026-11-08');
+      expect(p.paksha).toBe('Krishna');
+      expect(p.tithi).toBe('Chaturdashi');
+      expect(p.hinduMonth).toBe('Kartika');
+      expect(p.isEkadashi).toBe(false);
+    });
+
+    it('names Krishna tithi 15 Amavasya, not Purnima (2026-11-09)', () => {
+      const p = getPaanchangForDate('2026-11-09');
+      expect(p.paksha).toBe('Krishna');
+      expect(p.tithiNumber).toBe(15);
+      expect(p.tithi).toBe('Amavasya');
+    });
+
+    it('Holika Dahan 2026-03-03: Phalguna Purnima', () => {
+      const p = getPaanchangForDate('2026-03-03');
+      expect(p.paksha).toBe('Shukla');
+      expect(p.tithi).toBe('Purnima');
+      expect(p.hinduMonth).toBe('Phalguna');
+    });
+
+    it('Onam 2026-08-26 falls in Shravana nakshatra', () => {
+      expect(getPaanchangForDate('2026-08-26').nakshatra).toBe('Shravana');
+    });
+
+    it('marks the 2026 Adhik (intercalary) month', () => {
+      const p = getPaanchangForDate('2026-05-27');
+      expect(p.hinduMonth).toBe('Adhik Jyeshtha');
+      expect(p.isEkadashi).toBe(true);
+      expect(p.ekadasiName).toBe('Padmini Ekadashi');
+    });
+
+    it('agrees with the Ekadashi calendar data on every listed date', () => {
+      const { getAllEkadashis } = jest.requireActual('../ekadashiCalendar');
+      getAllEkadashis().forEach((e: { date: string; name: string }) => {
+        const p = getPaanchangForDate(e.date);
+        expect([p.date, p.isEkadashi, p.ekadasiName]).toEqual([e.date, true, e.name]);
+      });
+    });
+
+    it('does not flag Ekadashi on a non-Ekadashi day in the calendar data', () => {
+      expect(getPaanchangForDate('2026-09-15').isEkadashi).toBe(false);
+    });
+  });
+
   describe('getPaanchangForDate', () => {
     it('should return Paanchang data for a valid date', () => {
       const date = '2024-01-15';

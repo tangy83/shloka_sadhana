@@ -1,4 +1,132 @@
-# App Review Response — Shloka Sadhana 1.0 (Guideline 2.5.4)
+# App Review Response — Shloka Sadhana 1.0
+
+- **Round 2 (current):** Guideline 2.1 — Information Needed, build 1.0 (5). See below.
+- **Round 1 (resolved in build 5):** Guideline 2.5.4. See further down.
+
+---
+
+# Round 2 — Guideline 2.1 Information Needed (build 1.0 (5))
+
+Prepared 2026-09-15. Submission `0d8f0fda-be2e-4aa1-8347-95dcab54f092` · submitted 2026-08-12 ·
+Apple message 2026-08-14 · state `UNRESOLVED_ISSUES`.
+
+## The rejection
+
+> **Guideline 2.1 - Information Needed - New App Submission.** We need additional information to
+> continue the review of this new app. [...] Reply in App Store Connect with all of the following:
+> 1. A screen recording captured on a physical device, running the latest operating system [...]
+>    beginning with launching the app [...] including account flows, paid content, UGC, and any
+>    prompts requesting access to sensitive data or device capabilities (e.g. location).
+> 2. A list of the device models and operating systems the app was tested on.
+> 3. A description of the app's functions and target audience, the problem it solves and its value.
+> 4. Instructions for setting up and accessing the main features, incl. credentials or sample files.
+> 5. External services, tools, or platforms used to deliver core functionality.
+> 6. Regional differences in features or content, or confirmation it is consistent everywhere.
+> 7. For regulated industries or protected third-party material, documentation of authorization.
+>
+> Include this information in the Notes field of the App Review Information section for future submissions.
+
+**Classification:** Information Needed. Answering 1–6 needed no code, but checking item 7 against the binary
+found copyrighted translations and inaccurate calendar data. Those are fixed in **build 6**, and the reply is sent against build 6.
+
+## Facts verified against the binary (build 5, unchanged in build 6)
+
+| Question | Verified fact | Evidence |
+|---|---|---|
+| Accounts | None. No registration, login, or account deletion. | no auth code or deps |
+| Paid content | None. No IAP, subscriptions, or ads. | no StoreKit/IAP deps |
+| UGC | None. | — |
+| Permission prompts | **Notifications**: onboarding "Enable Reminders" (or Settings). **Location (When In Use)**: first time the Home screen muhurat cards load. Denial falls back to Delhi, India. | `src/screens/OnboardingScreen.tsx:91`, `src/utils/location.ts:45` |
+| Network | None at runtime. Remote content loader is disabled (`REMOTE_CONTENT_URL = undefined`). All content is bundled. | `src/data/shlokas.ts:15` |
+| External links | Shloka detail "Learn on YouTube" opens a YouTube **search** in the browser/YouTube app. It's optional and not core. | `src/screens/ShlokaDetailScreen.tsx:71` |
+| Regional | Same features and content everywhere. Only sunrise/muhurat times differ, computed on-device from location. | `src/utils/muhurat.ts` |
+| Content | 20 shlokas/mantras (Sanskrit, transliteration, English/Hindi meaning), 100 wisdom quotes, 139 festivals, Ekadashi 2026 calendar. | `src/data/*.json` |
+
+### Fixed in build 6 (same review round, found while checking item 7 against the binary)
+
+| Issue | Fix | Guard |
+|---|---|---|
+| **Copyrighted translations.** Most Bhagavad Gita quotes followed *Bhagavad-gītā As It Is* (© BBT) closely, some word for word (2.22, 9.26, 5.18, 18.66). Ashtavakra 1.3 was Byrom's copyrighted rendering and Mandukya 1 was Prabhavananda/Manchester's. | All 64 Gita quotes plus 12 other quotes re-rendered in original English from the Sanskrit (`src/data/wisdom_quotes.json`). | `src/data/__tests__/contentProvenance.test.ts` |
+| **Unverifiable About claim.** "We work with Sanskrit scholars and spiritual teachers" | Replaced with an accurate statement: traditional sources; the English renderings and explanations are the app's own. | `AboutScreen.test.tsx` |
+| **Festival dates wrong.** 120 of 139 dates ignored the 2026 Adhik Maas, e.g. Diwali 2026 shown as 30 Oct (actual 8 Nov) and Janmashtami 22 Aug (actual 4 Sep). One duplicate entry. | Dates recomputed from sunrise/pradosh/midnight tithi rules with an ephemeris, validated against Drik Panchang anchors. Duplicate removed. | `src/data/__tests__/festivalDates.test.ts` |
+| **Ekadashi calendar ended 2026-12-20.** Kamada 2026 was a day early. | 2027 cycle added (25 dates, computed; method reproduces the published 2026 list). Kamada 2026 moved to 03-29. Tab renamed "All Dates". | `ekadashiCalendar.test.ts` |
+| **Home Paanchang card inaccurate.** Mean-moon approximation; Ekadashi names shifted and Shukla/Krishna swapped; lunar month derived from the calendar month; Krishna tithi 15 labelled "Purnima". | Tithi, nakshatra and lunar month (incl. Adhik) computed at New Delhi sunrise with `astronomy-engine` (pure JS). Ekadashi flag and name come from the same data as the Ekadashi banner. | `paanchang.test.ts` |
+
+## Screen recording script (physical iPhone, latest iOS, TestFlight build)
+
+Delete the app first so onboarding and both permission prompts appear. Record in portrait with
+Screen Recording from Control Center. Aim for 2–4 minutes.
+
+1. Start recording on the Home Screen, then **tap the Shloka Sadhana icon** (launch must be visible).
+2. Onboarding: *Begin* → *Continue* → **Enable Reminders** → show the iOS notification prompt → *Allow*.
+3. Home: pause on the location prompt → *Allow While Using App*. Show the muhurat times and
+   Choghadiya card updating, then Daily Quest and Your Journey.
+4. **Practice** tab: pick a shloka, set sankalp, start the timer, tap the mala counter a few times, finish the session.
+5. **Library** tab: open a shloka → scroll Sanskrit / transliteration / meaning.
+6. **Satsang** tab: scroll the content.
+7. Home → **Festivals** → open one. Open the **Ekadashi calendar** → open one.
+8. Wisdom: open a quote.
+9. **Settings**: show reminder time, theme, location setting, and About / Privacy Policy / Terms.
+10. Home → **View Practice History** to show the session just completed. Stop recording.
+
+Upload the video as an attachment to your Resolution Center reply.
+
+## Reply to paste into the Resolution Center (and the App Review Notes field)
+
+> Thank you for reviewing Shloka Sadhana. Here is the requested information.
+>
+> **1. Screen recording** is attached. It was captured on a physical device running build 1.0 (6) and starts at app
+> launch. It shows onboarding, the notification and location permission prompts, and each core
+> feature. The app has no account registration, login, or account deletion, no purchases or
+> subscriptions, and no user-generated content, so none of those flows exist.
+>
+> **2. Devices tested:** [FILL IN, e.g. iPhone 15 Pro, iOS 26.x; iPad Air 11-inch (M2), iPadOS 26.x].
+>
+> **3. Functions and audience.** Shloka Sadhana is a free, fully offline daily practice companion
+> for Hindu devotional practice. It is for people who want to build a consistent habit of chanting
+> shlokas and mantras but lack structure or reliable reference material. It provides:
+> - a library of 20 traditional shlokas and mantras with Sanskrit text, transliteration, and meaning;
+> - a guided practice timer with a 108-bead mala counter and intention (sankalp) setting;
+> - a Hindu festival and Ekadashi calendar with observance guidance;
+> - daily auspicious times (sunrise, muhurat, Choghadiya periods) calculated for the user's location;
+> - wisdom quotes from scripture, practice streaks, history, and optional daily reminders.
+>
+> **4. Setup and access.** No login, credentials, or sample files are required. Open the app, follow
+> the three-page onboarding (reminders are optional), and every feature is available from the four
+> tabs: Home, Practice, Library, and Satsang. Settings is reachable from the Home screen.
+>
+> **5. External services.** None. The app has no backend, analytics, advertising, authentication,
+> payment, or AI services. All content is bundled in the app, and all data (practice history,
+> settings) stays on the device. Location is used only on-device to calculate sunrise and muhurat
+> times. It is never transmitted. An optional "Learn on YouTube" button on a shloka opens a YouTube
+> search in the user's browser for pronunciation help. It is not required for any feature.
+>
+> **6. Regional differences.** The app works the same in all regions. The only variation is that
+> sunrise and auspicious-time calculations use the device's location and time zone. If location
+> access is declined, the app uses a default location.
+>
+> **7. Regulated industry / third-party material.** The app does not operate in a regulated
+> industry. Its content consists of traditional devotional texts in the public domain: Hindu scriptures
+> (Vedas, Upanishads, Bhagavad Gita, Puranas and devotional hymns), sayings of historical saints, and a
+> few verses from other Indian traditions. The Sanskrit and Hindi texts appear in their traditional form.
+> The English renderings and explanations were written by the developer. No licensed or copyrighted
+> third-party material is included. Festival and Ekadashi dates are calculated astronomically.
+>
+> Please let us know if any further detail would help.
+
+## Resubmit checklist (round 2)
+- [x] Item-7 content fix: original translations, About copy (tests guard both)
+- [x] Festival / Ekadashi / Paanchang accuracy fixes
+- [ ] Build 6 built, uploaded, and attached to version 1.0 (replacing build 5)
+- [ ] App Review Information → Notes filled with the reply text
+- [ ] Record the screen recording on a physical device running build 6 (TestFlight)
+- [ ] Fill in the devices-tested list (item 2)
+- [ ] Reply in Resolution Center with the video attached, then Resubmit to App Review
+- [ ] Re-capture screenshots if Home/Festivals now look different from the uploaded ones
+
+---
+
+# Round 1 — Guideline 2.5.4 (resolved in build 5)
 
 Prepared 2026-08-08. Use this to (a) reply to Apple in the Resolution Center and
 (b) keep the rejection, the fix, and the resubmission linked in the repo.
