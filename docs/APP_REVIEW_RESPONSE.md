@@ -27,7 +27,7 @@ Apple message 2026-08-14 · state `UNRESOLVED_ISSUES`.
 > Include this information in the Notes field of the App Review Information section for future submissions.
 
 **Classification:** Information Needed. Answering 1–6 needed no code, but checking item 7 against the binary
-found copyrighted translations and inaccurate calendar data. Those are fixed in **build 6**, and the reply is sent against build 6.
+found copyrighted translations and inaccurate calendar data. Those are fixed in **build 7** (build 6 fixed the content; build 7 fixed the location prompt found while verifying build 6's recording). The reply is sent against build 7.
 
 ## Facts verified against the binary (build 5, unchanged in build 6)
 
@@ -50,6 +50,8 @@ found copyrighted translations and inaccurate calendar data. Those are fixed in 
 | **Unverifiable About claim.** "We work with Sanskrit scholars and spiritual teachers" | Replaced with an accurate statement: traditional sources; the English renderings and explanations are the app's own. | `AboutScreen.test.tsx` |
 | **Festival dates wrong.** 120 of 139 dates ignored the 2026 Adhik Maas, e.g. Diwali 2026 shown as 30 Oct (actual 8 Nov) and Janmashtami 22 Aug (actual 4 Sep). One duplicate entry. | Dates recomputed from sunrise/pradosh/midnight tithi rules with an ephemeris, validated against Drik Panchang anchors. Duplicate removed. | `src/data/__tests__/festivalDates.test.ts` |
 | **Ekadashi calendar ended 2026-12-20.** Kamada 2026 was a day early. | 2027 cycle added (25 dates, computed; method reproduces the published 2026 list). Kamada 2026 moved to 03-29. Tab renamed "All Dates". | `ekadashiCalendar.test.ts` |
+| **Location prompt never appeared (found by checking the build-6 recording frame by frame).** Two Home cards called `getUserLocation()` at the same moment, while iOS was still dismissing the onboarding notification alert; iOS drops a permission request made then, the error was swallowed, and the app silently used Delhi — wrong muhurat times outside India, and nothing for a reviewer to see despite the purpose string. | One shared in-flight request; check existing status first; retry the prompt up to 3× while it stays undetermined; an explicit denial is final (`src/utils/location.ts`). **Build 7.** | `location.test.ts` |
+| **Vague location purpose strings.** The binary also carried auto-added `NSLocationAlwaysAndWhenInUseUsageDescription` / `NSLocationAlwaysUsageDescription` reading "Allow ShlokaSadhana to access your location" — generic text for access the app never uses (Guideline 5.1.1). | `expo-location` plugin configured so only `NSLocationWhenInUseUsageDescription` ships, with a specific string naming the use and stating the location never leaves the device. **Build 7.** | verified in the built IPA |
 | **Home Paanchang card inaccurate.** Mean-moon approximation; Ekadashi names shifted and Shukla/Krishna swapped; lunar month derived from the calendar month; Krishna tithi 15 labelled "Purnima". | Tithi, nakshatra and lunar month (incl. Adhik) computed at New Delhi sunrise with `astronomy-engine` (pure JS). Ekadashi flag and name come from the same data as the Ekadashi banner. | `paanchang.test.ts` |
 
 ## Screen recording script (physical iPhone, latest iOS, TestFlight build)
@@ -75,7 +77,7 @@ Upload the video as an attachment to your Resolution Center reply.
 
 > Thank you for reviewing Shloka Sadhana. Here is the requested information.
 >
-> **1. Screen recording** is attached. It was captured on a physical device running build 1.0 (6) and starts at app
+> **1. Screen recording** is attached. It was captured on a physical device running build 1.0 (7) and starts at app
 > launch. It shows onboarding, the notification and location permission prompts, and each core
 > feature. The app has no account registration, login, or account deletion, no purchases or
 > subscriptions, and no user-generated content, so none of those flows exist.
@@ -117,9 +119,10 @@ Upload the video as an attachment to your Resolution Center reply.
 ## Resubmit checklist (round 2)
 - [x] Item-7 content fix: original translations, About copy (tests guard both)
 - [x] Festival / Ekadashi / Paanchang accuracy fixes
-- [x] Build 6 built from commit 01b338c, uploaded, processed VALID, and attached to version 1.0
+- [x] Build 6 built from commit 01b338c (content/calendar fixes)
+- [ ] Build 7 built from commit 4c32bc0 (location prompt + purpose string), uploaded, attached to version 1.0
 - [x] App Review Information → Notes filled (items 3–7 + permissions; device list still to add)
-- [ ] Record the screen recording on a physical device running build 6 (TestFlight)
+- [ ] Record the screen recording on a physical device running build 7 (TestFlight) — must show both permission prompts
 - [x] Devices tested (item 2): iPhone 15 Pro / iOS 26.6 — in the reply and appended to the ASC Notes field
 - [ ] Reply in Resolution Center with the video attached, then Resubmit to App Review
 - [ ] Re-capture screenshots if Home/Festivals now look different from the uploaded ones

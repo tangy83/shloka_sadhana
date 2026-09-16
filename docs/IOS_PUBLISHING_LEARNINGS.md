@@ -100,6 +100,25 @@ before replying.
   permissions, external services). It pre-empts this whole round.
 - Test on a physical device before submitting; Apple asks for the list.
 
+## 9. Verify the review video frame by frame — it catches real bugs
+
+The build-6 recording looked fine to the eye, but sampling it with ffmpeg
+(`fps=2,signalstats` to find the dimmed frames a system alert causes, then extracting those
+frames) showed the **location prompt never appeared**. Cause: two Home cards call
+`getUserLocation()` on mount, while iOS is still dismissing the onboarding notification alert.
+iOS silently drops a permission request made at that moment, and the `catch` fell back to Delhi.
+Users outside India would have seen wrong muhurat times and never been asked.
+
+**Rules.**
+- Never let a permission request live inside a `catch`-and-fallback with no user-visible result.
+  Check the status first, share one in-flight request between callers, and retry while the status
+  is still `undetermined`.
+- Don't fire a permission request during a screen transition or while another system alert is up.
+- Audit the *built IPA's* Info.plist (`unzip` it, `plutil -p`), not just `app.json`: Expo's default
+  plugins had added two "Always" location keys with generic text — a 5.1.1 risk we never wrote.
+  `npx expo config --type introspect` is NOT a substitute; it applies legacy plugins for packages
+  that aren't installed and reports keys (audio background mode, photo library) the binary lacks.
+
 ---
 
 ## Promoted to CFAI Gold Standards
