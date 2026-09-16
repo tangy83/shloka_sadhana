@@ -117,10 +117,10 @@ Upload the video as an attachment to your Resolution Center reply.
 ## Resubmit checklist (round 2)
 - [x] Item-7 content fix: original translations, About copy (tests guard both)
 - [x] Festival / Ekadashi / Paanchang accuracy fixes
-- [ ] Build 6 built, uploaded, and attached to version 1.0 (replacing build 5)
-- [ ] App Review Information → Notes filled with the reply text
+- [x] Build 6 built from commit 01b338c, uploaded, processed VALID, and attached to version 1.0
+- [x] App Review Information → Notes filled (items 3–7 + permissions; device list still to add)
 - [ ] Record the screen recording on a physical device running build 6 (TestFlight)
-- [ ] Fill in the devices-tested list (item 2)
+- [ ] Fill in the devices-tested list (item 2) — in the reply, and append to the ASC Notes field
 - [ ] Reply in Resolution Center with the video attached, then Resubmit to App Review
 - [ ] Re-capture screenshots if Home/Festivals now look different from the uploaded ones
 
