@@ -16,6 +16,14 @@ const DEFAULT_LOCATION = {
   city: 'Delhi, India',
 };
 
+/** Times iOS is asked to show the permission prompt before giving up */
+const MAX_PERMISSION_ATTEMPTS = 3;
+/** Gap between prompt attempts, letting any in-flight system alert clear */
+const PERMISSION_RETRY_MS = 1200;
+
+/** Shared in-flight request, so simultaneous callers trigger a single prompt */
+let inFlightLocation: Promise<UserLocation> | null = null;
+
 export interface UserLocation {
   latitude: number;
   longitude: number;
@@ -29,7 +37,47 @@ export interface UserLocation {
  *
  * @returns UserLocation with latitude, longitude, timezone, and optional city
  */
-export async function getUserLocation(): Promise<UserLocation> {
+/**
+ * Wait helper for retrying a permission prompt iOS declined to present
+ */
+const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
+
+/**
+ * Ask for foreground location permission, coping with iOS silently dropping a
+ * prompt requested while another system alert is still on screen (the app then
+ * sees "undetermined" with no dialog shown). Retries a couple of times before
+ * giving up, so the user actually gets asked on first launch.
+ */
+async function ensureForegroundPermission(): Promise<boolean> {
+  const current = await Location.getForegroundPermissionsAsync();
+  if (current.status === 'granted') {
+    return true;
+  }
+  if (!current.canAskAgain) {
+    return false;
+  }
+
+  for (let attempt = 0; attempt < MAX_PERMISSION_ATTEMPTS; attempt++) {
+    const result = await Location.requestForegroundPermissionsAsync();
+    if (result.status === 'granted') {
+      return true;
+    }
+    // A decided answer (denied) is final — only an undetermined status means
+    // the prompt never appeared and is worth asking for again.
+    if (result.status !== 'undetermined') {
+      return false;
+    }
+    if (attempt < MAX_PERMISSION_ATTEMPTS - 1) {
+      await delay(PERMISSION_RETRY_MS);
+    }
+  }
+  return false;
+}
+
+/**
+ * Resolve the location to use for muhurat calculations
+ */
+async function resolveUserLocation(): Promise<UserLocation> {
   // Check if user has manually set location in settings
   try {
     const stored = await AsyncStorage.getItem(STORAGE_KEYS.USER_LOCATION);
@@ -42,8 +90,8 @@ export async function getUserLocation(): Promise<UserLocation> {
 
   // Try to get device location (with permission)
   try {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
+    const granted = await ensureForegroundPermission();
+    if (!granted) {
       if (__DEV__) console.log('[location] Permission not granted, using default location');
       return DEFAULT_LOCATION;
     }
@@ -64,6 +112,24 @@ export async function getUserLocation(): Promise<UserLocation> {
     // Fallback to default
     return DEFAULT_LOCATION;
   }
+}
+
+/**
+ * Get user's location for muhurat calculations
+ * Priority: 1) Stored manual location 2) Device GPS 3) Default (Delhi)
+ *
+ * Several Home cards call this on mount; the in-flight request is shared so
+ * iOS is only ever asked for permission once.
+ *
+ * @returns UserLocation with latitude, longitude, timezone, and optional city
+ */
+export async function getUserLocation(): Promise<UserLocation> {
+  if (!inFlightLocation) {
+    inFlightLocation = resolveUserLocation().finally(() => {
+      inFlightLocation = null;
+    });
+  }
+  return inFlightLocation;
 }
 
 /**

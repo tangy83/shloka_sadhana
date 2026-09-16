@@ -157,3 +157,76 @@ describe('clearUserLocation', () => {
     await expect(clearUserLocation()).rejects.toThrow('Remove failed');
   });
 });
+
+describe('getUserLocation — permission prompting (App Review 5.1.1)', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers();
+    (AsyncStorage.getItem as jest.MockedFunction<typeof AsyncStorage.getItem>).mockResolvedValue(null);
+    mockLocationModule.getForegroundPermissionsAsync.mockResolvedValue({
+      status: 'undetermined',
+      canAskAgain: true,
+    } as never);
+    mockLocationModule.requestForegroundPermissionsAsync.mockResolvedValue({
+      status: 'granted',
+      canAskAgain: true,
+    } as never);
+    mockLocationModule.getCurrentPositionAsync.mockResolvedValue({
+      coords: { latitude: 51.5072, longitude: -0.1276 },
+    } as never);
+  });
+
+  it('prompts only once when both Home cards ask at the same moment', async () => {
+    const [a, b] = await Promise.all([getUserLocation(), getUserLocation()]);
+
+    expect(mockLocationModule.requestForegroundPermissionsAsync).toHaveBeenCalledTimes(1);
+    expect(a.latitude).toBeCloseTo(51.5072);
+    expect(b.latitude).toBeCloseTo(51.5072);
+  });
+
+  it('does not prompt again when permission is already granted', async () => {
+    mockLocationModule.getForegroundPermissionsAsync.mockResolvedValue({
+      status: 'granted',
+      canAskAgain: false,
+    } as never);
+
+    const loc = await getUserLocation();
+
+    expect(mockLocationModule.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    expect(loc.latitude).toBeCloseTo(51.5072);
+  });
+
+  it('retries when iOS drops the first prompt (status stays undetermined)', async () => {
+    mockLocationModule.requestForegroundPermissionsAsync
+      .mockResolvedValueOnce({ status: 'undetermined', canAskAgain: true } as never)
+      .mockResolvedValueOnce({ status: 'granted', canAskAgain: true } as never);
+
+    const loc = await getUserLocation();
+
+    expect(mockLocationModule.requestForegroundPermissionsAsync).toHaveBeenCalledTimes(2);
+    expect(loc.latitude).toBeCloseTo(51.5072);
+  });
+
+  it('falls back to Delhi without re-prompting when the user denies', async () => {
+    mockLocationModule.requestForegroundPermissionsAsync.mockResolvedValue({
+      status: 'denied',
+      canAskAgain: false,
+    } as never);
+
+    const loc = await getUserLocation();
+
+    expect(mockLocationModule.requestForegroundPermissionsAsync).toHaveBeenCalledTimes(1);
+    expect(loc).toEqual(getDefaultLocation());
+  });
+
+  it('never prompts when a manual location is stored', async () => {
+    (AsyncStorage.getItem as jest.MockedFunction<typeof AsyncStorage.getItem>).mockResolvedValue(
+      JSON.stringify({ latitude: 1, longitude: 2, timezone: 'UTC' })
+    );
+
+    await getUserLocation();
+
+    expect(mockLocationModule.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    expect(mockLocationModule.getForegroundPermissionsAsync).not.toHaveBeenCalled();
+  });
+});

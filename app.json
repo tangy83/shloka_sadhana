@@ -53,6 +53,17 @@
           "color": "#E87E04",
           "sounds": []
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": false,
+          "locationAlwaysPermission": false,
+          "locationWhenInUsePermission": "Sadhana uses your location only on your device to calculate accurate sunrise and auspicious times (muhurat) for your daily practice. Your location is never collected or shared.",
+          "isIosBackgroundLocationEnabled": false,
+          "isAndroidBackgroundLocationEnabled": false,
+          "isAndroidForegroundServiceEnabled": false
+        }
       ]
     ],
     "experiments": {
