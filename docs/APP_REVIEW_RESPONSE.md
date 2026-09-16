@@ -80,7 +80,7 @@ Upload the video as an attachment to your Resolution Center reply.
 > feature. The app has no account registration, login, or account deletion, no purchases or
 > subscriptions, and no user-generated content, so none of those flows exist.
 >
-> **2. Devices tested:** [FILL IN, e.g. iPhone 15 Pro, iOS 26.x; iPad Air 11-inch (M2), iPadOS 26.x].
+> **2. Devices tested:** iPhone 15 Pro running iOS 26.6 (physical device).
 >
 > **3. Functions and audience.** Shloka Sadhana is a free, fully offline daily practice companion
 > for Hindu devotional practice. It is for people who want to build a consistent habit of chanting
@@ -120,7 +120,7 @@ Upload the video as an attachment to your Resolution Center reply.
 - [x] Build 6 built from commit 01b338c, uploaded, processed VALID, and attached to version 1.0
 - [x] App Review Information → Notes filled (items 3–7 + permissions; device list still to add)
 - [ ] Record the screen recording on a physical device running build 6 (TestFlight)
-- [ ] Fill in the devices-tested list (item 2) — in the reply, and append to the ASC Notes field
+- [x] Devices tested (item 2): iPhone 15 Pro / iOS 26.6 — in the reply and appended to the ASC Notes field
 - [ ] Reply in Resolution Center with the video attached, then Resubmit to App Review
 - [ ] Re-capture screenshots if Home/Festivals now look different from the uploaded ones
 
