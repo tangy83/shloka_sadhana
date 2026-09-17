@@ -120,7 +120,7 @@ Upload the video as an attachment to your Resolution Center reply.
 - [x] Item-7 content fix: original translations, About copy (tests guard both)
 - [x] Festival / Ekadashi / Paanchang accuracy fixes
 - [x] Build 6 built from commit 01b338c (content/calendar fixes)
-- [ ] Build 7 built from commit 4c32bc0 (location prompt + purpose string), uploaded, attached to version 1.0
+- [x] Build 7 built from commit 4c32bc0 (location prompt + purpose string), processed VALID, attached to version 1.0; IPA Info.plist verified (single When-In-Use key)
 - [x] App Review Information → Notes filled (items 3–7 + permissions; device list still to add)
 - [ ] Record the screen recording on a physical device running build 7 (TestFlight) — must show both permission prompts
 - [x] Devices tested (item 2): iPhone 15 Pro / iOS 26.6 — in the reply and appended to the ASC Notes field
