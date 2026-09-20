@@ -30,7 +30,7 @@ export interface PracticeSession {
   sankalp?: string; // Intention before practice (optional)
   offering?: string; // Dedication after practice (optional)
   reflection?: string; // Journal after practice (optional)
-  completed: boolean; // Session completed successfully (min 60 seconds)
+  completed: boolean; // Session completed successfully
 }
 
 /**

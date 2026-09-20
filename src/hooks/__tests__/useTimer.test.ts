@@ -208,24 +208,26 @@ describe('useTimer', () => {
   });
 
   describe('Complete Timer', () => {
-    it('should not complete if less than 60 seconds', () => {
+    it('should allow completion as soon as the timer is running', () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => { result.current.start(); });
-      act(() => { jest.advanceTimersByTime(30000); });
+      act(() => { jest.advanceTimersByTime(1000); });
 
-      expect(result.current.canComplete).toBe(false);
+      expect(result.current.canComplete).toBe(true);
 
       act(() => { result.current.complete(); });
 
-      expect(result.current.status).toBe('running');
+      expect(result.current.status).toBe('completed');
+      expect(result.current.elapsedSeconds).toBe(1);
     });
 
-    it('should complete if 60 seconds or more have elapsed', () => {
+    it('should allow completion from a paused session', () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => { result.current.start(); });
-      act(() => { jest.advanceTimersByTime(60000); });
+      act(() => { jest.advanceTimersByTime(5000); });
+      act(() => { result.current.pause(); });
 
       expect(result.current.canComplete).toBe(true);
 
@@ -234,7 +236,17 @@ describe('useTimer', () => {
       expect(result.current.status).toBe('completed');
     });
 
-    it('should complete if more than 60 seconds have elapsed', () => {
+    it('should not allow completion before the timer is started', () => {
+      const { result } = renderHook(() => useTimer());
+
+      expect(result.current.canComplete).toBe(false);
+
+      act(() => { result.current.complete(); });
+
+      expect(result.current.status).toBe('idle');
+    });
+
+    it('should complete a long session', () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => { result.current.start(); });
@@ -274,7 +286,17 @@ describe('useTimer', () => {
       expect(onComplete).toHaveBeenCalledWith(70);
     });
 
-    it('should not call onComplete if cannot complete', () => {
+    it('should not call onComplete when the timer was never started', () => {
+      const onComplete = jest.fn();
+      const { result } = renderHook(() => useTimer({ onComplete }));
+
+      act(() => { result.current.complete(); });
+
+      expect(onComplete).not.toHaveBeenCalled();
+      expect(result.current.status).toBe('idle');
+    });
+
+    it('should call onComplete for a short session', () => {
       const onComplete = jest.fn();
       const { result } = renderHook(() => useTimer({ onComplete }));
 
@@ -282,7 +304,8 @@ describe('useTimer', () => {
       act(() => { jest.advanceTimersByTime(30000); });
       act(() => { result.current.complete(); });
 
-      expect(onComplete).not.toHaveBeenCalled();
+      expect(onComplete).toHaveBeenCalledTimes(1);
+      expect(onComplete).toHaveBeenCalledWith(30);
     });
   });
 
@@ -491,12 +514,16 @@ describe('useTimer', () => {
       expect(result.current.formattedTime).toBe('01:05');
     });
 
-    it('should allow completion if initial time already meets minimum', () => {
+    it('should allow completion of a restored session once it is running', () => {
       const { result } = renderHook(() => useTimer({ initialElapsedSeconds: 60 }));
+
+      // Restored elapsed time alone does not enable Complete — the session must be active
+      expect(result.current.canComplete).toBe(false);
+
+      act(() => { result.current.start(); });
 
       expect(result.current.canComplete).toBe(true);
 
-      act(() => { result.current.start(); });
       act(() => { result.current.complete(); });
 
       expect(result.current.status).toBe('completed');
