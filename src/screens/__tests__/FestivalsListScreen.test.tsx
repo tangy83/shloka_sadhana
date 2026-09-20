@@ -216,13 +216,31 @@ describe('FestivalsListScreen', () => {
   });
 
   describe('Festival Card Interaction', () => {
-    it('should be tappable/pressable', () => {
+    it('should navigate to FestivalDetail when a card is tapped', () => {
       const { getAllByTestId } = render(<FestivalsListScreen />);
       const festivalCards = getAllByTestId('festival-card');
       expect(festivalCards.length).toBeGreaterThan(0);
 
-      // Should be able to press the card
       fireEvent.press(festivalCards[0]);
+
+      expect(mockNavigate).toHaveBeenCalledWith('FestivalDetail', {
+        name: 'Maha Shivaratri',
+        date: '2026-02-17',
+      });
+    });
+
+    it('should pass the tapped festival\'s own date, not just its name', () => {
+      // Festival names repeat across years (Maha Shivaratri, Karva Chauth, ...),
+      // so the date is what disambiguates which occurrence the detail screen shows.
+      const { getAllByTestId } = render(<FestivalsListScreen />);
+      const festivalCards = getAllByTestId('festival-card');
+
+      fireEvent.press(festivalCards[1]);
+
+      expect(mockNavigate).toHaveBeenCalledWith('FestivalDetail', {
+        name: 'Holi',
+        date: '2026-03-06',
+      });
     });
 
     it('should have accessibility role as button', () => {

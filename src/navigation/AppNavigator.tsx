@@ -19,6 +19,7 @@ import { SatsangScreen } from '@/screens/SatsangScreen';
 import { PracticeScreen } from '@/screens/PracticeScreen';
 import { SettingsScreen } from '@/screens/SettingsScreen';
 import { FestivalsListScreen } from '@/screens/FestivalsListScreen';
+import { FestivalDetailScreen } from '@/screens/FestivalDetailScreen';
 import { EkadashiCalendarScreen } from '@/screens/EkadashiCalendarScreen';
 import { EkadashiDetailScreen } from '@/screens/EkadashiDetailScreen';
 import { WisdomDetailScreen } from '@/screens/WisdomDetailScreen';
@@ -202,6 +203,21 @@ export const AppNavigator = () => {
       <Stack.Screen
         name="FestivalsList"
         component={FestivalsListScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: theme.headerBackground,
+          },
+          headerTintColor: theme.primary,
+          headerTitle: '',
+          headerBackTitle: 'Back',
+        }}
+      />
+
+      {/* Festival Detail - V3 Feature #3 */}
+      <Stack.Screen
+        name="FestivalDetail"
+        component={FestivalDetailScreen}
         options={{
           headerShown: true,
           headerStyle: {
