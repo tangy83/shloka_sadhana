@@ -27,7 +27,7 @@ Apple message 2026-08-14 · state `UNRESOLVED_ISSUES`.
 > Include this information in the Notes field of the App Review Information section for future submissions.
 
 **Classification:** Information Needed. Answering 1–6 needed no code, but checking item 7 against the binary
-found copyrighted translations and inaccurate calendar data. Those are fixed in **build 7** (build 6 fixed the content; build 7 fixed the location prompt found while verifying build 6's recording). The reply is sent against build 7.
+found copyrighted translations and inaccurate calendar data. Those are fixed in **build 7** (build 6 fixed the content; build 7 fixed the location prompt found while verifying build 6's recording). Two further defects found while shooting the recording are fixed in **build 9** (see below). The reply is sent against **build 9**.
 
 ## Facts verified against the binary (build 5, unchanged in build 6)
 
@@ -54,16 +54,34 @@ found copyrighted translations and inaccurate calendar data. Those are fixed in 
 | **Vague location purpose strings.** The binary also carried auto-added `NSLocationAlwaysAndWhenInUseUsageDescription` / `NSLocationAlwaysUsageDescription` reading "Allow ShlokaSadhana to access your location" — generic text for access the app never uses (Guideline 5.1.1). | `expo-location` plugin configured so only `NSLocationWhenInUseUsageDescription` ships, with a specific string naming the use and stating the location never leaves the device. **Build 7.** | verified in the built IPA |
 | **Home Paanchang card inaccurate.** Mean-moon approximation; Ekadashi names shifted and Shukla/Krishna swapped; lunar month derived from the calendar month; Krishna tithi 15 labelled "Purnima". | Tithi, nakshatra and lunar month (incl. Adhik) computed at New Delhi sunrise with `astronomy-engine` (pure JS). Ekadashi flag and name come from the same data as the Ekadashi banner. | `paanchang.test.ts` |
 
+### Fixed in build 9 (found while shooting the round-2 recording)
+
+| Issue | Fix | Guard |
+|---|---|---|
+| **Complete button dead for the first 60s.** `useTimer.ts` gated completion on `MIN_COMPLETION_SECONDS = 60` with no on-screen explanation — under a minute the button rendered grey, rippled on touch and did nothing. A ~10s demo session could not be completed, which broke step 4 of the recording. | Minimum removed; `canComplete` is now `status === 'running' \|\| status === 'paused'`, so a session completes as soon as it is active. `complete()` still no-ops from `idle`. | `useTimer.test.ts`, `Timer.test.tsx` |
+| **Festival cards did nothing.** `FestivalsListScreen` carried `accessibilityRole="button"` and a "View details for X" label, but `onPress` was an empty stub — no detail screen existed and no route was registered. Step 7 of the recording ("Festivals → open one") could not be performed at all. | Added `FestivalDetailScreen` (deity, about, recommended shlokas, fasting guidelines, regional variations), registered the `FestivalDetail` route, wired the card. Lookup is by **name + date** via `getFestivalByNameAndDate()` — `festivals.json` has no `id` and 8 names repeat across 2025–2028. | `FestivalDetailScreen.test.tsx`, `FestivalsListScreen.test.tsx`, `festivals.test.ts` |
+
+### Known, not fixed in build 9
+
+| Issue | Status |
+|---|---|
+| **`SankalpModal` is never rendered.** The component exists but nothing imports it; `PracticeScreen` holds `sankalp` state that only the restore path writes, so it always persists as `null`. There is no way for a user to set an intention. The recording script's "set sankalp" step was removed, and the reply no longer claims the feature. | Either wire it up or delete the component. Not a submission blocker. |
+| **Back from Settings.** `animation: 'fade'` on the stack disables the iOS interactive edge-swipe back on every stack screen. The header back button still works. | Recording ends inside Settings so it is never needed. Worth revisiting. |
+| **Muhurat times may be using the Delhi fallback** even when location is authorised — unverified, suspected `getCurrentPositionAsync` failing into the catch in `location.ts`. | Investigate after the reply is sent. Pre-existing in build 7. |
+
 ## Screen recording script (physical iPhone, latest iOS, TestFlight build)
 
-Delete the app first so onboarding and both permission prompts appear. Record in portrait with
-Screen Recording from Control Center. Aim for 2–4 minutes.
+Delete the app first so onboarding appears. **Deleting does not reset the iOS location grant** —
+to make that prompt fire again, set Settings → Privacy & Security → Location Services → Shloka
+Sadhana to "Ask Next Time Or When I Share" before recording. Record in portrait with Screen
+Recording from Control Center. Aim for 2–4 minutes.
 
 1. Start recording on the Home Screen, then **tap the Shloka Sadhana icon** (launch must be visible).
 2. Onboarding: *Begin* → *Continue* → **Enable Reminders** → show the iOS notification prompt → *Allow*.
 3. Home: pause on the location prompt → *Allow While Using App*. Show the muhurat times and
    Choghadiya card updating, then Daily Quest and Your Journey.
-4. **Practice** tab: pick a shloka, set sankalp, start the timer, tap the mala counter a few times, finish the session.
+4. **Mantras** tab: open a shloka → **Start Practice** → **Start**, tap the mala counter a few
+   times, let the timer run ~30s, **Complete**, then type an offering and confirm.
 5. **Library** tab: open a shloka → scroll Sanskrit / transliteration / meaning.
 6. **Satsang** tab: scroll the content.
 7. Home → **Festivals** → open one. Open the **Ekadashi calendar** → open one.
@@ -77,9 +95,12 @@ Upload the video as an attachment to your Resolution Center reply.
 
 > Thank you for reviewing Shloka Sadhana. Here is the requested information.
 >
-> **1. Screen recording** is attached. It was captured on a physical device running build 1.0 (7) and starts at app
-> launch. It shows onboarding, the notification and location permission prompts, and each core
-> feature. The app has no account registration, login, or account deletion, no purchases or
+> **1. Screen recording** is attached. It was captured on a physical device running build 1.0 (9) and starts at app
+> launch. It shows onboarding, the notification permission prompt, and each core feature. The
+> location permission prompt appears on first launch when the Home screen's auspicious-times
+> cards load; it is not visible in this recording because iOS retained the authorisation on our
+> test device across reinstalls. Location use is disclosed in Settings → Privacy Policy, shown
+> near the end of the recording. The app has no account registration, login, or account deletion, no purchases or
 > subscriptions, and no user-generated content, so none of those flows exist.
 >
 > **2. Devices tested:** iPhone 15 Pro running iOS 26.6 (physical device).
@@ -88,7 +109,7 @@ Upload the video as an attachment to your Resolution Center reply.
 > for Hindu devotional practice. It is for people who want to build a consistent habit of chanting
 > shlokas and mantras but lack structure or reliable reference material. It provides:
 > - a library of 20 traditional shlokas and mantras with Sanskrit text, transliteration, and meaning;
-> - a guided practice timer with a 108-bead mala counter and intention (sankalp) setting;
+> - a guided practice timer with a 108-bead mala counter and an offering recorded after each session;
 > - a Hindu festival and Ekadashi calendar with observance guidance;
 > - daily auspicious times (sunrise, muhurat, Choghadiya periods) calculated for the user's location;
 > - wisdom quotes from scripture, practice streaks, history, and optional daily reminders.
@@ -122,7 +143,8 @@ Upload the video as an attachment to your Resolution Center reply.
 - [x] Build 6 built from commit 01b338c (content/calendar fixes)
 - [x] Build 7 built from commit 4c32bc0 (location prompt + purpose string), processed VALID, attached to version 1.0; IPA Info.plist verified (single When-In-Use key)
 - [x] App Review Information → Notes filled (items 3–7 + permissions; device list still to add)
-- [ ] Record the screen recording on a physical device running build 7 (TestFlight) — must show both permission prompts
+- [x] Build 9 built from commit 400917b (Complete-button gate + festival detail), processed VALID, attached to version 1.0
+- [x] Screen recording captured on a physical device running build 9 (TestFlight), 3:29 — shows the notification prompt; location prompt covered by a note in the reply
 - [x] Devices tested (item 2): iPhone 15 Pro / iOS 26.6 — in the reply and appended to the ASC Notes field
 - [ ] Reply in Resolution Center with the video attached, then Resubmit to App Review
 - [ ] Re-capture screenshots if Home/Festivals now look different from the uploaded ones

@@ -119,6 +119,52 @@ Users outside India would have seen wrong muhurat times and never been asked.
   `npx expo config --type introspect` is NOT a substitute; it applies legacy plugins for packages
   that aren't installed and reports keys (audio background mode, photo library) the binary lacks.
 
+## 10. Build numbers are burned forever — including by builds you forgot
+
+**What happened.** `eas submit` for build 8 failed twice with only *"Something went wrong when
+submitting your app to Apple App Store Connect"* — the CLI printed no reason. The real error was
+only reachable through the EAS GraphQL API (`submissions.byId(...).jobRun.errors`):
+
+> `EAS_UPLOAD_TO_ASC_VERSION_DUPLICATE` — Build number 8 for app version 1.0.0 has already been used.
+
+App Store Connect already held a build 8 uploaded **2026-05-11**, long expired. Numbering had
+later restarted at 3 and climbed 3→7 underneath it. EAS's remote counter handed out 8; Apple
+refuses it, because build numbers are unique forever within a version train, expired or not.
+
+**Fix.** Rebuild as 9 (`autoIncrement: true` does it). The number is compiled into the binary, so
+an existing artifact cannot be relabelled — it costs a full rebuild.
+
+**Rules.**
+- Before trusting `autoIncrement`, list what ASC actually holds:
+  `GET /v1/builds?filter[app]=<id>&sort=-uploadedDate` — expired builds still occupy their number.
+- When `eas submit` fails without a message, query the jobRun errors; the web UI and CLI both hide it.
+
+## 11. Deleting the app does NOT reset iOS location permission
+
+**What happened.** Five takes of the App Review demo video, and the location prompt never appeared
+once. Delete + reinstall was assumed to reset permissions; it resets app data (AsyncStorage, so
+onboarding reappears) but iOS **retains the location authorisation for the same bundle ID**.
+`location.ts` then correctly sees `granted` and skips the prompt — nothing to record.
+"Reset Location & Privacy" also failed, because the reinstall that followed it restored the grant.
+
+**Rule.** To make the prompt fire again, set **Settings → Privacy & Security → Location Services →
+<app> → "Ask Next Time Or When I Share"**, then force-quit. Don't delete the app — deletion is
+irrelevant to the grant and costs a reinstall.
+
+**Corollary for review videos.** A reviewer's device is genuinely fresh, so they *will* see the
+prompt. If a poisoned test device won't produce it, say so in the reply rather than burning takes.
+
+## 12. The recording script is a spec — verify each step is buildable first
+
+Three steps of the round-2 script could not be performed at all, and each was found only by
+attempting them on camera: the Complete button was dead below 60s, festival cards had an empty
+`onPress` with no detail screen, and `SankalpModal` is never rendered anywhere. The reply text also
+claimed a "sankalp setting" the UI does not offer — an inaccurate statement to App Review.
+
+**Rule.** Before recording, grep each script step to the code that implements it. A step that names
+a screen with no route, or a control with an empty handler, is a bug the reviewer will also hit.
+
+
 ---
 
 ## Promoted to CFAI Gold Standards
