@@ -5,6 +5,54 @@
 
 ---
 
+# Round 3 — Guideline 2.1 Information Needed, repeated (build 1.0 (9))
+
+Rejected 2026-09-24, ~14h after resubmitting build 9 with the reply and the 3:29 recording.
+
+**The message is the same boilerplate questionnaire as round 2**, re-sent with a new preamble:
+*"This app has been submitted by a developer account that has a limited App Review history."*
+**No defect in the app was cited** — nothing described as broken, missing or crashing. So this is
+Information Needed, not a binary fault: **build 9 stands, no rebuild.**
+
+Two things changed versus the August version of the same letter:
+- The location clause is **gone**. August asked for "any prompts requesting access to sensitive data
+  or device capabilities (e.g. location)". This one does not. The missing location prompt was not
+  what sank it.
+- Item 1 now asks for account / UGC / paid-content flows only *if the app has any*. It has none.
+
+## What was actually wrong: the lead screenshot (Guideline 2.3.3)
+
+Apple's "Prevent Common Issues" block named it:
+
+> **2.3.3 - Screenshots:** App screenshots must show the actual app in use, and not merely the title
+> art, login page, or splash screen.
+
+`01-onboarding.png` was the **first** screenshot in both the iPhone and iPad sets — Om symbol, app
+name, tagline, "Begin" button, no functionality at all. ASC also notes only the first three are used
+on install sheets, so this was the lead image for users and reviewer alike.
+
+**Fixed 2026-09-24 via the ASC API** (reserve -> upload -> commit -> reorder), no rebuild:
+
+| Set | Before | After |
+|---|---|---|
+| iPhone 6.9" | onboarding, home, mantras | **home, practice, mantras, satsang** |
+| iPad 13" | onboarding, home, mantras | **home, mantras** |
+
+`03-practice.png` and `05-satsang.png` already existed under `docs/store-assets/screenshots/ios-6.9/`
+but had never been uploaded.
+
+**Open:** the iPad set is down to two screenshots (above Apple's minimum, but thin) and
+`03-practice.png` has the screen title overlapping the status-bar clock - a safe-area bug worth
+fixing before the next capture.
+
+## Also done for round 3
+
+- The 3:29 recording was re-encoded from 99 MB to a far smaller H.264 file. A reviewer who cannot
+  open a large attachment produces exactly this outcome - a re-sent questionnaire with nothing cited.
+- The reply text and the App Review Notes field were already correct and were left as-is.
+
+---
+
 # Round 2 — Guideline 2.1 Information Needed (build 1.0 (5))
 
 Prepared 2026-09-15. Submission `0d8f0fda-be2e-4aa1-8347-95dcab54f092` · submitted 2026-08-12 ·
