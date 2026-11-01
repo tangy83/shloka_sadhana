@@ -30,7 +30,7 @@ export interface PracticeSession {
   sankalp?: string; // Intention before practice (optional)
   offering?: string; // Dedication after practice (optional)
   reflection?: string; // Journal after practice (optional)
-  completed: boolean; // Session completed successfully (min 60 seconds)
+  completed: boolean; // Session completed successfully
 }
 
 /**
@@ -138,19 +138,19 @@ export interface MuhuratData {
   brahmaMuhurta: TimePeriod;
   abhijitMuhurat?: TimePeriod;
   rahuKaal?: TimePeriod;
-  yamagandaKaal?: TimePeriod; // V3 Feature - Trading Windows
-  gulikaKaal?: TimePeriod; // V3 Feature - Trading Windows
-  dayChoghadiya?: ChoghadiyaPeriod[]; // V3 Feature - Trading Windows (8 periods)
-  nightChoghadiya?: ChoghadiyaPeriod[]; // V3 Feature - Trading Windows (8 periods)
+  yamagandaKaal?: TimePeriod;
+  gulikaKaal?: TimePeriod;
+  dayChoghadiya?: ChoghadiyaPeriod[]; // 8 daytime Choghadiya periods
+  nightChoghadiya?: ChoghadiyaPeriod[]; // 8 night-time Choghadiya periods
 }
 
 /**
- * Trading windows consolidated from muhurat data
+ * Auspicious and inauspicious periods consolidated from muhurat data
  */
-export interface TradingWindows {
+export interface AuspiciousPeriods {
   date: string; // ISO date (YYYY-MM-DD)
-  auspiciousPeriods: TimePeriod[]; // Good times to trade
-  inauspiciousPeriods: TimePeriod[]; // Times to avoid trading
+  auspiciousPeriods: TimePeriod[]; // Favourable periods for practice / new beginnings
+  inauspiciousPeriods: TimePeriod[]; // Periods traditionally considered less favourable
 }
 
 /**

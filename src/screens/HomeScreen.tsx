@@ -16,7 +16,7 @@ import { PracticeSession, PracticeStats } from '@/types/practice';
 import { PaanchangCard } from '@/components/PaanchangCard';
 import { RecoveryMessageCard } from '@/components/home/RecoveryMessageCard';
 import { MuhuratTimes } from '@/components/home/MuhuratTimes';
-import { TradingWindowsCard } from '@/components/home/TradingWindowsCard';
+import { AuspiciousPeriodsCard } from '@/components/home/AuspiciousPeriodsCard';
 import { EkadashiBanner } from '@/components/home/EkadashiBanner';
 import { VerseOfTheDayCard } from '@/components/home/VerseOfTheDayCard';
 import { RecommendedShlokaCard } from '@/components/home/RecommendedShlokaCard';
@@ -196,9 +196,9 @@ export const HomeScreen: React.FC = () => {
           <MuhuratTimes />
         </View>
 
-        {/* Trading Windows */}
+        {/* Auspicious Periods (Choghadiya) */}
         <View style={styles.section}>
-          <TradingWindowsCard />
+          <AuspiciousPeriodsCard />
         </View>
 
         {/* Ekadashi Banner */}

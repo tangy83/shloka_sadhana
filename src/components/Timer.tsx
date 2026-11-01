@@ -25,7 +25,7 @@ export interface TimerProps {
 
 /**
  * Timer component with start, pause, resume, reset, and complete controls
- * Enforces minimum 60-second practice session requirement
+ * Complete is enabled/disabled by the parent via `canComplete`
  * This is a controlled component - all state is managed by the parent
  */
 export const Timer: React.FC<TimerProps> = React.memo(({

@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getUpcomingFestivals, getPastFestivals, Festival } from '@/utils/festivals';
 import { getTodayISO } from '@/utils/dateUtils';
@@ -56,8 +57,18 @@ function getRelativeDate(isoDate: string, today: string): string {
  */
 export const FestivalsListScreen: React.FC = () => {
   const { theme } = useTheme();
+  const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState<TabType>('upcoming');
   const today = getTodayISO();
+
+  /**
+   * Open the detail screen for a festival.
+   * Passes the date as well as the name — names repeat across years.
+   */
+  const handleFestivalPress = (festival: Festival) => {
+    // @ts-expect-error - Navigation types not fully defined
+    navigation.navigate('FestivalDetail', { name: festival.name, date: festival.date });
+  };
 
   // Load festivals based on active tab
   const upcomingFestivals = getUpcomingFestivals(today);
@@ -75,9 +86,7 @@ export const FestivalsListScreen: React.FC = () => {
       <TouchableOpacity
         testID="festival-card"
         style={[styles.card, { backgroundColor: theme.surface }]}
-        onPress={() => {
-          // Future: Navigate to festival detail screen
-        }}
+        onPress={() => handleFestivalPress(item)}
         accessibilityRole="button"
         accessibilityLabel={`View details for ${item.name}`}
       >

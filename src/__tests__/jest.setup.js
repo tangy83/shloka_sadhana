@@ -64,7 +64,8 @@ jest.mock('expo-font', () => ({
 
 // Mock expo-location (V3 Feature #4)
 jest.mock('expo-location', () => ({
-  requestForegroundPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),
+  requestForegroundPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted', canAskAgain: true }),
+  getForegroundPermissionsAsync: jest.fn().mockResolvedValue({ status: 'undetermined', canAskAgain: true }),
   getCurrentPositionAsync: jest.fn().mockResolvedValue({
     coords: {
       latitude: 28.6139,

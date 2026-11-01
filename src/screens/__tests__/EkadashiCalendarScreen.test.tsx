@@ -82,11 +82,13 @@ describe('EkadashiCalendarScreen', () => {
   });
 
   describe('Tab Navigation', () => {
-    it('should show Upcoming and All 2026 tabs', () => {
+    it('should show Upcoming and All Dates tabs', () => {
       render(<EkadashiCalendarScreen />);
 
       expect(screen.getByTestId('tab-upcoming')).toBeTruthy();
       expect(screen.getByTestId('tab-all')).toBeTruthy();
+      expect(screen.getByText('All Dates')).toBeTruthy();
+      expect(screen.queryByText('All 2026')).toBeNull();
     });
 
     it('should default to Upcoming tab', () => {

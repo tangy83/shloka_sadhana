@@ -5,7 +5,7 @@
  * Calculates sunrise, sunset, Brahma Muhurta, Abhijit Muhurat, Rahu Kaal, etc.
  */
 
-import { MuhuratData, ChoghadiyaPeriod, ChoghadiyaType, TimePeriod, TradingWindows } from '@/types';
+import { MuhuratData, ChoghadiyaPeriod, ChoghadiyaType, TimePeriod, AuspiciousPeriods } from '@/types';
 
 /**
  * Default location (Delhi, India) if not specified
@@ -17,12 +17,36 @@ const DEFAULT_LOCATION = {
 };
 
 /**
- * Format time as HH:MM
+ * Format time as HH:MM.
+ * Normalises into a valid 24h clock so slightly-negative or overflowing inputs
+ * can never render as e.g. "-1:-1" (App Review Guideline 2.1 regression).
  */
 export const formatTime = (hours: number, minutes: number): string => {
-  const h = Math.floor(hours);
-  const m = Math.floor(minutes);
+  let total = Math.round(hours * 60 + minutes);
+  total = ((total % 1440) + 1440) % 1440;
+  const h = Math.floor(total / 60);
+  const m = total % 60;
   return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+};
+
+/**
+ * Format an "HH:MM" 24h string as a 12h clock ("05:00" -> "5:00 AM").
+ * Shared by the Home widgets; guards malformed input so the UI can never
+ * render "-1:-1 AM".
+ */
+export const formatTo12Hour = (time24: string): string => {
+  const [hStr, mStr] = (time24 || '').split(':');
+  const h = parseInt(hStr, 10);
+  const m = parseInt(mStr, 10);
+  if (!Number.isFinite(h) || !Number.isFinite(m)) return time24;
+  let total = Math.round(h * 60 + m);
+  total = ((total % 1440) + 1440) % 1440;
+  const hh = Math.floor(total / 60);
+  const mm = (total % 60).toString().padStart(2, '0');
+  const period = hh < 12 ? 'AM' : 'PM';
+  let h12 = hh % 12;
+  if (h12 === 0) h12 = 12;
+  return `${h12}:${mm} ${period}`;
 };
 
 /**
@@ -60,7 +84,9 @@ const addMinutes = (time: string, minutesToAdd: number): string => {
 export const calculateSunriseSunset = (
   date: string,
   latitude: number = DEFAULT_LOCATION.latitude,
-  longitude: number = DEFAULT_LOCATION.longitude
+  // Longitude is accepted for API compatibility but no longer used: sunrise/sunset
+  // are expressed in local solar time (see below), which is longitude-independent.
+  _longitude: number = DEFAULT_LOCATION.longitude
 ): { sunrise: string; sunset: string } => {
   // Parse the date
   const dateObj = new Date(date + 'T12:00:00Z');
@@ -88,19 +114,16 @@ export const calculateSunriseSunset = (
     hourAngle = Math.acos(cosHourAngle) * (180 / Math.PI);
   }
 
-  // Solar noon (simplified - assumes 12:00)
-  const solarNoon = 12 - (longitude / 15);
-
-  // Calculate sunrise and sunset
-  const sunriseHour = solarNoon - hourAngle / 15;
-  const sunsetHour = solarNoon + hourAngle / 15;
-
-  const sunriseMinutes = (sunriseHour % 1) * 60;
-  const sunsetMinutes = (sunsetHour % 1) * 60;
+  // Express sunrise/sunset in LOCAL SOLAR TIME. By definition solar noon is
+  // 12:00 local, so sunrise = 12 - hourAngle/15 and sunset = 12 + hourAngle/15.
+  // hourAngle is in [0,180], so both always fall in [0,24) — no negative/UTC
+  // artifacts (the previous UTC formulation produced "-1:-1" for the summer sun).
+  const sunriseHour = 12 - hourAngle / 15;
+  const sunsetHour = 12 + hourAngle / 15;
 
   return {
-    sunrise: formatTime(Math.floor(sunriseHour), sunriseMinutes),
-    sunset: formatTime(Math.floor(sunsetHour), sunsetMinutes),
+    sunrise: formatTime(Math.floor(sunriseHour), (sunriseHour % 1) * 60),
+    sunset: formatTime(Math.floor(sunsetHour), (sunsetHour % 1) * 60),
   };
 };
 
@@ -348,10 +371,10 @@ export const calculateChoghadiya = (
 };
 
 /**
- * Get trading windows from muhurat data
- * Consolidates auspicious and inauspicious periods for trading
+ * Get auspicious/inauspicious periods from muhurat data.
+ * Consolidates Abhijit Muhurat + Choghadiya into favourable and less-favourable periods.
  */
-export const getTradingWindows = (muhurat: MuhuratData): TradingWindows => {
+export const getAuspiciousPeriods = (muhurat: MuhuratData): AuspiciousPeriods => {
   const auspiciousPeriods: TimePeriod[] = [];
   const inauspiciousChoghadiya: TimePeriod[] = [];
   const traditionalKaals: TimePeriod[] = [];

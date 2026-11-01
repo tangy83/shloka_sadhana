@@ -195,6 +195,48 @@ describe('ekadashiCalendar', () => {
     });
   });
 
+  describe('Astronomical accuracy', () => {
+    it('lists Kamada Ekadashi 2026 on the sunrise-tithi day (Ekadashi began after sunrise on 03-28)', () => {
+      expect(getEkadashiByDate('2026-03-29')?.name).toBe('Kamada Ekadashi');
+      expect(checkIfEkadashi('2026-03-28')).toBe(false);
+    });
+  });
+
+  describe('Coverage beyond 2026', () => {
+    it('always has a full year of upcoming Ekadashis through the end of 2026', () => {
+      expect(getUpcomingEkadashis('2026-12-21', 12)).toHaveLength(12);
+    });
+
+    it('has a next Ekadashi after the last 2026 entry', () => {
+      expect(getNextEkadashi('2026-12-20').date).toBe('2027-01-03');
+    });
+
+    it('includes the 2027 cycle with correct names', () => {
+      expect(getEkadashiByDate('2027-01-03')?.name).toBe('Saphala Ekadashi');
+      expect(getEkadashiByDate('2027-07-14')?.name).toBe('Devshayani Ekadashi');
+      expect(getEkadashiByDate('2027-11-10')?.name).toBe('Devuthani Ekadashi');
+      expect(getEkadashiByDate('2027-12-09')?.name).toBe('Mokshada Ekadashi');
+    });
+
+    it('spaces consecutive Ekadashis 13–16 days apart, alternating paksha', () => {
+      const all = getAllEkadashis();
+      for (let i = 1; i < all.length; i++) {
+        const gap =
+          (new Date(all[i].date).getTime() - new Date(all[i - 1].date).getTime()) / 86400000;
+        expect(gap).toBeGreaterThanOrEqual(13);
+        expect(gap).toBeLessThanOrEqual(16);
+        const pakshaOf = (p: string) => (p.includes('Shukla') ? 'S' : 'K');
+        expect(pakshaOf(all[i].paksha)).not.toBe(pakshaOf(all[i - 1].paksha));
+      }
+    });
+
+    it('gives every 2027 Ekadashi a substantial vrat katha', () => {
+      getAllEkadashis()
+        .filter(e => e.date.startsWith('2027'))
+        .forEach(e => expect(e.vrat_katha.length).toBeGreaterThan(100));
+    });
+  });
+
   describe('Edge Cases', () => {
     it('should handle leap year dates correctly', () => {
       const ekadashi = getEkadashiByDate('2028-02-29');

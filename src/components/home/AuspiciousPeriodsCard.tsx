@@ -1,9 +1,9 @@
 /**
- * TradingWindowsCard Component
- * Shloka Sadhana - V3 Feature: Trading Windows
+ * AuspiciousPeriodsCard Component
+ * Shloka Sadhana - Home screen
  *
- * Displays consolidated trading windows based on Vedic muhurat calculations
- * Shows good times to trade and times to avoid trading
+ * Displays consolidated auspicious periods (Choghadiya + Abhijit Muhurat)
+ * for spiritual practice, based on Vedic muhurat calculations.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -11,28 +11,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getUserLocation, getDefaultLocation } from '@/utils/location';
-import { getMuhuratForDate, getTradingWindows } from '@/utils/muhurat';
+import { getMuhuratForDate, getAuspiciousPeriods, formatTo12Hour } from '@/utils/muhurat';
 import { getTodayISO } from '@/utils/dateUtils';
-import { TradingWindows, TimePeriod } from '@/types';
-
-/**
- * Format 24-hour time (HH:MM) to 12-hour format with AM/PM
- * Example: "05:00" => "5:00 AM", "15:30" => "3:30 PM"
- */
-function formatTo12Hour(time24: string): string {
-  const [hoursStr, minutes] = time24.split(':');
-  const hours = parseInt(hoursStr, 10);
-
-  if (hours === 0) {
-    return `12:${minutes} AM`;
-  } else if (hours < 12) {
-    return `${hours}:${minutes} AM`;
-  } else if (hours === 12) {
-    return `12:${minutes} PM`;
-  } else {
-    return `${hours - 12}:${minutes} PM`;
-  }
-}
+import { AuspiciousPeriods, TimePeriod } from '@/types';
 
 /**
  * Format time period as "start - end"
@@ -49,72 +30,64 @@ function formatPeriodList(periods: TimePeriod[]): string {
 }
 
 /**
- * TradingWindowsCard component
+ * AuspiciousPeriodsCard component
  */
-export const TradingWindowsCard: React.FC = () => {
+export const AuspiciousPeriodsCard: React.FC = () => {
   const { theme } = useTheme();
-  const [tradingWindows, setTradingWindows] = useState<TradingWindows | null>(null);
+  const [periods, setPeriods] = useState<AuspiciousPeriods | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadTradingWindows() {
+    async function loadAuspiciousPeriods() {
       try {
-        // Get user's location
         let location;
         try {
           location = await getUserLocation();
         } catch (error) {
-          if (__DEV__) console.error('[TradingWindowsCard] Failed to get location:', error);
+          if (__DEV__) console.error('[AuspiciousPeriodsCard] Failed to get location:', error);
           location = getDefaultLocation();
         }
 
-        // Calculate muhurat times for today
         const today = getTodayISO();
         const muhurat = getMuhuratForDate(today, location.latitude, location.longitude);
-
-        // Get trading windows
-        const windows = getTradingWindows(muhurat);
-
-        setTradingWindows(windows);
+        setPeriods(getAuspiciousPeriods(muhurat));
       } catch (error) {
-        if (__DEV__) console.error('[TradingWindowsCard] Failed to calculate trading windows:', error);
+        if (__DEV__) console.error('[AuspiciousPeriodsCard] Failed to calculate periods:', error);
         // Component will render with null data (graceful degradation)
       } finally {
         setLoading(false);
       }
     }
 
-    loadTradingWindows();
+    loadAuspiciousPeriods();
   }, []);
 
-  if (loading || !tradingWindows) {
+  if (loading || !periods) {
     return (
       <View style={[styles.container, { backgroundColor: theme.surface }]}>
-        <Text style={[styles.title, { color: theme.textBright }]}>Trading Windows Today</Text>
+        <Text style={[styles.title, { color: theme.textBright }]}>Choghadiya — Auspicious Periods</Text>
         <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
           Based on Abhijit Muhurat & Choghadiya calculations
         </Text>
-        {/* Could add a loading skeleton here */}
       </View>
     );
   }
 
   return (
     <View style={[styles.container, { backgroundColor: theme.surface }]}>
-      <Text style={[styles.title, { color: theme.textBright }]}>Trading Windows Today</Text>
+      <Text style={[styles.title, { color: theme.textBright }]}>Choghadiya — Auspicious Periods</Text>
       <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
         Based on Abhijit Muhurat & Choghadiya calculations
       </Text>
 
-      {/* Good Times to Trade */}
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={[styles.sectionIcon, styles.goodIcon]}>✓</Text>
-          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Auspicious Trading Times</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textBright }]}>Auspicious Periods</Text>
         </View>
-        {tradingWindows.auspiciousPeriods.length > 0 ? (
+        {periods.auspiciousPeriods.length > 0 ? (
           <Text style={[styles.timesList, { color: theme.textSecondary }]}>
-            {formatPeriodList(tradingWindows.auspiciousPeriods)}
+            {formatPeriodList(periods.auspiciousPeriods)}
           </Text>
         ) : (
           <Text style={[styles.timesList, { color: theme.textSecondary }]}>
@@ -122,7 +95,7 @@ export const TradingWindowsCard: React.FC = () => {
           </Text>
         )}
         <Text style={[styles.note, { color: theme.textSecondary }]}>
-          Other times should be avoided for new trades
+          Other periods are considered less favourable for new beginnings
         </Text>
       </View>
     </View>

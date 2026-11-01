@@ -6,7 +6,9 @@
  * Uses astronomical calculations for lunar calendar data.
  */
 
+import * as Astronomy from 'astronomy-engine';
 import { PaanchangData } from '@/types';
+import { getEkadashiByDate, getAllEkadashis } from '@/utils/ekadashiCalendar';
 
 /**
  * Tithi names (Lunar days) - 15 Tithis in each Paksha
@@ -110,87 +112,106 @@ const ENGLISH_WEEKDAYS = [
 ];
 
 /**
- * Ekadashi names for each month and paksha
+ * Ekadashi names for each month and paksha (purnimanta convention, matching
+ * ekadashi.json: a Krishna paksha belongs to the month whose Purnima ends it)
  * Format: { month: { paksha: name } }
  */
 const EKADASHI_NAMES: Record<number, Record<'Shukla' | 'Krishna', string>> = {
-  1: { Shukla: 'Kamada Ekadashi', Krishna: 'Papmochani Ekadashi' }, // Chaitra
+  1: { Shukla: 'Kamada Ekadashi', Krishna: 'Papamochani Ekadashi' }, // Chaitra
   2: { Shukla: 'Mohini Ekadashi', Krishna: 'Varuthini Ekadashi' }, // Vaishakha
   3: { Shukla: 'Nirjala Ekadashi', Krishna: 'Apara Ekadashi' }, // Jyeshtha
-  4: { Shukla: 'Yogini Ekadashi', Krishna: 'Sayana Ekadashi' }, // Ashadha
-  5: { Shukla: 'Kamika Ekadashi', Krishna: 'Putrada Ekadashi' }, // Shravana
-  6: { Shukla: 'Aja Ekadashi', Krishna: 'Indira Ekadashi' }, // Bhadrapada
-  7: { Shukla: 'Padma Ekadashi', Krishna: 'Pasankusa Ekadashi' }, // Ashwin
-  8: { Shukla: 'Utpanna Ekadashi', Krishna: 'Rama Ekadashi' }, // Kartika
-  9: { Shukla: 'Mokshada Ekadashi', Krishna: 'Utpatti Ekadashi' }, // Margashirsha
-  10: { Shukla: 'Saphala Ekadashi', Krishna: 'Putrada Ekadashi' }, // Pausha
-  11: { Shukla: 'Jaya Ekadashi', Krishna: 'Sat-tila Ekadashi' }, // Magha
+  4: { Shukla: 'Devshayani Ekadashi', Krishna: 'Yogini Ekadashi' }, // Ashadha
+  5: { Shukla: 'Shravana Putrada Ekadashi', Krishna: 'Kamika Ekadashi' }, // Shravana
+  6: { Shukla: 'Parivartini Ekadashi', Krishna: 'Aja Ekadashi' }, // Bhadrapada
+  7: { Shukla: 'Papankusha Ekadashi', Krishna: 'Indira Ekadashi' }, // Ashwin
+  8: { Shukla: 'Devuthani Ekadashi', Krishna: 'Rama Ekadashi' }, // Kartika
+  9: { Shukla: 'Mokshada Ekadashi', Krishna: 'Utpanna Ekadashi' }, // Margashirsha
+  10: { Shukla: 'Pausha Putrada Ekadashi', Krishna: 'Saphala Ekadashi' }, // Pausha
+  11: { Shukla: 'Jaya Ekadashi', Krishna: 'Shattila Ekadashi' }, // Magha
   12: { Shukla: 'Amalaki Ekadashi', Krishna: 'Vijaya Ekadashi' }, // Phalguna
 };
 
 /**
- * Calculate moon phase (0 to 1, where 0 = new moon, 0.5 = full moon)
- * Using simplified lunar phase calculation
+ * Reference observer for daily Paanchang values. Tithi and nakshatra are taken
+ * at sunrise in New Delhi (IST), the same convention as ekadashi.json.
  */
-const calculateMoonPhase = (date: Date): number => {
-  // Known new moon: January 6, 2000 at 18:14 UTC
-  const knownNewMoon = new Date('2000-01-06T18:14:00Z');
-  const synodicMonth = 29.530588853; // Average lunar cycle in days
+const OBSERVER = new Astronomy.Observer(28.6139, 77.209, 216);
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-  const diff = date.getTime() - knownNewMoon.getTime();
-  const days = diff / (1000 * 60 * 60 * 24);
-  const phase = (days % synodicMonth) / synodicMonth;
+const normalizeDegrees = (deg: number): number => ((deg % 360) + 360) % 360;
 
-  return phase;
+/**
+ * Lahiri ayanamsa (degrees): 23°51' at J2000, precessing ~50.3"/year
+ */
+const lahiriAyanamsa = (date: Date): number => {
+  const years = (date.getTime() - Date.UTC(2000, 0, 1, 12)) / (365.25 * DAY_MS);
+  return 23.853 + years * 0.013969;
+};
+
+const siderealSunSign = (date: Date): number =>
+  Math.floor(normalizeDegrees(Astronomy.SunPosition(date).elon - lahiriAyanamsa(date)) / 30);
+
+/**
+ * Sunrise in New Delhi for an ISO calendar date (falls back to 06:00 IST)
+ */
+const sunriseFor = (dateString: string): Date => {
+  const istMidnight = new Date(Date.parse(`${dateString}T00:00:00Z`) - IST_OFFSET_MS);
+  const rise = Astronomy.SearchRiseSet(Astronomy.Body.Sun, OBSERVER, +1, istMidnight, 1);
+  return rise ? rise.date : new Date(istMidnight.getTime() + 6 * 60 * 60 * 1000);
 };
 
 /**
- * Calculate Tithi number (1-15) and Paksha from moon phase
+ * Calculate Tithi number (1-15) and Paksha from the Moon–Sun elongation
  */
 const calculateTithi = (
-  moonPhase: number
+  date: Date
 ): { tithiNumber: number; paksha: 'Shukla' | 'Krishna' } => {
-  // Shukla Paksha (waxing): 0 to 0.5 moon phase -> Tithi 1-15
-  // Krishna Paksha (waning): 0.5 to 1 moon phase -> Tithi 1-15
-
-  if (moonPhase < 0.5) {
-    // Shukla Paksha (waxing moon)
-    const tithiNumber = Math.floor(moonPhase * 30) + 1;
-    return { tithiNumber, paksha: 'Shukla' };
-  } else {
-    // Krishna Paksha (waning moon)
-    const tithiNumber = Math.floor((moonPhase - 0.5) * 30) + 1;
-    return { tithiNumber, paksha: 'Krishna' };
-  }
+  const elongation = normalizeDegrees(
+    Astronomy.EclipticGeoMoon(date).lon - Astronomy.SunPosition(date).elon
+  );
+  const tithiIndex = Math.floor(elongation / 12); // 0-29
+  return {
+    tithiNumber: (tithiIndex % 15) + 1,
+    paksha: tithiIndex < 15 ? 'Shukla' : 'Krishna',
+  };
 };
 
 /**
- * Calculate Nakshatra (1-27) from moon's ecliptic longitude
- * Simplified calculation based on date
+ * Calculate Nakshatra (1-27) from the Moon's sidereal longitude
  */
 const calculateNakshatra = (date: Date): number => {
-  // Each Nakshatra is approximately 13.33 degrees (360/27)
-  // Moon takes ~27.3 days to complete sidereal orbit
-  const nakshatraMonth = 27.321661; // Sidereal month in days
-  const knownNakshatra = new Date('2000-01-01T00:00:00Z');
-
-  const diff = date.getTime() - knownNakshatra.getTime();
-  const days = diff / (1000 * 60 * 60 * 24);
-  const nakshatra = Math.floor((days % nakshatraMonth) / nakshatraMonth * 27) + 1;
-
-  return nakshatra >= 1 && nakshatra <= 27 ? nakshatra : 1;
+  const siderealMoon = normalizeDegrees(Astronomy.EclipticGeoMoon(date).lon - lahiriAyanamsa(date));
+  return Math.min(27, Math.floor(siderealMoon / (360 / 27)) + 1);
 };
 
 /**
- * Calculate Hindu month (1-12) from Gregorian month
- * Approximation based on solar calendar
+ * Calculate Hindu lunar month (1-12, purnimanta) and whether it is Adhik.
+ * The amanta month is named from the Sun's sidereal sign at the new moon that
+ * starts it (Sun in Meena → Chaitra); a lunar month containing no sankranti is Adhik.
  */
-const calculateHinduMonth = (date: Date): number => {
-  const month = date.getMonth(); // 0-11
+const calculateHinduMonth = (
+  date: Date,
+  paksha: 'Shukla' | 'Krishna'
+): { monthNumber: number; isAdhik: boolean } => {
+  const previousNewMoon = Astronomy.SearchMoonPhase(0, date, -35);
+  const nextNewMoon = Astronomy.SearchMoonPhase(0, date, 35);
+  if (!previousNewMoon || !nextNewMoon) {
+    return { monthNumber: 1, isAdhik: false };
+  }
+  const startSign = siderealSunSign(previousNewMoon.date);
+  const isAdhik = startSign === siderealSunSign(nextNewMoon.date);
+  const amanta = ((startSign + 1) % 12) + 1;
+  const monthNumber = paksha === 'Krishna' && !isAdhik ? (amanta % 12) + 1 : amanta;
+  return { monthNumber, isAdhik };
+};
 
-  // Approximate mapping (Hindu months start mid-way through Gregorian months)
-  const monthMap = [11, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Index 0-11 for Jan-Dec
-  return monthMap[month];
+/**
+ * Whether a date falls inside the curated Ekadashi calendar's coverage
+ */
+const isWithinEkadashiCalendar = (dateString: string): boolean => {
+  const all = getAllEkadashis();
+  return all.length > 0 && dateString >= all[0].date && dateString <= all[all.length - 1].date;
 };
 
 /**
@@ -273,26 +294,29 @@ export const getEkadasiName = (
  */
 export const getPaanchangForDate = (dateString: string): PaanchangData => {
   const date = new Date(dateString + 'T12:00:00Z'); // Use noon UTC to avoid timezone issues
+  const sunrise = sunriseFor(dateString);
 
-  // Calculate moon phase and derived values
-  const moonPhase = calculateMoonPhase(date);
-  const { tithiNumber, paksha } = calculateTithi(moonPhase);
-  const nakshatraNumber = calculateNakshatra(date);
-  const hinduMonthNumber = calculateHinduMonth(date);
+  const { tithiNumber, paksha } = calculateTithi(sunrise);
+  const nakshatraNumber = calculateNakshatra(sunrise);
+  const { monthNumber, isAdhik } = calculateHinduMonth(sunrise, paksha);
   const weekdayNumber = date.getDay();
 
   // Get names
-  const tithi = getTithiName(tithiNumber);
+  const tithi = paksha === 'Krishna' && tithiNumber === 15 ? 'Amavasya' : getTithiName(tithiNumber);
   const nakshatra = getNakshatraName(nakshatraNumber);
-  const hinduMonth = getHinduMonth(hinduMonthNumber);
+  const hinduMonth = `${isAdhik ? 'Adhik ' : ''}${getHinduMonth(monthNumber)}`;
   const weekday = getSanskritWeekday(weekdayNumber);
   const weekdayEnglish = ENGLISH_WEEKDAYS[weekdayNumber];
 
-  // Check if Ekadashi
-  const isEkadasiDay = isEkadashi(tithiNumber);
-  const ekadasiName = isEkadasiDay
-    ? getEkadasiName(hinduMonthNumber, paksha) || undefined
-    : undefined;
+  // Ekadashi observance: the curated calendar is the source of truth within its
+  // range (it applies the two-sunrise / no-sunrise rules); beyond it, use the tithi.
+  const listed = getEkadashiByDate(dateString);
+  const isEkadasiDay = listed ? true : !isWithinEkadashiCalendar(dateString) && isEkadashi(tithiNumber);
+  const ekadasiName = listed
+    ? listed.name
+    : isEkadasiDay && !isAdhik
+      ? getEkadasiName(monthNumber, paksha) || undefined
+      : undefined;
 
   return {
     date: dateString,

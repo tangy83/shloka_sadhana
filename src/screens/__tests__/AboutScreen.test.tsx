@@ -35,6 +35,18 @@ describe('AboutScreen', () => {
     expect(() => render(<AboutScreen />)).not.toThrow();
   });
 
+  describe('Authenticity claims (App Review accuracy)', () => {
+    it('does not claim collaboration with scholars or teachers', () => {
+      render(<AboutScreen />);
+      expect(screen.queryByText(/Sanskrit scholars/i)).toBeNull();
+    });
+
+    it('states that English renderings are the app’s own', () => {
+      render(<AboutScreen />);
+      expect(screen.getByText(/English renderings and explanations are our own/i)).toBeTruthy();
+    });
+  });
+
   describe('App Identity', () => {
     it('should display the app name "Sadhana"', () => {
       render(<AboutScreen />);

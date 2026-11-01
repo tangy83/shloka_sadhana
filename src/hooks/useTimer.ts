@@ -29,8 +29,6 @@ export interface UseTimerReturn {
   setElapsedSeconds: (seconds: number) => void;
 }
 
-const MIN_COMPLETION_SECONDS = 60;
-
 /**
  * Hook for managing practice session timer.
  * Interval lifecycle is driven by a useEffect watching `status`,
@@ -101,13 +99,13 @@ export const useTimer = (options?: UseTimerOptions): UseTimerReturn => {
   }, []);
 
   const complete = useCallback(() => {
-    if (elapsedRef.current < MIN_COMPLETION_SECONDS) return;
-    setStatus('completed');
+    setStatus((s) => (s === 'running' || s === 'paused' ? 'completed' : s));
   }, []);
 
   const formattedTime = formatTime(elapsedSeconds);
   const isRunning = status === 'running';
-  const canComplete = elapsedSeconds >= MIN_COMPLETION_SECONDS;
+  // A session can be completed as soon as it is active — there is no minimum duration.
+  const canComplete = status === 'running' || status === 'paused';
 
   return {
     status,

@@ -12,6 +12,7 @@ import {
   getPastFestivals,
   getFestivalsInRange,
   getFestivalByName,
+  getFestivalByNameAndDate,
 } from '../festivals';
 
 describe('festivals', () => {
@@ -163,6 +164,37 @@ describe('festivals', () => {
 
     it('should be case-sensitive', () => {
       const festival = getFestivalByName('diwali (deepavali)');
+
+      expect(festival).toBeNull();
+    });
+  });
+
+  describe('getFestivalByNameAndDate', () => {
+    it('should find a festival matching both name and date', () => {
+      const festival = getFestivalByNameAndDate('Karva Chauth', '2026-10-29');
+
+      expect(festival).toBeDefined();
+      expect(festival?.name).toBe('Karva Chauth');
+      expect(festival?.date).toBe('2026-10-29');
+    });
+
+    it('should resolve the correct occurrence for a name that repeats across years', () => {
+      // "Karva Chauth" appears in 2025, 2026 and 2027 — the date must disambiguate
+      const first = getFestivalByNameAndDate('Karva Chauth', '2025-10-10');
+      const last = getFestivalByNameAndDate('Karva Chauth', '2027-10-18');
+
+      expect(first?.date).toBe('2025-10-10');
+      expect(last?.date).toBe('2027-10-18');
+    });
+
+    it('should return null when the name exists but the date does not match', () => {
+      const festival = getFestivalByNameAndDate('Karva Chauth', '2026-01-01');
+
+      expect(festival).toBeNull();
+    });
+
+    it('should return null when the festival does not exist', () => {
+      const festival = getFestivalByNameAndDate('NonexistentFestival123', '2026-10-29');
 
       expect(festival).toBeNull();
     });

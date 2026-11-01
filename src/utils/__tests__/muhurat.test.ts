@@ -13,9 +13,10 @@ import {
   calculateYamagandaKaal,
   calculateGulikaKaal,
   calculateChoghadiya,
-  getTradingWindows,
+  getAuspiciousPeriods,
   getMuhuratForDate,
   formatTime,
+  formatTo12Hour,
 } from '../muhurat';
 
 describe('Muhurat Service', () => {
@@ -34,6 +35,52 @@ describe('Muhurat Service', () => {
     it('should handle edge cases', () => {
       expect(formatTime(0, 0)).toBe('00:00');
       expect(formatTime(23, 59)).toBe('23:59');
+    });
+  });
+
+  // Regression for App Review rejection risk (Guideline 2.1): the Home screen
+  // rendered a broken clock ("9:23 PM – -1:-1 AM") because sunrise math went
+  // slightly negative and time formatting did not guard it.
+  describe('App Review 2.1 regression — no negative/malformed times', () => {
+    it('formatTime never emits negative or malformed output', () => {
+      expect(formatTime(-1, -1)).toMatch(/^\d{2}:\d{2}$/);
+      expect(formatTime(-1, -1)).not.toContain('-');
+      expect(formatTime(25, 70)).toMatch(/^\d{2}:\d{2}$/);
+    });
+
+    it('calculateSunriseSunset returns valid positive morning sunrise for the rejection date+location (2026-07-11 Delhi)', () => {
+      const { sunrise, sunset } = calculateSunriseSunset('2026-07-11', 28.6139, 77.209);
+      expect(sunrise).toMatch(/^\d{2}:\d{2}$/);
+      expect(sunset).toMatch(/^\d{2}:\d{2}$/);
+      expect(sunrise).not.toContain('-');
+      expect(sunset).not.toContain('-');
+      const sh = parseInt(sunrise.split(':')[0], 10);
+      expect(sh).toBeGreaterThanOrEqual(0);
+      expect(sh).toBeLessThan(12);
+    });
+
+    it('getMuhuratForDate produces no negative times for the rejection date (2026-07-11 Delhi)', () => {
+      const m = getMuhuratForDate('2026-07-11', 28.6139, 77.209);
+      const times = [
+        m.sunrise, m.sunset,
+        m.brahmaMuhurta.start, m.brahmaMuhurta.end,
+        m.abhijitMuhurat?.start, m.abhijitMuhurat?.end,
+        m.rahuKaal?.start, m.rahuKaal?.end,
+      ].filter((t): t is string => typeof t === 'string');
+      times.forEach((t) => {
+        expect(t).toMatch(/^\d{2}:\d{2}$/);
+        expect(t).not.toContain('-');
+      });
+    });
+
+    it('formatTo12Hour formats valid times and guards malformed input', () => {
+      expect(formatTo12Hour('05:00')).toBe('5:00 AM');
+      expect(formatTo12Hour('00:15')).toBe('12:15 AM');
+      expect(formatTo12Hour('12:00')).toBe('12:00 PM');
+      expect(formatTo12Hour('15:30')).toBe('3:30 PM');
+      const bad = formatTo12Hour('-1:-1'); // the exact bug string
+      expect(bad).not.toContain('-1');
+      expect(bad).toMatch(/(AM|PM)$/);
     });
   });
 
@@ -460,28 +507,28 @@ describe('Muhurat Service', () => {
     });
   });
 
-  describe('getTradingWindows', () => {
+  describe('getAuspiciousPeriods', () => {
     it('should consolidate auspicious periods from muhurat data', () => {
       const date = '2024-01-15';
       const lat = 28.6139;
       const lon = 77.2090;
 
       const muhurat = getMuhuratForDate(date, lat, lon);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
-      expect(tradingWindows).toHaveProperty('date');
-      expect(tradingWindows).toHaveProperty('auspiciousPeriods');
-      expect(tradingWindows).toHaveProperty('inauspiciousPeriods');
-      expect(tradingWindows.date).toBe(date);
+      expect(auspiciousData).toHaveProperty('date');
+      expect(auspiciousData).toHaveProperty('auspiciousPeriods');
+      expect(auspiciousData).toHaveProperty('inauspiciousPeriods');
+      expect(auspiciousData.date).toBe(date);
     });
 
     it('should not have duplicate periods in inauspicious list', () => {
       const date = '2024-01-15';
       const muhurat = getMuhuratForDate(date, 28.6139, 77.2090);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
       // Check for exact duplicates
-      const periodStrings = tradingWindows.inauspiciousPeriods.map(
+      const periodStrings = auspiciousData.inauspiciousPeriods.map(
         (p) => `${p.start}-${p.end}`
       );
       const uniquePeriods = new Set(periodStrings);
@@ -492,7 +539,7 @@ describe('Muhurat Service', () => {
     it('should merge overlapping inauspicious periods', () => {
       const date = '2024-01-15';
       const muhurat = getMuhuratForDate(date, 28.6139, 77.2090);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
       const toMinutes = (time: string) => {
         const [h, m] = time.split(':').map(Number);
@@ -500,9 +547,9 @@ describe('Muhurat Service', () => {
       };
 
       // Check that no two consecutive periods overlap
-      for (let i = 0; i < tradingWindows.inauspiciousPeriods.length - 1; i++) {
-        const current = tradingWindows.inauspiciousPeriods[i];
-        const next = tradingWindows.inauspiciousPeriods[i + 1];
+      for (let i = 0; i < auspiciousData.inauspiciousPeriods.length - 1; i++) {
+        const current = auspiciousData.inauspiciousPeriods[i];
+        const next = auspiciousData.inauspiciousPeriods[i + 1];
 
         const currentEnd = toMinutes(current.end);
         const nextStart = toMinutes(next.start);
@@ -515,7 +562,7 @@ describe('Muhurat Service', () => {
     it('should merge adjacent inauspicious periods', () => {
       const date = '2024-01-15';
       const muhurat = getMuhuratForDate(date, 28.6139, 77.2090);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
       const toMinutes = (time: string) => {
         const [h, m] = time.split(':').map(Number);
@@ -523,9 +570,9 @@ describe('Muhurat Service', () => {
       };
 
       // If two periods are adjacent (end of one = start of next), they should be merged
-      for (let i = 0; i < tradingWindows.inauspiciousPeriods.length - 1; i++) {
-        const current = tradingWindows.inauspiciousPeriods[i];
-        const next = tradingWindows.inauspiciousPeriods[i + 1];
+      for (let i = 0; i < auspiciousData.inauspiciousPeriods.length - 1; i++) {
+        const current = auspiciousData.inauspiciousPeriods[i];
+        const next = auspiciousData.inauspiciousPeriods[i + 1];
 
         const currentEnd = toMinutes(current.end);
         const nextStart = toMinutes(next.start);
@@ -538,10 +585,10 @@ describe('Muhurat Service', () => {
     it('should include Abhijit Muhurat in auspicious periods', () => {
       const date = '2024-01-15';
       const muhurat = getMuhuratForDate(date, 28.6139, 77.2090);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
       // Should include at least Abhijit
-      expect(tradingWindows.auspiciousPeriods.length).toBeGreaterThan(0);
+      expect(auspiciousData.auspiciousPeriods.length).toBeGreaterThan(0);
 
       // Helper to convert time to minutes
       const toMinutes = (time: string) => {
@@ -554,7 +601,7 @@ describe('Muhurat Service', () => {
       const abhijitStart = toMinutes(muhurat.abhijitMuhurat?.start || '12:00');
       const abhijitEnd = toMinutes(muhurat.abhijitMuhurat?.end || '12:00');
 
-      const containsAbhijit = tradingWindows.auspiciousPeriods.some((period) => {
+      const containsAbhijit = auspiciousData.auspiciousPeriods.some((period) => {
         const periodStart = toMinutes(period.start);
         const periodEnd = toMinutes(period.end);
 
@@ -568,10 +615,10 @@ describe('Muhurat Service', () => {
     it('should include all inauspicious periods (possibly merged)', () => {
       const date = '2024-01-15';
       const muhurat = getMuhuratForDate(date, 28.6139, 77.2090);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
       // Should have inauspicious periods (may be merged if adjacent)
-      expect(tradingWindows.inauspiciousPeriods.length).toBeGreaterThan(0);
+      expect(auspiciousData.inauspiciousPeriods.length).toBeGreaterThan(0);
 
       const toMinutes = (time: string) => {
         const [h, m] = time.split(':').map(Number);
@@ -583,7 +630,7 @@ describe('Muhurat Service', () => {
         const rahuStart = toMinutes(muhurat.rahuKaal.start);
         const rahuEnd = toMinutes(muhurat.rahuKaal.end);
 
-        const rahuIsCovered = tradingWindows.inauspiciousPeriods.some((period) => {
+        const rahuIsCovered = auspiciousData.inauspiciousPeriods.some((period) => {
           const periodStart = toMinutes(period.start);
           const periodEnd = toMinutes(period.end);
 
@@ -598,16 +645,16 @@ describe('Muhurat Service', () => {
     it('should include auspicious choghadiya periods', () => {
       const date = '2024-01-15';
       const muhurat = getMuhuratForDate(date, 28.6139, 77.2090);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
       // Should have multiple auspicious periods from choghadiya
-      expect(tradingWindows.auspiciousPeriods.length).toBeGreaterThan(1);
+      expect(auspiciousData.auspiciousPeriods.length).toBeGreaterThan(1);
     });
 
     it('should not have overlapping periods in auspicious list', () => {
       const date = '2024-01-15';
       const muhurat = getMuhuratForDate(date, 28.6139, 77.2090);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
       const toMinutes = (time: string) => {
         const [h, m] = time.split(':').map(Number);
@@ -615,9 +662,9 @@ describe('Muhurat Service', () => {
       };
 
       // Check for overlaps in auspicious periods
-      for (let i = 0; i < tradingWindows.auspiciousPeriods.length - 1; i++) {
-        const current = tradingWindows.auspiciousPeriods[i];
-        const next = tradingWindows.auspiciousPeriods[i + 1];
+      for (let i = 0; i < auspiciousData.auspiciousPeriods.length - 1; i++) {
+        const current = auspiciousData.auspiciousPeriods[i];
+        const next = auspiciousData.auspiciousPeriods[i + 1];
 
         const currentEnd = toMinutes(current.end);
         const nextStart = toMinutes(next.start);
@@ -627,19 +674,19 @@ describe('Muhurat Service', () => {
       }
     });
 
-    // Note: We no longer display "Avoid Trading" section in the UI
+    // Note: We no longer display "less-favourable periods" section in the UI
     // so overlap tests and traditional Kaal filtering tests are not needed
 
-    it('should return auspicious periods for trading', () => {
+    it('should return auspicious periods for practice', () => {
       const date = '2024-01-15';
       const muhurat = getMuhuratForDate(date, 28.6139, 77.2090);
-      const tradingWindows = getTradingWindows(muhurat);
+      const auspiciousData = getAuspiciousPeriods(muhurat);
 
       // Should have auspicious periods (Abhijit + good Choghadiya)
-      expect(tradingWindows.auspiciousPeriods.length).toBeGreaterThan(0);
+      expect(auspiciousData.auspiciousPeriods.length).toBeGreaterThan(0);
 
       // Each period should have valid time format
-      tradingWindows.auspiciousPeriods.forEach((period) => {
+      auspiciousData.auspiciousPeriods.forEach((period) => {
         expect(period.start).toMatch(/^\d{2}:\d{2}$/);
         expect(period.end).toMatch(/^\d{2}:\d{2}$/);
       });

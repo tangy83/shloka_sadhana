@@ -2,9 +2,9 @@
  * SatsangScreen
  * Shloka Sadhana - Spiritual Community
  *
- * Graceful "coming soon" stub — community features (group chanting,
- * shared sessions, Satsang circles) are planned for a future release.
- * No hardcoded data, no fake events.
+ * A self-contained reflection on the practice of satsang (keeping company with
+ * truth), with a CTA into a personal practice session. Static devotional
+ * content only — no external services and nothing advertised as forthcoming.
  */
 
 import React from 'react';
@@ -14,8 +14,26 @@ import { useNavigation } from '@react-navigation/native';
 import { Colors } from '@/constants/Colors';
 import { useTheme } from '@/contexts/ThemeContext';
 
+const SATSANG_NOTES = [
+  {
+    icon: 'account-group-outline' as const,
+    title: 'What Satsang Means',
+    desc: 'Satsang is the practice of keeping company with truth — through sacred sound, scripture, and sincere reflection.',
+  },
+  {
+    icon: 'book-open-variant' as const,
+    title: 'Practice in Good Company',
+    desc: 'Chanting shlokas recited for millennia joins your voice to an unbroken lineage of practitioners.',
+  },
+  {
+    icon: 'fire' as const,
+    title: 'Consistency Is Devotion',
+    desc: 'A few minutes each day, held with intention, deepens the heart faster than occasional long sessions.',
+  },
+];
+
 /**
- * Satsang screen — graceful community coming-soon stub
+ * Satsang screen — a reflection on practising in the company of truth.
  */
 export const SatsangScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -26,69 +44,45 @@ export const SatsangScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.text }]}>Satsang</Text>
-        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Spiritual Community</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>In the company of truth</Text>
       </View>
 
       <ScrollView
         testID="satsang-scroll"
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Hero icon */}
+        {/* Hero */}
         <View style={styles.heroSection}>
-          <MaterialCommunityIcons
-            name="bell-ring-outline"
-            size={72}
-            color={Colors.primary}
-            style={styles.heroIcon}
-          />
           <Text style={styles.omText}>ॐ</Text>
           <Text style={[styles.heroTitle, { color: theme.text }]}>
-            Join a global community of practitioners
+            Practise in the presence of the sacred
           </Text>
           <Text style={[styles.heroBody, { color: theme.textMeaning }]}>
-            Community features — group chanting, shared sessions,
-            and Satsang circles — are coming in a future update.
+            Satsang means gathering in the presence of truth. Wherever you are,
+            your daily practice is part of a living tradition.
           </Text>
         </View>
 
         {/* Divider */}
         <View style={[styles.divider, { backgroundColor: theme.divider }]} />
 
-        {/* Feature preview cards */}
-        <Text style={[styles.previewLabel, { color: theme.textSecondary }]}>Coming soon</Text>
-
-        {[
-          {
-            icon: 'account-group-outline' as const,
-            title: 'Group Chanting',
-            desc: 'Chant together with practitioners worldwide in real time',
-          },
-          {
-            icon: 'calendar-heart' as const,
-            title: 'Satsang Events',
-            desc: 'Join scheduled scripture study sessions and spiritual talks',
-          },
-          {
-            icon: 'fire' as const,
-            title: 'Shared Streaks',
-            desc: 'Challenge friends to maintain daily practice streaks',
-          },
-        ].map((feature) => (
-          <View key={feature.title} style={[styles.featureCard, { backgroundColor: theme.surface }]}>
+        {/* Reflections */}
+        {SATSANG_NOTES.map((note) => (
+          <View key={note.title} style={[styles.featureCard, { backgroundColor: theme.surface }]}>
             <MaterialCommunityIcons
-              name={feature.icon}
+              name={note.icon}
               size={28}
-              color={theme.textSecondary}
+              color={Colors.primary}
               style={styles.featureIcon}
             />
             <View style={styles.featureText}>
-              <Text style={[styles.featureTitle, { color: theme.text }]}>{feature.title}</Text>
-              <Text style={[styles.featureDesc, { color: theme.textMeaning }]}>{feature.desc}</Text>
+              <Text style={[styles.featureTitle, { color: theme.text }]}>{note.title}</Text>
+              <Text style={[styles.featureDesc, { color: theme.textMeaning }]}>{note.desc}</Text>
             </View>
           </View>
         ))}
 
-        {/* CTA — redirect to Practice */}
+        {/* CTA — start a personal practice session */}
         <TouchableOpacity
           style={styles.ctaCard}
           onPress={() => navigation.navigate('Practice' as never)}
@@ -99,7 +93,7 @@ export const SatsangScreen: React.FC = () => {
           <View style={styles.ctaText}>
             <Text style={styles.ctaTitle}>Start a Personal Session</Text>
             <Text style={styles.ctaSubtitle}>
-              In the meantime, deepen your own practice
+              Deepen your own practice today
             </Text>
           </View>
           <MaterialCommunityIcons name="chevron-right" size={22} color={Colors.textOnColor} />
@@ -179,9 +173,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     textAlign: 'center',
   },
-  heroIcon: {
-    marginBottom: 16,
-  },
   heroSection: {
     alignItems: 'center',
     paddingBottom: 24,
@@ -199,14 +190,6 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontWeight: '700',
     marginBottom: 16,
-  },
-  previewLabel: {
-    color: Colors.textSecondary,
-    fontSize: 12,
-    fontWeight: '600',
-    letterSpacing: 1,
-    marginBottom: 12,
-    textTransform: 'uppercase',
   },
   scrollContent: {
     padding: 20,

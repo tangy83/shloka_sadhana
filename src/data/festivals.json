@@ -4,12 +4,12 @@
     "coverage": "November 2025 – February 2028",
     "generated": "2026-02-07",
     "note": "Dates are based on the Hindu lunar calendar (Panchang) and may vary by 1-2 days depending on regional moon sighting and local Panchang followed. Always verify with a local Panchang for exact tithi timings.",
-    "total_festivals": 180
+    "total_festivals": 138
   },
   "festivals": [
     {
       "name": "Karva Chauth",
-      "date": "2025-11-02",
+      "date": "2025-10-10",
       "category": "major",
       "deity_association": "Lord Shiva, Goddess Parvati",
       "description": "Married Hindu women observe a day-long waterless fast (nirjala vrat) for the longevity and well-being of their husbands. The fast is broken after sighting the moon at night.",
@@ -23,7 +23,7 @@
     },
     {
       "name": "Ahoi Ashtami",
-      "date": "2025-11-05",
+      "date": "2025-10-13",
       "category": "regional",
       "deity_association": "Ahoi Mata (form of Goddess Parvati)",
       "description": "Mothers observe a fast for the well-being and long life of their sons. The Ahoi Mata Vrat Katha is recited and stars are worshipped in the evening.",
@@ -36,7 +36,7 @@
     },
     {
       "name": "Dhanteras (Dhanatrayodashi)",
-      "date": "2025-11-08",
+      "date": "2025-10-18",
       "category": "major",
       "deity_association": "Lord Dhanvantari, Goddess Lakshmi, Lord Kubera",
       "description": "First day of the five-day Diwali festival. Marks the worship of Lord Dhanvantari (god of Ayurveda) and Goddess Lakshmi. Considered highly auspicious for purchasing gold, silver, and utensils.",
@@ -50,7 +50,7 @@
     },
     {
       "name": "Narak Chaturdashi (Chhoti Diwali)",
-      "date": "2025-11-09",
+      "date": "2025-10-20",
       "category": "major",
       "deity_association": "Lord Krishna, Goddess Kali",
       "description": "Celebrates Lord Krishna's victory over the demon Narakasura. People wake before dawn for an oil bath (abhyanga snana) and light diyas to dispel darkness and evil.",
@@ -64,7 +64,7 @@
     },
     {
       "name": "Diwali (Deepavali)",
-      "date": "2025-11-10",
+      "date": "2025-10-20",
       "category": "major",
       "deity_association": "Goddess Lakshmi, Lord Ganesha, Lord Rama",
       "description": "The Festival of Lights — India's biggest festival. Celebrates the return of Lord Rama to Ayodhya after 14 years of exile. Lakshmi Puja is performed for wealth and prosperity. Homes are illuminated with diyas and decorated with rangoli.",
@@ -79,7 +79,7 @@
     },
     {
       "name": "Govardhan Puja (Annakut)",
-      "date": "2025-11-11",
+      "date": "2025-10-22",
       "category": "major",
       "deity_association": "Lord Krishna",
       "description": "Celebrates Lord Krishna lifting Govardhan Hill to protect the people of Vrindavan from Indra's wrath. A mountain of food (Annakut) is offered to Lord Krishna.",
@@ -93,7 +93,7 @@
     },
     {
       "name": "Bhai Dooj (Yama Dwitiya)",
-      "date": "2025-11-12",
+      "date": "2025-10-23",
       "category": "major",
       "deity_association": "Yama (God of Death), Yamuna (his sister)",
       "description": "Sisters pray for their brothers' long life and well-being, applying tilak on their foreheads. Celebrates the bond between brothers and sisters, similar to Raksha Bandhan.",
@@ -107,7 +107,7 @@
     },
     {
       "name": "Chhath Puja",
-      "date": "2025-11-13",
+      "date": "2025-10-27",
       "category": "major",
       "deity_association": "Surya (Sun God), Chhathi Maiya (Usha/Shashthi Devi)",
       "description": "Ancient Vedic festival dedicated to the Sun God and Chhathi Maiya. Devotees observe rigorous fasting and stand in water bodies offering arghya (prayers) to the setting and rising sun over four days.",
@@ -121,7 +121,7 @@
     },
     {
       "name": "Tulsi Vivah",
-      "date": "2025-11-17",
+      "date": "2025-11-02",
       "category": "regional",
       "deity_association": "Lord Vishnu (as Shaligram), Tulsi (Goddess Lakshmi)",
       "description": "Ceremonial marriage of the Tulsi plant (holy basil) to Lord Vishnu (in the form of Shaligram). Marks the end of the Chaturmas period and the beginning of the Hindu wedding season.",
@@ -135,7 +135,7 @@
     },
     {
       "name": "Dev Uthani Ekadashi (Prabodhini Ekadashi)",
-      "date": "2025-11-15",
+      "date": "2025-11-01",
       "category": "major",
       "deity_association": "Lord Vishnu",
       "description": "Marks the awakening of Lord Vishnu from his four-month cosmic sleep (Yoga Nidra) during Chaturmas. Considered extremely auspicious for weddings and new ventures.",
@@ -149,7 +149,7 @@
     },
     {
       "name": "Kartik Purnima",
-      "date": "2025-11-23",
+      "date": "2025-11-05",
       "category": "major",
       "deity_association": "Lord Vishnu, Lord Shiva, Lord Kartikeya",
       "description": "Full moon of the holy month of Kartik. Devotees take a sacred bath (Kartik Snana) in holy rivers. Also known as Tripuri Purnima (Shiva's victory over Tripurasura) and Dev Diwali in Varanasi.",
@@ -163,7 +163,7 @@
     },
     {
       "name": "Guru Nanak Jayanti",
-      "date": "2025-11-23",
+      "date": "2025-11-05",
       "category": "major",
       "deity_association": "Guru Nanak Dev Ji (First Sikh Guru)",
       "description": "Celebrates the birth of Guru Nanak Dev Ji, the founder of Sikhism. Observed as a national holiday in India with Prabhat Pheris (morning processions), Nagar Kirtans, and langar (community meals).",
@@ -177,7 +177,7 @@
     },
     {
       "name": "Vivah Panchami",
-      "date": "2025-11-28",
+      "date": "2025-11-25",
       "category": "regional",
       "deity_association": "Lord Rama, Goddess Sita",
       "description": "Celebrates the divine wedding of Lord Rama and Goddess Sita at Janakpur. Temple enactments of the wedding ceremony are performed.",
@@ -191,7 +191,7 @@
     },
     {
       "name": "Gita Jayanti",
-      "date": "2025-12-11",
+      "date": "2025-12-01",
       "category": "major",
       "deity_association": "Lord Krishna, Lord Vishnu",
       "description": "Celebrates the day Lord Krishna delivered the Bhagavad Gita to Arjuna on the battlefield of Kurukshetra. Marks the Mokshada Ekadashi. Mass recitations of the Gita are organized.",
@@ -206,7 +206,7 @@
     },
     {
       "name": "Dhanu Sankranti",
-      "date": "2025-12-15",
+      "date": "2025-12-16",
       "category": "regional",
       "deity_association": "Surya (Sun God)",
       "description": "Sun transitions into Sagittarius (Dhanu Rashi). Marks the beginning of the auspicious month of Dhanu/Margashirsha in some calendars. Special significance in Odisha.",
@@ -220,7 +220,7 @@
     },
     {
       "name": "Dattatreya Jayanti",
-      "date": "2025-12-14",
+      "date": "2025-12-04",
       "category": "regional",
       "deity_association": "Lord Dattatreya (combined form of Brahma, Vishnu, Shiva)",
       "description": "Birth anniversary of Lord Dattatreya, considered an incarnation of the divine trinity. Celebrated on the full moon of Margashirsha month.",
@@ -235,7 +235,7 @@
     },
     {
       "name": "Vaikuntha Ekadashi",
-      "date": "2025-12-26",
+      "date": "2025-12-30",
       "category": "major",
       "deity_association": "Lord Vishnu",
       "description": "Considered the most sacred of all Ekadashis. It is believed that the gates of Vaikuntha (Vishnu's heavenly abode) are opened on this day. Major celebrations in all Vishnu temples.",
@@ -306,7 +306,7 @@
     },
     {
       "name": "Saraswati Puja (Vasant Panchami)",
-      "date": "2026-01-25",
+      "date": "2026-01-23",
       "category": "major",
       "deity_association": "Goddess Saraswati",
       "description": "Festival honoring Goddess Saraswati, deity of knowledge, music, and arts. Marks the beginning of spring (Vasant). Students worship books, instruments, and tools of learning. Yellow is the auspicious color.",
@@ -321,7 +321,7 @@
     },
     {
       "name": "Shattila Ekadashi",
-      "date": "2026-01-20",
+      "date": "2026-01-14",
       "category": "regional",
       "deity_association": "Lord Vishnu",
       "description": "Ekadashi fast where sesame (til) plays a central role — used in bathing, food, and charity. Observed in the Krishna Paksha of Magha month.",
@@ -366,7 +366,7 @@
     },
     {
       "name": "Holika Dahan",
-      "date": "2026-03-02",
+      "date": "2026-03-03",
       "category": "major",
       "deity_association": "Lord Vishnu (as Narasimha), Prahlad, Holika",
       "description": "Eve of Holi. Large bonfires are lit symbolizing the triumph of good over evil — the burning of demoness Holika who tried to kill devotee Prahlad. People perform parikrama (circumambulation) of the bonfire.",
@@ -381,7 +381,7 @@
     },
     {
       "name": "Holi (Dhulandi / Rangwali Holi)",
-      "date": "2026-03-03",
+      "date": "2026-03-04",
       "category": "major",
       "deity_association": "Lord Krishna, Radha",
       "description": "The Festival of Colors — one of India's most joyous festivals. People play with colored powders (gulal) and water, celebrating the divine love of Radha-Krishna and the victory of good over evil. Symbolizes the arrival of spring.",
@@ -395,7 +395,7 @@
     },
     {
       "name": "Chaitra Navratri Day 1 (Ghatasthapana)",
-      "date": "2026-03-20",
+      "date": "2026-03-19",
       "category": "major",
       "deity_association": "Goddess Durga, Shailputri (Day 1 form)",
       "description": "Beginning of the nine-night festival dedicated to the nine forms of Goddess Durga. Ghatasthapana (Kalash Sthapana) — the sacred pot is installed. Also marks the Hindu New Year (Vikram Samvat) in many regions.",
@@ -410,7 +410,7 @@
     },
     {
       "name": "Ugadi / Gudi Padwa / Hindu New Year",
-      "date": "2026-03-20",
+      "date": "2026-03-19",
       "category": "major",
       "deity_association": "Lord Brahma, Lord Vishnu",
       "description": "Hindu New Year celebrated in different names across India. Gudi Padwa in Maharashtra (hoisting of Gudi flag), Ugadi in Karnataka/Andhra/Telangana (eating Ugadi Pachadi with six tastes). Marks the beginning of Chaitra month.",
@@ -424,7 +424,7 @@
     },
     {
       "name": "Rama Navami",
-      "date": "2026-03-28",
+      "date": "2026-03-26",
       "category": "major",
       "deity_association": "Lord Rama, Goddess Sita",
       "description": "Celebrates the birth of Lord Rama, the seventh avatar of Lord Vishnu. Falls on the 9th day of Chaitra Navratri. Temples enact the birth ceremony at noon (believed to be the exact time of birth). Ramcharitmanas and Ramayana recitations are organized.",
@@ -456,7 +456,7 @@
     },
     {
       "name": "Chaitra Purnima",
-      "date": "2026-04-03",
+      "date": "2026-04-02",
       "category": "regional",
       "deity_association": "Lord Vishnu, Chitragupta",
       "description": "Full moon of Chaitra month. Marks the beginning of the Satya Yuga according to some traditions. Sacred bathing in rivers is considered highly meritorious.",
@@ -485,7 +485,7 @@
     },
     {
       "name": "Sita Navami",
-      "date": "2026-04-27",
+      "date": "2026-04-25",
       "category": "regional",
       "deity_association": "Goddess Sita (Janaki)",
       "description": "Celebrates the birth/emergence of Goddess Sita from the earth during King Janaka's ploughing of the field. Also known as Janaki Navami.",
@@ -500,7 +500,7 @@
     },
     {
       "name": "Buddha Purnima (Vesak)",
-      "date": "2026-05-03",
+      "date": "2026-05-01",
       "category": "major",
       "deity_association": "Lord Buddha (considered 9th avatar of Vishnu in Hindu tradition)",
       "description": "Celebrates the birth, enlightenment, and death (Parinirvana) of Gautama Buddha. National holiday in India. Devotees visit Buddhist temples and monasteries.",
@@ -514,7 +514,7 @@
     },
     {
       "name": "Narasimha Jayanti",
-      "date": "2026-05-07",
+      "date": "2026-04-30",
       "category": "regional",
       "deity_association": "Lord Narasimha (half-man, half-lion avatar of Vishnu)",
       "description": "Celebrates the appearance of Lord Narasimha who emerged from a pillar to save devotee Prahlad and slay the demon king Hiranyakashipu. Observed on Chaturdashi of Vaishakha Shukla Paksha.",
@@ -529,7 +529,7 @@
     },
     {
       "name": "Gangaur",
-      "date": "2026-04-04",
+      "date": "2026-03-21",
       "category": "regional",
       "deity_association": "Goddess Gauri (Parvati), Lord Shiva (as Isar)",
       "description": "18-day festival celebrating the divine love of Shiva and Parvati. Unmarried girls pray for a good husband, and married women pray for their husbands' well-being. Goddess Gauri idols are taken in procession.",
@@ -543,7 +543,7 @@
     },
     {
       "name": "Rath Yatra",
-      "date": "2026-06-22",
+      "date": "2026-07-16",
       "category": "major",
       "deity_association": "Lord Jagannath, Balabhadra, Subhadra",
       "description": "Grand chariot festival where the deities of Jagannath Temple, Puri are taken out in massive wooden chariots pulled by thousands of devotees. One of the oldest and largest religious festivals in the world.",
@@ -558,7 +558,7 @@
     },
     {
       "name": "Guru Purnima",
-      "date": "2026-07-01",
+      "date": "2026-07-29",
       "category": "major",
       "deity_association": "Ved Vyasa (Sage who compiled Vedas), all Gurus",
       "description": "Day dedicated to honoring spiritual and academic teachers (Gurus). Celebrates the birth of Ved Vyasa, who compiled the four Vedas, Mahabharata, and the Puranas. Students express gratitude to their gurus.",
@@ -574,7 +574,7 @@
     },
     {
       "name": "Nag Panchami",
-      "date": "2026-07-23",
+      "date": "2026-08-17",
       "category": "major",
       "deity_association": "Nag Devta (Serpent Gods — Ananta, Vasuki, Shesha, Takshak)",
       "description": "Festival dedicated to the worship of serpents (Nagas). Snake images are drawn on walls and worshipped with milk, flowers, and turmeric. Celebrates the role of Nagas in Hindu mythology.",
@@ -589,7 +589,7 @@
     },
     {
       "name": "Hariyali Teej",
-      "date": "2026-07-25",
+      "date": "2026-08-15",
       "category": "regional",
       "deity_association": "Goddess Parvati, Lord Shiva",
       "description": "Celebrates the reunion of Goddess Parvati with Lord Shiva. Women dress in green, swing on decorated jhulas (swings), and apply mehndi. Celebrates married life and the monsoon season.",
@@ -603,7 +603,7 @@
     },
     {
       "name": "Raksha Bandhan",
-      "date": "2026-08-09",
+      "date": "2026-08-28",
       "category": "major",
       "deity_association": "Lord Vishnu, Lord Indra (historical association)",
       "description": "Festival celebrating the bond between brothers and sisters. Sisters tie a sacred thread (rakhi) on their brothers' wrists, praying for their protection and well-being. Brothers pledge to protect their sisters.",
@@ -617,7 +617,7 @@
     },
     {
       "name": "Kajari Teej",
-      "date": "2026-08-12",
+      "date": "2026-08-31",
       "category": "regional",
       "deity_association": "Goddess Parvati",
       "description": "Third day after Purnima in Bhadrapada Krishna Paksha. Married women fast for their husbands' long life. Named after Kajari folk songs sung during the monsoon.",
@@ -631,7 +631,7 @@
     },
     {
       "name": "Krishna Janmashtami",
-      "date": "2026-08-22",
+      "date": "2026-09-04",
       "category": "major",
       "deity_association": "Lord Krishna",
       "description": "Celebrates the birth of Lord Krishna, the eighth avatar of Vishnu, at midnight in a prison in Mathura. Temples enact the birth scene. Devotees fast, sing bhajans, and celebrate at midnight with great joy.",
@@ -648,7 +648,7 @@
     },
     {
       "name": "Dahi Handi (Gopalkala)",
-      "date": "2026-08-23",
+      "date": "2026-09-05",
       "category": "regional",
       "deity_association": "Lord Krishna (as mischievous Gopal)",
       "description": "Day after Janmashtami. Celebrates young Krishna's playful butter-stealing exploits. Human pyramids are formed to reach and break clay pots (handi) filled with curd and butter hung at a height.",
@@ -662,7 +662,7 @@
     },
     {
       "name": "Hartalika Teej",
-      "date": "2026-08-28",
+      "date": "2026-09-14",
       "category": "major",
       "deity_association": "Goddess Parvati, Lord Shiva",
       "description": "Married and unmarried women worship Goddess Parvati for marital bliss. Celebrates Parvati's reunion with Shiva after intense penance. Sand/clay idols of Shiva-Parvati are made and worshipped.",
@@ -677,7 +677,7 @@
     },
     {
       "name": "Ganesh Chaturthi",
-      "date": "2026-08-29",
+      "date": "2026-09-14",
       "category": "major",
       "deity_association": "Lord Ganesha",
       "description": "Ten-day festival celebrating the birth of Lord Ganesha, the elephant-headed god of wisdom and new beginnings. Clay Ganesha idols are installed in homes and public pandals, worshipped for up to 10 days, and then immersed in water (Visarjan).",
@@ -694,7 +694,7 @@
     },
     {
       "name": "Onam",
-      "date": "2026-09-03",
+      "date": "2026-08-26",
       "category": "major",
       "deity_association": "King Mahabali (Vamana avatar of Vishnu)",
       "description": "Kerala's biggest festival — ten-day harvest festival celebrating the mythical homecoming of King Mahabali. Features elaborate Pookalam (flower carpets), Onasadya (feast with 26+ dishes), Vallam Kali (snake boat races), and Pulikali (tiger dance).",
@@ -708,7 +708,7 @@
     },
     {
       "name": "Anant Chaturdashi (Ganesh Visarjan)",
-      "date": "2026-09-07",
+      "date": "2026-09-25",
       "category": "major",
       "deity_association": "Lord Ganesha, Lord Vishnu (Anant form)",
       "description": "Last day of Ganesh Chaturthi. Ganesh idols are immersed in water bodies with grand processions. Also, Anant Chaturdashi Vrat dedicated to Lord Vishnu in his Anant (infinite) form is observed.",
@@ -723,7 +723,7 @@
     },
     {
       "name": "Sharad Navratri Day 1 (Ghatasthapana)",
-      "date": "2026-09-18",
+      "date": "2026-10-11",
       "category": "major",
       "deity_association": "Goddess Durga, Shailputri (Day 1)",
       "description": "Beginning of the most widely celebrated Navratri. Nine nights dedicated to the nine forms of Goddess Durga. Ghatasthapana marks the installation of the sacred Kalash. The most important Navratri of the year.",
@@ -740,7 +740,7 @@
     },
     {
       "name": "Navratri Day 2 - Brahmacharini",
-      "date": "2026-09-19",
+      "date": "2026-10-12",
       "category": "major",
       "deity_association": "Goddess Brahmacharini (penance form of Parvati)",
       "description": "Second day dedicated to Goddess Brahmacharini, who represents devotion and penance. She is worshipped for endurance and strength.",
@@ -754,7 +754,7 @@
     },
     {
       "name": "Navratri Day 3 - Chandraghanta",
-      "date": "2026-09-20",
+      "date": "2026-10-13",
       "category": "major",
       "deity_association": "Goddess Chandraghanta",
       "description": "Third day dedicated to Goddess Chandraghanta, who wears a half-moon on her forehead shaped like a bell. She represents bravery and grace.",
@@ -768,7 +768,7 @@
     },
     {
       "name": "Navratri Day 4 - Kushmanda",
-      "date": "2026-09-21",
+      "date": "2026-10-14",
       "category": "major",
       "deity_association": "Goddess Kushmanda",
       "description": "Fourth day dedicated to Goddess Kushmanda, believed to have created the universe with her divine smile. She represents cosmic energy.",
@@ -782,7 +782,7 @@
     },
     {
       "name": "Navratri Day 5 - Skandamata",
-      "date": "2026-09-22",
+      "date": "2026-10-15",
       "category": "major",
       "deity_association": "Goddess Skandamata (Mother of Kartikeya)",
       "description": "Fifth day dedicated to Goddess Skandamata, the mother of Lord Kartikeya (Skanda). She represents motherly love and compassion.",
@@ -796,7 +796,7 @@
     },
     {
       "name": "Navratri Day 6 - Katyayani (Durga Puja Shashthi)",
-      "date": "2026-09-23",
+      "date": "2026-10-16",
       "category": "major",
       "deity_association": "Goddess Katyayani (warrior form)",
       "description": "Sixth day dedicated to Goddess Katyayani, born to sage Katyayana to destroy Mahishasura. In Bengal, this marks the beginning of Durga Puja — Bodhon (awakening of the Goddess).",
@@ -811,7 +811,7 @@
     },
     {
       "name": "Navratri Day 7 - Kalaratri (Durga Puja Saptami)",
-      "date": "2026-09-24",
+      "date": "2026-10-17",
       "category": "major",
       "deity_association": "Goddess Kalaratri (fierce form of Durga)",
       "description": "Seventh day dedicated to Goddess Kalaratri, the most ferocious form of Durga who destroys ignorance and darkness. In Bengal, Maha Saptami with Nabapatrika (nine plants) ceremony.",
@@ -826,7 +826,7 @@
     },
     {
       "name": "Durga Ashtami / Maha Ashtami",
-      "date": "2026-09-25",
+      "date": "2026-10-19",
       "category": "major",
       "deity_association": "Goddess Mahagauri, Goddess Durga",
       "description": "Eighth day — one of the most auspicious days of Navratri. Ashtami Puja with Havan and Kanya Pujan (worship of nine young girls as forms of the Goddess). In Bengal, Kumari Puja and Sandhi Puja at the junction of Ashtami and Navami.",
@@ -841,7 +841,7 @@
     },
     {
       "name": "Maha Navami",
-      "date": "2026-09-26",
+      "date": "2026-10-20",
       "category": "major",
       "deity_association": "Goddess Siddhidatri, Goddess Durga",
       "description": "Ninth and final day of Navratri. Goddess Siddhidatri who grants all siddhis (supernatural powers) is worshipped. In Bengal, Maha Navami — the final day of worship before Vijaya Dashami. Ayudha Puja (worship of tools and instruments) in South India.",
@@ -856,7 +856,7 @@
     },
     {
       "name": "Dussehra (Vijaya Dashami)",
-      "date": "2026-09-27",
+      "date": "2026-10-20",
       "category": "major",
       "deity_association": "Lord Rama, Goddess Durga",
       "description": "Celebrates the victory of Lord Rama over the ten-headed demon king Ravana and Goddess Durga's victory over Mahishasura. Huge effigies of Ravana, Kumbhkaran, and Meghnath are burned. Marks the triumph of good over evil.",
@@ -872,7 +872,7 @@
     },
     {
       "name": "Sharad Purnima (Kojagiri Purnima)",
-      "date": "2026-10-02",
+      "date": "2026-10-25",
       "category": "regional",
       "deity_association": "Goddess Lakshmi, Lord Krishna",
       "description": "The full moon of Ashwin month, considered the brightest of the year. Goddess Lakshmi is worshipped. Milk (kheer) is kept under the moonlight as it is believed to be blessed with healing properties. Celebrates Krishna's Maha Rasa Leela with the Gopis.",
@@ -887,7 +887,7 @@
     },
     {
       "name": "Karva Chauth",
-      "date": "2026-10-22",
+      "date": "2026-10-29",
       "category": "major",
       "deity_association": "Lord Shiva, Goddess Parvati",
       "description": "Married women observe a strict waterless fast from sunrise to moonrise for their husbands' longevity and well-being.",
@@ -901,7 +901,7 @@
     },
     {
       "name": "Dhanteras",
-      "date": "2026-10-28",
+      "date": "2026-11-06",
       "category": "major",
       "deity_association": "Lord Dhanvantari, Goddess Lakshmi, Lord Kubera",
       "description": "First day of Diwali festivities. Auspicious day for purchasing gold, silver, and utensils. Worship of Lord Dhanvantari (god of Ayurveda).",
@@ -915,7 +915,7 @@
     },
     {
       "name": "Narak Chaturdashi (Chhoti Diwali)",
-      "date": "2026-10-29",
+      "date": "2026-11-08",
       "category": "major",
       "deity_association": "Lord Krishna, Goddess Kali",
       "description": "Celebrates Krishna's victory over demon Narakasura. Early morning oil bath (abhyanga snana) and lighting of diyas.",
@@ -929,7 +929,7 @@
     },
     {
       "name": "Diwali",
-      "date": "2026-10-30",
+      "date": "2026-11-08",
       "category": "major",
       "deity_association": "Goddess Lakshmi, Lord Ganesha, Lord Rama",
       "description": "The Festival of Lights. Celebrates Lord Rama's return to Ayodhya. Lakshmi Puja for wealth and prosperity. Homes illuminated with diyas and decorated with rangoli.",
@@ -944,7 +944,7 @@
     },
     {
       "name": "Govardhan Puja / Annakut",
-      "date": "2026-10-31",
+      "date": "2026-11-10",
       "category": "major",
       "deity_association": "Lord Krishna",
       "description": "Celebrates Krishna lifting Govardhan Hill. Mountain of food (Annakut) offered to Krishna.",
@@ -957,7 +957,7 @@
     },
     {
       "name": "Bhai Dooj",
-      "date": "2026-11-01",
+      "date": "2026-11-11",
       "category": "major",
       "deity_association": "Yama, Yamuna",
       "description": "Sisters pray for brothers' well-being. Similar to Raksha Bandhan — celebrates sibling bond.",
@@ -970,7 +970,7 @@
     },
     {
       "name": "Chhath Puja",
-      "date": "2026-11-03",
+      "date": "2026-11-15",
       "category": "major",
       "deity_association": "Surya (Sun God), Chhathi Maiya",
       "description": "Ancient Vedic festival dedicated to the Sun God. Devotees stand in water offering arghya to setting and rising sun.",
@@ -984,7 +984,7 @@
     },
     {
       "name": "Dev Uthani Ekadashi",
-      "date": "2026-11-05",
+      "date": "2026-11-20",
       "category": "major",
       "deity_association": "Lord Vishnu",
       "description": "Lord Vishnu awakens from cosmic sleep. Wedding season begins.",
@@ -997,7 +997,7 @@
     },
     {
       "name": "Kartik Purnima / Dev Diwali",
-      "date": "2026-11-12",
+      "date": "2026-11-24",
       "category": "major",
       "deity_association": "Lord Vishnu, Lord Shiva, Lord Kartikeya",
       "description": "Full moon of Kartik month. Dev Diwali in Varanasi. Sacred bathing and lamp offerings.",
@@ -1010,7 +1010,7 @@
     },
     {
       "name": "Vaikuntha Ekadashi",
-      "date": "2026-12-16",
+      "date": "2026-12-20",
       "category": "major",
       "deity_association": "Lord Vishnu",
       "description": "Most sacred Ekadashi. Gates of Vaikuntha believed to open.",
@@ -1024,7 +1024,7 @@
     },
     {
       "name": "Gita Jayanti",
-      "date": "2026-12-01",
+      "date": "2026-12-20",
       "category": "major",
       "deity_association": "Lord Krishna",
       "description": "Anniversary of Krishna delivering Bhagavad Gita to Arjuna on the battlefield of Kurukshetra.",
@@ -1038,7 +1038,7 @@
     },
     {
       "name": "Lohri",
-      "date": "2027-01-13",
+      "date": "2027-01-14",
       "category": "major",
       "deity_association": "Agni (Fire God), Surya",
       "description": "Punjabi winter harvest bonfire festival. End of winter celebration.",
@@ -1051,7 +1051,7 @@
     },
     {
       "name": "Makar Sankranti / Pongal",
-      "date": "2027-01-14",
+      "date": "2027-01-15",
       "category": "major",
       "deity_association": "Surya (Sun God)",
       "description": "Sun's transition into Capricorn. Harvest festival celebrated across India.",
@@ -1065,7 +1065,7 @@
     },
     {
       "name": "Vasant Panchami (Saraswati Puja)",
-      "date": "2027-02-12",
+      "date": "2027-02-11",
       "category": "major",
       "deity_association": "Goddess Saraswati",
       "description": "Festival of Goddess Saraswati marking the onset of spring. Worship of knowledge and arts.",
@@ -1122,7 +1122,7 @@
     },
     {
       "name": "Ugadi / Gudi Padwa / Hindu New Year",
-      "date": "2027-04-08",
+      "date": "2027-04-07",
       "category": "major",
       "deity_association": "Lord Brahma, Lord Vishnu",
       "description": "Hindu New Year — Gudi Padwa in Maharashtra, Ugadi in South India.",
@@ -1135,7 +1135,7 @@
     },
     {
       "name": "Chaitra Navratri",
-      "date": "2027-04-08",
+      "date": "2027-04-07",
       "category": "major",
       "deity_association": "Goddess Durga (Nine forms)",
       "description": "Nine-day spring Navratri dedicated to the nine forms of Goddess Durga.",
@@ -1149,7 +1149,7 @@
     },
     {
       "name": "Rama Navami",
-      "date": "2027-04-16",
+      "date": "2027-04-15",
       "category": "major",
       "deity_association": "Lord Rama",
       "description": "Birth of Lord Rama, seventh avatar of Vishnu. Ninth day of Chaitra Navratri.",
@@ -1163,7 +1163,7 @@
     },
     {
       "name": "Hanuman Jayanti",
-      "date": "2027-04-22",
+      "date": "2027-04-20",
       "category": "major",
       "deity_association": "Lord Hanuman",
       "description": "Birth anniversary of Lord Hanuman. Sunderkand recitation and temple celebrations.",
@@ -1177,7 +1177,7 @@
     },
     {
       "name": "Akshaya Tritiya",
-      "date": "2027-05-09",
+      "date": "2027-05-08",
       "category": "major",
       "deity_association": "Lord Vishnu, Goddess Lakshmi, Lord Parashurama",
       "description": "One of the most auspicious days. New ventures bring lasting prosperity. Gold purchases peak.",
@@ -1191,7 +1191,7 @@
     },
     {
       "name": "Buddha Purnima",
-      "date": "2027-05-22",
+      "date": "2027-05-20",
       "category": "major",
       "deity_association": "Lord Buddha",
       "description": "Birth, enlightenment, and Parinirvana of Gautama Buddha.",
@@ -1204,7 +1204,7 @@
     },
     {
       "name": "Rath Yatra",
-      "date": "2027-07-11",
+      "date": "2027-07-05",
       "category": "major",
       "deity_association": "Lord Jagannath, Balabhadra, Subhadra",
       "description": "Grand chariot festival at Puri. Deities taken in massive wooden chariots.",
@@ -1217,7 +1217,7 @@
     },
     {
       "name": "Guru Purnima",
-      "date": "2027-07-21",
+      "date": "2027-07-18",
       "category": "major",
       "deity_association": "Ved Vyasa, all Gurus",
       "description": "Day of honoring spiritual and academic teachers. Birth of Ved Vyasa.",
@@ -1231,7 +1231,7 @@
     },
     {
       "name": "Nag Panchami",
-      "date": "2027-08-12",
+      "date": "2027-08-06",
       "category": "major",
       "deity_association": "Nag Devta (Serpent Gods)",
       "description": "Worship of serpents (Nagas). Milk and flower offerings to snake images.",
@@ -1245,7 +1245,7 @@
     },
     {
       "name": "Raksha Bandhan",
-      "date": "2027-08-29",
+      "date": "2027-08-17",
       "category": "major",
       "deity_association": "Lord Vishnu, Lord Indra",
       "description": "Sisters tie rakhi on brothers' wrists for protection and well-being.",
@@ -1258,7 +1258,7 @@
     },
     {
       "name": "Krishna Janmashtami",
-      "date": "2027-09-10",
+      "date": "2027-08-25",
       "category": "major",
       "deity_association": "Lord Krishna",
       "description": "Birth of Lord Krishna at midnight. Temples enact birth scene. Midnight celebration.",
@@ -1273,7 +1273,7 @@
     },
     {
       "name": "Ganesh Chaturthi",
-      "date": "2027-09-18",
+      "date": "2027-09-04",
       "category": "major",
       "deity_association": "Lord Ganesha",
       "description": "Ten-day festival of Lord Ganesha. Clay idols installed, worshipped, and immersed.",
@@ -1287,7 +1287,7 @@
     },
     {
       "name": "Onam",
-      "date": "2027-09-14",
+      "date": "2027-09-12",
       "category": "major",
       "deity_association": "King Mahabali (Vamana avatar of Vishnu)",
       "description": "Kerala's biggest harvest festival. Pookalam, Onasadya, boat races.",
@@ -1300,7 +1300,7 @@
     },
     {
       "name": "Sharad Navratri",
-      "date": "2027-10-07",
+      "date": "2027-09-30",
       "category": "major",
       "deity_association": "Goddess Durga (Nine forms)",
       "description": "Nine-night autumn festival — the most widely celebrated Navratri. Worship of Nav Durga.",
@@ -1315,7 +1315,7 @@
     },
     {
       "name": "Durga Puja (Shashthi to Dashami)",
-      "date": "2027-10-12",
+      "date": "2027-10-05",
       "category": "major",
       "deity_association": "Goddess Durga",
       "description": "Bengal's grandest festival — five days of elaborate Durga worship with artistic pandals, cultural programs, and community celebrations. UNESCO Intangible Cultural Heritage.",
@@ -1330,7 +1330,7 @@
     },
     {
       "name": "Dussehra (Vijaya Dashami)",
-      "date": "2027-10-16",
+      "date": "2027-10-09",
       "category": "major",
       "deity_association": "Lord Rama, Goddess Durga",
       "description": "Victory of Rama over Ravana. Burning of Ravana effigies. Durga Visarjan.",
@@ -1344,7 +1344,7 @@
     },
     {
       "name": "Karva Chauth",
-      "date": "2027-11-10",
+      "date": "2027-10-18",
       "category": "major",
       "deity_association": "Lord Shiva, Goddess Parvati",
       "description": "Married women's nirjala fast for husband's longevity.",
@@ -1357,7 +1357,7 @@
     },
     {
       "name": "Dhanteras",
-      "date": "2027-11-16",
+      "date": "2027-10-27",
       "category": "major",
       "deity_association": "Lord Dhanvantari, Goddess Lakshmi",
       "description": "First day of Diwali festivities. Auspicious purchases of gold and utensils.",
@@ -1370,7 +1370,7 @@
     },
     {
       "name": "Diwali",
-      "date": "2027-11-18",
+      "date": "2027-10-29",
       "category": "major",
       "deity_association": "Goddess Lakshmi, Lord Ganesha, Lord Rama",
       "description": "Festival of Lights. India's biggest festival.",
@@ -1384,7 +1384,7 @@
     },
     {
       "name": "Govardhan Puja",
-      "date": "2027-11-19",
+      "date": "2027-10-30",
       "category": "major",
       "deity_association": "Lord Krishna",
       "description": "Krishna lifting Govardhan Hill. Annakut food offering.",
@@ -1396,7 +1396,7 @@
     },
     {
       "name": "Bhai Dooj",
-      "date": "2027-11-20",
+      "date": "2027-10-31",
       "category": "major",
       "deity_association": "Yama, Yamuna",
       "description": "Sisters pray for brothers' well-being.",
@@ -1408,7 +1408,7 @@
     },
     {
       "name": "Chhath Puja",
-      "date": "2027-11-22",
+      "date": "2027-11-04",
       "category": "major",
       "deity_association": "Surya, Chhathi Maiya",
       "description": "Ancient Vedic Sun worship festival. Four-day rigorous observance.",
@@ -1421,7 +1421,7 @@
     },
     {
       "name": "Vaikuntha Ekadashi",
-      "date": "2027-12-05",
+      "date": "2028-01-08",
       "category": "major",
       "deity_association": "Lord Vishnu",
       "description": "Most sacred Ekadashi. Vaikuntha Dwara opens.",
@@ -1434,7 +1434,7 @@
     },
     {
       "name": "Lohri",
-      "date": "2028-01-13",
+      "date": "2028-01-14",
       "category": "major",
       "deity_association": "Agni, Surya",
       "description": "Punjabi winter harvest bonfire festival.",
@@ -1447,7 +1447,7 @@
     },
     {
       "name": "Makar Sankranti / Pongal",
-      "date": "2028-01-14",
+      "date": "2028-01-15",
       "category": "major",
       "deity_association": "Surya (Sun God)",
       "description": "Sun enters Capricorn. Harvest festival celebrated across India.",
@@ -1460,7 +1460,7 @@
     },
     {
       "name": "Vasant Panchami (Saraswati Puja)",
-      "date": "2028-02-02",
+      "date": "2028-01-31",
       "category": "major",
       "deity_association": "Goddess Saraswati",
       "description": "Festival of Goddess Saraswati. Onset of spring. Worship of knowledge.",
@@ -1473,7 +1473,7 @@
     },
     {
       "name": "Maha Shivaratri",
-      "date": "2028-02-24",
+      "date": "2028-02-23",
       "category": "major",
       "deity_association": "Lord Shiva",
       "description": "The Great Night of Shiva. Night-long worship and vigil.",
@@ -1488,7 +1488,7 @@
     },
     {
       "name": "Thai Poosam",
-      "date": "2026-01-25",
+      "date": "2026-02-01",
       "category": "regional",
       "deity_association": "Lord Murugan (Kartikeya)",
       "description": "Major Tamil festival celebrating Lord Murugan. Devotees carry kavadi (decorated arches) as offerings, some with body piercings. Full moon in the Tamil month of Thai coinciding with star Poosam.",
@@ -1557,8 +1557,8 @@
       "regional_variations": "Specific to Assam. Three types of Bihu: Bohag (spring), Kati (autumn — lighting of lamps), Magh (harvest feast in January)."
     },
     {
-      "name": "Vat Savitri Vrat (Vat Purnima)",
-      "date": "2026-05-18",
+      "name": "Vat Savitri Vrat",
+      "date": "2026-05-16",
       "category": "regional",
       "deity_association": "Savitri (ideal wife), Lord Yama, Lord Brahma",
       "description": "Married women fast and tie threads around a Banyan (Vat) tree for their husbands' long life, emulating Savitri who brought her husband Satyavan back from death by outsmarting Yama.",
@@ -1572,7 +1572,7 @@
     },
     {
       "name": "Nirjala Ekadashi (Bhimseni Ekadashi)",
-      "date": "2026-06-01",
+      "date": "2026-06-25",
       "category": "major",
       "deity_association": "Lord Vishnu, Bhima (Pandava)",
       "description": "The most austere of all Ekadashis. Complete waterless fast for the entire day and night. Named after Bhima who observed this single Ekadashi to compensate for missing all others. Said to give the merit of all 24 Ekadashis in a year.",
@@ -1587,7 +1587,7 @@
     },
     {
       "name": "Jagannath Snana Yatra",
-      "date": "2026-06-08",
+      "date": "2026-06-29",
       "category": "regional",
       "deity_association": "Lord Jagannath",
       "description": "Ceremonial bathing of Lord Jagannath, Balabhadra, and Subhadra at the Jagannath Temple, Puri. Deities are bathed with 108 pots of water. After the bath, deities 'fall sick' and are kept in isolation for 15 days (Anasar period).",
@@ -1601,7 +1601,7 @@
     },
     {
       "name": "Devshayani Ekadashi (Ashadi Ekadashi)",
-      "date": "2026-07-04",
+      "date": "2026-07-25",
       "category": "major",
       "deity_association": "Lord Vishnu",
       "description": "Lord Vishnu goes into cosmic sleep (Yoga Nidra) for four months (Chaturmas). Beginning of the sacred Chaturmas period when no auspicious events like weddings are performed.",
@@ -1615,7 +1615,7 @@
     },
     {
       "name": "Teej (Hariyali Teej)",
-      "date": "2027-08-14",
+      "date": "2027-08-04",
       "category": "regional",
       "deity_association": "Goddess Parvati, Lord Shiva",
       "description": "Monsoon festival celebrating Parvati-Shiva reunion. Women dress in green, swing on jhulas.",
@@ -1629,7 +1629,7 @@
     },
     {
       "name": "Hartalika Teej",
-      "date": "2027-09-16",
+      "date": "2027-09-03",
       "category": "major",
       "deity_association": "Goddess Parvati, Lord Shiva",
       "description": "Nirjala fast by women for marital bliss. Sand/clay Shiva-Parvati idols worshipped.",
@@ -1642,7 +1642,7 @@
     },
     {
       "name": "Anant Chaturdashi / Ganesh Visarjan",
-      "date": "2027-09-27",
+      "date": "2027-09-14",
       "category": "major",
       "deity_association": "Lord Ganesha, Lord Vishnu (Anant form)",
       "description": "Last day of Ganesh Chaturthi. Grand immersion processions.",
@@ -1655,7 +1655,7 @@
     },
     {
       "name": "Sharad Purnima",
-      "date": "2027-10-21",
+      "date": "2027-10-14",
       "category": "regional",
       "deity_association": "Goddess Lakshmi, Lord Krishna",
       "description": "Brightest full moon. Lakshmi worship. Kheer under moonlight.",
@@ -1668,7 +1668,7 @@
     },
     {
       "name": "Mahalaya",
-      "date": "2026-09-09",
+      "date": "2026-10-10",
       "category": "major",
       "deity_association": "Goddess Durga, ancestors (Pitrs)",
       "description": "Marks the end of Pitru Paksha (fortnight of ancestors) and the beginning of Devi Paksha. In Bengal, it heralds the coming of Durga Puja. The iconic Mahishasura Mardini radio program is aired at dawn.",
@@ -1683,7 +1683,7 @@
     },
     {
       "name": "Pitru Paksha (Shradh Period)",
-      "date": "2026-08-26",
+      "date": "2026-09-26",
       "category": "major",
       "deity_association": "Ancestors (Pitrs), Lord Yama",
       "description": "16-day period dedicated to performing rituals (Shradh/Tarpan) for deceased ancestors. Considered inauspicious for new ventures. Food and water offered to ancestors through Brahmins.",
@@ -1698,7 +1698,7 @@
     },
     {
       "name": "Pola / Bail Pola",
-      "date": "2026-08-17",
+      "date": "2026-09-10",
       "category": "regional",
       "deity_association": "Nandi (Shiva's bull), agricultural deities",
       "description": "Festival honoring bulls and oxen for their contribution to agriculture. Bullocks are decorated, fed special food, and given rest from work. Processions of decorated bulls through villages.",
@@ -1712,7 +1712,7 @@
     },
     {
       "name": "Janmashtami Jhulanotsav",
-      "date": "2026-08-15",
+      "date": "2026-08-23",
       "category": "regional",
       "deity_association": "Lord Krishna (as baby)",
       "description": "Swing festival for baby Krishna leading up to Janmashtami. Small Krishna idols are placed in decorated swings (jhulas) in temples and homes.",
@@ -1740,7 +1740,7 @@
     },
     {
       "name": "Skanda Sashti",
-      "date": "2026-10-14",
+      "date": "2026-11-15",
       "category": "regional",
       "deity_association": "Lord Murugan (Skanda/Kartikeya)",
       "description": "Six-day festival celebrating Lord Murugan's victory over the demon Soorapadman. Culminates on the sixth day (Sashti) with Soorasamharam (symbolic destruction of evil).",
@@ -1755,7 +1755,7 @@
     },
     {
       "name": "Arudra Darshan (Thiruvathira)",
-      "date": "2026-12-28",
+      "date": "2026-12-24",
       "category": "regional",
       "deity_association": "Lord Shiva (as Nataraja — Cosmic Dancer)",
       "description": "Celebrates Shiva's cosmic dance (Ananda Tandava). The star Arudra (Betelgeuse in Orion) is at its brightest. Major festival in Shiva temples with special abhishekam to Nataraja.",
@@ -1784,7 +1784,7 @@
     },
     {
       "name": "Masi Magam",
-      "date": "2026-03-07",
+      "date": "2026-03-03",
       "category": "regional",
       "deity_association": "Lord Shiva, various deities",
       "description": "Tamil festival on the full moon of Masi month when the Magam star prevails. Temple deities are taken to the seashore or river banks for a ceremonial bath. Considered highly auspicious for sacred bathing.",
@@ -1798,7 +1798,7 @@
     },
     {
       "name": "Panguni Uthiram",
-      "date": "2026-03-30",
+      "date": "2026-04-01",
       "category": "regional",
       "deity_association": "Lord Murugan and Deivanai, Lord Shiva and Parvati, Lord Vishnu and Lakshmi",
       "description": "Tamil festival celebrating divine marriages — particularly of Lord Murugan with Deivanai. Full moon in the Tamil month of Panguni. Mass weddings are held at temples.",
@@ -1812,7 +1812,7 @@
     },
     {
       "name": "Chithirai Thiruvizha (Madurai Meenakshi Thirukalyanam)",
-      "date": "2026-04-24",
+      "date": "2026-04-28",
       "category": "regional",
       "deity_association": "Goddess Meenakshi, Lord Sundareswarar (Shiva)",
       "description": "Grand 12-day festival at the Madurai Meenakshi Temple celebrating the divine wedding of Goddess Meenakshi with Lord Sundareswarar. One of the oldest and grandest temple festivals in India.",
@@ -1826,7 +1826,7 @@
     },
     {
       "name": "Thrissur Pooram",
-      "date": "2026-05-05",
+      "date": "2026-04-27",
       "category": "regional",
       "deity_association": "Goddess Durga (Vadakkunnathan Temple deities)",
       "description": "Kerala's grandest temple festival at Vadakkunnathan Temple, Thrissur. Famous for the spectacular display of caparisoned elephants, Kudamattam (umbrella ceremony), and massive fireworks. Called the 'Festival of Festivals'.",
@@ -1840,7 +1840,7 @@
     },
     {
       "name": "Bonalu",
-      "date": "2026-07-12",
+      "date": "2026-07-16",
       "category": "regional",
       "deity_association": "Goddess Mahankali, Yellamma",
       "description": "Telangana's popular folk festival dedicated to Goddess Mahankali. Women carry decorated pots (Bonam) of food on their heads to the temple as offerings. Features Potharaju (Mahankali's brother) processions.",
@@ -1854,7 +1854,7 @@
     },
     {
       "name": "Bathukamma",
-      "date": "2026-09-18",
+      "date": "2026-10-10",
       "category": "regional",
       "deity_association": "Goddess Gauri (Parvati), Maha Lakshmi",
       "description": "Telangana's floral festival. Women create colorful flower stacks (Bathukamma) with seasonal flowers, dance around them for nine days, and immerse them in water on the last day. Coincides with Navratri.",
@@ -1868,7 +1868,7 @@
     },
     {
       "name": "Nuakhai",
-      "date": "2026-08-30",
+      "date": "2026-09-15",
       "category": "regional",
       "deity_association": "Goddess Samaleswari, agricultural deities",
       "description": "Western Odisha's agrarian festival celebrating the first eating of new rice. 'Nua' means new and 'khai' means food. Families gather to eat the first produce of their harvest together.",
@@ -1896,7 +1896,7 @@
     },
     {
       "name": "Jagaddhatri Puja",
-      "date": "2026-11-03",
+      "date": "2026-11-18",
       "category": "regional",
       "deity_association": "Goddess Jagaddhatri (form of Durga/Shakti)",
       "description": "Four-day festival in Bengal celebrating Goddess Jagaddhatri, 'Protector of the World.' Elaborate pandals with decorated idols, similar to Durga Puja but on a smaller scale.",
@@ -1910,7 +1910,7 @@
     },
     {
       "name": "Manabasa Gurubara (Lakshmi Puja Thursdays)",
-      "date": "2026-12-03",
+      "date": "2026-11-26",
       "category": "regional",
       "deity_association": "Goddess Lakshmi",
       "description": "Every Thursday in the Odia month of Margashira, Goddess Lakshmi is worshipped in Odisha. Floors are decorated with jhoti (rangoli), and the Lakshmi Purana is read.",
@@ -1938,7 +1938,7 @@
     },
     {
       "name": "Magh Bihu (Bhogali Bihu)",
-      "date": "2027-01-14",
+      "date": "2027-01-15",
       "category": "regional",
       "deity_association": "Agni (Fire God), harvest deities",
       "description": "Assamese harvest festival coinciding with Makar Sankranti. Community feasting and bonfire (Meji). Traditional Assamese delicacies like pitha and laru are prepared.",
@@ -1950,21 +1950,8 @@
       "regional_variations": "Specific to Assam. Meji (bonfire of thatched huts) burned at dawn. Buffalo fights and other traditional sports."
     },
     {
-      "name": "Teej (Hariyali Teej)",
-      "date": "2027-08-14",
-      "category": "regional",
-      "deity_association": "Goddess Parvati, Lord Shiva",
-      "description": "Women's monsoon festival celebrating Parvati-Shiva union.",
-      "recommended_shlokas": [
-        "Parvati Stuti",
-        "Teej Vrat Katha"
-      ],
-      "fasting_guidelines": "Women fast for husband's well-being.",
-      "regional_variations": "Rajasthan, UP, MP, Bihar."
-    },
-    {
       "name": "Sharad Purnima",
-      "date": "2025-11-23",
+      "date": "2025-10-06",
       "category": "regional",
       "deity_association": "Goddess Lakshmi, Lord Krishna",
       "description": "Brightest full moon. Krishna's Rasa Leela celebration. Kheer under moonlight.",

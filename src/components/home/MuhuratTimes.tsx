@@ -10,29 +10,10 @@ import { Colors } from '@/constants/Colors';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getUserLocation, getDefaultLocation } from '@/utils/location';
-import { getMuhuratForDate } from '@/utils/muhurat';
+import { getMuhuratForDate, formatTo12Hour } from '@/utils/muhurat';
 import { MUHURAT_ACTIVITIES } from '@/constants/MuhuratLabels';
 import { getTodayISO } from '@/utils/dateUtils';
 import { MuhuratData } from '@/types';
-
-/**
- * Format 24-hour time (HH:MM) to 12-hour format with AM/PM
- * Example: "05:00" => "5:00 AM", "15:30" => "3:30 PM"
- */
-function formatTo12Hour(time24: string): string {
-  const [hoursStr, minutes] = time24.split(':');
-  const hours = parseInt(hoursStr, 10);
-
-  if (hours === 0) {
-    return `12:${minutes} AM`;
-  } else if (hours < 12) {
-    return `${hours}:${minutes} AM`;
-  } else if (hours === 12) {
-    return `12:${minutes} PM`;
-  } else {
-    return `${hours - 12}:${minutes} PM`;
-  }
-}
 
 /**
  * MuhuratTimes component - displays today's auspicious times

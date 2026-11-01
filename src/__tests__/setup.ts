@@ -42,20 +42,6 @@ jest.mock('expo-haptics', () => ({
   },
 }));
 
-// Mock expo-av (for future audio features)
-jest.mock('expo-av', () => ({
-  Audio: {
-    Sound: jest.fn(() => ({
-      loadAsync: jest.fn(() => Promise.resolve({ status: {} })),
-      playAsync: jest.fn(() => Promise.resolve({ status: {} })),
-      stopAsync: jest.fn(() => Promise.resolve({ status: {} })),
-      unloadAsync: jest.fn(() => Promise.resolve({ status: {} })),
-      setPositionAsync: jest.fn(() => Promise.resolve({ status: {} })),
-    })),
-    setAudioModeAsync: jest.fn(() => Promise.resolve()),
-  },
-}));
-
 // Mock React Navigation
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({

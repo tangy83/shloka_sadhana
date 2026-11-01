@@ -107,3 +107,23 @@ export function getFestivalByName(name: string): Festival | null {
 
   return found || null;
 }
+
+/**
+ * Find a festival by exact name AND date.
+ *
+ * Festival names repeat across the dataset's multi-year span (e.g. Karva Chauth
+ * occurs in 2025, 2026 and 2027), so name alone is ambiguous. Use this — not
+ * getFestivalByName — whenever a specific occurrence is meant.
+ *
+ * @param name - Festival name (case-sensitive)
+ * @param date - Occurrence date in ISO format (YYYY-MM-DD)
+ * @returns Festival object if found, null otherwise
+ */
+export function getFestivalByNameAndDate(name: string, date: string): Festival | null {
+  const allFestivals = getAllFestivals();
+  const found = allFestivals.find(
+    festival => festival.name === name && festival.date === date
+  );
+
+  return found || null;
+}
