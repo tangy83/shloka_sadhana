@@ -165,6 +165,24 @@ claimed a "sankalp setting" the UI does not offer — an inaccurate statement to
 a screen with no route, or a control with an empty handler, is a bug the reviewer will also hit.
 
 
+## 13. Approved and live (2026-11-01) — and the ASC UI lagged the truth
+
+Round 3 (2.1, re-sent questionnaire) was resolved by the 2.3.3 screenshot fix alone — no rebuild.
+Build 1.0 (9) was resubmitted 2026-09-24 and approved; released 2026-11-01 (`AFTER_APPROVAL`) in all
+175 territories. Apple never confirmed the cause; the screenshot fix is the likely one.
+
+- **Screenshot order is a review surface.** The first screenshot must show the app in use (2.3.3) —
+  never onboarding / splash / title art. ASC uses only the first three on install sheets.
+- **The ASC Apps list can lie.** It showed "Removed from App Store" and an empty "Set Up Availability"
+  box while the API reported `READY_FOR_SALE` with 175 territories `AVAILABLE`. It corrected itself
+  within hours. Check the API before assuming a problem or "fixing" availability:
+  `GET /v1/apps/{id}/appStoreVersions` and `GET /v2/appAvailabilities/{id}/territoryAvailabilities`.
+- **Storefront propagation is staggered.** India returned the app first; US/GB lagged. Verify with
+  `itunes.apple.com/lookup?id={id}&country={cc}`.
+- **A pending Program License Agreement blocks updates and new submissions** until the Account
+  Holder accepts it at developer.apple.com/account (Membership → Agreements). API reads still return
+  200 while it is pending, so the API cannot confirm acceptance — check the banner.
+
 ---
 
 ## Promoted to CFAI Gold Standards

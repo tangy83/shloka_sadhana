@@ -1,6 +1,10 @@
 # App Review Response — Shloka Sadhana 1.0
 
-- **Round 2 (current):** Guideline 2.1 — Information Needed, build 1.0 (5). See below.
+- **Outcome: APPROVED** — build 1.0 (9), submission `0d8f0fda-be2e-4aa1-8347-95dcab54f092`, resubmitted
+  2026-09-24 after the round-3 screenshot fix; released 2026-11-01 in 175 territories (ASC API:
+  `READY_FOR_SALE`). See `docs/IOS_PUBLISHING_LEARNINGS.md` §13.
+- **Round 3:** Guideline 2.1 repeated; resolved by the 2.3.3 screenshot fix. See below.
+- **Round 2:** Guideline 2.1 — Information Needed, build 1.0 (5). See below.
 - **Round 1 (resolved in build 5):** Guideline 2.5.4. See further down.
 
 ---
@@ -194,7 +198,7 @@ Upload the video as an attachment to your Resolution Center reply.
 - [x] Build 9 built from commit 400917b (Complete-button gate + festival detail), processed VALID, attached to version 1.0
 - [x] Screen recording captured on a physical device running build 9 (TestFlight), 3:29 — shows the notification prompt; location prompt covered by a note in the reply
 - [x] Devices tested (item 2): iPhone 15 Pro / iOS 26.6 — in the reply and appended to the ASC Notes field
-- [ ] Reply in Resolution Center with the video attached, then Resubmit to App Review
+- [x] Reply in Resolution Center with the video attached, then Resubmit to App Review (reply 2026-09-25 00:51 BST; approved)
 - [ ] Re-capture screenshots if Home/Festivals now look different from the uploaded ones
 
 ---
